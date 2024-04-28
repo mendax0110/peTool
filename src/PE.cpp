@@ -126,14 +126,62 @@ void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileDat
 #if defined(__linux__)
 void LinuxResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
 {
+    auto elfHeader = reinterpret_cast<const Elf64_Ehdr*>(fileData.data());
+    auto sectionHeader = reinterpret_cast<const Elf64_Shdr*>(fileData.data() + elfHeader->e_shoff);
 
+    for (int i = 0; i < elfHeader->e_shnum; ++i)
+    {
+        if (sectionHeader->sh_type == SHT_PROGBITS &&
+            sectionHeader->sh_flags & SHF_ALLOC &&
+            sectionHeader->sh_size > 0 &&
+            sectionHeader->sh_addr == elfHeader->e_entry)
+        {
+            std::cout << "Resource directory found.\n";
+            std::cout << "Section Name: " << sectionHeader->sh_name << std::endl;
+            std::cout << "Virtual Size: " << sectionHeader->sh_size << std::endl;
+            std::cout << "Virtual Address: 0x" << std::hex << sectionHeader->sh_addr << std::endl;
+            std::cout << "Size of Raw Data: " << sectionHeader->sh_size << std::endl;
+            std::cout << "Pointer to Raw Data: 0x" << std::hex << sectionHeader->sh_offset << std::endl;
+            std::cout << "Characteristics: 0x" << std::hex << sectionHeader->sh_flags << std::endl;
+            return;
+        }
+        sectionHeader = reinterpret_cast<const Elf64_Shdr*>(reinterpret_cast<const uint8_t*>(sectionHeader) + elfHeader->e_shentsize);
+    }
+    std::cout << "No resource directory found.\n";
 }
 #endif
 
 #if defined(__APPLE__)
 void AppleResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
 {
-
+    auto resourceDirectoryData = reinterpret_cast<const struct mach_header*>(fileData.data());
+    auto loadCommand = reinterpret_cast<const struct load_command*>(resourceDirectoryData + 1);
+    
+    for (uint32_t i = 0; i < resourceDirectoryData->ncmds; ++i)
+    {
+        if (loadCommand->cmd == LC_SEGMENT)
+        {
+            auto segmentCommand = reinterpret_cast<const struct segment_command*>(loadCommand);
+            auto section = reinterpret_cast<const struct section*>(segmentCommand + 1);
+            for (uint32_t j = 0; j < segmentCommand->nsects; ++j)
+            {
+                if (strcmp(section->sectname, "__text") == 0)
+                {
+                    std::cout << "Resource directory found.\n";
+                    std::cout << "Section Name: " << section->sectname << std::endl;
+                    std::cout << "Virtual Size: " << section->size << std::endl;
+                    std::cout << "Virtual Address: 0x" << std::hex << section->addr << std::endl;
+                    std::cout << "Size of Raw Data: " << section->size << std::endl;
+                    std::cout << "Pointer to Raw Data: 0x" << std::hex << section->offset << std::endl;
+                    std::cout << "Characteristics: 0x" << std::hex << section->flags << std::endl;
+                    return;
+                }
+                section = reinterpret_cast<const struct section*>(section + 1);
+            }
+        }
+        loadCommand = reinterpret_cast<const struct load_command*>(reinterpret_cast<const uint8_t*>(loadCommand) + loadCommand->cmdsize);
+    }
+    std::cout << "No resource directory found.\n";
 }
 #endif
 
