@@ -1,4 +1,4 @@
-#include "./include/PEHeader.h"
+#include "./include/PE.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -18,7 +18,7 @@
 #include <string>
 #include <cstdint>
 
-using namespace PeHeaderInternals;
+using namespace PeInternals;
 
 
 ResourceDirectoryTraverser* ResourceDirectoryTraverserFactory::createTraverser()
@@ -47,7 +47,7 @@ void ResourceDirectory::setTraverser(ResourceDirectoryTraverser* traverser)
     this->traverser = traverser;
 }
 
-uint32_t PEHeader::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
+uint32_t PE::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
 {
     std::vector<uint8_t> mutableFileData(fileData.begin(), fileData.end());
 
@@ -95,7 +95,7 @@ uint32_t PEHeader::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileDa
 #if defined(_WIN32)
 void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
 {
-    uint32_t RESOURCE_DIRECTORY_OFFSET = PEHeader::GetResourceDirectoryOffset(fileData);
+    uint32_t RESOURCE_DIRECTORY_OFFSET = PE::GetResourceDirectoryOffset(fileData);
     std::vector<uint8_t> mutableFileData(fileData.begin(), fileData.end());
     const PIMAGE_RESOURCE_DIRECTORY resourceDirectoryData = reinterpret_cast<const PIMAGE_RESOURCE_DIRECTORY>(&mutableFileData[RESOURCE_DIRECTORY_OFFSET]);
     
@@ -139,7 +139,7 @@ void AppleResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileD
 
 
 #if defined(_WIN32)
-void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
+void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
 	{
@@ -194,7 +194,7 @@ void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
 	}
 }
 
-void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
+void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
 	{
@@ -261,7 +261,7 @@ void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
 	}
 }
 
-void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
+void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
 	{
@@ -308,7 +308,7 @@ void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
     resourceTraverser.traverse(fileData, &resourceDir, 0, "");
 }
 
-void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
+void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
     {
@@ -341,7 +341,7 @@ void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
     }
 }
 
-void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
+void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
     {
@@ -398,7 +398,7 @@ void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
 #endif
 
 #if defined(__LINUX)
-void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
+void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
     {
@@ -437,7 +437,7 @@ void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No import table found.\n";
 }
 
-void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
+void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
     {
@@ -476,7 +476,7 @@ void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No export table found.\n";
 }
 
-void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
+void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
     {
@@ -512,7 +512,7 @@ void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
     std::cout << "No resource directory found.\n";
 }
 
-void PEHeader::traverseResourceDirectory(const std::vector<uint8_t>& fileData, uintptr_t resourceDirectoryAddress, int level, const std::string& parentName)
+void PE::traverseResourceDirectory(const std::vector<uint8_t>& fileData, uintptr_t resourceDirectoryAddress, int level, const std::string& parentName)
 {
     size_t resourceEntryOffset = sizeof(Elf64_Word) * (level + 1);
     uintptr_t resourceEntryAddress = resourceDirectoryAddress + resourceEntryOffset;
@@ -538,7 +538,7 @@ void PEHeader::traverseResourceDirectory(const std::vector<uint8_t>& fileData, u
     traverseResourceDirectory(fileData, resourceEntryAddress + 2 * sizeof(Elf64_Word), level, parentName);
 }
 
-void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
+void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
     {
@@ -572,7 +572,7 @@ void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
     }
 }
 
-void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
+void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
     {
@@ -598,7 +598,7 @@ void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
 #endif
 
 #if defined(__APPLE__)
-void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
+void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
@@ -627,7 +627,7 @@ void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No import table found.\n";
 }
 
-void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
+void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
     const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
@@ -656,7 +656,7 @@ void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No export table found.\n";
 }
 
-void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
+void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
     const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
@@ -684,7 +684,7 @@ void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
     std::cout << "No resource directory found.\n";
 }
 
-void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
+void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
     const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
@@ -713,7 +713,7 @@ void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
     }
 }
 
-void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
+void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
     const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
 

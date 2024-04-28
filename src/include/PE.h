@@ -17,7 +17,7 @@
 #include <mach-o/fat.h>
 #endif
 
-namespace PeHeaderInternals
+namespace PeInternals
 {
     class ResourceDirectory;
     class ResourceDirectoryTraverser
@@ -66,7 +66,7 @@ namespace PeHeaderInternals
         ResourceDirectoryTraverser* traverser;
     };
 
-    class PEHeader
+    class PE
     {
     public:
         static void parseHeaders(const std::vector<uint8_t>& fileData);

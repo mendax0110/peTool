@@ -1,11 +1,11 @@
-#include "./include/PEHeader.h"
+#include "./include/PE.h"
 #include "./include/FileIO.h"
 #include "./include/Untils.h"
 #include <iostream>
 #include <vector>
 #include <string>
 
-using namespace PeHeaderInternals;
+using namespace PeInternals;
 using namespace FileIoInternals;
 using namespace UntilsInternals;
 
@@ -47,23 +47,23 @@ int main(int argc, char* argv[])
     {
         case 1:
             std::cout << "Extracting Import Table...\n";
-            PEHeader::extractImportTable(fileData);
+            PE::extractImportTable(fileData);
             break;
         case 2:
             std::cout << "Extracting Export Table...\n";
-            PEHeader::extractExportTable(fileData);
+            PE::extractExportTable(fileData);
             break;
         case 3:
             std::cout << "Extracting Resources...\n";
-            PEHeader::extractResources(fileData);
+            PE::extractResources(fileData);
             break;
         case 4:
             std::cout << "Extracting Section Info...\n";
-            PEHeader::extractSectionInfo(fileData);
+            PE::extractSectionInfo(fileData);
             break;
         case 5:
             std::cout << "Parsing Headers...\n";
-            PEHeader::parseHeaders(fileData);
+            PE::parseHeaders(fileData);
             break;
         default:
             std::cerr << "Error: Invalid option.\n";
