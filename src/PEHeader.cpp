@@ -21,7 +21,124 @@
 using namespace PeHeaderInternals;
 
 
-#if _WIN32
+ResourceDirectoryTraverser* ResourceDirectoryTraverserFactory::createTraverser()
+{
+#if defined(_WIN32)
+    return new WinResourceDirectoryTraverser();
+#elif defined(__linux__)
+    return new LinuxResourceDirectoryTraverser();
+#elif defined(__APPLE__)
+    return new AppleResourceDirectoryTraverser();
+#else
+    return nullptr;
+#endif
+}
+
+void ResourceDirectory::traverse(const std::vector<uint8_t>& fileData, int level, const std::string& parentName)
+{
+    if (traverser != nullptr)
+    {
+        traverser->traverse(fileData, this, level, parentName);
+    }
+}
+
+void ResourceDirectory::setTraverser(ResourceDirectoryTraverser* traverser)
+{
+    this->traverser = traverser;
+}
+
+uint32_t PEHeader::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
+{
+    std::vector<uint8_t> mutableFileData(fileData.begin(), fileData.end());
+
+    #if defined(_WIN32)
+    if (mutableFileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
+    {
+        std::cerr << "Error: File is too small to contain a valid PE header.\n";
+        return 0;
+    }
+    PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(&mutableFileData[0]);
+    DWORD peHeaderOffset = dosHeader->e_lfanew;
+
+    PIMAGE_NT_HEADERS ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(&mutableFileData[peHeaderOffset]);
+
+    if (ntHeaders->Signature != IMAGE_NT_SIGNATURE)
+    {
+        std::cerr << "Error: Invalid PE header signature.\n";
+        return 0;
+    }
+
+    DWORD resourceRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress;
+    DWORD resourceSize = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_RESOURCE].Size;
+
+    if (resourceRVA == 0 || resourceSize == 0)
+    {
+        std::cout << "No resource directory found.\n";
+        return 0;
+    }
+
+    DWORD resourceOffset = resourceRVA;
+    for (int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+    {
+        PIMAGE_SECTION_HEADER sectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(&mutableFileData[peHeaderOffset + sizeof(IMAGE_NT_HEADERS) + (i * sizeof(IMAGE_SECTION_HEADER))]);
+        if (resourceRVA >= sectionHeader->VirtualAddress && resourceRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
+        {
+            resourceOffset = resourceRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+            break;
+        }
+    }
+
+    return resourceOffset;
+    #endif
+}
+
+#if defined(_WIN32)
+void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
+{
+    uint32_t RESOURCE_DIRECTORY_OFFSET = PEHeader::GetResourceDirectoryOffset(fileData);
+    std::vector<uint8_t> mutableFileData(fileData.begin(), fileData.end());
+    const PIMAGE_RESOURCE_DIRECTORY resourceDirectoryData = reinterpret_cast<const PIMAGE_RESOURCE_DIRECTORY>(&mutableFileData[RESOURCE_DIRECTORY_OFFSET]);
+    
+    const PIMAGE_RESOURCE_DIRECTORY_ENTRY resourceEntries = reinterpret_cast<const PIMAGE_RESOURCE_DIRECTORY_ENTRY>(resourceDirectoryData + 1);
+    for (DWORD i = 0; i < resourceDirectoryData->NumberOfNamedEntries + resourceDirectoryData->NumberOfIdEntries; ++i)
+    {
+        const PIMAGE_RESOURCE_DIRECTORY_ENTRY entry = &resourceEntries[i];
+        if (entry->OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
+        {
+            const PIMAGE_RESOURCE_DIRECTORY subDirectory = reinterpret_cast<const PIMAGE_RESOURCE_DIRECTORY>(&mutableFileData[entry->OffsetToDirectory & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY]);
+            WinResourceDirectoryTraverser traverser;
+            resourceDirectory->traverse(mutableFileData, level + 1, parentName + std::to_string(i) + "/");
+            std::cout << "Level " << level << ": " << parentName << "Directory\n";
+            std::cout << "OffsetToData: 0x" << std::hex << entry->OffsetToData << "\n";
+            std::cout << "OffsetToDirectory: 0x" << std::hex << entry->OffsetToDirectory << "\n";
+        }
+        else
+        {
+            const PIMAGE_RESOURCE_DATA_ENTRY dataEntry = reinterpret_cast<const PIMAGE_RESOURCE_DATA_ENTRY>(&mutableFileData[entry->OffsetToData]);
+            std::cout << "Level " << level << ": " << parentName << "ID: " << entry->Name << "\n";
+            std::cout << "Data RVA: 0x" << std::hex << dataEntry->OffsetToData << ", Size: " << std::dec << dataEntry->Size << "\n";
+        }
+    }
+}
+#endif
+
+
+#if defined(__linux__)
+void LinuxResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
+{
+
+}
+#endif
+
+#if defined(__APPLE__)
+void AppleResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
+{
+
+}
+#endif
+
+
+#if defined(_WIN32)
 void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -185,53 +302,10 @@ void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
 
 	PIMAGE_RESOURCE_DIRECTORY resourceDirectory = reinterpret_cast<PIMAGE_RESOURCE_DIRECTORY>(const_cast<uint8_t*>(&fileData[resourceOffset]));
 
-	traverseResourceDirectory(fileData, resourceDirectory, 0, "");
-}
-
-void PEHeader::traverseResourceDirectory(const std::vector<uint8_t>& fileData, PIMAGE_RESOURCE_DIRECTORY resourceDirectory, int level, const std::string& parentName)
-{
-	size_t resourceEntryOffset = sizeof(IMAGE_RESOURCE_DIRECTORY) + level * sizeof(IMAGE_RESOURCE_DIRECTORY_ENTRY);
-	DWORD numberOfEntries = resourceDirectory->NumberOfIdEntries + resourceDirectory->NumberOfNamedEntries;
-	uintptr_t resourceDirectoryAddress = reinterpret_cast<uintptr_t>(resourceDirectory);
-	PIMAGE_RESOURCE_DIRECTORY_ENTRY resourceEntry = reinterpret_cast<PIMAGE_RESOURCE_DIRECTORY_ENTRY>(const_cast<uint8_t*>(&fileData[resourceDirectoryAddress + resourceEntryOffset]));
-
-	for (DWORD i = 0; i < numberOfEntries; ++i)
-	{
-		if (resourceEntry->OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
-		{
-			PIMAGE_RESOURCE_DIRECTORY nextDirectory = reinterpret_cast<PIMAGE_RESOURCE_DIRECTORY>(const_cast<uint8_t*>(&fileData[resourceEntry->OffsetToDirectory & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY]));
-			if (resourceEntry->NameIsString)
-			{
-				PIMAGE_RESOURCE_DIR_STRING_U resourceName = reinterpret_cast<PIMAGE_RESOURCE_DIR_STRING_U>(const_cast<uint8_t*>(&fileData[resourceEntry->NameOffset]));
-				std::wstring name(resourceName->Length, L'\0');
-				std::copy(resourceName->NameString, resourceName->NameString + resourceName->Length, name.begin());
-				traverseResourceDirectory(fileData, nextDirectory, level + 1, parentName + std::string(name.begin(), name.end()) + "/");
-			}
-			else
-			{
-				std::cout << "Level " << level << ": " << parentName << "ID: " << resourceEntry->Name << "\n";
-				traverseResourceDirectory(fileData, nextDirectory, level + 1, parentName + std::to_string(resourceEntry->Name) + "/");
-			}
-		}
-		else
-		{
-			PIMAGE_RESOURCE_DATA_ENTRY resourceDataEntry = reinterpret_cast<PIMAGE_RESOURCE_DATA_ENTRY>(const_cast<uint8_t*>(&fileData[resourceEntry->OffsetToData]));
-			std::cout << "Level " << level << ": " << parentName;
-			if (resourceEntry->NameIsString)
-			{
-				PIMAGE_RESOURCE_DIR_STRING_U resourceName = reinterpret_cast<PIMAGE_RESOURCE_DIR_STRING_U>(const_cast<uint8_t*>(&fileData[resourceEntry->NameOffset]));
-				std::wstring name(resourceName->Length, L'\0');
-				std::copy(resourceName->NameString, resourceName->NameString + resourceName->Length, name.begin());
-				std::wcout << std::wstring(name.begin(), name.end());
-			}
-			else
-			{
-				std::cout << resourceEntry->Name;
-			}
-			std::cout << " (Data RVA: 0x" << std::hex << resourceDataEntry->OffsetToData << ", Size: " << std::dec << resourceDataEntry->Size << ")\n";
-		}
-		++resourceEntry;
-	}
+    ResourceDirectory resourceDir;
+    ResourceDirectoryTraverser* traverser = ResourceDirectoryTraverserFactory::createTraverser();
+    WinResourceDirectoryTraverser resourceTraverser;
+    resourceTraverser.traverse(fileData, &resourceDir, 0, "");
 }
 
 void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
@@ -323,7 +397,7 @@ void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
 }
 #endif
 
-#if __LINUX
+#if defined(__LINUX)
 void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -523,7 +597,7 @@ void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
 }
 #endif
 
-#if __APPLE__
+#if defined(__APPLE__)
 void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
@@ -608,11 +682,6 @@ void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
         loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
     }
     std::cout << "No resource directory found.\n";
-}
-
-void ResourceDirectory::traverse(const std::vector<uint8_t>& fileData, int level, const std::string& parentName)
-{
-
 }
 
 void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)

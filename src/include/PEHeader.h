@@ -74,5 +74,6 @@ namespace PeHeaderInternals
         static void extractImportTable(const std::vector<uint8_t>& fileData);
         static void extractExportTable(const std::vector<uint8_t>& fileData);
         static void extractResources(const std::vector<uint8_t>& fileData);
+        static uint32_t GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData);
     };
 }
