@@ -3,9 +3,9 @@
 #include <iostream>
 #include <vector>
 
-namespace UtilsInternals
+namespace UntilsInternals
 {
-    class Utils
+    class Untils
     {
     public:
         static void printBytes(const std::vector<uint8_t>& data);

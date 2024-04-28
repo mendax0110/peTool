@@ -1,13 +1,13 @@
-#include "PEHeader.h"
-#include "FileIO.h"
-#include "Utils.h"
+#include "./include/PEHeader.h"
+#include "./include/FileIO.h"
+#include "./include/Untils.h"
 #include <iostream>
 #include <vector>
 #include <string>
 
 using namespace PeHeaderInternals;
 using namespace FileIoInternals;
-using namespace UtilsInternals;
+using namespace UntilsInternals;
 
 
 void displayMenu()

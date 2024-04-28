@@ -3,12 +3,69 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <Windows.h>
-#include <winnt.h>
 
+#if defined(_WIN32)
+#include <windows.h>
+#endif
+
+#if defined(__LINUX)
+#include <elf.h>
+#endif
+
+#if defined(__APPLE__)
+#include <mach-o/loader.h>
+#include <mach-o/fat.h>
+#endif
 
 namespace PeHeaderInternals
 {
+    class ResourceDirectory;
+    class ResourceDirectoryTraverser
+    {
+    public:
+        virtual void traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName) = 0;
+        virtual ~ResourceDirectoryTraverser() {}
+    };
+
+#if defined(_WIN32)
+    class WinResourceDirectoryTraverser : public ResourceDirectoryTraverser
+    {
+    public:
+        void traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName) override;
+    };
+#endif
+
+#if defined(__linux__)
+    class LinuxResourceDirectoryTraverser : public ResourceDirectoryTraverser
+    {
+    public:
+        void traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName) override;
+    };
+#endif
+
+#if defined(__APPLE__)
+    class AppleResourceDirectoryTraverser : public ResourceDirectoryTraverser
+    {
+    public:
+        void traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName) override;
+    };
+#endif
+
+    class ResourceDirectoryTraverserFactory
+    {
+    public:
+        static ResourceDirectoryTraverser* createTraverser();
+    };
+
+    class ResourceDirectory
+    {
+    public:
+        void traverse(const std::vector<uint8_t>& fileData, int level, const std::string& parentName);
+        void setTraverser(ResourceDirectoryTraverser* traverser);
+    private:
+        ResourceDirectoryTraverser* traverser;
+    };
+
     class PEHeader
     {
     public:
@@ -17,6 +74,5 @@ namespace PeHeaderInternals
         static void extractImportTable(const std::vector<uint8_t>& fileData);
         static void extractExportTable(const std::vector<uint8_t>& fileData);
         static void extractResources(const std::vector<uint8_t>& fileData);
-        static void traverseResourceDirectory(const std::vector<uint8_t>& fileData, PIMAGE_RESOURCE_DIRECTORY resourceDirectory, int level, const std::string& parentName);
     };
 }

@@ -1,12 +1,27 @@
-#include "PEHeader.h"
-#include <iostream>
+#include "./include/PEHeader.h"
+
+#if defined(_WIN32)
 #include <windows.h>
 #include <winnt.h>
+#endif
+
+#if defined(__LINUX)
+#include <elf.h>
+#endif
+
+#if defined(__APPLE__)
+#include <mach-o/loader.h>
+#include <mach-o/nlist.h>
+#endif
+
+#include <iostream>
 #include <string>
 #include <cstdint>
 
 using namespace PeHeaderInternals;
 
+
+#if _WIN32
 void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -306,3 +321,338 @@ void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
     std::cout << "CheckSum: 0x" << std::hex << ntHeaders->OptionalHeader.CheckSum << std::endl;
     std::cout << "Subsystem: 0x" << std::hex << ntHeaders->OptionalHeader.Subsystem << std::endl;
 }
+#endif
+
+#if __LINUX
+void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
+{
+    if (fileData.size() < sizeof(Elf64_Ehdr))
+    {
+        std::cerr << "Error: File is too small to contain a valid ELF header.\n";
+        return;
+    }
+
+    const Elf64_Ehdr* elfHeader = reinterpret_cast<const Elf64_Ehdr*>(&fileData[0]);
+
+    if (memcmp(elfHeader->e_ident, ELFMAG, SELFMAG) != 0)
+    {
+        std::cerr << "Error: Invalid ELF header.\n";
+        return;
+    }
+
+    off_t sectionHeaderOffset = elfHeader->e_shoff;
+
+    const Elf64_Shdr* sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset]);
+    for (int i = 0; i < elfHeader->e_shnum; ++i)
+    {
+        if (sectionHeader->sh_type == SHT_DYNSYM)
+        {
+            std::cout << "Imported Functions:\n";
+            const Elf64_Sym* symEntry = reinterpret_cast<const Elf64_Sym*>(&fileData[sectionHeader->sh_offset]);
+            for (size_t j = 0; j < sectionHeader->sh_size / sizeof(Elf64_Sym); ++j)
+            {
+                if (ELF64_ST_TYPE(symEntry[j].st_info) == STT_FUNC)
+                {
+                    std::cout << &fileData[sectionHeader->sh_offset + symEntry[j].st_name] << std::endl;
+                }
+            }
+            return;
+        }
+        sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset + elfHeader->e_shentsize * (i + 1)]);
+    }
+    std::cout << "No import table found.\n";
+}
+
+void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
+{
+    if (fileData.size() < sizeof(Elf64_Ehdr))
+    {
+        std::cerr << "Error: File is too small to contain a valid ELF header.\n";
+        return;
+    }
+
+    const Elf64_Ehdr* elfHeader = reinterpret_cast<const Elf64_Ehdr*>(&fileData[0]);
+
+    if (memcmp(elfHeader->e_ident, ELFMAG, SELFMAG) != 0)
+    {
+        std::cerr << "Error: Invalid ELF header.\n";
+        return;
+    }
+
+    off_t sectionHeaderOffset = elfHeader->e_shoff;
+
+    const Elf64_Shdr* sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset]);
+    for (int i = 0; i < elfHeader->e_shnum; ++i)
+    {
+        if (sectionHeader->sh_type == SHT_DYNSYM)
+        {
+            std::cout << "Exported Functions:\n";
+            const Elf64_Sym* symEntry = reinterpret_cast<const Elf64_Sym*>(&fileData[sectionHeader->sh_offset]);
+            for (size_t j = 0; j < sectionHeader->sh_size / sizeof(Elf64_Sym); ++j)
+            {
+                if (ELF64_ST_TYPE(symEntry[j].st_info) == STT_FUNC)
+                {
+                    std::cout << &fileData[sectionHeader->sh_offset + symEntry[j].st_name] << std::endl;
+                }
+            }
+            return;
+        }
+        sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset + elfHeader->e_shentsize * (i + 1)]);
+    }
+    std::cout << "No export table found.\n";
+}
+
+void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
+{
+    if (fileData.size() < sizeof(Elf64_Ehdr))
+    {
+        std::cerr << "Error: File is too small to contain a valid ELF header.\n";
+        return;
+    }
+
+    const Elf64_Ehdr* elfHeader = reinterpret_cast<const Elf64_Ehdr*>(&fileData[0]);
+
+    if (memcmp(elfHeader->e_ident, ELFMAG, SELFMAG) != 0)
+    {
+        std::cerr << "Error: Invalid ELF header.\n";
+        return;
+    }
+
+    off_t sectionHeaderOffset = elfHeader->e_shoff;
+
+    const Elf64_Shdr* sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset]);
+    for (int i = 0; i < elfHeader->e_shnum; ++i)
+    {
+        if (sectionHeader->sh_type == SHT_PROGBITS &&
+            sectionHeader->sh_flags & SHF_ALLOC &&
+            sectionHeader->sh_size > 0 &&
+            sectionHeader->sh_addr == elfHeader->e_entry)
+        {
+            std::cout << "Resource directory found.\n";
+            return;
+        }
+        sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset + elfHeader->e_shentsize * (i + 1)]);
+    }
+
+	traverseResourceDirectory(fileData, elfHeader->e_shoff, 0, "");
+    std::cout << "No resource directory found.\n";
+}
+
+void PEHeader::traverseResourceDirectory(const std::vector<uint8_t>& fileData, uintptr_t resourceDirectoryAddress, int level, const std::string& parentName)
+{
+    size_t resourceEntryOffset = sizeof(Elf64_Word) * (level + 1);
+    uintptr_t resourceEntryAddress = resourceDirectoryAddress + resourceEntryOffset;
+
+    Elf64_Word nameOffset;
+    Elf64_Word offsetToData;
+
+    memcpy(&nameOffset, &fileData[resourceEntryAddress], sizeof(Elf64_Word));
+    memcpy(&offsetToData, &fileData[resourceEntryAddress + sizeof(Elf64_Word)], sizeof(Elf64_Word));
+
+    bool isDirectory = (offsetToData & ELF64_ST_BIND(STT_SECTION));
+
+    if (isDirectory)
+	{
+        std::cout << "Level " << level << ": " << parentName << "Directory (OffsetToData: " << std::hex << offsetToData << ")\n";
+        traverseResourceDirectory(fileData, offsetToData, level + 1, parentName);
+    } 
+	else
+	{
+        std::cout << "Level " << level << ": " << parentName << "Data (OffsetToData: " << std::hex << offsetToData << ", Size: " << sizeof(Elf64_Word) << ")\n";
+    }
+
+    traverseResourceDirectory(fileData, resourceEntryAddress + 2 * sizeof(Elf64_Word), level, parentName);
+}
+
+void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
+{
+    if (fileData.size() < sizeof(Elf64_Ehdr))
+    {
+        std::cerr << "Error: File is too small to contain a valid ELF header.\n";
+        return;
+    }
+
+    const Elf64_Ehdr* elfHeader = reinterpret_cast<const Elf64_Ehdr*>(&fileData[0]);
+
+    if (memcmp(elfHeader->e_ident, ELFMAG, SELFMAG) != 0)
+    {
+        std::cerr << "Error: Invalid ELF header.\n";
+        return;
+    }
+
+    off_t sectionHeaderOffset = elfHeader->e_shoff;
+
+    std::cout << "Section Info:\n";
+
+    for (int i = 0; i < elfHeader->e_shnum; ++i)
+    {
+        const Elf64_Shdr* sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset + elfHeader->e_shentsize * i]);
+
+        std::cout << "Section Name: " << &fileData[sectionHeader->sh_name] << std::endl;
+        std::cout << "Virtual Size: " << sectionHeader->sh_size << std::endl;
+        std::cout << "Virtual Address: 0x" << std::hex << sectionHeader->sh_addr << std::endl;
+        std::cout << "Size of Raw Data: " << sectionHeader->sh_size << std::endl;
+        std::cout << "Pointer to Raw Data: 0x" << std::hex << sectionHeader->sh_offset << std::endl;
+        std::cout << "Characteristics: 0x" << std::hex << sectionHeader->sh_flags << std::endl;
+        std::cout << std::endl;
+    }
+}
+
+void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
+{
+    if (fileData.size() < sizeof(Elf64_Ehdr))
+    {
+        std::cerr << "Error: File is too small to contain a valid ELF header.\n";
+        return;
+    }
+
+    const Elf64_Ehdr* elfHeader = reinterpret_cast<const Elf64_Ehdr*>(&fileData[0]);
+
+    if (memcmp(elfHeader->e_ident, ELFMAG, SELFMAG) != 0)
+    {
+        std::cerr << "Error: Invalid ELF header.\n";
+        return;
+    }
+
+    std::cout << "PE Header Info:\n";
+    std::cout << "Signature: 0x" << std::hex << elfHeader->e_ident[EI_MAG0] << elfHeader->e_ident[EI_MAG1] << elfHeader->e_ident[EI_MAG2] << elfHeader->e_ident[EI_MAG3] << std::endl;
+    std::cout << "Machine: 0x" << std::hex << elfHeader->e_machine << std::endl;
+    std::cout << "Number of Sections: " << elfHeader->e_shnum << std::endl;
+    std::cout << "Size of Optional Header: " << elfHeader->e_ehsize << std::endl;
+    std::cout << std::endl;
+}
+#endif
+
+#if __APPLE__
+void PEHeader::extractImportTable(const std::vector<uint8_t>& fileData)
+{
+    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+	{
+        if (loadCmd->cmd == LC_SYMTAB)
+		{
+            const symtab_command* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
+            const nlist_64* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
+            const char* strings = reinterpret_cast<const char*>(&fileData[symtab->stroff]);
+
+            std::cout << "Imported Functions:\n";
+            for (uint32_t j = 0; j < symtab->nsyms; ++j)
+			{
+                if (symbols[j].n_type & N_EXT)
+				{
+                    std::cout << &strings[symbols[j].n_un.n_strx] << std::endl;
+                }
+            }
+            return;
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    std::cout << "No import table found.\n";
+}
+
+void PEHeader::extractExportTable(const std::vector<uint8_t>& fileData)
+{
+    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+	{
+        if (loadCmd->cmd == LC_SYMTAB)
+		{
+            const symtab_command* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
+            const nlist_64* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
+            const char* strings = reinterpret_cast<const char*>(&fileData[symtab->stroff]);
+
+            std::cout << "Exported Functions:\n";
+            for (uint32_t j = 0; j < symtab->nsyms; ++j)
+			{
+                if (symbols[j].n_type & N_EXT)
+				{
+                    std::cout << &strings[symbols[j].n_un.n_strx] << std::endl;
+                }
+            }
+            return;
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    std::cout << "No export table found.\n";
+}
+
+void PEHeader::extractResources(const std::vector<uint8_t>& fileData)
+{
+    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+	{
+        if (loadCmd->cmd == LC_SEGMENT_64)
+		{
+            const segment_command_64* segmentCmd = reinterpret_cast<const segment_command_64*>(loadCmd);
+            const section_64* sections = reinterpret_cast<const section_64*>(segmentCmd + 1);
+
+            for (uint32_t j = 0; j < segmentCmd->nsects; ++j)
+			{
+                const section_64* section = &sections[j];
+                if (strcmp(section->segname, "__TEXT") == 0 && strcmp(section->sectname, "__text") == 0)
+				{
+                    std::cout << "Resource directory found.\n";
+                    return;
+                }
+            }
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    std::cout << "No resource directory found.\n";
+}
+
+void ResourceDirectory::traverse(const std::vector<uint8_t>& fileData, int level, const std::string& parentName)
+{
+
+}
+
+void PEHeader::extractSectionInfo(const std::vector<uint8_t>& fileData)
+{
+    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    std::cout << "Section Info:\n";
+    for (uint32_t i = 0; i < machHeader->ncmds; ++i)
+	{
+        if (loadCmd->cmd == LC_SEGMENT_64)
+		{
+            const segment_command_64* segmentCmd = reinterpret_cast<const segment_command_64*>(loadCmd);
+            const section_64* sections = reinterpret_cast<const section_64*>(segmentCmd + 1);
+
+            for (uint32_t j = 0; j < segmentCmd->nsects; ++j)
+			{
+                const section_64* section = &sections[j];
+                std::cout << "Section Name: " << section->sectname << std::endl;
+                std::cout << "Virtual Size: " << section->size << std::endl;
+                std::cout << "Virtual Address: 0x" << std::hex << section->addr << std::endl;
+                std::cout << "Size of Raw Data: " << section->size << std::endl;
+                std::cout << "Pointer to Raw Data: 0x" << std::hex << section->offset << std::endl;
+                std::cout << "Characteristics: 0x" << std::hex << section->flags << std::endl;
+                std::cout << std::endl;
+            }
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+}
+
+void PEHeader::parseHeaders(const std::vector<uint8_t>& fileData)
+{
+    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+
+    std::cout << "PE Header Info:\n";
+    std::cout << "Signature: 0x" << std::hex << machHeader->magic << std::endl;
+    std::cout << "CPU Type: " << std::hex << machHeader->cputype << std::endl;
+    std::cout << "Number of Commands: " << machHeader->ncmds << std::endl;
+    std::cout << "Size of Header: " << machHeader->sizeofcmds << std::endl;
+    std::cout << std::endl;
+}
+#endif
