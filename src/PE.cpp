@@ -5,8 +5,10 @@
 #include <winnt.h>
 #endif
 
-#if defined(__LINUX)
-#include <elf.h>
+#if defined(__linux__)
+#include <linux/elf.h>
+#include <cstring>
+#include <string>
 #endif
 
 #if defined(__APPLE__)
@@ -17,6 +19,7 @@
 #include <iostream>
 #include <string>
 #include <cstdint>
+
 
 using namespace PeInternals;
 
@@ -89,6 +92,16 @@ uint32_t PE::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
     }
 
     return resourceOffset;
+    #endif
+
+    #if defined(__linux__)
+    // implementation to get resourceOffset for Linux
+    return 0;
+    #endif
+
+    #if defined(__APPLE__)
+    // implementation to get resourceOffset for Apple
+    return 0;
     #endif
 }
 
@@ -445,7 +458,7 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 }
 #endif
 
-#if defined(__LINUX)
+#if defined(__linux__)
 void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -556,34 +569,10 @@ void PE::extractResources(const std::vector<uint8_t>& fileData)
         sectionHeader = reinterpret_cast<const Elf64_Shdr*>(&fileData[sectionHeaderOffset + elfHeader->e_shentsize * (i + 1)]);
     }
 
-	traverseResourceDirectory(fileData, elfHeader->e_shoff, 0, "");
-    std::cout << "No resource directory found.\n";
-}
-
-void PE::traverseResourceDirectory(const std::vector<uint8_t>& fileData, uintptr_t resourceDirectoryAddress, int level, const std::string& parentName)
-{
-    size_t resourceEntryOffset = sizeof(Elf64_Word) * (level + 1);
-    uintptr_t resourceEntryAddress = resourceDirectoryAddress + resourceEntryOffset;
-
-    Elf64_Word nameOffset;
-    Elf64_Word offsetToData;
-
-    memcpy(&nameOffset, &fileData[resourceEntryAddress], sizeof(Elf64_Word));
-    memcpy(&offsetToData, &fileData[resourceEntryAddress + sizeof(Elf64_Word)], sizeof(Elf64_Word));
-
-    bool isDirectory = (offsetToData & ELF64_ST_BIND(STT_SECTION));
-
-    if (isDirectory)
-	{
-        std::cout << "Level " << level << ": " << parentName << "Directory (OffsetToData: " << std::hex << offsetToData << ")\n";
-        traverseResourceDirectory(fileData, offsetToData, level + 1, parentName);
-    } 
-	else
-	{
-        std::cout << "Level " << level << ": " << parentName << "Data (OffsetToData: " << std::hex << offsetToData << ", Size: " << sizeof(Elf64_Word) << ")\n";
-    }
-
-    traverseResourceDirectory(fileData, resourceEntryAddress + 2 * sizeof(Elf64_Word), level, parentName);
+    ResourceDirectory resourceDir;
+    ResourceDirectoryTraverser* traverser = ResourceDirectoryTraverserFactory::createTraverser();
+    LinuxResourceDirectoryTraverser resourceTraverser;
+    resourceTraverser.traverse(fileData, &resourceDir, 0, "");
 }
 
 void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
