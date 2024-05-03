@@ -31,76 +31,95 @@ void displayMenu()
 
 int main(int argc, char* argv[])
 {
-    if (argc < 4 || std::string(argv[1]) == "--help")
+    if (argc < 2 || std::string(argv[1]) == "--help")
     {
         displayMenu();
         return 1;
     }
 
     int option = std::stoi(argv[1]);
-    std::string filePath = argv[2];
-    unsigned int procId = std::stoi(argv[3]);
-    std::string dllPath = argv[4];
 
-    std::vector<uint8_t> fileData = FileIO::readFile(filePath);
-
-    if (fileData.empty())
+    if (option >= 1 && option <= 5)
     {
-        std::cerr << "Error: Failed to read the file.\n";
-        return 1;
+        if (argc < 3)
+        {
+            std::cerr << "Error: Insufficient arguments for option " << option << std::endl;
+            return 1;
+        }
+        
+        std::string filePath = argv[2];
+        std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+        
+        if (fileData.empty())
+        {
+            std::cerr << "Error: Failed to read the file.\n";
+            return 1;
+        }
+        switch (option)
+        {
+            case 1:
+                std::cout << "Extracting Import Table...\n";
+                PE::extractImportTable(fileData);
+                break;
+            case 2:
+                std::cout << "Extracting Export Table...\n";
+                PE::extractExportTable(fileData);
+                break;
+            case 3:
+                std::cout << "Extracting Resources...\n";
+                PE::extractResources(fileData);
+                break;
+            case 4:
+                std::cout << "Extracting Section Info...\n";
+                PE::extractSectionInfo(fileData);
+                break;
+            case 5:
+                std::cout << "Parsing Headers...\n";
+                PE::parseHeaders(fileData);
+                break;
+        }
+        return 0;
     }
-    
-    InjectorPlatform* platform = new InjectorPlatform();
-
-    switch (option)
+    else if (option >= 6 && option <= 7)
     {
-        case 1:
-            std::cout << "Extracting Import Table...\n";
-            PE::extractImportTable(fileData);
-            break;
-        case 2:
-            std::cout << "Extracting Export Table...\n";
-            PE::extractExportTable(fileData);
-            break;
-        case 3:
-            std::cout << "Extracting Resources...\n";
-            PE::extractResources(fileData);
-            break;
-        case 4:
-            std::cout << "Extracting Section Info...\n";
-            PE::extractSectionInfo(fileData);
-            break;
-        case 5:
-            std::cout << "Parsing Headers...\n";
-            PE::parseHeaders(fileData);
-            break;
-        case 6:
+        if (argc < 5)
+        {
+            std::cerr << "Error: Insufficient arguments for option " << option << std::endl;
+            return 1;
+        }
+
+        InjectorPlatform* platform = new InjectorPlatform();
+        
+        switch (option)
+        {
+            case 6:
             {
                 std::cout << "Getting Process ID...\n";
-                unsigned int processId = platform->getPlatform()->GetProcId(dllPath.c_str(), procId);
+                unsigned int processId = platform->getPlatform()->GetProcId(argv[4], std::stoi(argv[3]));
                 if (processId > 0)
                     std::cout << "Process ID: " << processId << std::endl;
                 else
                     std::cerr << "Failed to get process ID.\n";
             }
             break;
-        case 7:
+            case 7:
             {
                 std::cout << "Injecting DLL...\n";
-                bool success = platform->getPlatform()->InjectDLL(procId, dllPath.c_str());
+                bool success = platform->getPlatform()->InjectDLL(std::stoi(argv[3]), argv[4]);
                 if (success)
                     std::cout << "DLL Injected successfully.\n";
                 else
                     std::cerr << "Failed to inject DLL.\n";
             }
             break;
-        default:
-            std::cerr << "Error: Invalid option.\n";
-            displayMenu();
-            delete platform;
-            return 1;
+        }
+        delete platform;
+        return 0;
     }
-
-    delete platform;
-    return 0;
+    else
+    {
+        std::cerr << "Error: Invalid option.\n";
+        displayMenu();
+        return 1;
+    }
 }

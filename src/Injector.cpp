@@ -49,9 +49,9 @@ InjectorPlatform::~InjectorPlatform()
     delete platform;
 }
 
+#if (_WIN32)
 unsigned int InjectorWindows::GetProcId(const char* procName, unsigned int pid)
 {
-#if (_WIN32)
     DWORD processId = 0;
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (hSnapshot != INVALID_HANDLE_VALUE)
@@ -77,12 +77,12 @@ unsigned int InjectorWindows::GetProcId(const char* procName, unsigned int pid)
         CloseHandle(hSnapshot);
     }
     return processId;
-#endif
 }
+#endif
 
+#if (_WIN32)
 bool InjectorWindows::InjectDLL(unsigned int procId, const char* dllPath)
 {
-#if (_WIN32)
     if (procId == 0 || dllPath == nullptr)
         return false;
 
@@ -119,12 +119,12 @@ bool InjectorWindows::InjectDLL(unsigned int procId, const char* dllPath)
     CloseHandle(hProcess);
 
     return true;
-#endif
 }
+#endif
 
+#if (__linux__)
 unsigned int InjectorLinux::GetProcId(const char* procName, unsigned int pid)
 {
-#if (__linux__)
     if (pid > 0)
         return pid;
 
@@ -152,12 +152,12 @@ unsigned int InjectorLinux::GetProcId(const char* procName, unsigned int pid)
     }
     fclose(file);
     return processId;
-#endif
 }
+#endif
 
+#if (__linux__)
 bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
 {
-#if (__linux__)
     if (procId == 0 || dllPath == nullptr)
         return false;
 
@@ -187,12 +187,12 @@ bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
     fclose(log);
 
     return true;
-#endif
 }
+#endif
 
+#if (__APPLE__)
 unsigned int InjectorMacOS::GetProcId(const char* procName, unsigned int pid)
 {
-#if (__APPLE__)
     if (pid > 0)
         return pid;
 
@@ -222,12 +222,12 @@ unsigned int InjectorMacOS::GetProcId(const char* procName, unsigned int pid)
     }
 
     return processId;
-#endif
 }
+#endif
 
+#if (__APPLE__)
 bool InjectorMacOS::InjectDLL(unsigned int procId, const char* dllPath)
 {
-#if (__APPLE__)
     if (procId == 0 || dllPath == nullptr)
         return false;
 
@@ -257,5 +257,5 @@ bool InjectorMacOS::InjectDLL(unsigned int procId, const char* dllPath)
     }
 
     return true;
-#endif
 }
+#endif
