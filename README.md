@@ -16,6 +16,8 @@ The `peTool` project comprises a single C++ source file named `peTool.cpp`, whic
 - **3. Extract Resources:** Extracts resources from the specified PE file.
 - **4. Extract Section Info:** Extracts section information from the specified PE file.
 - **5. Parse Headers:** Parses headers of the specified PE file.
+- **6. Get Process ID:** Retrieves the process ID for injection.
+- **7. Inject DLL:** Injects a DLL into a process.
 
 ### help
 - **-help**
@@ -36,6 +38,15 @@ cmake --build .
 To run the peTool project, navigate to the build directory and run the following command:
 ```
 ./peTool <option> <file_path>
+```
+
+## Run Injection
+```
+./peTool <option> <procName>
+```
+
+```
+./peTool <option> <procId> <dllPath>
 ```
 
 ## Example
