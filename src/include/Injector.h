@@ -30,16 +30,16 @@ namespace DllInjector
         InjectorPlatform();
         ~InjectorPlatform();
 
-        virtual unsigned int GetProcId(const char* procName, unsigned int pid)
+        virtual unsigned int GetProcId(const char* procName)
         {
-            return platform->GetProcId(procName, pid);
+            return platform->GetProcId(procName);
         }
 
         virtual bool InjectDLL(unsigned int procId, const char* dllPath)
         {
             return platform->InjectDLL(procId, dllPath);
         }
-        
+
         InjectorPlatform* getPlatform()
         {
             return platform;
@@ -51,21 +51,21 @@ namespace DllInjector
     class InjectorWindows : public InjectorPlatform 
     {
     public:
-        unsigned int GetProcId(const char* procName, unsigned int pid) override;
+        unsigned int GetProcId(const char* procName) override;
         bool InjectDLL(unsigned int procId, const char* dllPath) override;
     };
 
     class InjectorLinux : public InjectorPlatform
     {
     public:
-        unsigned int GetProcId(const char* procName, unsigned int pid) override;
+        unsigned int GetProcId(const char* procName) override;
         bool InjectDLL(unsigned int procId, const char* dllPath) override;
     };
 
     class InjectorMacOS : public InjectorPlatform
     {
     public:
-        unsigned int GetProcId(const char* procName, unsigned int pid) override;
+        unsigned int GetProcId(const char* procName) override;
         bool InjectDLL(unsigned int procId, const char* dllPath) override;
     };
 }

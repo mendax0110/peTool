@@ -82,12 +82,6 @@ int main(int argc, char* argv[])
     }
     else if (option >= 6 && option <= 7)
     {
-        if (argc < 5)
-        {
-            std::cerr << "Error: Insufficient arguments for option " << option << std::endl;
-            return 1;
-        }
-
         InjectorPlatform* platform = new InjectorPlatform();
         
         switch (option)
@@ -95,7 +89,7 @@ int main(int argc, char* argv[])
             case 6:
             {
                 std::cout << "Getting Process ID...\n";
-                unsigned int processId = platform->getPlatform()->GetProcId(argv[4], std::stoi(argv[3]));
+                unsigned int processId = platform->getPlatform()->GetProcId(argv[2]);
                 if (processId > 0)
                     std::cout << "Process ID: " << processId << std::endl;
                 else
@@ -105,7 +99,7 @@ int main(int argc, char* argv[])
             case 7:
             {
                 std::cout << "Injecting DLL...\n";
-                bool success = platform->getPlatform()->InjectDLL(std::stoi(argv[3]), argv[4]);
+                bool success = platform->getPlatform()->InjectDLL(std::stoi(argv[2]), argv[3]);
                 if (success)
                     std::cout << "DLL Injected successfully.\n";
                 else
@@ -115,11 +109,5 @@ int main(int argc, char* argv[])
         }
         delete platform;
         return 0;
-    }
-    else
-    {
-        std::cerr << "Error: Invalid option.\n";
-        displayMenu();
-        return 1;
     }
 }

@@ -50,7 +50,7 @@ InjectorPlatform::~InjectorPlatform()
 }
 
 #if (_WIN32)
-unsigned int InjectorWindows::GetProcId(const char* procName, unsigned int pid)
+unsigned int InjectorWindows::GetProcId(const char* procName)
 {
     DWORD processId = 0;
     HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -123,11 +123,8 @@ bool InjectorWindows::InjectDLL(unsigned int procId, const char* dllPath)
 #endif
 
 #if (__linux__)
-unsigned int InjectorLinux::GetProcId(const char* procName, unsigned int pid)
+unsigned int InjectorLinux::GetProcId(const char* procName)
 {
-    if (pid > 0)
-        return pid;
-
     if (procName == nullptr)
         return 0;
 
@@ -191,11 +188,8 @@ bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
 #endif
 
 #if (__APPLE__)
-unsigned int InjectorMacOS::GetProcId(const char* procName, unsigned int pid)
+unsigned int InjectorMacOS::GetProcId(const char* procName)
 {
-    if (pid > 0)
-        return pid;
-
     if (procName == nullptr)
         return 0;
 
