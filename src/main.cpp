@@ -141,13 +141,17 @@ int main(int, char**)
     static std::string resourcesOutput;
     static std::string sectionInfoOutput;
     static std::string headersOutput;
+    static std::string processIdOutput;
 
     // Define boolean variables to track window states
-    bool importTableWindowOpen = false;
-    bool exportTableWindowOpen = false;
-    bool resourcesWindowOpen = false;
-    bool sectionInfoWindowOpen = false;
-    bool headersWindowOpen = false;
+    static bool importTableWindowOpen = false;
+    static bool exportTableWindowOpen = false;
+    static bool resourcesWindowOpen = false;
+    static bool sectionInfoWindowOpen = false;
+    static bool headersWindowOpen = false;
+    static bool processIdWindowOpen = false;
+
+    static bool show_metrics = false;
 
     std::string filePathInput;
 
@@ -177,6 +181,7 @@ int main(int, char**)
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
+
         ImGui::Begin("PE Tool");
 
         if (ImGui::Button("Select File"))
@@ -190,59 +195,90 @@ int main(int, char**)
         ImGui::InputText("File Path", filePathInputBuffer, sizeof(filePathInputBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
         filePathInput = filePathInputBuffer;
 
-        if (ImGui::Button("Extract Import Table"))
+
+        if (ImGui::BeginMenu("Extract"))
         {
-            std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-            std::stringstream output;
-            std::streambuf* old_cout = std::cout.rdbuf();
-            std::cout.rdbuf(output.rdbuf());
-            PE::extractImportTable(fileData);
-            importTableOutput = output.str();
-            std::cout.rdbuf(old_cout);
+            if (ImGui::MenuItem("Import Table"))
+            {
+                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                std::stringstream output;
+                std::streambuf* old_cout = std::cout.rdbuf();
+                std::cout.rdbuf(output.rdbuf());
+                PE::extractImportTable(fileData);
+                importTableOutput = output.str();
+                std::cout.rdbuf(old_cout);
+            }
+            if (ImGui::MenuItem("Export Table"))
+            {
+                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                std::stringstream output;
+                std::streambuf* old_cout = std::cout.rdbuf();
+                std::cout.rdbuf(output.rdbuf());
+                PE::extractExportTable(fileData);
+                exportTableOutput = output.str();
+                std::cout.rdbuf(old_cout);
+            }
+            if (ImGui::MenuItem("Resources"))
+            {
+                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                std::stringstream output;
+                std::streambuf* old_cout = std::cout.rdbuf();
+                std::cout.rdbuf(output.rdbuf());
+                PE::extractResources(fileData);
+                resourcesOutput = output.str();
+                std::cout.rdbuf(old_cout);
+            }
+            if (ImGui::MenuItem("Section Info"))
+            {
+                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                std::stringstream output;
+                std::streambuf* old_cout = std::cout.rdbuf();
+                std::cout.rdbuf(output.rdbuf());
+                PE::extractSectionInfo(fileData);
+                sectionInfoOutput = output.str();
+                std::cout.rdbuf(old_cout);
+            }
+            if (ImGui::MenuItem("Headers"))
+            {
+                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                std::stringstream output;
+                std::streambuf* old_cout = std::cout.rdbuf();
+                std::cout.rdbuf(output.rdbuf());
+                PE::parseHeaders(fileData);
+                headersOutput = output.str();
+                std::cout.rdbuf(old_cout);
+            }
+            ImGui::EndMenu();
+        }
+        else if (ImGui::BeginMenu("Process Id"))
+        {
+            if (ImGui::MenuItem("Get Procees Id"))
+            {
+                
+                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                std::stringstream output;
+                std::streambuf* old_cout = std::cout.rdbuf();
+                std::cout.rdbuf(output.rdbuf());
+                auto exename = static_cast<const char*>(filePathInput.c_str());
+                InjectorPlatform injector;
+                injector.getPlatform()->GetProcId(exename);
+                processIdOutput = output.str();
+                std::cout.rdbuf(old_cout);
+            }
+            ImGui::EndMenu();
+        }
+        else if (ImGui::BeginMenu("Metrics"))
+        {
+            if (ImGui::MenuItem("Show Metrics"))
+            {
+                show_metrics = true;
+            }
+            ImGui::EndMenu();
         }
 
-        if (ImGui::Button("Extract Export Table"))
+        if (show_metrics)
         {
-            std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-            std::stringstream output;
-            std::streambuf* old_cout = std::cout.rdbuf();
-            std::cout.rdbuf(output.rdbuf());
-            PE::extractExportTable(fileData);
-            exportTableOutput = output.str();
-            std::cout.rdbuf(old_cout);
-        }
-
-        if (ImGui::Button("Extract Resources"))
-        {
-            std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-            std::stringstream output;
-            std::streambuf* old_cout = std::cout.rdbuf();
-            std::cout.rdbuf(output.rdbuf());
-            PE::extractResources(fileData);
-            resourcesOutput = output.str();
-            std::cout.rdbuf(old_cout);
-        }
-
-        if (ImGui::Button("Extract Section Info"))
-        {
-            std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-            std::stringstream output;
-            std::streambuf* old_cout = std::cout.rdbuf();
-            std::cout.rdbuf(output.rdbuf());
-            PE::extractSectionInfo(fileData);
-            sectionInfoOutput = output.str();
-            std::cout.rdbuf(old_cout);
-        }
-
-        if (ImGui::Button("Parse Headers"))
-        {
-            std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-            std::stringstream output;
-            std::streambuf* old_cout = std::cout.rdbuf();
-            std::cout.rdbuf(output.rdbuf());
-            PE::parseHeaders(fileData);
-            headersOutput = output.str();
-            std::cout.rdbuf(old_cout);
+            ImGui::ShowMetricsWindow(&show_metrics);
         }
 
         ImGui::End();
@@ -251,7 +287,7 @@ int main(int, char**)
         {
             importTableWindowOpen = true;
             ImGui::Begin("Import Table", &importTableWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-            ImGui::Text("%s",importTableOutput.c_str());
+            ImGui::Text("%s", importTableOutput.c_str());
             if (!importTableWindowOpen)
                 importTableOutput.clear();
             ImGui::End();
@@ -261,7 +297,7 @@ int main(int, char**)
         {
             exportTableWindowOpen = true;
             ImGui::Begin("Export Table", &exportTableWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-            ImGui::Text("%s",exportTableOutput.c_str());
+            ImGui::Text("%s", exportTableOutput.c_str());
             if (!exportTableWindowOpen)
                 exportTableOutput.clear();
             ImGui::End();
@@ -271,7 +307,7 @@ int main(int, char**)
         {
             resourcesWindowOpen = true;
             ImGui::Begin("Resources", &resourcesWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-            ImGui::Text("%s",resourcesOutput.c_str());
+            ImGui::Text("%s", resourcesOutput.c_str());
             if (!resourcesWindowOpen)
                 resourcesOutput.clear();
             ImGui::End();
@@ -281,7 +317,7 @@ int main(int, char**)
         {
             sectionInfoWindowOpen = true;
             ImGui::Begin("Section Info", &sectionInfoWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-            ImGui::Text("%s",sectionInfoOutput.c_str());
+            ImGui::Text("%s", sectionInfoOutput.c_str());
             if (!sectionInfoWindowOpen)
                 sectionInfoOutput.clear();
             ImGui::End();
@@ -291,9 +327,19 @@ int main(int, char**)
         {
             headersWindowOpen = true;
             ImGui::Begin("Headers", &headersWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-            ImGui::Text("%s",headersOutput.c_str());
+            ImGui::Text("%s", headersOutput.c_str());
             if (!headersWindowOpen)
                 headersOutput.clear();
+            ImGui::End();
+        }
+
+        if (!processIdOutput.empty())
+        {
+            processIdWindowOpen = true;
+            ImGui::Begin("Process Id", &processIdWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
+            ImGui::Text("%s", processIdOutput.c_str());
+            if (!processIdWindowOpen)
+                processIdOutput.clear();
             ImGui::End();
         }
 
@@ -312,6 +358,8 @@ int main(int, char**)
         if (headersOutput.empty() && !ImGui::IsItemHovered())
             headersWindowOpen = false;
 
+        if (processIdOutput.empty() && !ImGui::IsItemHovered())
+            processIdWindowOpen = false;
 
         ImGui::Render();
 
