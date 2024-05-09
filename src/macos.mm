@@ -8,6 +8,7 @@
 #include <sstream>
 #include <filesystem>
 
+#if defined(__APPLE__)
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
@@ -265,3 +266,4 @@ int main(int, char**)
 
     return 0;
 }
+#endif
