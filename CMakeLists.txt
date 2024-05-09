@@ -19,7 +19,7 @@ if (WIN32)
 endif()
 
 if (APPLE)
-    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_metal.mm" "${IMGUI_DIR}/backends/imgui_impl_cocoa.mm")
+    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_metal.mm" "${IMGUI_DIR}/backends/imgui_impl_osx.mm")
 endif()
 
 if (LINUX)
@@ -51,6 +51,11 @@ if (LINUX)
 endif()
 
 file(GLOB SOURCES "src/*.cpp")
+
+if (APPLE)
+    # search for .cpp and .mm files
+    file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.mm")
+endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURCES})
 
