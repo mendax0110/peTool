@@ -62,12 +62,13 @@ unsigned int InjectorWindows::GetProcId(const char* procName)
         {
             do
             {
+                WCHAR pid = GetCurrentProcessId();
                 if (pid > 0 && pe32.th32ProcessID == pid)
                 {
                     processId = pe32.th32ProcessID;
                     break;
                 }
-                else if (procName != nullptr && strcmp(pe32.szExeFile, procName) == 0)
+                else if (procName != nullptr && strcmp(reinterpret_cast<const char*>(pe32.szExeFile), procName) == 0)
                 {
                     processId = pe32.th32ProcessID;
                     break;
