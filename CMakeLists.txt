@@ -12,6 +12,10 @@ include_directories(${INCLUDE_DIR})
 include_directories(${IMGUI_DIR})
 include_directories(${IMGUI_DIR}/backends)
 
+if (APPLE)
+    include_directories("/opt/homebrew/Cellar/sdl2/2.30.3/include/SDL2")
+endif()
+
 file(GLOB IMGUI_SOURCES "${IMGUI_DIR}/*.cpp" "${IMGUI_DIR}/*.h")
 
 if (WIN32)
@@ -19,7 +23,7 @@ if (WIN32)
 endif()
 
 if (APPLE)
-    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_metal.mm" "${IMGUI_DIR}/backends/imgui_impl_osx.mm")
+    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_metal.mm")
 endif()
 
 if (LINUX)
@@ -41,6 +45,8 @@ if (APPLE)
     find_library(GL_LIBRARY OpenGL)
 
     set(DirectX_LIBRARIES ${METAL_LIBRARY} ${COCOA_LIBRARY} ${QUARTZCORE_LIBRARY} ${APPKIT_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${GL_LIBRARY})
+
+    find_library(SDL2_LIBRARY SDL2)
 endif()
 
 if (LINUX)
@@ -62,4 +68,10 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURC
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR} ${IMGUI_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${IMGUI_DIR}/backends)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES})
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES})
+endif()
+
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES} ${SDL2_LIBRARY})
+endif()

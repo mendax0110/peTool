@@ -1,7 +1,7 @@
-#include "./include/PE.h"
 #include "./include/FileIO.h"
 #include "./include/Untils.h"
 #include "./include/Injector.h"
+#include "./include/PE.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -10,21 +10,43 @@
 
 #if defined(__APPLE__)
 #include "imgui.h"
-#include "imgui_impl_glfw.h"
+#include "imgui_impl_sdl2.h"
 #include "imgui_impl_metal.h"
 #include <stdio.h>
-
-#define GLFW_INCLUDE_NONE
-#define GLFW_EXPOSE_NATIVE_COCOA
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
+#include "SDL.h"
+#include <Cocoa/Cocoa.h>
 
 #import <Metal/Metal.h>
 #import <QuartzCore/QuartzCore.h>
 
-static void glfw_error_callback(int error, const char* description)
+using namespace PeInternals;
+using namespace FileIoInternals;
+using namespace UntilsInternals;
+using namespace DllInjector;
+
+std::string sSelectedFile;
+std::string filePath;
+
+bool openFile()
 {
-    fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setCanChooseDirectories:NO];
+    [openDlg setAllowsMultipleSelection:NO];
+
+    if ([openDlg runModal] == NSModalResponseOK)
+    {
+        NSURL* url = [[openDlg URLs] objectAtIndex:0];
+        NSString* filePathString = [url path];
+        const char* cString = [filePathString UTF8String];
+        filePath = cString;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 int main(int, char**)
@@ -40,32 +62,43 @@ int main(int, char**)
     ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
 
-    // Setup window
-    glfwSetErrorCallback(glfw_error_callback);
-    if (!glfwInit())
-        return 1;
+    // Setup SDL
+    // (Some versions of SDL before <2.0.10 appears to have performance/stalling issues on a minority of Windows systems,
+    // depending on whether SDL_INIT_GAMECONTROLLER is enabled or disabled.. updating to latest version of SDL is recommended!)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
+    {
+        printf("Error: %s\n", SDL_GetError());
+        return -1;
+    }
 
-    // Create window with graphics context
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "PETOOL", nullptr, nullptr);
+    // Inform SDL that we will be using metal for rendering. Without this hint initialization of metal renderer may fail.
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "metal");
+
+    // Enable native IME.
+    SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+
+    SDL_Window* window = SDL_CreateWindow("PETOOL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
     if (window == nullptr)
-        return 1;
+    {
+        printf("Error creating window: %s\n", SDL_GetError());
+        return -2;
+    }
 
-    id <MTLDevice> device = MTLCreateSystemDefaultDevice();
-    id <MTLCommandQueue> commandQueue = [device newCommandQueue];
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == nullptr)
+    {
+        printf("Error creating renderer: %s\n", SDL_GetError());
+        return -3;
+    }
 
     // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplMetal_Init(device);
-
-    NSWindow *nswin = glfwGetCocoaWindow(window);
-    CAMetalLayer *layer = [CAMetalLayer layer];
-    layer.device = device;
+    CAMetalLayer* layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(renderer);
     layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-    nswin.contentView.layer = layer;
-    nswin.contentView.wantsLayer = YES;
+    ImGui_ImplMetal_Init(layer.device);
+    ImGui_ImplSDL2_InitForMetal(window);
 
-    MTLRenderPassDescriptor *renderPassDescriptor = [MTLRenderPassDescriptor new];
+    id<MTLCommandQueue> commandQueue = [layer.device newCommandQueue];
+    MTLRenderPassDescriptor* renderPassDescriptor = [MTLRenderPassDescriptor new];
 
     // Our state
     bool show_demo_window = true;
@@ -78,25 +111,43 @@ int main(int, char**)
     static std::string resourcesOutput;
     static std::string sectionInfoOutput;
     static std::string headersOutput;
+    static std::string processIdOutput;
 
     // Define boolean variables to track window states
-    bool importTableWindowOpen = false;
-    bool exportTableWindowOpen = false;
-    bool resourcesWindowOpen = false;
-    bool sectionInfoWindowOpen = false;
-    bool headersWindowOpen = false;
+    static bool importTableWindowOpen = false;
+    static bool exportTableWindowOpen = false;
+    static bool resourcesWindowOpen = false;
+    static bool sectionInfoWindowOpen = false;
+    static bool headersWindowOpen = false;
+    static bool processIdWindowOpen = false;
+
+    static bool show_metrics = false;
 
     std::string filePathInput;
 
     // Main loop
-    while (!glfwWindowShouldClose(window))
+    bool done = false;
+    while (!done)
     {
         @autoreleasepool
         {
-            glfwPollEvents();
+            // Poll and handle events (inputs, window resize, etc.)
+            // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+            // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
+            // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
+            // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+            SDL_Event event;
+            while (SDL_PollEvent(&event))
+            {
+                ImGui_ImplSDL2_ProcessEvent(&event);
+                if (event.type == SDL_QUIT)
+                    done = true;
+                if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
+                    done = true;
+            }
 
             int width, height;
-            glfwGetFramebufferSize(window, &width, &height);
+            SDL_GetRendererOutputSize(renderer, &width, &height);
             layer.drawableSize = CGSizeMake(width, height);
             id<CAMetalDrawable> drawable = [layer nextDrawable];
 
@@ -106,75 +157,113 @@ int main(int, char**)
             renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:renderPassDescriptor];
-            [renderEncoder pushDebugGroup:@"PETOOL"];
+            [renderEncoder pushDebugGroup:@"ImGui demo"];
 
             // Start the Dear ImGui frame
             ImGui_ImplMetal_NewFrame(renderPassDescriptor);
-            ImGui_ImplGlfw_NewFrame();
+            ImGui_ImplSDL2_NewFrame();
             ImGui::NewFrame();
 
             // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
             if (show_demo_window)
                 ImGui::ShowDemoWindow(&show_demo_window);
 
+            ImGui::Begin("PE Tool");
+
+            if (ImGui::Button("Open File"))
+            {
+                openFile();
+                filePathInput = filePath;
+            }
+
             char filePathInputBuffer[256];
-            strcpy_s(filePathInputBuffer, filePathInput.c_str());
+            strcpy(filePathInputBuffer, filePathInput.c_str());
             ImGui::InputText("File Path", filePathInputBuffer, sizeof(filePathInputBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
             filePathInput = filePathInputBuffer;
 
-            if (ImGui::Button("Extract Import Table"))
+            if (ImGui::BeginMenu("Extract"))
             {
-                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                std::stringstream output;
-                std::streambuf* old_cout = std::cout.rdbuf();
-                std::cout.rdbuf(output.rdbuf());
-                PE::extractImportTable(fileData);
-                importTableOutput = output.str();
-                std::cout.rdbuf(old_cout);
+                if (ImGui::MenuItem("Import Table"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    PE::extractImportTable(fileData);
+                    importTableOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                if (ImGui::MenuItem("Export Table"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    PE::extractExportTable(fileData);
+                    exportTableOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                if (ImGui::MenuItem("Resources"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    PE::extractResources(fileData);
+                    resourcesOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                if (ImGui::MenuItem("Section Info"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    PE::extractSectionInfo(fileData);
+                    sectionInfoOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                if (ImGui::MenuItem("Headers"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    PE::parseHeaders(fileData);
+                    headersOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                ImGui::EndMenu();
+            }
+            else if (ImGui::BeginMenu("Process Id"))
+            {
+                if (ImGui::MenuItem("Get Procees Id"))
+                {
+                    
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    auto exename = static_cast<const char*>(filePathInput.c_str());
+                    InjectorPlatform injector;
+                    injector.getPlatform()->GetProcId(exename);
+                    processIdOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                ImGui::EndMenu();
+            }
+            else if (ImGui::BeginMenu("Metrics"))
+            {
+                if (ImGui::MenuItem("Show Metrics"))
+                {
+                    show_metrics = true;
+                }
+                ImGui::EndMenu();
             }
 
-            if (ImGui::Button("Extract Export Table"))
+            if (show_metrics)
             {
-                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                std::stringstream output;
-                std::streambuf* old_cout = std::cout.rdbuf();
-                std::cout.rdbuf(output.rdbuf());
-                PE::extractExportTable(fileData);
-                exportTableOutput = output.str();
-                std::cout.rdbuf(old_cout);
-            }
-
-            if (ImGui::Button("Extract Resources"))
-            {
-                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                std::stringstream output;
-                std::streambuf* old_cout = std::cout.rdbuf();
-                std::cout.rdbuf(output.rdbuf());
-                PE::extractResources(fileData);
-                resourcesOutput = output.str();
-                std::cout.rdbuf(old_cout);
-            }
-
-            if (ImGui::Button("Extract Section Info"))
-            {
-                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                std::stringstream output;
-                std::streambuf* old_cout = std::cout.rdbuf();
-                std::cout.rdbuf(output.rdbuf());
-                PE::extractSectionInfo(fileData);
-                sectionInfoOutput = output.str();
-                std::cout.rdbuf(old_cout);
-            }
-
-            if (ImGui::Button("Parse Headers"))
-            {
-                std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                std::stringstream output;
-                std::streambuf* old_cout = std::cout.rdbuf();
-                std::cout.rdbuf(output.rdbuf());
-                PE::parseHeaders(fileData);
-                headersOutput = output.str();
-                std::cout.rdbuf(old_cout);
+                ImGui::ShowMetricsWindow(&show_metrics);
             }
 
             ImGui::End();
@@ -183,7 +272,7 @@ int main(int, char**)
             {
                 importTableWindowOpen = true;
                 ImGui::Begin("Import Table", &importTableWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s",importTableOutput.c_str());
+                ImGui::Text("%s", importTableOutput.c_str());
                 if (!importTableWindowOpen)
                     importTableOutput.clear();
                 ImGui::End();
@@ -193,7 +282,7 @@ int main(int, char**)
             {
                 exportTableWindowOpen = true;
                 ImGui::Begin("Export Table", &exportTableWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s",exportTableOutput.c_str());
+                ImGui::Text("%s", exportTableOutput.c_str());
                 if (!exportTableWindowOpen)
                     exportTableOutput.clear();
                 ImGui::End();
@@ -203,7 +292,7 @@ int main(int, char**)
             {
                 resourcesWindowOpen = true;
                 ImGui::Begin("Resources", &resourcesWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s",resourcesOutput.c_str());
+                ImGui::Text("%s", resourcesOutput.c_str());
                 if (!resourcesWindowOpen)
                     resourcesOutput.clear();
                 ImGui::End();
@@ -213,7 +302,7 @@ int main(int, char**)
             {
                 sectionInfoWindowOpen = true;
                 ImGui::Begin("Section Info", &sectionInfoWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s",sectionInfoOutput.c_str());
+                ImGui::Text("%s", sectionInfoOutput.c_str());
                 if (!sectionInfoWindowOpen)
                     sectionInfoOutput.clear();
                 ImGui::End();
@@ -223,9 +312,19 @@ int main(int, char**)
             {
                 headersWindowOpen = true;
                 ImGui::Begin("Headers", &headersWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s",headersOutput.c_str());
+                ImGui::Text("%s", headersOutput.c_str());
                 if (!headersWindowOpen)
                     headersOutput.clear();
+                ImGui::End();
+            }
+
+            if (!processIdOutput.empty())
+            {
+                processIdWindowOpen = true;
+                ImGui::Begin("Process Id", &processIdWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
+                ImGui::Text("%s", processIdOutput.c_str());
+                if (!processIdWindowOpen)
+                    processIdOutput.clear();
                 ImGui::End();
             }
 
@@ -244,6 +343,9 @@ int main(int, char**)
             if (headersOutput.empty() && !ImGui::IsItemHovered())
                 headersWindowOpen = false;
 
+            if (processIdOutput.empty() && !ImGui::IsItemHovered())
+                processIdWindowOpen = false;
+
             // Rendering
             ImGui::Render();
             ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), commandBuffer, renderEncoder);
@@ -258,11 +360,12 @@ int main(int, char**)
 
     // Cleanup
     ImGui_ImplMetal_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 
-    glfwDestroyWindow(window);
-    glfwTerminate();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     return 0;
 }
