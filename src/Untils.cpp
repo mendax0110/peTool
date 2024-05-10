@@ -1,10 +1,18 @@
-#include "./include/Untils.h"
+#include "./include/Utils.h"
 #include <iomanip>
 #include <sstream>
 
-using namespace UntilsInternals;
+using namespace UtilsInternals;
 
-void Untils::printBytes(const std::vector<uint8_t>& data)
+Utils::Utils()
+{
+}
+
+Utils::~Utils()
+{
+}
+
+void Utils::printBytes(const std::vector<uint8_t>& data)
 {
     for (const auto& byte : data)
     {
@@ -15,7 +23,7 @@ void Untils::printBytes(const std::vector<uint8_t>& data)
     std::cout << std::endl;
 }
 
-uint32_t Untils::bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset)
+uint32_t Utils::bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset)
 {
     uint32_t result = 0;
     for (size_t i = 0; i < sizeof(uint32_t); ++i)
@@ -23,7 +31,7 @@ uint32_t Untils::bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset
     return result;
 }
 
-uint16_t Untils::bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset)
+uint16_t Utils::bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset)
 {
     uint16_t result = 0;
     for (size_t i = 0; i < sizeof(uint16_t); ++i)
@@ -31,18 +39,18 @@ uint16_t Untils::bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset
     return result;
 }
 
-std::string Untils::bytesToString(const std::vector<uint8_t>& data, size_t offset, size_t length)
+std::string Utils::bytesToString(const std::vector<uint8_t>& data, size_t offset, size_t length)
 {
     std::string result(data.begin() + offset, data.begin() + offset + length);
     return result;
 }
 
-uint32_t Untils::calculateChecksum(const std::vector<uint8_t>& fileData)
+uint32_t Utils::calculateChecksum(const std::vector<uint8_t>& fileData)
 {
     uint32_t checksum = 0;
     for (size_t i = 0; i < fileData.size(); i += sizeof(uint32_t))
     {
-        uint32_t word = Untils::bytesToUInt32LE(fileData, i);
+        uint32_t word = Utils::bytesToUInt32LE(fileData, i);
         checksum += word;
     }
     return checksum;

@@ -1,7 +1,9 @@
 #include "./include/FileIO.h"
-#include "./include/Untils.h"
+#include "./include/Utils.h"
 #include "./include/Injector.h"
 #include "./include/PE.h"
+#include "./include/Entropy.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -21,8 +23,9 @@
 
 using namespace PeInternals;
 using namespace FileIoInternals;
-using namespace UntilsInternals;
+using namespace UtilsInternals;
 using namespace DllInjector;
+using namespace EntropyInternals;
 
 std::string sSelectedFile;
 std::string filePath;
@@ -112,6 +115,8 @@ int main(int, char**)
     static std::string sectionInfoOutput;
     static std::string headersOutput;
     static std::string processIdOutput;
+    static std::string checksumOutput;
+    std::vector<std::string> entropyOutput;
 
     // Define boolean variables to track window states
     static bool importTableWindowOpen = false;
@@ -120,10 +125,14 @@ int main(int, char**)
     static bool sectionInfoWindowOpen = false;
     static bool headersWindowOpen = false;
     static bool processIdWindowOpen = false;
+    static bool checkSumWindowOpen = false;
+    bool showEntropyHistogram = false;
 
     static bool show_metrics = false;
 
     std::string filePathInput;
+    std::vector<int> histogram;
+
 
     // Main loop
     bool done = false;
@@ -260,6 +269,46 @@ int main(int, char**)
                 }
                 ImGui::EndMenu();
             }
+            else if (ImGui::BeginMenu("Utils"))
+            {
+                if (ImGui::MenuItem("Calculate Checksum"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    Utils unt;
+                    unt.calculateChecksum(fileData);
+                    checksumOutput = output.str();
+                    std::cout.rdbuf(old_cout);
+                }
+                ImGui::EndMenu();
+            }
+            else if (ImGui::BeginMenu("Entropy"))
+            {
+                if (ImGui::MenuItem("Entropy Histogram"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    Entropy ent;
+                    histogram = ent.createHistogram(fileData);
+                    std::cout.rdbuf(old_cout);
+
+                    for (int i = 0; i < histogram.size(); i++)
+                    {
+                        std::vector<uint8_t> data = FileIO::readFile(filePathInput);
+                        std::stringstream output;
+                        std::streambuf* old_cout = std::cout.rdbuf();
+                        std::cout.rdbuf(output.rdbuf());
+                        ent.printEntropy(data, i, 1);
+                        std::cout.rdbuf(old_cout);
+                        entropyOutput.push_back(output.str());
+                    }
+                }
+                ImGui::EndMenu();
+            }
 
             if (show_metrics)
             {
@@ -328,6 +377,32 @@ int main(int, char**)
                 ImGui::End();
             }
 
+            if (!checksumOutput.empty())
+            {
+                checkSumWindowOpen = true;
+                ImGui::Begin("Bytes", &checkSumWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
+                ImGui::Text("%s", checksumOutput.c_str());
+                if (!checkSumWindowOpen)
+                    checksumOutput.clear();
+                ImGui::End();
+            }
+
+            if (!histogram.empty())
+            {
+                showEntropyHistogram = true;
+                ImGui::Begin("Entropy Histogram", &showEntropyHistogram, ImGuiWindowFlags_HorizontalScrollbar);
+                std::vector<float> histogram_float(histogram.begin(), histogram.end());
+                ImGui::PlotHistogram("Histogram", histogram_float.data(), histogram_float.size(), 0, nullptr, 0.0f, FLT_MAX, ImVec2(0, 200));
+                for (const auto& output : entropyOutput)
+                {
+                    ImGui::Text("%s", output.c_str());
+                }
+                if (!showEntropyHistogram)
+                    histogram.clear();
+                ImGui::End();
+            }
+
+
             if (importTableOutput.empty() && !ImGui::IsItemHovered())
                 importTableWindowOpen = false;
 
@@ -345,6 +420,12 @@ int main(int, char**)
 
             if (processIdOutput.empty() && !ImGui::IsItemHovered())
                 processIdWindowOpen = false;
+
+            if (checksumOutput.empty() && !ImGui::IsItemHovered())
+                checkSumWindowOpen = false;
+
+            if (histogram.empty() && !ImGui::IsItemHovered())
+                showEntropyHistogram = false;
 
             // Rendering
             ImGui::Render();
