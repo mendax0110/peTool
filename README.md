@@ -1,13 +1,16 @@
 # peTool
 
 ## Overview
-peTool is a command-line tool designed to extract various information from Portable Executable (PE) files. It includes functionalities to extract import tables, export tables, resources, section information, and parse headers.
+peTool is a graphical user interface (GUI) tool designed to extract various information from Portable Executable (PE) files. It includes functionalities to extract import tables, export tables, resources, section information, and parse headers.
 
 ## Description
-The `peTool` project comprises a single C++ source file named `peTool.cpp`, which implements the functionality of the peTool command-line interface. This file includes the necessary header files: `PEHeader.h`, `FileIO.h`, and `Utils.h`, along with standard C++ library headers.
+The `peTool` project comprises a single C++ source file named `peTool.cpp`, which implements the functionality of the peTool GUI. This file includes the necessary header files: `PEHeader.h`, `FileIO.h`, `Entropy.h`, and `Utils.h`, along with standard C++ library headers.
 
-## Usage
-./pe_tool <option> <file_path>
+## Usage (GUI)
+./peTool
+
+## Usage (CLI)
+./peTool <option> <file_path>
 
 ## Options
 
@@ -18,6 +21,9 @@ The `peTool` project comprises a single C++ source file named `peTool.cpp`, whic
 - **5. Parse Headers:** Parses headers of the specified PE file.
 - **6. Get Process ID:** Retrieves the process ID for injection.
 - **7. Inject DLL:** Injects a DLL into a process.
+
+## Options (GUI)
+- **8. Histogram:** Create a Histogram.
 
 ### help
 - **-help**
@@ -34,13 +40,13 @@ cd build
 cmake --build .
 ```
 
-## Run
+## Run (CLI)
 To run the peTool project, navigate to the build directory and run the following command:
 ```
 ./peTool <option> <file_path>
 ```
 
-## Run Injection
+## Run Injection (CLI)
 ```
 ./peTool <option> <procName>
 ```
@@ -49,7 +55,7 @@ To run the peTool project, navigate to the build directory and run the following
 ./peTool <option> <procId> <dllPath>
 ```
 
-## Example
+## Example (CLI)
 ```
 ./peTool 1 /path/to/pe/file
 ```
