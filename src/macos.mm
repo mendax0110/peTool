@@ -3,6 +3,7 @@
 #include "./include/Injector.h"
 #include "./include/PE.h"
 #include "./include/Entropy.h"
+#include "./include/Disassembler.h"
 
 #include <iostream>
 #include <vector>
@@ -26,6 +27,7 @@ using namespace FileIoInternals;
 using namespace UtilsInternals;
 using namespace DllInjector;
 using namespace EntropyInternals;
+using namespace DissassemblerInternals;
 
 std::string sSelectedFile;
 std::string filePath;
@@ -117,6 +119,7 @@ int main(int, char**)
     static std::string processIdOutput;
     static std::string checksumOutput;
     std::vector<std::string> entropyOutput;
+    std::vector<std::string> disassemblyOutput;
 
     // Define boolean variables to track window states
     static bool importTableWindowOpen = false;
@@ -127,6 +130,7 @@ int main(int, char**)
     static bool processIdWindowOpen = false;
     static bool checkSumWindowOpen = false;
     bool showEntropyHistogram = false;
+    static bool disassemblyWindowOpen = false;
 
     static bool show_metrics = false;
 
@@ -309,6 +313,22 @@ int main(int, char**)
                 }
                 ImGui::EndMenu();
             }
+            else if (ImGui::BeginMenu("Disassembler"))
+            {
+                if (ImGui::MenuItem("Disassemble"))
+                {
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    std::stringstream output;
+                    std::streambuf* old_cout = std::cout.rdbuf();
+                    std::cout.rdbuf(output.rdbuf());
+                    Disassembler dis;
+                    std::tuple exe = dis.getExecutable(filePathInput);
+                    dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
+                    std::cout.rdbuf(old_cout);
+                    disassemblyOutput.push_back(output.str());
+                }
+                ImGui::EndMenu();
+            }
 
             if (show_metrics)
             {
@@ -402,6 +422,19 @@ int main(int, char**)
                 ImGui::End();
             }
 
+            if (!disassemblyOutput.empty())
+            {
+                disassemblyWindowOpen = true;
+                ImGui::Begin("Disassembly", &disassemblyWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
+                for (const auto& output : disassemblyOutput)
+                {
+                    ImGui::Text("%s", output.c_str());
+                }
+                if (!disassemblyWindowOpen)
+                    disassemblyOutput.clear();
+                ImGui::End();
+            }
+
 
             if (importTableOutput.empty() && !ImGui::IsItemHovered())
                 importTableWindowOpen = false;
@@ -426,6 +459,9 @@ int main(int, char**)
 
             if (histogram.empty() && !ImGui::IsItemHovered())
                 showEntropyHistogram = false;
+
+            if (disassemblyOutput.empty() && !ImGui::IsItemHovered())
+                disassemblyWindowOpen = false;
 
             // Rendering
             ImGui::Render();
