@@ -119,11 +119,13 @@ void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileDat
         if (entry->OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
         {
             const PIMAGE_RESOURCE_DIRECTORY subDirectory = reinterpret_cast<const PIMAGE_RESOURCE_DIRECTORY>(&mutableFileData[entry->OffsetToDirectory & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY]);
-            WinResourceDirectoryTraverser traverser;
-            resourceDirectory->traverse(mutableFileData, level + 1, parentName + std::to_string(i) + "/");
+            std::string directoryName = std::to_string(entry->Name);
+
             std::cout << "Level " << level << ": " << parentName << "Directory\n";
             std::cout << "OffsetToData: 0x" << std::hex << entry->OffsetToData << "\n";
             std::cout << "OffsetToDirectory: 0x" << std::hex << entry->OffsetToDirectory << "\n";
+            std::cout << "Directory Name: " << directoryName << "\n";
+            std::cout << "Number of Entries: " << subDirectory->NumberOfNamedEntries + subDirectory->NumberOfIdEntries << "\n";
         }
         else
         {
