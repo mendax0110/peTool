@@ -336,7 +336,7 @@ int main(int, char**)
                 std::streambuf* old_cout = std::cout.rdbuf();
                 std::cout.rdbuf(output.rdbuf());
                 Disassembler dis;
-                std::tuple exe = dis.getExecutable(filePathInput);
+                std::tuple<std::vector<uint8_t>, size_t, size_t> exe = dis.getExecutable(filePathInput);
                 dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
                 std::cout.rdbuf(old_cout);
                 disassemblyOutput.push_back(output.str());
@@ -471,7 +471,7 @@ int main(int, char**)
             checkSumWindowOpen = false;
 
         if (histogram.empty() && !ImGui::IsItemHovered())
-            show_entropy_histogram = false;
+            showEntropyHistogram = false;
 
         if (disassemblyOutput.empty() && !ImGui::IsItemHovered())
             disassemblyWindowOpen = false;
