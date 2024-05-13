@@ -6,6 +6,12 @@ peTool is a graphical user interface (GUI) tool designed to extract various info
 ## Description
 The `peTool` project comprises a single C++ source file named `peTool.cpp`, which implements the functionality of the peTool GUI. This file includes the necessary header files: `PEHeader.h`, `FileIO.h`, `Entropy.h`, and `Utils.h`, along with standard C++ library headers.
 
+
+
+https://github.com/mendax0110/peTool/assets/52537419/5f0a372d-3976-4319-a759-f15b637551c3
+
+
+
 ## Usage (GUI)
 ./peTool
 
