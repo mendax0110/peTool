@@ -4,6 +4,7 @@
 #include "./include/PE.h"
 #include "./include/Entropy.h"
 #include "./include/Disassembler.h"
+#include "./include/CLI.h"
 
 #include <iostream>
 #include <vector>
@@ -28,9 +29,15 @@ using namespace UtilsInternals;
 using namespace DllInjector;
 using namespace EntropyInternals;
 using namespace DissassemblerInternals;
+using namespace CliInterface;
 
 std::string sSelectedFile;
 std::string filePath;
+
+void runCLI(int argc, char** argv)
+{
+    CLI::startCli(argc, argv);
+}
 
 bool openFile()
 {
@@ -54,7 +61,7 @@ bool openFile()
     }
 }
 
-int main(int, char**)
+int runGUI()
 {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -257,11 +264,19 @@ int main(int, char**)
                     std::stringstream output;
                     std::streambuf* old_cout = std::cout.rdbuf();
                     std::cout.rdbuf(output.rdbuf());
-                    auto exename = static_cast<const char*>(filePathInput.c_str());
-                    InjectorPlatform injector;
-                    injector.getPlatform()->GetProcId(exename);
-                    processIdOutput = output.str();
+                    auto exename = static_cast<const char*>(filePathInput.c_str());                
+                    std::unique_ptr<InjectorPlatform> injector(InjectorPlatform::CreatePlatform());
+                    if (injector)
+                    {
+                        unsigned int procId = injector->GetProcId(exename);
+                        output << "Process ID: " << procId;
+                    }
+                    else
+                    {
+                        output << "Failed to create platform-specific injector.";
+                    }
                     std::cout.rdbuf(old_cout);
+                    processIdOutput = output.str();
                 }
                 ImGui::EndMenu();
             }
@@ -282,8 +297,7 @@ int main(int, char**)
                     std::streambuf* old_cout = std::cout.rdbuf();
                     std::cout.rdbuf(output.rdbuf());
                     Utils unt;
-                    unt.calculateChecksum(fileData);
-                    checksumOutput = output.str();
+                    checksumOutput = unt.calculateChecksum(fileData);
                     std::cout.rdbuf(old_cout);
                 }
                 ImGui::EndMenu();
@@ -484,6 +498,29 @@ int main(int, char**)
     SDL_DestroyWindow(window);
     SDL_Quit();
 
+   return 0;
+}
+
+int main(int argc, char** argv)
+{
+    bool use_gui = false;
+    for (int i = 1; i < argc; ++i)
+    {
+        if (std::string(argv[i]) == "--gui")
+        {
+            use_gui = true;
+            break;
+        }
+    }
+
+    if (use_gui)
+    {
+        runGUI();
+    }
+    else
+    {
+        runCLI(argc, argv);
+    }
     return 0;
 }
 #endif

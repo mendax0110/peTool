@@ -27,7 +27,7 @@ if (APPLE)
 endif()
 
 if (LINUX)
-    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_glfw.cpp" "${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp")
+    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp")
 endif()
 
 
@@ -50,10 +50,10 @@ if (APPLE)
 endif()
 
 if (LINUX)
-    find_package(glfw3 REQUIRED)
+    find_package(SDL2 REQUIRED)
     find_package(OpenGL REQUIRED)
 
-    set(DirectX_LIBRARIES glfw OpenGL::GL)
+    set(DirectX_LIBRARIES SDL2 OpenGL::GL)
 endif()
 
 file(GLOB SOURCES "src/*.cpp")

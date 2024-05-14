@@ -13,7 +13,7 @@ https://github.com/mendax0110/peTool/assets/52537419/5f0a372d-3976-4319-a759-f15
 
 
 ## Usage (GUI)
-./peTool
+./peTool --gui
 
 ## Usage (CLI)
 ./peTool <option> <file_path>
@@ -46,24 +46,4 @@ mkdir build
 cd build
 
 cmake --build .
-```
-
-## Run (CLI)
-To run the peTool project, navigate to the build directory and run the following command:
-```
-./peTool <option> <file_path>
-```
-
-## Run Injection (CLI)
-```
-./peTool <option> <procName>
-```
-
-```
-./peTool <option> <procId> <dllPath>
-```
-
-## Example (CLI)
-```
-./peTool 1 /path/to/pe/file
 ```
