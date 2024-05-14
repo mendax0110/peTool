@@ -34,7 +34,7 @@ https://github.com/mendax0110/peTool/assets/52537419/5f0a372d-3976-4319-a759-f15
 - **8. Histogram:** Create a Histogram.
 
 ### help
-- **-help**
+- **--help**
 Displays the help message.
 
 
