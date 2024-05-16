@@ -237,6 +237,7 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 		if (importTableRVA >= sectionHeader->VirtualAddress && importTableRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
 		{
 			importTableOffset = importTableRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+            std::cout << "Import Table Offset: " << importTableOffset << std::endl;
 			break;
 		}
 	}
@@ -249,7 +250,15 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
         PIMAGE_THUNK_DATA thunk = reinterpret_cast<PIMAGE_THUNK_DATA>(const_cast<uint8_t*>(&fileData[importDescriptor->OriginalFirstThunk]));
 		while (thunk->u1.AddressOfData != 0)
 		{
-			PIMAGE_IMPORT_BY_NAME importByName = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(const_cast<uint8_t*>(&fileData[thunk->u1.AddressOfData]));
+            uint32_t addressOfData = thunk->u1.AddressOfData;
+            if (addressOfData >= fileData.size())
+            {
+                std::cerr << "AddressOfData out of bounds: " << addressOfData << std::endl;
+                break;
+            }
+            PIMAGE_IMPORT_BY_NAME importByName = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(const_cast<uint8_t*>(fileData.data() + addressOfData));
+			//PIMAGE_IMPORT_BY_NAME importByName = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(const_cast<uint8_t*>(&fileData[thunk->u1.AddressOfData]));
+
 			std::cout << importByName->Name << std::endl;
 			++thunk;
 		}
