@@ -1,7 +1,5 @@
 #include "./include/Injector.h"
 
-using namespace DllInjector;
-
 #if defined(_WIN32)
 #include <Windows.h>
 #include <TlHelp32.h>
@@ -32,24 +30,27 @@ using namespace DllInjector;
 #include <dlfcn.h>
 #endif
 
+using namespace DllInjector;
 
-InjectorPlatform::InjectorPlatform()
+
+InjectorPlatform* InjectorPlatform::CreatePlatform()
 {
 #if defined(_WIN32)
-    platform = new InjectorWindows();
-#elif defined(__linux__)
-    platform = new InjectorLinux();
-#elif defined(__APPLE__)
-    platform = new InjectorMacOS();
+        return new InjectorWindows();
+#endif
+
+#if defined(__linux__)
+        return new InjectorLinux();
+#endif
+
+#if defined(__APPLE__)
+        return new InjectorMacOS();
+#else
+        return nullptr;
 #endif
 }
 
-InjectorPlatform::~InjectorPlatform()
-{
-    delete platform;
-}
-
-#if (_WIN32)
+#if defined(_WIN32)
 unsigned int InjectorWindows::GetProcId(const char* procName)
 {
     DWORD processId = 0;
@@ -62,13 +63,7 @@ unsigned int InjectorWindows::GetProcId(const char* procName)
         {
             do
             {
-                WCHAR pid = GetCurrentProcessId();
-                if (pid > 0 && pe32.th32ProcessID == pid)
-                {
-                    processId = pe32.th32ProcessID;
-                    break;
-                }
-                else if (procName != nullptr && strcmp(reinterpret_cast<const char*>(pe32.szExeFile), procName) == 0)
+                if (procName != nullptr && strcmp(reinterpret_cast<const char*>(pe32.szExeFile), procName) == 0)
                 {
                     processId = pe32.th32ProcessID;
                     break;
@@ -79,9 +74,7 @@ unsigned int InjectorWindows::GetProcId(const char* procName)
     }
     return processId;
 }
-#endif
 
-#if (_WIN32)
 bool InjectorWindows::InjectDLL(unsigned int procId, const char* dllPath)
 {
     if (procId == 0 || dllPath == nullptr)
@@ -123,7 +116,7 @@ bool InjectorWindows::InjectDLL(unsigned int procId, const char* dllPath)
 }
 #endif
 
-#if (__linux__)
+#if defined(__linux__)
 unsigned int InjectorLinux::GetProcId(const char* procName)
 {
     if (procName == nullptr)
@@ -151,9 +144,7 @@ unsigned int InjectorLinux::GetProcId(const char* procName)
     fclose(file);
     return processId;
 }
-#endif
 
-#if (__linux__)
 bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
 {
     if (procId == 0 || dllPath == nullptr)
@@ -188,7 +179,7 @@ bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
 }
 #endif
 
-#if (__APPLE__)
+#if defined(__APPLE__)
 unsigned int InjectorMacOS::GetProcId(const char* procName)
 {
     if (procName == nullptr)
@@ -218,9 +209,7 @@ unsigned int InjectorMacOS::GetProcId(const char* procName)
 
     return processId;
 }
-#endif
 
-#if (__APPLE__)
 bool InjectorMacOS::InjectDLL(unsigned int procId, const char* dllPath)
 {
     if (procId == 0 || dllPath == nullptr)

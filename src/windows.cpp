@@ -4,6 +4,7 @@
 #include "./include/Injector.h"
 #include "./include/Entropy.h"
 #include "./include/Disassembler.h"
+#include "./include/CLI.h"
 #include "./include/Detector.h"
 
 #include <iostream>
@@ -33,6 +34,7 @@ using namespace DllInjector;
 using namespace EntropyInternals;
 using namespace DissassemblerInternals;
 using namespace DetectorInternals;
+using namespace CliInterface;
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -85,6 +87,11 @@ struct MenuItemInfo
 
 std::string sSelectedFile;
 std::string filePath;
+
+void runCLI(int argc, char** argv)
+{
+    CLI::startCli(argc, argv);
+}
 std::map<std::string, MenuItemInfo> menuItemInfo;
 
 void initMenuItemInfo()
@@ -239,7 +246,8 @@ void showProcessIdMenu(const std::string& filePath)
         {
             auto exename = static_cast<const char*>(filePath.c_str());
             InjectorWindows injector;
-            injector.getPlatform()->GetProcId(exename);
+            injector.CreatePlatform();
+            injector.GetProcId(exename);
         });
         ImGui::EndMenu();
     }
@@ -347,7 +355,7 @@ void showAntiDebugMenu(const std::string& filePath)
     }
 }
 
-int main(int, char**)
+int runGUI()
 {
     // Create application window
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"PETOOL", nullptr };
@@ -438,7 +446,7 @@ int main(int, char**)
                     processFileAndMenuItem("Get Process Id", filePathInput, [&](const std::vector<uint8_t>& fileData) {
                         auto exename = static_cast<const char*>(filePathInput.c_str());
                         InjectorWindows injector;
-                        injector.getPlatform()->GetProcId(exename);
+                        injector.GetProcId(exename);
                     });
                     ImGui::EndMenu();
                 }
@@ -799,5 +807,28 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return 0;
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
+}
+
+int main(int argc, char** argv)
+{
+    bool use_gui = false;
+    for (int i = 1; i < argc; ++i)
+    {
+        if (std::string(argv[i]) == "--gui")
+        {
+            use_gui = true;
+            break;
+        }
+    }
+
+    if (use_gui)
+    {
+        runGUI();
+    }
+    else
+    {
+        runCLI(argc, argv);
+    }
+    return 0;
 }
 #endif
