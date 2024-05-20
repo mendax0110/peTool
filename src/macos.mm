@@ -5,12 +5,15 @@
 #include "./include/Entropy.h"
 #include "./include/Disassembler.h"
 #include "./include/CLI.h"
+#include "./include/Detector.h"
+#include "./include/FileEditor.h"
 
 #include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <filesystem>
+#include <map>
 
 #if defined(__APPLE__)
 #include "imgui.h"
@@ -30,13 +33,59 @@ using namespace DllInjector;
 using namespace EntropyInternals;
 using namespace DissassemblerInternals;
 using namespace CliInterface;
+using namespace DetectorInternals;
+using namespace FileEditorInternals;
+
+FileEditor fileEditor;
+
+struct MenuItemInfo
+{
+    std::string output;
+    bool windowOpen = false;
+};
 
 std::string sSelectedFile;
 std::string filePath;
+bool showEntropyHistogram = false;
+bool openFileForEdit = false;
 
 void runCLI(int argc, char** argv)
 {
     CLI::startCli(argc, argv);
+}
+std::map<std::string, MenuItemInfo> menuItemInfo;
+
+void initMenuItemInfo()
+{
+    // File path input
+    menuItemInfo["Import Table"];
+    menuItemInfo["Export Table"];
+    menuItemInfo["Resources"];
+    menuItemInfo["Section Info"];
+    menuItemInfo["Headers"];
+    menuItemInfo["Process Id"];
+    menuItemInfo["Checksum"];
+    menuItemInfo["Entropy Histogram"];
+    menuItemInfo["Disassemble"];
+    menuItemInfo["UPX Detection"];
+    menuItemInfo["Themida Detection"];
+    menuItemInfo["Entry Point"];
+    menuItemInfo["Find Debugger"];
+    menuItemInfo["Nt Global Flag"];
+    menuItemInfo["Heap Flags"];
+    menuItemInfo["Output Debug String"];
+    menuItemInfo["Edit File"];
+}
+
+void updateMenuItemWindows()
+{
+    for (auto& item : menuItemInfo)
+    {
+        if (item.second.output.empty() && !ImGui::IsItemHovered())
+        {
+            item.second.windowOpen = false;
+        }
+    }
 }
 
 bool openFile()
@@ -61,6 +110,263 @@ bool openFile()
     }
 }
 
+void displayOutputWindow(const char* title, std::string& output, bool& windowOpen)
+{
+    if (!output.empty())
+    {
+        windowOpen = true;
+        ImGui::Begin(title, &windowOpen, ImGuiWindowFlags_HorizontalScrollbar);
+        ImGui::Text("%s", output.c_str());
+        if (!windowOpen)
+            output.clear();
+        ImGui::End();
+    }
+}
+
+void processMenuItem(const char* label, const std::function<void()>& action, const std::string& itemName)
+{
+    if (ImGui::MenuItem(label))
+    {
+        std::stringstream output;
+        std::streambuf* old_cout = std::cout.rdbuf();
+        std::cout.rdbuf(output.rdbuf());
+        action();
+        menuItemInfo[itemName].output = output.str();
+        std::cout.rdbuf(old_cout);
+        menuItemInfo[itemName].windowOpen = true;
+    }
+}
+
+void processEntropyMenuItem(const std::string& filePath, std::vector<int>& histogram, std::vector<std::string>& entropyOutput)
+{
+    std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+    Entropy ent;
+    histogram = ent.createHistogram(fileData);
+    entropyOutput.clear();
+    for (int i = 0; i < histogram.size(); i++)
+    {
+        std::stringstream output;
+        std::streambuf* old_cout = std::cout.rdbuf();
+        std::cout.rdbuf(output.rdbuf());
+        ent.printEntropy(fileData, i, 1);
+        std::cout.rdbuf(old_cout);
+        entropyOutput.push_back(output.str());
+    }
+}
+
+void processFileAndMenuItem(const char* label, const std::string& filePath, const std::function<void(const std::vector<uint8_t>&)>& action)
+{
+    processMenuItem(label, [&] {
+        std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+        action(fileData);
+    }, label);
+}
+
+void showMetricsWindow(bool& show_metrics)
+{
+    if (show_metrics)
+    {
+        ImGui::ShowMetricsWindow(&show_metrics);
+    }
+}
+
+void showFileSelector(std::string& filePathInput)
+{
+    if (ImGui::Button("Select File"))
+    {
+        openFile();
+        filePathInput = filePath;
+    }
+
+    char filePathInputBuffer[256];
+    strcpy(filePathInputBuffer, filePathInput.c_str());
+    ImGui::InputText("File Path", filePathInputBuffer, sizeof(filePathInputBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
+    filePathInput = filePathInputBuffer;
+}
+
+void showFileEditorWindow()
+{
+    static bool showFileEditor = false;
+
+    if (menuItemInfo["Edit File"].windowOpen)
+    {
+        showFileEditor = true;
+    }
+
+    if (showFileEditor)
+    {
+        ImGui::Begin("File Editor", &showFileEditor);
+
+        if (!openFileForEdit)
+        {
+            showFileSelector(filePath);
+            if (!filePath.empty() && ImGui::Button("Edit Selected File"))
+            {
+                openFileForEdit = true;
+            }
+        }
+        else
+        {
+            std::string fileContent = fileEditor.readFile();
+            static char fileContentBuffer[4096];
+            strcpy(fileContentBuffer, fileContent.c_str());
+            ImGui::InputTextMultiline("##source", fileContentBuffer, sizeof(fileContentBuffer), ImVec2(800, 600), ImGuiInputTextFlags_AllowTabInput);
+
+            if (ImGui::IsItemActive())
+            {
+                fileContent = fileContentBuffer;
+                fileEditor.openFileForWrite(filePath);
+                fileEditor.writeFile(fileContent);
+            }
+        }
+
+        ImGui::End();
+    }
+}
+
+void showExtractMenu(const std::string& filePath)
+{
+    if (ImGui::BeginMenu("Extract"))
+    {
+        processFileAndMenuItem("Import Table", filePath, PE::extractImportTable);
+        processFileAndMenuItem("Export Table", filePath, PE::extractExportTable);
+        processFileAndMenuItem("Resources", filePath, PE::extractResources);
+        processFileAndMenuItem("Section Info", filePath, PE::extractSectionInfo);
+        processFileAndMenuItem("Headers", filePath, PE::parseHeaders);
+        ImGui::EndMenu();
+    }
+}
+
+void showProcessIdMenu(const std::string& filePath)
+{
+    if (ImGui::BeginMenu("Process Id"))
+    {
+        processFileAndMenuItem("Get Process Id", filePath, [&](const std::vector<uint8_t>& fileData)
+        {
+            auto exename = static_cast<const char*>(filePath.c_str());
+            InjectorMacOS injector;
+            injector.CreatePlatform();
+            injector.GetProcId(exename);
+        });
+        ImGui::EndMenu();
+    }
+}
+
+void showMetricsMenu(bool& show_metrics)
+{
+    if (ImGui::BeginMenu("Metrics"))
+    {
+        if (ImGui::MenuItem("Show Metrics"))
+        {
+            show_metrics = true;
+        }
+        ImGui::EndMenu();
+    }
+}
+
+void showUtilsMenu(const std::string& filePath)
+{
+    if (ImGui::BeginMenu("Utils"))
+    {
+        processFileAndMenuItem("Calculate Checksum", filePath, [&](const std::vector<uint8_t>& fileData)
+        {
+            Utils unt;
+            auto checksumOutput = unt.calculateChecksum(fileData);
+            auto checksum = std::to_string(checksumOutput);
+        });
+        ImGui::EndMenu();
+    }
+}
+
+void showEntropyMenu(const std::string& filePath, std::vector<int>& histogram, std::vector<std::string>& entropyOutput)
+{
+    if (ImGui::BeginMenu("Entropy"))
+    {
+        if (ImGui::MenuItem("Entropy Histogram"))
+        {
+            processEntropyMenuItem(filePath, histogram, entropyOutput);
+            showEntropyHistogram = true;
+        }
+        ImGui::EndMenu();
+    }
+}
+
+void showDisassemblerMenu(const std::string& filePath, std::vector<std::string>& disassemblyOutput)
+{
+    if (ImGui::BeginMenu("Disassembler"))
+    {
+        processFileAndMenuItem("Disassemble", filePath, [&](const std::vector<uint8_t>& fileData)
+        {
+            Disassembler dis;
+            auto exe = dis.getExecutable(filePath);
+            dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
+        });
+        ImGui::EndMenu();
+    }
+}
+
+void showDetectorMenu(const std::string& filePath)
+{
+    if (ImGui::BeginMenu("Detector"))
+    {
+        std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+        PackerDetection packerDetection(fileData);
+        processMenuItem("UPX", [&] { packerDetection.detectUPX(); }, "UPX Detection");
+        processMenuItem("Themdia", [&] { packerDetection.detectThemida(); }, "Themida Detection");
+        ImGui::EndMenu();
+    }
+}
+
+void showAntiDebugMenu(const std::string& filePath)
+{
+    if (ImGui::BeginMenu("Anti Debug"))
+    {
+        std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+        AntiDebugDetection antiDebugDetection(fileData);
+        processMenuItem("Check Entry Point", [&] { antiDebugDetection.checkEntryPoint(fileData); }, "Entry Point");
+        processMenuItem("Find Debugger", [&] { antiDebugDetection.detectIsDebuggerPresent(); }, "Find Debugger");
+        processMenuItem("Nt Global Flag", [&] { antiDebugDetection.detectNtGlobalFlag(); }, "Nt Global Flag");
+        processMenuItem("Heap Flags", [&] { antiDebugDetection.detectHeapFlags(); }, "Heap Flags");
+        processMenuItem("Output Debug String", [&] { antiDebugDetection.detectOutputDebugString(); }, "Output Debug String");
+        ImGui::EndMenu();
+    }
+}
+
+void showHistogramWindow(const std::vector<int>& histogram, const std::vector<std::string>& entropyOutput, bool& showEntropyHistogram)
+{
+    if (showEntropyHistogram && !histogram.empty())
+    {
+        ImGui::Begin("Entropy Histogram", &showEntropyHistogram, ImGuiWindowFlags_HorizontalScrollbar);
+
+        std::vector<float> histogramFloat(histogram.begin(), histogram.end());
+        ImGui::PlotHistogram("Histogram", histogramFloat.data(), histogramFloat.size(), 0, nullptr, 0.0f, *std::max_element(histogramFloat.begin(), histogramFloat.end()), ImVec2(0, 200));
+
+        for (const auto& output : entropyOutput)
+        {
+            ImGui::Text("%s", output.c_str());
+        }
+
+        ImGui::End();
+    }
+}
+
+void openFileForEditing()
+{
+    if (openFile())
+    {
+        if (fileEditor.openFileForRead(filePath))
+        {
+            std::string fileContent = fileEditor.readFile();
+            std::cout << fileContent << std::endl;
+            menuItemInfo["Edit File"].windowOpen = true;
+        }
+        else
+        {
+            std::cerr << "Failed to open file for editing" << sSelectedFile << std::endl;
+        }
+    }
+}
+
 int runGUI()
 {
     // Setup Dear ImGui context
@@ -72,7 +378,6 @@ int runGUI()
 
     // Setup style
     ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 
     // Setup SDL
     // (Some versions of SDL before <2.0.10 appears to have performance/stalling issues on a minority of Windows systems,
@@ -117,32 +422,11 @@ int runGUI()
     bool show_another_window = false;
     float clear_color[4] = {0.45f, 0.55f, 0.60f, 1.00f};
 
-    // File path input
-    static std::string importTableOutput;
-    static std::string exportTableOutput;
-    static std::string resourcesOutput;
-    static std::string sectionInfoOutput;
-    static std::string headersOutput;
-    static std::string processIdOutput;
-    static std::string checksumOutput;
-    std::vector<std::string> entropyOutput;
-    std::vector<std::string> disassemblyOutput;
-
-    // Define boolean variables to track window states
-    static bool importTableWindowOpen = false;
-    static bool exportTableWindowOpen = false;
-    static bool resourcesWindowOpen = false;
-    static bool sectionInfoWindowOpen = false;
-    static bool headersWindowOpen = false;
-    static bool processIdWindowOpen = false;
-    static bool checkSumWindowOpen = false;
-    bool showEntropyHistogram = false;
-    static bool disassemblyWindowOpen = false;
-
     static bool show_metrics = false;
 
     std::string filePathInput;
     std::vector<int> histogram;
+    std::vector<std::string> entropyOutput;
 
 
     // Main loop
@@ -184,298 +468,120 @@ int runGUI()
             ImGui_ImplSDL2_NewFrame();
             ImGui::NewFrame();
 
-            // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-            if (show_demo_window)
-                ImGui::ShowDemoWindow(&show_demo_window);
-
-            ImGui::Begin("PE Tool");
-
-            if (ImGui::Button("Open File"))
+            if (ImGui::BeginMainMenuBar())
             {
-                openFile();
-                filePathInput = filePath;
-            }
-
-            char filePathInputBuffer[256];
-            strcpy(filePathInputBuffer, filePathInput.c_str());
-            ImGui::InputText("File Path", filePathInputBuffer, sizeof(filePathInputBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
-            filePathInput = filePathInputBuffer;
-
-            if (ImGui::BeginMenu("Extract"))
-            {
-                if (ImGui::MenuItem("Import Table"))
+                if (ImGui::BeginMenu("File"))
                 {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    PE::extractImportTable(fileData);
-                    importTableOutput = output.str();
-                    std::cout.rdbuf(old_cout);
-                }
-                if (ImGui::MenuItem("Export Table"))
-                {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    PE::extractExportTable(fileData);
-                    exportTableOutput = output.str();
-                    std::cout.rdbuf(old_cout);
-                }
-                if (ImGui::MenuItem("Resources"))
-                {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    PE::extractResources(fileData);
-                    resourcesOutput = output.str();
-                    std::cout.rdbuf(old_cout);
-                }
-                if (ImGui::MenuItem("Section Info"))
-                {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    PE::extractSectionInfo(fileData);
-                    sectionInfoOutput = output.str();
-                    std::cout.rdbuf(old_cout);
-                }
-                if (ImGui::MenuItem("Headers"))
-                {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    PE::parseHeaders(fileData);
-                    headersOutput = output.str();
-                    std::cout.rdbuf(old_cout);
-                }
-                ImGui::EndMenu();
-            }
-            else if (ImGui::BeginMenu("Process Id"))
-            {
-                if (ImGui::MenuItem("Get Procees Id"))
-                {
-                    
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    auto exename = static_cast<const char*>(filePathInput.c_str());                
-                    std::unique_ptr<InjectorPlatform> injector(InjectorPlatform::CreatePlatform());
-                    if (injector)
+                    if (ImGui::MenuItem("Select File"))
                     {
-                        unsigned int procId = injector->GetProcId(exename);
-                        output << "Process ID: " << procId;
+                        openFile();
+                        filePathInput = filePath;
                     }
-                    else
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Actions"))
+                {
+                    if (ImGui::BeginMenu("Extract"))
                     {
-                        output << "Failed to create platform-specific injector.";
+                        processFileAndMenuItem("Import Table", filePathInput, PE::extractImportTable);
+                        processFileAndMenuItem("Export Table", filePathInput, PE::extractExportTable);
+                        processFileAndMenuItem("Resources", filePathInput, PE::extractResources);
+                        processFileAndMenuItem("Section Info", filePathInput, PE::extractSectionInfo);
+                        processFileAndMenuItem("Headers", filePathInput, PE::parseHeaders);
+                        ImGui::EndMenu();
                     }
-                    std::cout.rdbuf(old_cout);
-                    processIdOutput = output.str();
-                }
-                ImGui::EndMenu();
-            }
-            else if (ImGui::BeginMenu("Metrics"))
-            {
-                if (ImGui::MenuItem("Show Metrics"))
-                {
-                    show_metrics = true;
-                }
-                ImGui::EndMenu();
-            }
-            else if (ImGui::BeginMenu("Utils"))
-            {
-                if (ImGui::MenuItem("Calculate Checksum"))
-                {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    Utils unt;
-                    checksumOutput = unt.calculateChecksum(fileData);
-                    std::cout.rdbuf(old_cout);
-                }
-                ImGui::EndMenu();
-            }
-            else if (ImGui::BeginMenu("Entropy"))
-            {
-                if (ImGui::MenuItem("Entropy Histogram"))
-                {
-                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    Entropy ent;
-                    histogram = ent.createHistogram(fileData);
-                    std::cout.rdbuf(old_cout);
-
-                    for (int i = 0; i < histogram.size(); i++)
+                    if (ImGui::BeginMenu("Process Id"))
                     {
-                        std::vector<uint8_t> data = FileIO::readFile(filePathInput);
-                        std::stringstream output;
-                        std::streambuf* old_cout = std::cout.rdbuf();
-                        std::cout.rdbuf(output.rdbuf());
-                        ent.printEntropy(data, i, 1);
-                        std::cout.rdbuf(old_cout);
-                        entropyOutput.push_back(output.str());
+                        processFileAndMenuItem("Get Process Id", filePathInput, [&](const std::vector<uint8_t>& fileData) {
+                            auto exename = static_cast<const char*>(filePathInput.c_str());
+                            InjectorMacOS injector;
+                            injector.GetProcId(exename);
+                        });
+                        ImGui::EndMenu();
                     }
+                    ImGui::EndMenu();
                 }
-                ImGui::EndMenu();
-            }
-            else if (ImGui::BeginMenu("Disassembler"))
-            {
-                if (ImGui::MenuItem("Disassemble"))
+                if (ImGui::BeginMenu("View"))
+                {
+                    if (ImGui::MenuItem("Show Metrics"))
+                    {
+                        show_metrics = true;
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Utils"))
+                {
+                    processFileAndMenuItem("Calculate Checksum", filePathInput, [&](const std::vector<uint8_t>& fileData) {
+                        Utils unt;
+                        auto checksumOutput = unt.calculateChecksum(fileData);
+                        auto checksum = std::to_string(checksumOutput);
+                    });
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Entropy"))
+                {
+                    if (ImGui::MenuItem("Entropy Histogram"))
+                    {
+                        processEntropyMenuItem(filePathInput, histogram, entropyOutput);
+                        showEntropyHistogram = true;
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Disassembler"))
+                {
+                    processFileAndMenuItem("Disassemble", filePathInput, [&](const std::vector<uint8_t>& fileData) {
+                        Disassembler dis;
+                        auto exe = dis.getExecutable(filePathInput);
+                        dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
+                    });
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Detector"))
                 {
                     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
-                    std::stringstream output;
-                    std::streambuf* old_cout = std::cout.rdbuf();
-                    std::cout.rdbuf(output.rdbuf());
-                    Disassembler dis;
-                    std::tuple exe = dis.getExecutable(filePathInput);
-                    dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
-                    std::cout.rdbuf(old_cout);
-                    disassemblyOutput.push_back(output.str());
+                    PackerDetection packerDetection(fileData);
+                    processMenuItem("UPX", [&] { packerDetection.detectUPX(); }, "UPX Detection");
+                    processMenuItem("Themdia", [&] { packerDetection.detectThemida(); }, "Themida Detection");
+                    ImGui::EndMenu();
                 }
-                ImGui::EndMenu();
-            }
-
-            if (show_metrics)
-            {
-                ImGui::ShowMetricsWindow(&show_metrics);
-            }
-
-            ImGui::End();
-
-            if (!importTableOutput.empty())
-            {
-                importTableWindowOpen = true;
-                ImGui::Begin("Import Table", &importTableWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", importTableOutput.c_str());
-                if (!importTableWindowOpen)
-                    importTableOutput.clear();
-                ImGui::End();
-            }
-
-            if (!exportTableOutput.empty())
-            {
-                exportTableWindowOpen = true;
-                ImGui::Begin("Export Table", &exportTableWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", exportTableOutput.c_str());
-                if (!exportTableWindowOpen)
-                    exportTableOutput.clear();
-                ImGui::End();
-            }
-
-            if (!resourcesOutput.empty())
-            {
-                resourcesWindowOpen = true;
-                ImGui::Begin("Resources", &resourcesWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", resourcesOutput.c_str());
-                if (!resourcesWindowOpen)
-                    resourcesOutput.clear();
-                ImGui::End();
-            }
-
-            if (!sectionInfoOutput.empty())
-            {
-                sectionInfoWindowOpen = true;
-                ImGui::Begin("Section Info", &sectionInfoWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", sectionInfoOutput.c_str());
-                if (!sectionInfoWindowOpen)
-                    sectionInfoOutput.clear();
-                ImGui::End();
-            }
-
-            if (!headersOutput.empty())
-            {
-                headersWindowOpen = true;
-                ImGui::Begin("Headers", &headersWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", headersOutput.c_str());
-                if (!headersWindowOpen)
-                    headersOutput.clear();
-                ImGui::End();
-            }
-
-            if (!processIdOutput.empty())
-            {
-                processIdWindowOpen = true;
-                ImGui::Begin("Process Id", &processIdWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", processIdOutput.c_str());
-                if (!processIdWindowOpen)
-                    processIdOutput.clear();
-                ImGui::End();
-            }
-
-            if (!checksumOutput.empty())
-            {
-                checkSumWindowOpen = true;
-                ImGui::Begin("Bytes", &checkSumWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                ImGui::Text("%s", checksumOutput.c_str());
-                if (!checkSumWindowOpen)
-                    checksumOutput.clear();
-                ImGui::End();
-            }
-
-            if (!histogram.empty())
-            {
-                showEntropyHistogram = true;
-                ImGui::Begin("Entropy Histogram", &showEntropyHistogram, ImGuiWindowFlags_HorizontalScrollbar);
-                std::vector<float> histogram_float(histogram.begin(), histogram.end());
-                ImGui::PlotHistogram("Histogram", histogram_float.data(), histogram_float.size(), 0, nullptr, 0.0f, FLT_MAX, ImVec2(0, 200));
-                for (const auto& output : entropyOutput)
+                if (ImGui::BeginMenu("Anti Debug"))
                 {
-                    ImGui::Text("%s", output.c_str());
+                    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+                    AntiDebugDetection antiDebugDetection(fileData);
+                    processMenuItem("Check Entry Point", [&] { antiDebugDetection.checkEntryPoint(fileData); }, "Entry Point");
+                    processMenuItem("Find Debugger", [&] { antiDebugDetection.detectIsDebuggerPresent(); }, "Find Debugger");
+                    processMenuItem("Nt Global Flag", [&] { antiDebugDetection.detectNtGlobalFlag(); }, "Nt Global Flag");
+                    processMenuItem("Heap Flags", [&] { antiDebugDetection.detectHeapFlags(); }, "Heap Flags");
+                    processMenuItem("Output Debug String", [&] { antiDebugDetection.detectOutputDebugString(); }, "Output Debug String");
+                    ImGui::EndMenu();
                 }
-                if (!showEntropyHistogram)
-                    histogram.clear();
-                ImGui::End();
-            }
-
-            if (!disassemblyOutput.empty())
-            {
-                disassemblyWindowOpen = true;
-                ImGui::Begin("Disassembly", &disassemblyWindowOpen, ImGuiWindowFlags_HorizontalScrollbar);
-                for (const auto& output : disassemblyOutput)
+                if (ImGui::BeginMenu("Edit"))
                 {
-                    ImGui::Text("%s", output.c_str());
+                    if (ImGui::MenuItem("File Editor"))
+                    {
+                        menuItemInfo["Edit File"].windowOpen = true;
+                    }
+                    ImGui::EndMenu();
                 }
-                if (!disassemblyWindowOpen)
-                    disassemblyOutput.clear();
-                ImGui::End();
+                ImGui::EndMainMenuBar();
             }
 
+            showMetricsWindow(show_metrics);
+            showFileSelector(filePathInput);
+            showExtractMenu(filePathInput);
+            showProcessIdMenu(filePathInput);
+            showDetectorMenu(filePathInput);
+            showAntiDebugMenu(filePathInput);
+            showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
+            showFileEditorWindow();
 
-            if (importTableOutput.empty() && !ImGui::IsItemHovered())
-                importTableWindowOpen = false;
+            updateMenuItemWindows();
 
-            if (exportTableOutput.empty() && !ImGui::IsItemHovered())
-                exportTableWindowOpen = false;
-
-            if (resourcesOutput.empty() && !ImGui::IsItemHovered())
-                resourcesWindowOpen = false;
-
-            if (sectionInfoOutput.empty() && !ImGui::IsItemHovered())
-                sectionInfoWindowOpen = false;
-
-            if (headersOutput.empty() && !ImGui::IsItemHovered())
-                headersWindowOpen = false;
-
-            if (processIdOutput.empty() && !ImGui::IsItemHovered())
-                processIdWindowOpen = false;
-
-            if (checksumOutput.empty() && !ImGui::IsItemHovered())
-                checkSumWindowOpen = false;
-
-            if (histogram.empty() && !ImGui::IsItemHovered())
-                showEntropyHistogram = false;
-
-            if (disassemblyOutput.empty() && !ImGui::IsItemHovered())
-                disassemblyWindowOpen = false;
+            for (auto& item : menuItemInfo)
+            {
+                const std::string& itemName = item.first;
+                displayOutputWindow(itemName.c_str(), item.second.output, item.second.windowOpen);
+            }
 
             // Rendering
             ImGui::Render();

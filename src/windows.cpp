@@ -87,6 +87,7 @@ struct MenuItemInfo
 
 std::string sSelectedFile;
 std::string filePath;
+bool showEntropyHistogram = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -183,13 +184,13 @@ void processEntropyMenuItem(const std::string& filePath, std::vector<int>& histo
     std::vector<uint8_t> fileData = FileIO::readFile(filePath);
     Entropy ent;
     histogram = ent.createHistogram(fileData);
+    entropyOutput.clear();
     for (int i = 0; i < histogram.size(); i++)
     {
-        std::vector<uint8_t> data = FileIO::readFile(filePath);
         std::stringstream output;
         std::streambuf* old_cout = std::cout.rdbuf();
         std::cout.rdbuf(output.rdbuf());
-        ent.printEntropy(data, i, 1);
+        ent.printEntropy(fileData, i, 1);
         std::cout.rdbuf(old_cout);
         entropyOutput.push_back(output.str());
     }
@@ -279,37 +280,15 @@ void showUtilsMenu(const std::string& filePath)
     }
 }
 
-
-// TODO: FIX ENTROPY HISTOGRAM!
-/*if (!histogram.empty())
-{
-    showEntropyHistogram = true;
-    ImGui::Begin("Entropy Histogram", &showEntropyHistogram, ImGuiWindowFlags_HorizontalScrollbar);
-    std::vector<float> histogram_float(histogram.begin(), histogram.end());
-    ImGui::PlotHistogram("Histogram", histogram_float.data(), histogram_float.size(), 0, nullptr, 0.0f, FLT_MAX, ImVec2(0, 200));
-    for (const auto& output : entropyOutput)
-    {
-        ImGui::Text("%s", output.c_str());
-    }
-    if (!showEntropyHistogram)
-        histogram.clear();
-    ImGui::End();
-}*/
-
-void showEntropyMenu(const std::string& filePath, std::vector<float>& histogram, std::vector<std::string>& entropyOutput)
+void showEntropyMenu(const std::string& filePath, std::vector<int>& histogram, std::vector<std::string>& entropyOutput)
 {
     if (ImGui::BeginMenu("Entropy"))
     {
-        processFileAndMenuItem("Entropy Histogram", filePath, [&](const std::vector<uint8_t>& fileData)
+        if (ImGui::MenuItem("Entropy Histogram"))
         {
-            Entropy ent;
-            std::vector<int> histogram = ent.createHistogram(fileData);
-            std::vector<uint8_t> convertedHistogram(histogram.begin(), histogram.end());
-            for (int i = 0; i < convertedHistogram.size(); i++)
-            {
-                ent.printEntropy(fileData, i, 1);
-            }
-        });
+            processEntropyMenuItem(filePath, histogram, entropyOutput);
+            showEntropyHistogram = true;
+        }
         ImGui::EndMenu();
     }
 }
@@ -355,6 +334,24 @@ void showAntiDebugMenu(const std::string& filePath)
     }
 }
 
+void showHistogramWindow(const std::vector<int>& histogram, const std::vector<std::string>& entropyOutput, bool& showEntropyHistogram)
+{
+    if (showEntropyHistogram && !histogram.empty())
+    {
+        ImGui::Begin("Entropy Histogram", &showEntropyHistogram, ImGuiWindowFlags_HorizontalScrollbar);
+
+        std::vector<float> histogramFloat(histogram.begin(), histogram.end());
+        ImGui::PlotHistogram("Histogram", histogramFloat.data(), histogramFloat.size(), 0, nullptr, 0.0f, *std::max_element(histogramFloat.begin(), histogramFloat.end()), ImVec2(0, 200));
+
+        for (const auto& output : entropyOutput)
+        {
+            ImGui::Text("%s", output.c_str());
+        }
+
+        ImGui::End();
+    }
+}
+
 int runGUI()
 {
     // Create application window
@@ -396,6 +393,7 @@ int runGUI()
 
     std::string filePathInput;
     std::vector<int> histogram;
+    std::vector<std::string> entropyOutput;
 
     // Main loop
     bool done = false;
@@ -471,15 +469,11 @@ int runGUI()
             }
             if (ImGui::BeginMenu("Entropy"))
             {
-                processFileAndMenuItem("Entropy Histogram", filePathInput, [&](const std::vector<uint8_t>& fileData) {
-                    Entropy ent;
-                    std::vector<int> histogram = ent.createHistogram(fileData);
-                    std::vector<uint8_t> convertedHistogram(histogram.begin(), histogram.end());
-                    for (int i = 0; i < convertedHistogram.size(); i++)
-                    {
-                        ent.printEntropy(fileData, i, 1);
-                    }
-                });
+                if (ImGui::MenuItem("Entropy Histogram"))
+                {
+                    processEntropyMenuItem(filePathInput, histogram, entropyOutput);
+                    showEntropyHistogram = true;
+                }
                 ImGui::EndMenu();
             }
             if (ImGui::BeginMenu("Disassembler"))
@@ -519,6 +513,7 @@ int runGUI()
         showProcessIdMenu(filePathInput);
         showDetectorMenu(filePathInput);
         showAntiDebugMenu(filePathInput);
+        showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
 
         updateMenuItemWindows();
 
