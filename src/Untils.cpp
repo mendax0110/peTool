@@ -4,13 +4,9 @@
 
 using namespace UtilsInternals;
 
-Utils::Utils()
-{
-}
+Utils::Utils() = default;
 
-Utils::~Utils()
-{
-}
+Utils::~Utils() = default;
 
 void Utils::printBytes(const std::vector<uint8_t>& data)
 {

@@ -7,19 +7,20 @@
 #include "./include/CLI.h"
 #include "./include/Detector.h"
 #include "./include/FileEditor.h"
+#include "./include/MemoryManager.h"
+#include "./include/PerfMon.h"
 
 #include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
-#include <filesystem>
 #include <map>
 
 #if defined(__APPLE__)
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_metal.h"
-#include <stdio.h>
+#include <cstdio>
 #include "SDL.h"
 #include <Cocoa/Cocoa.h>
 
@@ -141,7 +142,7 @@ void processEntropyMenuItem(const std::string& filePath, std::vector<int>& histo
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePath);
     Entropy ent;
-    histogram = ent.createHistogram(fileData);
+    histogram = Entropy::createHistogram(fileData);
     entropyOutput.clear();
     for (int i = 0; i < histogram.size(); i++)
     {
@@ -621,12 +622,19 @@ int main(int argc, char** argv)
 
     if (use_gui)
     {
+        PerformanceMonitor::start("GUI Performance");
         runGUI();
+        PerformanceMonitor::stop("GUI Performance");
     }
     else
     {
+        PerformanceMonitor::start("CLI Performance");
         runCLI(argc, argv);
+        PerformanceMonitor::stop("CLI Performance");
     }
+
+    PerformanceMonitor::report();
+    MemoryManager::detectMemoryLeaks();
     return 0;
 }
 #endif

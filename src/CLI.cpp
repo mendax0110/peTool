@@ -5,12 +5,12 @@
 #include "./include/Entropy.h"
 #include "./include/Disassembler.h"
 #include "./include/CLI.h"
+#include "./include/Detector.h"
 
 #include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
-#include <filesystem>
 #include <memory>
 
 using namespace PeInternals;
@@ -20,6 +20,7 @@ using namespace DllInjector;
 using namespace EntropyInternals;
 using namespace DissassemblerInternals;
 using namespace CliInterface;
+using namespace DetectorInternals;
 
 void CLI::printHelp()
 {
@@ -32,9 +33,21 @@ void CLI::printHelp()
         Process ID: -pid <path_to_pe>
         Calculate Checksum: -cc <path_to_pe>
         Show Entropy: -se <path_to_pe>
-        Disassemble: -d <path_to_pe>)";
+        Disassemble: -d <path_to_pe>
+        Detector: -det <path_to_pe>
+        Anti-Debug: -ad <path_to_pe>)";
 
     std::cout << menu << std::endl;
+}
+
+void CLI::printError(const std::string& message)
+{
+
+}
+
+void CLI::printMessage(const std::string& message)
+{
+
 }
 
 void extractImportTable(const std::string& filePathInput)
@@ -154,6 +167,34 @@ void disassemble(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+void detector(const std::string& filePathInput)
+{
+    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+    PackerDetection packerDetection(fileData);
+    std::stringstream output;
+    std::streambuf* old_cout = std::cout.rdbuf();
+    std::cout.rdbuf(output.rdbuf());
+    packerDetection.detectThemida() && packerDetection.detectUPX();
+    std::cout.rdbuf(old_cout);
+    std::cout << output.str();
+}
+
+void antiDebug(const std::string& filePathInput)
+{
+    std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
+    AntiDebugDetection antiDebugDetection(fileData);
+    std::stringstream output;
+    std::streambuf* old_cout = std::cout.rdbuf();
+    std::cout.rdbuf(output.rdbuf());
+    antiDebugDetection.detectIsDebuggerPresent();
+    antiDebugDetection.checkEntryPoint(fileData);
+    antiDebugDetection.detectHeapFlags();
+    antiDebugDetection.detectNtGlobalFlag();
+    antiDebugDetection.detectOutputDebugString();
+    std::cout.rdbuf(old_cout);
+    std::cout << output.str();
+}
+
 void CLI::startCli(int argc, char** argv)
 {
     if (argc < 2)
@@ -207,6 +248,14 @@ void CLI::startCli(int argc, char** argv)
     else if (command == "-d")
     {
         disassemble(filePathInput);
+    }
+    else if (command == "-det")
+    {
+        detector(filePathInput);
+    }
+    else if (command == "-ad")
+    {
+        antiDebug(filePathInput);
     }
     else
     {

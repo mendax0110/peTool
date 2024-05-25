@@ -6,6 +6,8 @@
 #include "./include/Disassembler.h"
 #include "./include/CLI.h"
 #include "./include/Detector.h"
+#include "./include/MemoryManager.h"
+#include "./include/PerfMon.h"
 
 #include <iostream>
 #include <vector>
@@ -818,12 +820,19 @@ int main(int argc, char** argv)
 
     if (use_gui)
     {
+        PerformanceMonitor::start("GUI Performance");
         runGUI();
+        PerformanceMonitor::stop("GUI Performance");
     }
     else
     {
+        PerformanceMonitor::start("CLI Performance");
         runCLI(argc, argv);
+        PerformanceMonitor::stop("CLI Performance");
     }
+
+    PerformanceMonitor::report();
+    MemoryManager::detectMemoryLeaks();
     return 0;
 }
 #endif

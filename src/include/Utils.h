@@ -10,10 +10,10 @@ namespace UtilsInternals
     public:
         Utils();
         ~Utils();
-        void printBytes(const std::vector<uint8_t>& data);
-        uint32_t bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset);
-        uint16_t bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset);
-        std::string bytesToString(const std::vector<uint8_t>& data, size_t offset, size_t length);
-        uint32_t calculateChecksum(const std::vector<uint8_t>& fileData);
+        static void printBytes(const std::vector<uint8_t>& data);
+        static uint32_t bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset);
+        static uint16_t bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset);
+        static std::string bytesToString(const std::vector<uint8_t>& data, size_t offset, size_t length);
+        static uint32_t calculateChecksum(const std::vector<uint8_t>& fileData);
     };
 }

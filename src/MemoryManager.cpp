@@ -1,99 +1,90 @@
-#include "./include/MemoryManager.h"
+#include "MemoryManager.h"
 
+std::map<void*, MemoryManager::AllocationInfo> MemoryManager::allocations;
+std::mutex MemoryManager::allocationMutex;
 
-MemoryManager::MemoryManager() : allocatedMemory(0)
+void* MemoryManager::allocate(size_t size, const char* file, int line)
 {
-}
-
-MemoryManager::~MemoryManager()
-{
-}
-
-uint8_t* MemoryManager::allocateMemory(size_t size)
-{
-    uint8_t* ptr = new (std::nothrow) uint8_t[size];
-    if (ptr == nullptr)
+    void* pointer = malloc(size);
+    if (pointer)
     {
-        std::cerr << "ERROR: Memory allocation failed" << std::endl;
-        return nullptr;
+        std::lock_guard<std::mutex> lock(allocationMutex);
+        allocations[pointer] = {size, file, line};
     }
-    return ptr;
+    return pointer;
 }
 
-void MemoryManager::deallocateMemory(uint8_t* ptr)
+void MemoryManager::deallocate(void* pointer, const char* file, int line)
 {
-    delete[] ptr;
-}
-
-uint8_t* MemoryManager::reallocateMemory(uint8_t* ptr, size_t newSize)
-{
-    if (!ptr)
-        return allocateMemory(newSize);
-
-    uint8_t* newPtr = allocateMemory(newSize);
-    if (newPtr)
+    std::lock_guard<std::mutex> lock(allocationMutex);
+    auto it = allocations.find(pointer);
+    if (it != allocations.end())
     {
-        copyToMemory(newPtr, ptr, newSize);
-        deallocateMemory(ptr);
-    }
-    return newPtr;
-}
-
-void MemoryManager::copyToMemory(uint8_t* dest, const uint8_t* src, size_t size)
-{
-    if (dest != nullptr && src != nullptr)
-    {
-        std::memcpy(dest, src, size);
+        allocations.erase(it);
     }
     else
     {
-        std::cerr << "ERROR: Null pointer passed to copyToMemory" << std::endl;
+        std::cerr << "Double free or invalid free detected at " << file << ":" << line << "\n";
     }
+    free(pointer);
 }
 
-void MemoryManager::setMemory(uint8_t* dest, uint8_t value, size_t size)
+void MemoryManager::detectMemoryLeaks()
 {
-    if (dest != nullptr)
+    std::lock_guard<std::mutex> lock(allocationMutex);
+    if (!allocations.empty())
     {
-        std::memset(dest, value, size);
+        std::cerr << "Memory leaks detected:\n";
+        for (const auto& entry : allocations)
+        {
+            std::cerr << "Leaked " << entry.second.size << " bytes at address " << entry.first << " allocated in file " << entry.second.file << " at line " << entry.second.line << "\n";
+        }
     }
     else
     {
-        std::cerr << "ERROR: Null pointer passed to setMemory" << std::endl;
+        std::cerr << "No memory leaks detected.\n";
     }
 }
 
-int MemoryManager::compareMemory(const uint8_t* ptr1, const uint8_t* ptr2, size_t size)
+void MemoryManager::reportLeak(void* pointer, size_t size, const char* file, int line)
 {
-    if (ptr1 != nullptr && ptr2 != nullptr)
+    if (pointer)
     {
-        return std::memcmp(ptr1, ptr2, size);
-    }
-    else
-    {
-        std::cerr << "ERROR: Null pointer passed to compareMemory" << std::endl;
-        return -1;
+        std::lock_guard<std::mutex> lock(allocationMutex);
+        allocations[pointer] = {size, file, line};
     }
 }
 
-void MemoryManager::zeroMemory(uint8_t* ptr, size_t size)
+void* MemoryManager::operator new(size_t size, const char* file, int line)
 {
-    if (ptr != nullptr)
-    {
-        std::memset(ptr, 0, size);
-    }
-    else
-    {
-        std::cerr << "ERROR: Null pointer passed to zeroMemory" << std::endl;
-    }
+    return allocate(size, file, line);
 }
 
-uint8_t* MemoryManager::duplicateMemory(const uint8_t* src, size_t size)
+void* MemoryManager::operator new[](size_t size, const char* file, int line)
 {
-    uint8_t* newPtr = allocateMemory(size);
-    if (newPtr)
-    {
-        copyToMemory(newPtr, src, size);
-    }
-    return newPtr;
+    return allocate(size, file, line);
+}
+
+void MemoryManager::operator delete(void* pointer, const char* file, int line)
+{
+    deallocate(pointer, file, line);
+}
+
+void MemoryManager::operator delete[](void* pointer, const char* file, int line)
+{
+    deallocate(pointer, file, line);
+}
+
+void MemoryManager::operator delete(void* pointer) noexcept
+{
+    std::lock_guard<std::mutex> lock(allocationMutex);
+    allocations.erase(pointer);
+    free(pointer);
+}
+
+void MemoryManager::operator delete[](void* pointer) noexcept
+{
+    std::lock_guard<std::mutex> lock(allocationMutex);
+    allocations.erase(pointer);
+    free(pointer);
 }

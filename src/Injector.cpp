@@ -15,12 +15,8 @@
 #endif 
 
 #if defined(__APPLE__)
-#include <sys/types.h>
-#include <signal.h>
-#include <unistd.h>
+#include <csignal>
 #include <cstring>
-#include <cstdio>
-#include <cstdlib>
 #include <libproc.h>
 #include <mach/mach.h>
 #include <mach/mach_error.h>

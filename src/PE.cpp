@@ -18,11 +18,8 @@
 
 #include <iostream>
 #include <string>
-#include <cstdint>
-
 
 using namespace PeInternals;
-
 
 ResourceDirectoryTraverser* ResourceDirectoryTraverserFactory::createTraverser()
 {
@@ -648,16 +645,16 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 #if defined(__APPLE__)
 void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
-    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
-    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
 	{
         if (loadCmd->cmd == LC_SYMTAB)
 		{
-            const symtab_command* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
-            const nlist_64* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
+            const auto* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
+            const auto* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
             const char* strings = reinterpret_cast<const char*>(&fileData[symtab->stroff]);
 
             std::cout << "Imported Functions:\n";
@@ -677,16 +674,16 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 
 void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
-    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
-    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
 	{
         if (loadCmd->cmd == LC_SYMTAB)
 		{
-            const symtab_command* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
-            const nlist_64* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
+            const auto* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
+            const auto* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
             const char* strings = reinterpret_cast<const char*>(&fileData[symtab->stroff]);
 
             std::cout << "Exported Functions:\n";
@@ -706,16 +703,16 @@ void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 
 void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
-    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
-    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
 	{
         if (loadCmd->cmd == LC_SEGMENT_64)
 		{
-            const segment_command_64* segmentCmd = reinterpret_cast<const segment_command_64*>(loadCmd);
-            const section_64* sections = reinterpret_cast<const section_64*>(segmentCmd + 1);
+            const auto* segmentCmd = reinterpret_cast<const segment_command_64*>(loadCmd);
+            const auto* sections = reinterpret_cast<const section_64*>(segmentCmd + 1);
 
             for (uint32_t j = 0; j < segmentCmd->nsects; ++j)
 			{
@@ -734,16 +731,16 @@ void PE::extractResources(const std::vector<uint8_t>& fileData)
 
 void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
-    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
-    const load_command* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
     std::cout << "Section Info:\n";
     for (uint32_t i = 0; i < machHeader->ncmds; ++i)
 	{
         if (loadCmd->cmd == LC_SEGMENT_64)
 		{
-            const segment_command_64* segmentCmd = reinterpret_cast<const segment_command_64*>(loadCmd);
-            const section_64* sections = reinterpret_cast<const section_64*>(segmentCmd + 1);
+            const auto* segmentCmd = reinterpret_cast<const segment_command_64*>(loadCmd);
+            const auto* sections = reinterpret_cast<const section_64*>(segmentCmd + 1);
 
             for (uint32_t j = 0; j < segmentCmd->nsects; ++j)
 			{
@@ -763,7 +760,7 @@ void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 
 void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
-    const mach_header_64* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
 
     std::cout << "PE Header Info:\n";
     std::cout << "Signature: 0x" << std::hex << machHeader->magic << std::endl;

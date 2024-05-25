@@ -1,28 +1,39 @@
 #pragma once
 
+#ifdef USE_CUSTOM_MEMORY_MANAGER
+#define new new(__FILE__, __LINE__)
+#define delete MemoryManager::reportLeak(__FILE__, __LINE__), delete
+#endif
+
+#include <map>
+#include <mutex>
+#include <cstdlib>
 #include <iostream>
-#include <vector>
-#include <cstddef>
-#include <cstdint>
-#include <cstring>
+#include <new>
 
 class MemoryManager
 {
 public:
-    MemoryManager();
-    ~MemoryManager();
+    static void* allocate(size_t size, const char* file, int line);
+    static void deallocate(void* pointer, const char* file, int line);
 
-    uint8_t* allocateMemory(size_t size);
-    void deallocateMemory(uint8_t* ptr);
-    uint8_t* reallocateMemory(uint8_t* ptr, size_t size);
-    void copyToMemory(uint8_t* dest, const uint8_t* src, size_t size);
-    void setMemory(uint8_t* dest, uint8_t value, size_t size);
-    int compareMemory(const uint8_t* ptr1, const uint8_t* ptr2, size_t size);
-    void zeroMemory(uint8_t* ptr, size_t size);
-    uint8_t* duplicateMemory(const uint8_t* ptr, size_t size);
+    static void detectMemoryLeaks();
+    static void reportLeak(void* pointer, size_t size, const char* file, int line);
+
+    static void* operator new(size_t size, const char* file, int line);
+    static void* operator new[](size_t size, const char* file, int line);
+    static void operator delete(void* pointer, const char* file, int line);
+    static void operator delete[](void* pointer, const char* file, int line);
+    static void operator delete(void* pointer) noexcept;
+    static void operator delete[](void* pointer) noexcept;
 
 private:
-    size_t allocatedMemory;
+    struct AllocationInfo {
+        size_t size;
+        const char* file;
+        int line;
+    };
 
-protected:
+    static std::map<void*, AllocationInfo> allocations;
+    static std::mutex allocationMutex;
 };

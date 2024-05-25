@@ -6,13 +6,9 @@
 
 using namespace EntropyInternals;
 
-Entropy::Entropy()
-{
-}
+Entropy::Entropy() = default;
 
-Entropy::~Entropy()
-{
-}
+Entropy::~Entropy() = default;
 
 double Entropy::calculateEntropy(const std::vector<uint8_t>& data)
 {
@@ -43,6 +39,7 @@ std::vector<int> Entropy::createHistogram(const std::vector<uint8_t>& data)
 std::vector<double> Entropy::calculateProbabilities(const std::vector<int>& histogram, size_t dataSize)
 {
     std::vector<double> probabilities;
+    probabilities.reserve(histogram.size());
     for (int count : histogram)
     {
         probabilities.push_back(static_cast<double>(count) / dataSize);
