@@ -8,6 +8,7 @@
 #include "./include/Detector.h"
 #include "./include/MemoryManager.h"
 #include "./include/PerfMon.h"
+#include "./include/FileEditor.h"
 
 #include <iostream>
 #include <vector>
@@ -38,6 +39,9 @@ using namespace EntropyInternals;
 using namespace DissassemblerInternals;
 using namespace DetectorInternals;
 using namespace CliInterface;
+using namespace FileEditorInternals;
+
+FileEditor fileEditor;
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -91,6 +95,7 @@ struct MenuItemInfo
 std::string sSelectedFile;
 std::string filePath;
 bool showEntropyHistogram = false;
+bool openFileForEdit = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -117,6 +122,7 @@ void initMenuItemInfo()
     menuItemInfo["Nt Global Flag"];
     menuItemInfo["Heap Flags"];
     menuItemInfo["Output Debug String"];
+    menuItemInfo["Edit File"];
 }
 
 void updateMenuItemWindows()
@@ -227,6 +233,48 @@ void showFileSelector(std::string& filePathInput)
     strcpy_s(filePathInputBuffer, filePathInput.c_str());
     ImGui::InputText("File Path", filePathInputBuffer, sizeof(filePathInputBuffer), ImGuiInputTextFlags_EnterReturnsTrue);
     filePathInput = filePathInputBuffer;
+}
+
+void showFileEditorWindow()
+{
+    static bool showFileEditor = false;
+
+    if (menuItemInfo["Edit File"].windowOpen)
+    {
+        showFileEditor = true;
+        menuItemInfo["Edit File"].windowOpen = false;
+    }
+
+    if (showFileEditor)
+    {
+        ImGui::Begin("File Editor", &showFileEditor);
+
+        if (!openFileForEdit)
+        {
+            showFileSelector(filePath);
+            if (!filePath.empty() && ImGui::Button("Edit Selected File"))
+            {
+                openFileForEdit = true;
+            }
+        }
+        else
+        {
+            std::string fileContent = fileEditor.readFile();
+            static const size_t bufferSize = 65536; // 64 KB buffer
+            static char* fileContentBuffer = new char[bufferSize];
+            strcpy_s(fileContentBuffer, bufferSize, fileContent.c_str());
+            ImGui::InputTextMultiline("##source", fileContentBuffer, bufferSize, ImVec2(800, 600), ImGuiInputTextFlags_AllowTabInput);
+
+            if (ImGui::IsItemActive())
+            {
+                fileContent = fileContentBuffer;
+                fileEditor.openFileForWrite(filePath);
+                fileEditor.writeFile(fileContent);
+            }
+        }
+
+        ImGui::End();
+    }
 }
 
 void showExtractMenu(const std::string& filePath)
@@ -507,6 +555,14 @@ int runGUI()
                 processMenuItem("Output Debug String", [&] { antiDebugDetection.detectOutputDebugString(); }, "Output Debug String");
                 ImGui::EndMenu();
             }
+            if (ImGui::BeginMenu("Edit"))
+            {
+                if (ImGui::MenuItem("Edit File"))
+                {
+                    menuItemInfo["Edit File"].windowOpen = true;
+                }
+                ImGui::EndMenu();
+            }
             ImGui::EndMainMenuBar();
         }
 
@@ -517,6 +573,7 @@ int runGUI()
         showDetectorMenu(filePathInput);
         showAntiDebugMenu(filePathInput);
         showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
+        showFileEditorWindow();
 
         updateMenuItemWindows();
 

@@ -1,8 +1,12 @@
 #include "./include/FileEditor.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <cstring>
 
 using namespace FileEditorInternals;
 
-FileEditor::FileEditor() : fileOpen(false)
+FileEditor::FileEditor() : inputFileOpen(false), outputFileOpen(false)
 {
 }
 
@@ -13,32 +17,32 @@ FileEditor::~FileEditor()
 
 bool FileEditor::openFileForRead(const std::string& fileName)
 {
-    if (fileOpen)
+    if (inputFileOpen)
         closeFile();
 
     inputFileStream.open(fileName, std::ios::in);
-    fileOpen = inputFileStream.is_open();
-    return fileOpen;
+    inputFileOpen = inputFileStream.is_open();
+    return inputFileOpen;
 }
 
 bool FileEditor::openFileForWrite(const std::string& fileName)
 {
-    if (fileOpen)
+    if (outputFileOpen)
         closeFile();
 
     outputFileStream.open(fileName, std::ios::out);
-    fileOpen = outputFileStream.is_open();
-    return fileOpen;
+    outputFileOpen = outputFileStream.is_open();
+    return outputFileOpen;
 }
 
 bool FileEditor::openFileForAppend(const std::string& fileName)
 {
-    if (fileOpen)
+    if (outputFileOpen)
         closeFile();
 
     outputFileStream.open(fileName, std::ios::app);
-    fileOpen = outputFileStream.is_open();
-    return fileOpen;
+    outputFileOpen = outputFileStream.is_open();
+    return outputFileOpen;
 }
 
 void FileEditor::closeFile()
@@ -47,19 +51,21 @@ void FileEditor::closeFile()
         inputFileStream.close();
     if (outputFileStream.is_open())
         outputFileStream.close();
-    fileOpen = false;
+
+    inputFileOpen = false;
+    outputFileOpen = false;
 }
 
 std::string FileEditor::readFile()
 {
     std::string content;
-    if (fileOpen)
+    if (inputFileOpen)
     {
-        std::string line;
-        while (std::getline(inputFileStream, line))
-            content += line + "\n";
+        std::ostringstream ss;
+        ss << inputFileStream.rdbuf();
+        content = ss.str();
 
-        if (!inputFileStream.eof() && inputFileStream.fail())
+        if (inputFileStream.fail() && !inputFileStream.eof())
         {
             std::cerr << "Error reading file: " << strerror(errno) << std::endl;
         }
@@ -69,9 +75,14 @@ std::string FileEditor::readFile()
 
 bool FileEditor::writeFile(const std::string& content)
 {
-    if (fileOpen)
+    if (outputFileOpen)
     {
         outputFileStream << content;
+        if (outputFileStream.fail())
+        {
+            std::cerr << "Error writing file: " << strerror(errno) << std::endl;
+            return false;
+        }
         return true;
     }
     return false;
@@ -79,9 +90,14 @@ bool FileEditor::writeFile(const std::string& content)
 
 bool FileEditor::appendToFile(const std::string& content)
 {
-    if (fileOpen)
+    if (outputFileOpen)
     {
         outputFileStream << content;
+        if (outputFileStream.fail())
+        {
+            std::cerr << "Error appending to file: " << strerror(errno) << std::endl;
+            return false;
+        }
         return true;
     }
     return false;
@@ -89,13 +105,13 @@ bool FileEditor::appendToFile(const std::string& content)
 
 size_t FileEditor::getFileSize()
 {
-    if (fileOpen)
+    if (outputFileOpen)
     {
         std::streampos begin, end;
-        begin = outputFileStream.tellg();
-        outputFileStream.seekg(0, std::ios::end);
-        end = outputFileStream.tellg();
-        outputFileStream.seekg(0, std::ios::beg);
+        begin = outputFileStream.tellp();
+        outputFileStream.seekp(0, std::ios::end);
+        end = outputFileStream.tellp();
+        outputFileStream.seekp(0, std::ios::beg);
         return static_cast<size_t>(end - begin);
     }
     return 0;
@@ -103,5 +119,5 @@ size_t FileEditor::getFileSize()
 
 bool FileEditor::isOpen() const
 {
-    return fileOpen;
+    return inputFileOpen || outputFileOpen;
 }

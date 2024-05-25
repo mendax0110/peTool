@@ -192,6 +192,7 @@ void showFileEditorWindow()
     if (menuItemInfo["Edit File"].windowOpen)
     {
         showFileEditor = true;
+        menuItemInfo["Edit File"].windowOpen = false;
     }
 
     if (showFileEditor)
@@ -209,7 +210,8 @@ void showFileEditorWindow()
         else
         {
             std::string fileContent = fileEditor.readFile();
-            static char fileContentBuffer[4096];
+            static const size_t bufferSize = 65536; // 64 KB buffer
+            static char* fileContentBuffer = new char[bufferSize];
             strcpy(fileContentBuffer, fileContent.c_str());
             ImGui::InputTextMultiline("##source", fileContentBuffer, sizeof(fileContentBuffer), ImVec2(800, 600), ImGuiInputTextFlags_AllowTabInput);
 

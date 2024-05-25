@@ -23,6 +23,7 @@ namespace FileEditorInternals
     private:
         std::fstream inputFileStream;
         std::fstream outputFileStream;
-        bool fileOpen;
+        bool inputFileOpen;
+        bool outputFileOpen;
     };
 }

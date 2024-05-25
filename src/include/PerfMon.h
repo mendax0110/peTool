@@ -2,6 +2,7 @@
 #include <chrono>
 #include <thread>
 #include <iomanip>
+#include <vector>
 
 #if defined(_WIN32)
 #include <windows.h>
