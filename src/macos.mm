@@ -9,6 +9,7 @@
 #include "./include/FileEditor.h"
 #include "./include/MemoryManager.h"
 #include "./include/PerfMon.h"
+#include "./include/GraphView.h"
 
 #include <iostream>
 #include <vector>
@@ -23,6 +24,7 @@
 #include <cstdio>
 #include "SDL.h"
 #include <Cocoa/Cocoa.h>
+#include <mach-o/nlist.h>
 
 #import <Metal/Metal.h>
 #import <QuartzCore/QuartzCore.h>
@@ -49,6 +51,7 @@ std::string sSelectedFile;
 std::string filePath;
 bool showEntropyHistogram = false;
 bool openFileForEdit = false;
+bool showImportTableWindow = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -370,6 +373,87 @@ void openFileForEditing()
     }
 }
 
+void showDetailedViewOfImportTable(const std::string& filePath, bool& showImportTableWindow)
+{
+    if (!showImportTableWindow)
+        return;
+
+    PE pe;
+    std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+
+    pe.extractImportTable(fileData);
+    auto functionNames = pe.getFunctionNames(fileData);
+    auto functionAddresses = pe.getFunctionAddresses(fileData);
+    auto dllNames = pe.getDllNames(fileData);
+    auto dllAddresses = pe.getDllAddresses(fileData);
+    size_t funcCount = functionNames.size();
+    size_t dllCount = dllNames.size();
+
+    ImGui::Begin("Import Table", &showImportTableWindow);
+    ImGui::Text("Number of Functions Imported: %zu", funcCount);
+
+    if (ImGui::BeginTable("ImportTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
+    {
+        ImGui::TableSetupColumn("Function Name");
+        ImGui::TableSetupColumn("Function Address");
+        ImGui::TableSetupColumn("DLL Name");
+        ImGui::TableSetupColumn("DLL Address");
+        ImGui::TableHeadersRow();
+
+        for (size_t i = 0; i < funcCount; ++i)
+        {
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            if (i < functionNames.size())
+                ImGui::Text("%s", functionNames[i].c_str());
+            else
+                ImGui::Text("N/A");
+
+            ImGui::TableSetColumnIndex(1);
+            if (i < functionAddresses.size())
+                ImGui::Text("0x%llx", functionAddresses[i]);
+            else
+                ImGui::Text("N/A");
+
+            ImGui::TableSetColumnIndex(2);
+            if (i < dllNames.size())
+                ImGui::Text("%s", dllNames[i].c_str());
+            else
+                ImGui::Text("N/A");
+
+            ImGui::TableSetColumnIndex(3);
+            if (i < dllAddresses.size())
+                ImGui::Text("0x%llx", dllAddresses[i]);
+            else
+                ImGui::Text("N/A");
+        }
+
+        ImGui::EndTable();
+    }
+
+    GraphView graphView;
+
+    for (size_t i = 0; i < funcCount; ++i)
+    {
+        graphView.AddNode(i * 2, ImVec2(100, 100 + i * 80), ImVec2(100, 50), functionNames[i]);
+    }
+
+    for (size_t i = 0; i < dllCount; ++i)
+    {
+        graphView.AddNode(i * 2 + 1, ImVec2(300, 100 + i * 80), ImVec2(100, 50), dllNames[i]);
+    }
+
+    size_t minCount = std::min(funcCount, dllCount);
+    for (size_t i = 0; i < minCount; ++i)
+    {
+        graphView.AddConnection(i * 2, i * 2 + 1);
+    }
+
+    graphView.Render();
+
+    ImGui::End();
+}
+
 int runGUI()
 {
     // Setup Dear ImGui context
@@ -566,6 +650,15 @@ int runGUI()
                     }
                     ImGui::EndMenu();
                 }
+                if (ImGui::BeginMenu("Graph"))
+                {
+                    if (ImGui::MenuItem("Import Table"))
+                    {
+                        showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
+                        showImportTableWindow = true;
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMainMenuBar();
             }
 
@@ -577,6 +670,7 @@ int runGUI()
             showAntiDebugMenu(filePathInput);
             showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
             showFileEditorWindow();
+            showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
 
             updateMenuItemWindows();
 

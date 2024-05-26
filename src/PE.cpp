@@ -98,7 +98,35 @@ uint32_t PE::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
 
     #if defined(__APPLE__)
     // implementation to get resourceOffset for Apple
+    if (mutableFileData.size() < sizeof(struct mach_header))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return 0;
+    }
+
+    const struct mach_header* machHeader = reinterpret_cast<const struct mach_header*>(&mutableFileData[0]);
+    const struct load_command* loadCommand = reinterpret_cast<const struct load_command*>(&mutableFileData[sizeof(struct mach_header)]);
+
+    for (uint32_t i = 0; i < machHeader->ncmds; ++i)
+    {
+        if (loadCommand->cmd == LC_SEGMENT)
+        {
+            const struct segment_command* segmentCommand = reinterpret_cast<const struct segment_command*>(loadCommand);
+            const struct section* section = reinterpret_cast<const struct section*>(segmentCommand + 1);
+            for (uint32_t j = 0; j < segmentCommand->nsects; ++j)
+            {
+                if (strcmp(section->sectname, "__text") == 0)
+                {
+                    return section->offset;
+                }
+                section = reinterpret_cast<const struct section*>(section + 1);
+            }
+        }
+        loadCommand = reinterpret_cast<const struct load_command*>(reinterpret_cast<const uint8_t*>(loadCommand) + loadCommand->cmdsize);
+    }
+
     return 0;
+
     #endif
 }
 
@@ -645,6 +673,12 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 #if defined(__APPLE__)
 void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return;
+    }
+
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
@@ -674,6 +708,12 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 
 void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return;
+    }
+
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
@@ -703,6 +743,12 @@ void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 
 void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return;
+    }
+
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
@@ -731,6 +777,12 @@ void PE::extractResources(const std::vector<uint8_t>& fileData)
 
 void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return;
+    }
+
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
@@ -760,6 +812,12 @@ void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 
 void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return;
+    }
+
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
 
     std::cout << "PE Header Info:\n";
@@ -769,4 +827,131 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
     std::cout << "Size of Header: " << machHeader->sizeofcmds << std::endl;
     std::cout << std::endl;
 }
+
+// method to return the functionnames, the function address, the dllNames and the dllAdresses
+std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileData)
+{
+    std::vector<std::string> functionNames;
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return functionNames;
+    }
+
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+    {
+        if (loadCmd->cmd == LC_SYMTAB)
+        {
+            const auto* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
+            const auto* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
+            const char* strings = reinterpret_cast<const char*>(&fileData[symtab->stroff]);
+
+            for (uint32_t j = 0; j < symtab->nsyms; ++j)
+            {
+                if (symbols[j].n_type & N_EXT)
+                {
+                    functionNames.push_back(&strings[symbols[j].n_un.n_strx]);
+                }
+            }
+            return functionNames;
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    return functionNames;
+}
+
+// method to return the functionnames, the function address, the dllNames and the dllAdresses
+std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
+{
+    std::vector<std::string> dllNames;
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return dllNames;
+    }
+
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+    {
+        if (loadCmd->cmd == LC_LOAD_DYLIB)
+        {
+            const auto* dylibCmd = reinterpret_cast<const dylib_command*>(loadCmd);
+            const char* dylibName = reinterpret_cast<const char*>(&fileData[dylibCmd->dylib.name.offset]);
+            dllNames.push_back(dylibName);
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    return dllNames;
+}
+
+// method to return the functionnames, the function address, the dllNames and the dllAdresses
+std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileData)
+{
+    std::vector<uint64_t> functionAddresses;
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return functionAddresses;
+    }
+
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+    {
+        if (loadCmd->cmd == LC_SYMTAB)
+        {
+            const auto* symtab = reinterpret_cast<const symtab_command*>(loadCmd);
+            const auto* symbols = reinterpret_cast<const nlist_64*>(&fileData[symtab->symoff]);
+            const char* strings = reinterpret_cast<const char*>(&fileData[symtab->stroff]);
+
+            for (uint32_t j = 0; j < symtab->nsyms; ++j)
+            {
+                if (symbols[j].n_type & N_EXT)
+                {
+                    functionAddresses.push_back(symbols[j].n_value);
+                }
+            }
+            return functionAddresses;
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    return functionAddresses;
+}
+
+// method to return the functionnames, the function address, the dllNames and the dllAdresses
+std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
+{
+    std::vector<uint64_t> dllAddresses;
+    if (fileData.size() < sizeof(mach_header_64))
+    {
+        std::cerr << "Error: File is too small to contain a valid Mach-O header.\n";
+        return dllAddresses;
+    }
+
+    const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
+    const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    uint32_t ncmds = machHeader->ncmds;
+    for (uint32_t i = 0; i < ncmds; ++i)
+    {
+        if (loadCmd->cmd == LC_LOAD_DYLIB)
+        {
+            const auto* dylibCmd = reinterpret_cast<const dylib_command*>(loadCmd);
+            dllAddresses.push_back(dylibCmd->dylib.timestamp);
+        }
+        loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
+    }
+    return dllAddresses;
+}
+
+
 #endif

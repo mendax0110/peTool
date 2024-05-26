@@ -134,6 +134,7 @@ void calculateChecksum(const std::string& filePathInput)
     std::cout.rdbuf(output.rdbuf());
     Utils unt;
     uint32_t checksum = unt.calculateChecksum(fileData);
+    std::cout << "Checksum: " << checksum << std::endl;
     std::cout.rdbuf(old_cout);
     std::cout << output.str();
 }

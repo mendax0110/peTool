@@ -49,6 +49,12 @@ std::vector<double> Entropy::calculateProbabilities(const std::vector<int>& hist
 
 void Entropy::printEntropy(const std::vector<uint8_t>& data, size_t offset, size_t size)
 {
+    if (offset + size > data.size())
+    {
+        std::cerr << "Invalid offset and size." << std::endl;
+        return;
+    }
+
     std::cout << "Name\tOffset\tSize\tEntropy\tStatus" << std::endl;
     std::cout << "----\t------\t----\t-------\t------" << std::endl;
     for (size_t i = 0; i < size; i++)
