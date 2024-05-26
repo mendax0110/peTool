@@ -3,17 +3,10 @@
 ## Overview
 peTool is a graphical user interface (GUI) tool designed to extract various information from Portable Executable (PE) files. It includes functionalities to extract import tables, export tables, resources, section information, and parse headers.
 
-## Description
-The `peTool` project comprises a single C++ file either `macos.mm`, `windows.cpp` or `linux.cpp` which implements the functionality of the peTool GUI. This file includes the necessary header files: `PEHeader.h`, `FileIO.h`, `Entropy.h`, `Disassembler.h`, `Injector.h` and `Utils.h`, along with standard C++ library headers and Dear ImgGui for the GUI.
-
-
-
+## Description Video
 
 
 https://github.com/mendax0110/peTool/assets/52537419/10e026ed-bbae-46ee-8f58-e464a75fc9f9
-
-
-
 
 
 ## Usage (GUI)
