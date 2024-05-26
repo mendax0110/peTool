@@ -17,6 +17,18 @@ void GraphView::AddConnection(int sourceNodeId, int targetNodeId)
     connections.push_back(newConnection);
 }
 
+const Node* GraphView::FindNodeById(int id) const
+{
+    for (const auto& node : nodes)
+    {
+        if (node.id == id)
+        {
+            return &node;
+        }
+    }
+    return nullptr;
+}
+
 void GraphView::Render()
 {
     ImGui::Begin("Graph View", nullptr, ImGuiWindowFlags_HorizontalScrollbar);
@@ -31,15 +43,18 @@ void GraphView::Render()
         ImGui::PopID();
     }
 
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
     for (const auto& connection : connections)
     {
-        const auto& sourceNode = nodes[connection.sourceNodeId];
-        const auto& targetNode = nodes[connection.targetNodeId];
+        const Node* sourceNode = FindNodeById(connection.sourceNodeId);
+        const Node* targetNode = FindNodeById(connection.targetNodeId);
 
-        ImVec2 sourcePos = ImVec2(sourceNode.position.x + sourceNode.size.x / 2, sourceNode.position.y + sourceNode.size.y / 2);
-        ImVec2 targetPos = ImVec2(targetNode.position.x + targetNode.size.x / 2, targetNode.position.y + targetNode.size.y / 2);
-        ImDrawList* drawList = ImGui::GetWindowDrawList();
-        drawList->AddLine(sourcePos, targetPos, IM_COL32(255, 255, 255, 255), 2.0f);
+        if (sourceNode && targetNode)
+        {
+            ImVec2 sourcePos = ImVec2(sourceNode->position.x + sourceNode->size.x / 2, sourceNode->position.y + sourceNode->size.y / 2);
+            ImVec2 targetPos = ImVec2(targetNode->position.x + targetNode->size.x / 2, targetNode->position.y + targetNode->size.y / 2);
+            drawList->AddLine(sourcePos, targetPos, IM_COL32(255, 255, 255, 255), 2.0f);
+        }
     }
 
     ImGui::End();

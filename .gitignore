@@ -12,3 +12,6 @@ build
 
 #Ignore cmake-build-debug folder
 cmake-build-debug
+
+#Ignore the DS_Store file
+.DS_Store

@@ -212,13 +212,19 @@ void showFileEditorWindow()
         }
         else
         {
-            std::string fileContent = fileEditor.readFile();
-            static const size_t bufferSize = 65536; // 64 KB buffer
-            static char* fileContentBuffer = new char[bufferSize];
-            strcpy(fileContentBuffer, fileContent.c_str());
+            static std::string fileContent;
+            static char fileContentBuffer[65536];
+
+            if (fileContent.empty())
+            {
+                fileContent = fileEditor.readFile();
+                strncpy(fileContentBuffer, fileContent.c_str(), sizeof(fileContentBuffer) - 1);
+                fileContentBuffer[sizeof(fileContentBuffer) - 1] = '\0';
+            }
+
             ImGui::InputTextMultiline("##source", fileContentBuffer, sizeof(fileContentBuffer), ImVec2(800, 600), ImGuiInputTextFlags_AllowTabInput);
 
-            if (ImGui::IsItemActive())
+            if (ImGui::IsItemDeactivatedAfterEdit())
             {
                 fileContent = fileContentBuffer;
                 fileEditor.openFileForWrite(filePath);
