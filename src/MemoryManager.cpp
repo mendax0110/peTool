@@ -1,4 +1,4 @@
-#include "MemoryManager.h"
+#include "../include/MANMON/MemoryManager.h"
 
 std::map<void*, MemoryManager::AllocationInfo> MemoryManager::allocations;
 std::mutex MemoryManager::allocationMutex;

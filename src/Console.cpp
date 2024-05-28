@@ -1,4 +1,4 @@
-#include "./include/Console.h"
+#include "../include/CLI/Console.h"
 
 #if defined(_WIN32)
 #include <Windows.h>

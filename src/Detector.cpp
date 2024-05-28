@@ -1,4 +1,4 @@
-#include "./include/Detector.h"
+#include "../include/CORE/Detector.h"
 #include <algorithm>
 #include <iostream>
 

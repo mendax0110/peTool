@@ -1,4 +1,4 @@
-#include "./include/Injector.h"
+#include "../include/CORE/Injector.h"
 
 #if defined(_WIN32)
 #include <Windows.h>

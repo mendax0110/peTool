@@ -1,4 +1,4 @@
-#include "./include/Entropy.h"
+#include "../include/VIEW/Entropy.h"
 
 #include <iostream>
 #include <vector>

@@ -1,4 +1,4 @@
-#include "./include/PE.h"
+#include "../include/CORE/PE.h"
 
 #if defined(_WIN32)
 #include <windows.h>

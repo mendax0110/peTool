@@ -4,7 +4,14 @@ project(peTool)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/src/include")
+set(INCLUDE_DIR
+        "${CMAKE_SOURCE_DIR}/src/CLI"
+        "${CMAKE_SOURCE_DIR}/src/CORE"
+        "${CMAKE_SOURCE_DIR}/src/FILEIO"
+        "${CMAKE_SOURCE_DIR}/src/MANMON"
+        "${CMAKE_SOURCE_DIR}/src/VIEW")
+
+
 set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
 
 include_directories(${INCLUDE_DIR})

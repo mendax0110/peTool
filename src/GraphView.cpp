@@ -1,4 +1,4 @@
-#include "./include/GraphView.h"
+#include "../include/VIEW/GraphView.h"
 #include <iostream>
 
 GraphView::GraphView() : nodes(), connections()

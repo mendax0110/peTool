@@ -1,11 +1,11 @@
-#include "./include/PE.h"
-#include "./include/FileIO.h"
-#include "./include/Utils.h"
-#include "./include/Injector.h"
-#include "./include/Entropy.h"
-#include "./include/Disassembler.h"
-#include "./include/CLI.h"
-#include "./include/Detector.h"
+#include "../include/CORE/PE.h"
+#include "../include/FILEIO/FileIO.h"
+#include "../include/FILEIO/Utils.h"
+#include "../include/CORE/Injector.h"
+#include "../include/VIEW/Entropy.h"
+#include "../include/CORE/Disassembler.h"
+#include "../include/CLI/CLI.h"
+#include "../include/CORE/Detector.h"
 
 #include <iostream>
 #include <vector>
