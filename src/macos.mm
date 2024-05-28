@@ -10,6 +10,8 @@
 #include "./include/MemoryManager.h"
 #include "./include/PerfMon.h"
 #include "./include/GraphView.h"
+#include "./include/Console.h"
+#include "./include/Debugger.h"
 
 #include <iostream>
 #include <vector>
@@ -38,8 +40,10 @@ using namespace DissassemblerInternals;
 using namespace CliInterface;
 using namespace DetectorInternals;
 using namespace FileEditorInternals;
+using namespace ConsoleInternals;
 
 FileEditor fileEditor;
+class Debugger debugger;
 
 struct MenuItemInfo
 {
@@ -52,6 +56,8 @@ std::string filePath;
 bool showEntropyHistogram = false;
 bool openFileForEdit = false;
 bool showImportTableWindow = false;
+bool showConsole = false;
+bool showDebugger = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -79,6 +85,7 @@ void initMenuItemInfo()
     menuItemInfo["Heap Flags"];
     menuItemInfo["Output Debug String"];
     menuItemInfo["Edit File"];
+    menuItemInfo["Console"];
 }
 
 void updateMenuItemWindows()
@@ -460,6 +467,118 @@ void showDetailedViewOfImportTable(const std::string& filePath, bool& showImport
     ImGui::End();
 }
 
+void showConsoleWindow(bool &showConsole)
+{
+    if (!showConsole)
+        return;
+
+    static char inputBuf[256] = "";
+    static ImGuiTextBuffer consoleBuf;
+    static bool scrollToBottom = false;
+    static Console con;
+
+    if (ImGui::Begin("Console"))
+    {
+        ImGui::TextWrapped("Enter commands and see the output here.");
+
+        if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), false, ImGuiWindowFlags_HorizontalScrollbar))
+        {
+            ImGui::TextUnformatted(consoleBuf.begin());
+
+            if (scrollToBottom)
+                ImGui::SetScrollHereY(1.0f);
+
+            scrollToBottom = false;
+        }
+        ImGui::EndChild();
+
+        if (ImGui::InputText("Input", inputBuf, IM_ARRAYSIZE(inputBuf), ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            consoleBuf.appendf(">>> %s\n", inputBuf);
+            std::string commandOutput = con.executeCommand(inputBuf);
+            consoleBuf.appendf("%s\n", commandOutput.c_str());
+            inputBuf[0] = '\0';
+            scrollToBottom = true;
+
+            if (commandOutput == "exit")
+            {
+                con.stop();
+                showConsole = false;
+            }
+        }
+        ImGui::End();
+    }
+}
+
+void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
+{
+    if (!showDebugger)
+        return;
+
+    ImGui::Begin("Debugger", &showDebugger);
+    ImGui::BeginChild("SourceWindow", ImVec2(ImGui::GetWindowWidth() * 0.6f, 0), true);
+    ImGui::Text("Source Code");
+    std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+    fileEditor.openFileForRead(filePath);
+    std::string fileContent = fileEditor.readFile();
+    ImGui::Text("%s", fileContent.c_str());
+    ImGui::EndChild();
+    ImGui::SameLine();
+
+    ImGui::BeginChild("ControlArea", ImVec2(0, 0), true);
+    ImGui::Text("Control");
+    if (ImGui::Button("Start Debugging"))
+    {
+        debugger.startDebugging("executable_path");
+    }
+    if (ImGui::Button("Step Into"))
+    {
+        debugger.stepInto();
+    }
+    if (ImGui::Button("Step Over"))
+    {
+        debugger.stepOver();
+    }
+    if (ImGui::Button("Step Out"))
+    {
+        debugger.stepOut();
+    }
+    if (ImGui::Button("Run"))
+    {
+        debugger.run();
+    }
+    ImGui::EndChild();
+
+    ImGui::BeginChild("Callstack", ImVec2(ImGui::GetWindowWidth() * 0.3f, 0), true);
+    ImGui::Text("Callstack");
+    auto callstack = debugger.getCallStack();
+    for (const auto& frame : callstack)
+    {
+        ImGui::Text("%s", frame.c_str());
+    }
+    ImGui::EndChild();
+
+    ImGui::BeginChild("Watch", ImVec2(0, 100), true);
+    ImGui::Text("Watch");
+    auto watch = debugger.getWatch();
+    for (const auto& frame : watch)
+    {
+        ImGui::Text("%s", frame.c_str());
+    }
+    ImGui::EndChild();
+
+    ImGui::BeginChild("Locals", ImVec2(0, 100), true);
+    ImGui::Text("Locals");
+    auto locals = debugger.getLocals();
+    for (const auto& frame : locals)
+    {
+        ImGui::Text("%s", frame.c_str());
+    }
+    ImGui::EndChild();
+
+    ImGui::End();
+}
+
 int runGUI()
 {
     // Setup Dear ImGui context
@@ -665,6 +784,24 @@ int runGUI()
                     }
                     ImGui::EndMenu();
                 }
+                if (ImGui::BeginMenu("Console"))
+                {
+                    if (ImGui::MenuItem("Show Console"))
+                    {
+                        showConsoleWindow(showConsole);
+                        showConsole = true;
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Debugger"))
+                {
+                    if (ImGui::MenuItem("Show Debugger"))
+                    {
+                        showDebuggerWindow(showDebugger, debugger);
+                        showDebugger = true;
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMainMenuBar();
             }
 
@@ -677,6 +814,8 @@ int runGUI()
             showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
             showFileEditorWindow();
             showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
+            showConsoleWindow(showConsole);
+            showDebuggerWindow(showDebugger, debugger);
 
             updateMenuItemWindows();
 
