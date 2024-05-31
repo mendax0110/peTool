@@ -23,10 +23,9 @@ public:
     unsigned long long getInstructionPointer();
     bool readMemory(unsigned long long address, void* buffer, size_t size);
     bool writeMemory(unsigned long long address, const void* buffer, size_t size);
-    bool executeGDBCommand(const std::string& command);
-    std::vector<std::string> getCallStack();
-    std::vector<std::string> getWatch();
-    std::vector<std::string> getLocals();
+    static std::vector<std::string> getCallStack();
+    static std::vector<std::string> getWatch();
+    static std::vector<std::string> getLocals();
 
     enum class DebuggerState
     {
@@ -40,10 +39,12 @@ public:
 
 private:
 #if defined(__APPLE__)
-    bool launchGDB(const std::string& executablePath);
+    bool launchLLDB(const std::string& executablePath);
+    bool executeLLDBCommand(const std::string& command);
     int gdbProcessID;
-#elif defined(__WIN32__)
+#elif defined(_WIN32)
     bool launchGDB(const std::string& executablePath);
+    bool executeGDBCommand(const std::string& command);
     int gdbProcessID;
 #else
     #error "Debugger module not supported on this platform"
@@ -51,5 +52,4 @@ private:
 
     void openTextSearchMode();
     void openGotoLineWindow();
-
 };

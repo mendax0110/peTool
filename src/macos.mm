@@ -25,6 +25,8 @@
 #include "imgui_impl_metal.h"
 #include <cstdio>
 #include "SDL.h"
+#include "SDL_syswm.h"
+#include "SDL_metal.h"
 #include <Cocoa/Cocoa.h>
 #include <mach-o/nlist.h>
 
@@ -58,6 +60,7 @@ bool openFileForEdit = false;
 bool showImportTableWindow = false;
 bool showConsole = false;
 bool showDebugger = false;
+bool showFileEdit = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -195,52 +198,29 @@ void showFileSelector(std::string& filePathInput)
     filePathInput = filePathInputBuffer;
 }
 
-void showFileEditorWindow()
+void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std::string& filename)
 {
-    static bool showFileEditor = false;
+    if (!showFileEdit)
+        return;
 
-    if (menuItemInfo["Edit File"].windowOpen)
+    if (filename.empty())
+        return;
+
+    ImGui::Begin("File Editor", &showFileEdit, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+
+    if (!fileEditor.isOpen())
     {
-        showFileEditor = true;
-        menuItemInfo["Edit File"].windowOpen = false;
+        if (fileEditor.openFileForRead(filename))
+        {
+            std::string fileContent = fileEditor.readFile();
+            fileEditor.SetText(fileContent);
+        }
     }
 
-    if (showFileEditor)
-    {
-        ImGui::Begin("File Editor", &showFileEditor);
+    ImVec2 availSize = ImGui::GetContentRegionAvail();
+    fileEditor.Render("File Editor", availSize, true);
 
-        if (!openFileForEdit)
-        {
-            showFileSelector(filePath);
-            if (!filePath.empty() && ImGui::Button("Edit Selected File"))
-            {
-                openFileForEdit = true;
-            }
-        }
-        else
-        {
-            static std::string fileContent;
-            static char fileContentBuffer[65536];
-
-            if (fileContent.empty())
-            {
-                fileContent = fileEditor.readFile();
-                strncpy(fileContentBuffer, fileContent.c_str(), sizeof(fileContentBuffer) - 1);
-                fileContentBuffer[sizeof(fileContentBuffer) - 1] = '\0';
-            }
-
-            ImGui::InputTextMultiline("##source", fileContentBuffer, sizeof(fileContentBuffer), ImVec2(800, 600), ImGuiInputTextFlags_AllowTabInput);
-
-            if (ImGui::IsItemDeactivatedAfterEdit())
-            {
-                fileContent = fileContentBuffer;
-                fileEditor.openFileForWrite(filePath);
-                fileEditor.writeFile(fileContent);
-            }
-        }
-
-        ImGui::End();
-    }
+    ImGui::End();
 }
 
 void showExtractMenu(const std::string& filePath)
@@ -264,7 +244,7 @@ void showProcessIdMenu(const std::string& filePath)
         {
             auto exename = static_cast<const char*>(filePath.c_str());
             InjectorMacOS injector;
-            injector.CreatePlatform();
+            InjectorMacOS::CreatePlatform();
             injector.GetProcId(exename);
         });
         ImGui::EndMenu();
@@ -289,8 +269,8 @@ void showUtilsMenu(const std::string& filePath)
     {
         processFileAndMenuItem("Calculate Checksum", filePath, [&](const std::vector<uint8_t>& fileData)
         {
-            Utils unt;
-            auto checksumOutput = unt.calculateChecksum(fileData);
+            //Utils unt;
+            auto checksumOutput = Utils::calculateChecksum(fileData);
             auto checksum = std::to_string(checksumOutput);
         });
         ImGui::EndMenu();
@@ -369,32 +349,18 @@ void showHistogramWindow(const std::vector<int>& histogram, const std::vector<st
     }
 }
 
-void openFileForEditing()
-{
-    if (openFile())
-    {
-        if (fileEditor.openFileForRead(filePath))
-        {
-            std::string fileContent = fileEditor.readFile();
-            std::cout << fileContent << std::endl;
-            menuItemInfo["Edit File"].windowOpen = true;
-        }
-        else
-        {
-            std::cerr << "Failed to open file for editing" << sSelectedFile << std::endl;
-        }
-    }
-}
-
 void showDetailedViewOfImportTable(const std::string& filePath, bool& showImportTableWindow)
 {
     if (!showImportTableWindow)
         return;
 
+    if (filePath.empty())
+        return;
+
     PE pe;
     std::vector<uint8_t> fileData = FileIO::readFile(filePath);
 
-    pe.extractImportTable(fileData);
+    PE::extractImportTable(fileData);
     auto functionNames = pe.getFunctionNames(fileData);
     auto functionAddresses = pe.getFunctionAddresses(fileData);
     auto dllNames = pe.getDllNames(fileData);
@@ -446,18 +412,18 @@ void showDetailedViewOfImportTable(const std::string& filePath, bool& showImport
 
     GraphView graphView;
 
-    for (size_t i = 0; i < funcCount; ++i)
+    for (int i = 0; i < funcCount; ++i)
     {
         graphView.AddNode(i * 2, ImVec2(100, 100 + i * 80), ImVec2(100, 50), functionNames[i]);
     }
 
-    for (size_t i = 0; i < dllCount; ++i)
+    for (int i = 0; i < dllCount; ++i)
     {
         graphView.AddNode(i * 2 + 1, ImVec2(300, 100 + i * 80), ImVec2(100, 50), dllNames[i]);
     }
 
     size_t minCount = std::min(funcCount, dllCount);
-    for (size_t i = 0; i < minCount; ++i)
+    for (int i = 0; i < minCount; ++i)
     {
         graphView.AddConnection(i * 2, i * 2 + 1);
     }
@@ -551,7 +517,7 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
 
     ImGui::BeginChild("Callstack", ImVec2(ImGui::GetWindowWidth() * 0.3f, 0), true);
     ImGui::Text("Callstack");
-    auto callstack = debugger.getCallStack();
+    auto callstack = Debugger::getCallStack();
     for (const auto& frame : callstack)
     {
         ImGui::Text("%s", frame.c_str());
@@ -560,7 +526,7 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
 
     ImGui::BeginChild("Watch", ImVec2(0, 100), true);
     ImGui::Text("Watch");
-    auto watch = debugger.getWatch();
+    auto watch = Debugger::getWatch();
     for (const auto& frame : watch)
     {
         ImGui::Text("%s", frame.c_str());
@@ -569,7 +535,7 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
 
     ImGui::BeginChild("Locals", ImVec2(0, 100), true);
     ImGui::Text("Locals");
-    auto locals = debugger.getLocals();
+    auto locals = Debugger::getLocals();
     for (const auto& frame : locals)
     {
         ImGui::Text("%s", frame.c_str());
@@ -578,6 +544,24 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
 
     ImGui::End();
 }
+
+/*void setApplicationIcon()
+{
+    NSString *executablePath = [[NSBundle mainBundle] executablePath];
+    NSString *executableDirectory = [executablePath stringByDeletingLastPathComponent];
+    NSString *iconFileName = @"cog.icns";
+    NSString *iconFilePath = [executableDirectory stringByAppendingPathComponent:@"icon"];
+    iconFilePath = [iconFilePath stringByAppendingPathComponent:iconFileName];
+
+    NSImage *iconImage = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
+    if (!iconImage)
+    {
+        NSLog(@"Failed to load image %@", iconFileName);
+        return;
+    }
+
+    [[NSApp mainWindow] setIcon:iconImage];
+}*/
 
 int runGUI()
 {
@@ -621,7 +605,7 @@ int runGUI()
     }
 
     // Setup Platform/Renderer backends
-    CAMetalLayer* layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(renderer);
+    auto layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(renderer);
     layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
     ImGui_ImplMetal_Init(layer.device);
     ImGui_ImplSDL2_InitForMetal(window);
@@ -724,8 +708,8 @@ int runGUI()
                 if (ImGui::BeginMenu("Utils"))
                 {
                     processFileAndMenuItem("Calculate Checksum", filePathInput, [&](const std::vector<uint8_t>& fileData) {
-                        Utils unt;
-                        auto checksumOutput = unt.calculateChecksum(fileData);
+                        //Utils unt;
+                        auto checksumOutput = Utils::calculateChecksum(fileData);
                         auto checksum = std::to_string(checksumOutput);
                     });
                     ImGui::EndMenu();
@@ -771,7 +755,8 @@ int runGUI()
                 {
                     if (ImGui::MenuItem("File Editor"))
                     {
-                        menuItemInfo["Edit File"].windowOpen = true;
+                       showFileEditorWindow(fileEditor, showFileEdit, filePathInput);
+                       showFileEdit = true;
                     }
                     ImGui::EndMenu();
                 }
@@ -812,7 +797,7 @@ int runGUI()
             showDetectorMenu(filePathInput);
             showAntiDebugMenu(filePathInput);
             showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
-            showFileEditorWindow();
+            showFileEditorWindow(fileEditor, showFileEdit, filePathInput);
             showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
             showConsoleWindow(showConsole);
             showDebuggerWindow(showDebugger, debugger);
@@ -851,6 +836,7 @@ int runGUI()
 
 int main(int argc, char** argv)
 {
+    //setApplicationIcon();
     bool use_gui = false;
     for (int i = 1; i < argc; ++i)
     {
