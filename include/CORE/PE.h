@@ -77,9 +77,9 @@ namespace PeInternals
         static void extractExportTable(const std::vector<uint8_t>& fileData);
         static void extractResources(const std::vector<uint8_t>& fileData);
         static uint32_t GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData);
-        std::vector<std::string> getFunctionNames(const std::vector<uint8_t>& fileData);
-        std::vector<std::string> getDllNames(const std::vector<uint8_t>& fileData);
-        std::vector<uint64_t> getFunctionAddresses(const std::vector<uint8_t>& fileData);
-        std::vector<uint64_t> getDllAddresses(const std::vector<uint8_t>& fileData);
+        static std::vector<std::string> getFunctionNames(const std::vector<uint8_t>& fileData);
+        static std::vector<std::string> getDllNames(const std::vector<uint8_t>& fileData);
+        static std::vector<uint64_t> getFunctionAddresses(const std::vector<uint8_t>& fileData);
+        static std::vector<uint64_t> getDllAddresses(const std::vector<uint8_t>& fileData);
     };
 }

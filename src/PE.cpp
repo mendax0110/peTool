@@ -104,15 +104,15 @@ uint32_t PE::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
         return 0;
     }
 
-    const struct mach_header* machHeader = reinterpret_cast<const struct mach_header*>(&mutableFileData[0]);
-    const struct load_command* loadCommand = reinterpret_cast<const struct load_command*>(&mutableFileData[sizeof(struct mach_header)]);
+    const auto* machHeader = reinterpret_cast<const struct mach_header*>(&mutableFileData[0]);
+    const auto* loadCommand = reinterpret_cast<const struct load_command*>(&mutableFileData[sizeof(struct mach_header)]);
 
     for (uint32_t i = 0; i < machHeader->ncmds; ++i)
     {
         if (loadCommand->cmd == LC_SEGMENT)
         {
-            const struct segment_command* segmentCommand = reinterpret_cast<const struct segment_command*>(loadCommand);
-            const struct section* section = reinterpret_cast<const struct section*>(segmentCommand + 1);
+            const auto* segmentCommand = reinterpret_cast<const struct segment_command*>(loadCommand);
+            const auto* section = reinterpret_cast<const struct section*>(segmentCommand + 1);
             for (uint32_t j = 0; j < segmentCommand->nsects; ++j)
             {
                 if (strcmp(section->sectname, "__text") == 0)
@@ -682,6 +682,12 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
+    if (machHeader->magic != MH_MAGIC_64 || machHeader->ncmds == 0)
+    {
+        std::cerr << "Error: Invalid Mach-O header.\n";
+        return;
+    }
+
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
 	{
@@ -841,6 +847,12 @@ std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileDa
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
+    if (machHeader->magic != MH_MAGIC_64 || machHeader->ncmds == 0)
+    {
+        std::cerr << "Error: Invalid Mach-O header.\n";
+        return functionNames;
+    }
+
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
     {
@@ -854,7 +866,7 @@ std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileDa
             {
                 if (symbols[j].n_type & N_EXT)
                 {
-                    functionNames.push_back(&strings[symbols[j].n_un.n_strx]);
+                    functionNames.emplace_back(&strings[symbols[j].n_un.n_strx]);
                 }
             }
             return functionNames;
@@ -877,6 +889,12 @@ std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
 
+    if (machHeader->magic != MH_MAGIC_64 || machHeader->ncmds == 0)
+    {
+        std::cerr << "Error: Invalid Mach-O header.\n";
+        return dllNames;
+    }
+
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
     {
@@ -884,7 +902,7 @@ std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
         {
             const auto* dylibCmd = reinterpret_cast<const dylib_command*>(loadCmd);
             const char* dylibName = reinterpret_cast<const char*>(&fileData[dylibCmd->dylib.name.offset]);
-            dllNames.push_back(dylibName);
+            dllNames.emplace_back(dylibName);
         }
         loadCmd = reinterpret_cast<const load_command*>(reinterpret_cast<const char*>(loadCmd) + loadCmd->cmdsize);
     }
@@ -903,6 +921,12 @@ std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileD
 
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    if (machHeader->magic != MH_MAGIC_64 || machHeader->ncmds == 0)
+    {
+        std::cerr << "Error: Invalid Mach-O header.\n";
+        return functionAddresses;
+    }
 
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)
@@ -939,6 +963,12 @@ std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
 
     const auto* machHeader = reinterpret_cast<const mach_header_64*>(&fileData[0]);
     const auto* loadCmd = reinterpret_cast<const load_command*>(&fileData[sizeof(mach_header_64)]);
+
+    if (machHeader->magic != MH_MAGIC_64 || machHeader->ncmds == 0)
+    {
+        std::cerr << "Error: Invalid Mach-O header.\n";
+        return dllAddresses;
+    }
 
     uint32_t ncmds = machHeader->ncmds;
     for (uint32_t i = 0; i < ncmds; ++i)

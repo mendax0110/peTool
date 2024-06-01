@@ -24,6 +24,7 @@ namespace ConsoleInternals
         void showConsole();
         std::string executeCommand(const std::string& command);
         void processInput(const std::string& input);
+        std::string executeShellCommand(const std::string& command);
 
     private:
 

@@ -29,6 +29,7 @@
 #include "SDL_metal.h"
 #include <Cocoa/Cocoa.h>
 #include <mach-o/nlist.h>
+#include <future>
 
 #import <Metal/Metal.h>
 #import <QuartzCore/QuartzCore.h>
@@ -361,10 +362,10 @@ void showDetailedViewOfImportTable(const std::string& filePath, bool& showImport
     std::vector<uint8_t> fileData = FileIO::readFile(filePath);
 
     PE::extractImportTable(fileData);
-    auto functionNames = pe.getFunctionNames(fileData);
-    auto functionAddresses = pe.getFunctionAddresses(fileData);
-    auto dllNames = pe.getDllNames(fileData);
-    auto dllAddresses = pe.getDllAddresses(fileData);
+    auto functionNames = PE::getFunctionNames(fileData);
+    auto functionAddresses = PE::getFunctionAddresses(fileData);
+    auto dllNames = PE::getDllNames(fileData);
+    auto dllAddresses = PE::getDllAddresses(fileData);
     size_t funcCount = functionNames.size();
     size_t dllCount = dllNames.size();
 
@@ -441,7 +442,9 @@ void showConsoleWindow(bool &showConsole)
     static char inputBuf[256] = "";
     static ImGuiTextBuffer consoleBuf;
     static bool scrollToBottom = false;
-    static Console con;
+    Console con;
+    static std::future<std::string> futureResult;
+    static bool isExecuting = false;
 
     if (ImGui::Begin("Console"))
     {
@@ -461,19 +464,33 @@ void showConsoleWindow(bool &showConsole)
         if (ImGui::InputText("Input", inputBuf, IM_ARRAYSIZE(inputBuf), ImGuiInputTextFlags_EnterReturnsTrue))
         {
             consoleBuf.appendf(">>> %s\n", inputBuf);
-            std::string commandOutput = con.executeCommand(inputBuf);
-            consoleBuf.appendf("%s\n", commandOutput.c_str());
+            std::string command(inputBuf);
             inputBuf[0] = '\0';
             scrollToBottom = true;
 
-            if (commandOutput == "exit")
+            // Execute command asynchronously
+            futureResult = std::async(std::launch::async, [command, &con]() {
+                return con.executeShellCommand(command);
+            });
+            isExecuting = true;
+        }
+
+        // Check if command execution is finished
+        if (isExecuting && futureResult.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+        {
+            std::string commandOutput = futureResult.get();
+            consoleBuf.appendf("%s\n", commandOutput.c_str());
+            scrollToBottom = true;
+            isExecuting = false;
+
+            if (commandOutput.find("exit") != std::string::npos)
             {
                 con.stop();
                 showConsole = false;
             }
         }
-        ImGui::End();
     }
+    ImGui::End();
 }
 
 void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)

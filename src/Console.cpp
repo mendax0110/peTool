@@ -2,9 +2,13 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
 #include <unistd.h>
 #include <termios.h>
+#include <cstdio>
+#include <memory>
+#include <array>
+#include <future>
 #endif
 
 using namespace ConsoleInternals;
@@ -29,7 +33,7 @@ void Console::Initialize()
     freopen("CONIN$", "r", stdin);
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
     struct termios term;
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag &= ~(ICANON | ECHO);
@@ -58,7 +62,7 @@ void Console::stop()
 
 #if defined(_WIN32)
     FreeConsole();
-#elif defined(__APPLE__)
+#elif defined(__APPLE__) || defined(__linux__)
     struct termios term;
     tcgetattr(STDIN_FILENO, &term);
     term.c_lflag |= ICANON | ECHO;
@@ -81,8 +85,7 @@ void Console::processInput(const std::string &input)
     }
     else
     {
-        std::cout << "Unknown command: " << input << std::endl;
-        std::cout << "Type 'help' for a list of commands." << std::endl;
+        std::cout << executeShellCommand(input) << std::endl;
     }
 }
 
@@ -141,4 +144,29 @@ void Console::showConsole()
 {
     Initialize();
     run();
+}
+
+std::string Console::executeShellCommand(const std::string &command)
+{
+    std::array<char, 128> buffer;
+    std::string result;
+
+#if defined(_WIN32)
+    std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
+#elif defined(__APPLE__) || defined(__linux__)
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
+#endif
+
+    if (!pipe)
+    {
+        std::cerr << "popen() failed!" << std::endl;
+        return "Error executing command";
+    }
+
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
+    {
+        result += buffer.data();
+    }
+
+    return result;
 }
