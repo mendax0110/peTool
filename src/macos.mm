@@ -12,6 +12,7 @@
 #include "../include/CLI/Console.h"
 #include "../include/MANMON/MemoryManager.h"
 #include "../include/MANMON/PerfMon.h"
+#include "../include/CORE/Logger.h"
 
 #include <iostream>
 #include <vector>
@@ -562,6 +563,23 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
     ImGui::End();
 }
 
+void logProgram(const std::function<void()>& program)
+{
+    Logger logger;
+    logger.log(Logger::LogLevel::INFO, "Program started.", "");
+
+    std::stringstream programOutput;
+    std::streambuf* old_stdout = std::cout.rdbuf();
+    std::cout.rdbuf(programOutput.rdbuf());
+
+    program();
+
+    std::cout.rdbuf(old_stdout);
+
+    logger.log(Logger::LogLevel::INFO, programOutput.str(), "");
+    logger.log(Logger::LogLevel::INFO, "Program finished.", "");
+}
+
 /*void setApplicationIcon()
 {
     NSString *executablePath = [[NSBundle mainBundle] executablePath];
@@ -867,13 +885,13 @@ int main(int argc, char** argv)
     if (use_gui)
     {
         PerformanceMonitor::start("GUI Performance");
-        runGUI();
+        logProgram([]() { runGUI(); });
         PerformanceMonitor::stop("GUI Performance");
     }
     else
     {
         PerformanceMonitor::start("CLI Performance");
-        runCLI(argc, argv);
+        logProgram([&]() { runCLI(argc, argv); });
         PerformanceMonitor::stop("CLI Performance");
     }
 

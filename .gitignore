@@ -4,14 +4,17 @@
 # Ignore the build folder
 build
 
-#Ignore the .vscode folder
+# Ignore the .vscode folder
 .vscode
 
-#Ignore the .idea folder
+# Ignore the .idea folder
 .idea
 
-#Ignore cmake-build-debug folder
+# Ignore cmake-build-debug folder
 cmake-build-debug
 
-#Ignore the DS_Store file
+# Ignore the content of the log folder
+log/*
+
+# Ignore the DS_Store file
 .DS_Store

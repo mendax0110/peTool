@@ -10,6 +10,8 @@
 #elif defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>
 #include <sys/resource.h>
+#include <sys/time.h>
+#include <sys/sysctl.h>
 #endif
 
 class PerformanceMonitor
