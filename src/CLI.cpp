@@ -42,6 +42,7 @@ void CLI::printHelp()
 
 void CLI::printError(const std::string& message)
 {
+    //
 
 }
 
@@ -132,8 +133,7 @@ void calculateChecksum(const std::string& filePathInput)
     std::stringstream output;
     std::streambuf* old_cout = std::cout.rdbuf();
     std::cout.rdbuf(output.rdbuf());
-    Utils unt;
-    uint32_t checksum = unt.calculateChecksum(fileData);
+    uint32_t checksum = Utils::calculateChecksum(fileData);
     std::cout << "Checksum: " << checksum << std::endl;
     std::cout.rdbuf(old_cout);
     std::cout << output.str();
@@ -143,7 +143,7 @@ void showEntropy(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
     Entropy ent;
-    std::vector<int> histogram = ent.createHistogram(fileData);
+    std::vector<int> histogram = Entropy::createHistogram(fileData);
     for (int i = 0; i < histogram.size(); i++)
     {
         std::stringstream output;

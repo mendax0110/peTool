@@ -11,11 +11,9 @@ set(INCLUDE_DIR
         "${CMAKE_SOURCE_DIR}/src/MANMON"
         "${CMAKE_SOURCE_DIR}/src/VIEW")
 
-
 set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
 
 include_directories(${INCLUDE_DIR})
-
 include_directories(${IMGUI_DIR})
 include_directories(${IMGUI_DIR}/backends)
 
@@ -36,7 +34,6 @@ endif()
 if (LINUX)
     set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp")
 endif()
-
 
 if (WIN32)
     set(DirectX_LIBRARIES d3d12 dxgi d3dcompiler)
@@ -63,11 +60,11 @@ if (LINUX)
     set(DirectX_LIBRARIES SDL2 OpenGL::GL)
 endif()
 
-file(GLOB SOURCES "src/*.cpp")
-
 if (APPLE)
-    # search for .cpp and .mm files
+    # Search for .cpp and .mm files
     file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.mm")
+else()
+    file(GLOB_RECURSE SOURCES "src/*.cpp")
 endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURCES})
@@ -82,3 +79,35 @@ endif()
 if (APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES} ${SDL2_LIBRARY})
 endif()
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    #target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
+    #target_link_libraries(${PROJECT_NAME} PRIVATE "-fsanitize=address")
+
+    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
+
+    target_compile_options(${PROJECT_NAME} PRIVATE "-fno-omit-frame-pointer")
+endif()
+
+if (APPLE)
+    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.sh"
+            "#!/bin/bash\n"
+            "./cmake-build-debug/peTool\n"
+            "leaks -atExit -- ./peTool\n"
+    )
+    execute_process(COMMAND chmod +x "${CMAKE_BINARY_DIR}/run_leaks.sh")
+elseif (LINUX)
+    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.sh"
+            "#!/bin/bash\n"
+            "./cmake-build-debug/peTool\n"
+            "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./peTool\n"
+    )
+    execute_process(COMMAND chmod +x "${CMAKE_BINARY_DIR}/run_leaks.sh")
+elseif (WIN32)
+    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.bat"
+            "./build/peTool.exe\n"
+    )
+endif()
+
+

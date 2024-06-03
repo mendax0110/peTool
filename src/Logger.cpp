@@ -1,10 +1,7 @@
 #include "../include/CORE/Logger.h"
 #include <iostream>
 
-Logger::Logger()
-{
-
-}
+Logger::Logger() = default;
 
 Logger::~Logger()
 {

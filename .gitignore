@@ -13,6 +13,12 @@ build
 # Ignore cmake-build-debug folder
 cmake-build-debug
 
+# Ignore the cmke-build-release folder
+cmake-build-release
+
+# Ignore the cmake-build-coverage folder
+cmake-build-debug-coverage
+
 # Ignore the content of the log folder
 log/*
 
