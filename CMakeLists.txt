@@ -61,8 +61,7 @@ if (LINUX)
 endif()
 
 if (APPLE)
-    # Search for .cpp and .mm files
-    file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.mm")
+    file(GLOB_RECURSE SOURCES "src/*.cpp" "src/macos/*.mm" "src/linux/*.cpp" "src/windows/*.cpp")
 else()
     file(GLOB_RECURSE SOURCES "src/*.cpp")
 endif()
