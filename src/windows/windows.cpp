@@ -1,14 +1,20 @@
+#define NOMINMAX
+
 #include "../../include/CORE/PE.h"
 #include "../../include/CORE/Injector.h"
 #include "../../include/CORE/Detector.h"
 #include "../../include/CORE/Disassembler.h"
+#include "../../include/CORE/Logger.h"
+#include "../../include/CORE/Debugger.h"
 #include "../../include/FILEIO/FileIO.h"
 #include "../../include/FILEIO/Utils.h"
 #include "../../include/FILEIO/FileEditor.h"
 #include "../../include/MANMON/MemoryManager.h"
 #include "../../include/MANMON/PerfMon.h"
 #include "../../include/VIEW/Entropy.h"
+#include "../../include/VIEW/GraphView.h"
 #include "../../include/CLI/CLI.h"
+#include "../../include/CLI/Console.h"
 
 #include <iostream>
 #include <vector>
@@ -17,6 +23,8 @@
 #include <filesystem>
 #include <functional>
 #include <map>
+#include <algorithm>
+#include <future>
 #include <algorithm>
 
 #if defined(_WIN32)
@@ -40,8 +48,10 @@ using namespace DissassemblerInternals;
 using namespace DetectorInternals;
 using namespace CliInterface;
 using namespace FileEditorInternals;
+using namespace ConsoleInternals;
 
 FileEditor fileEditor;
+class Debugger debugger;
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -96,6 +106,10 @@ std::string sSelectedFile;
 std::string filePath;
 bool showEntropyHistogram = false;
 bool openFileForEdit = false;
+bool showImportTableWindow = false;
+bool showConsole = false;
+bool showDebugger = false;
+bool showFileEdit = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -123,6 +137,7 @@ void initMenuItemInfo()
     menuItemInfo["Heap Flags"];
     menuItemInfo["Output Debug String"];
     menuItemInfo["Edit File"];
+    menuItemInfo["Console"];
 }
 
 void updateMenuItemWindows()
@@ -235,7 +250,7 @@ void showFileSelector(std::string& filePathInput)
     filePathInput = filePathInputBuffer;
 }
 
-void showFileEditorWindow()
+/*void showFileEditorWindow()
 {
     static bool showFileEditor = false;
 
@@ -275,6 +290,30 @@ void showFileEditorWindow()
 
         ImGui::End();
     }
+}*/
+void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std::string& filename)
+{
+    if (!showFileEdit)
+        return;
+
+    if (filename.empty())
+        return;
+
+    ImGui::Begin("File Editor", &showFileEdit, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+
+    if (!fileEditor.isOpen())
+    {
+        if (fileEditor.openFileForRead(filename))
+        {
+            std::string fileContent = fileEditor.readFile();
+            fileEditor.SetText(fileContent);
+        }
+    }
+
+    ImVec2 availSize = ImGui::GetContentRegionAvail();
+    fileEditor.Render("File Editor", availSize, true);
+
+    ImGui::End();
 }
 
 void showExtractMenu(const std::string& filePath)
@@ -324,7 +363,7 @@ void showUtilsMenu(const std::string& filePath)
         processFileAndMenuItem("Calculate Checksum", filePath, [&](const std::vector<uint8_t>& fileData)
         {
             Utils unt;
-            auto checksumOutput = unt.calculateChecksum(fileData);
+            auto checksumOutput = Utils::calculateChecksum(fileData);
             auto checksum = std::to_string(checksumOutput);
         });
         ImGui::EndMenu();
@@ -402,6 +441,238 @@ void showHistogramWindow(const std::vector<int>& histogram, const std::vector<st
         ImGui::End();
     }
 }
+
+void showDetailedViewOfImportTable(const std::string& filePath, bool& showImportTableWindow)
+{
+    if (!showImportTableWindow)
+        return;
+
+    if (filePath.empty())
+        return;
+
+    PE pe;
+    std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+
+    PE::extractImportTable(fileData);
+    auto functionNames = PE::getFunctionNames(fileData);
+    auto functionAddresses = PE::getFunctionAddresses(fileData);
+    auto dllNames = PE::getDllNames(fileData);
+    auto dllAddresses = PE::getDllAddresses(fileData);
+    size_t funcCount = functionNames.size();
+    size_t dllCount = dllNames.size();
+
+    ImGui::Begin("Import Table", &showImportTableWindow);
+    ImGui::Text("Number of Functions Imported: %zu", funcCount);
+
+    if (ImGui::BeginTable("ImportTable", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg))
+    {
+        ImGui::TableSetupColumn("Function Name");
+        ImGui::TableSetupColumn("Function Address");
+        ImGui::TableSetupColumn("DLL Name");
+        ImGui::TableSetupColumn("DLL Address");
+        ImGui::TableHeadersRow();
+
+        for (size_t i = 0; i < funcCount; ++i)
+        {
+            ImGui::TableNextRow();
+            ImGui::TableSetColumnIndex(0);
+            if (i < functionNames.size())
+                ImGui::Text("%s", functionNames[i].c_str());
+            else
+                ImGui::Text("N/A");
+
+            ImGui::TableSetColumnIndex(1);
+            if (i < functionAddresses.size())
+                ImGui::Text("0x%llx", functionAddresses[i]);
+            else
+                ImGui::Text("N/A");
+
+            ImGui::TableSetColumnIndex(2);
+            if (i < dllNames.size())
+                ImGui::Text("%s", dllNames[i].c_str());
+            else
+                ImGui::Text("N/A");
+
+            ImGui::TableSetColumnIndex(3);
+            if (i < dllAddresses.size())
+                ImGui::Text("0x%llx", dllAddresses[i]);
+            else
+                ImGui::Text("N/A");
+        }
+
+        ImGui::EndTable();
+    }
+
+    GraphView graphView;
+
+    for (int i = 0; i < funcCount; ++i)
+    {
+        graphView.AddNode(i * 2, ImVec2(100, 100 + i * 80), ImVec2(100, 50), functionNames[i]);
+    }
+
+    for (int i = 0; i < dllCount; ++i)
+    {
+        graphView.AddNode(i * 2 + 1, ImVec2(300, 100 + i * 80), ImVec2(100, 50), dllNames[i]);
+    }
+
+
+    size_t minCount = std::min(funcCount, dllCount);
+    //auto minCount = std::min(funcCount, dllCount);
+    for (int i = 0; i < minCount; ++i)
+    {
+        graphView.AddConnection(i * 2, i * 2 + 1);
+    }
+
+    graphView.Render();
+
+    ImGui::End();
+}
+
+void showConsoleWindow(bool &showConsole)
+{
+    if (!showConsole)
+        return;
+
+    static char inputBuf[256] = "";
+    static ImGuiTextBuffer consoleBuf;
+    static bool scrollToBottom = false;
+    Console con;
+    static std::future<std::string> futureResult;
+    static bool isExecuting = false;
+
+    if (ImGui::Begin("Console"))
+    {
+        ImGui::TextWrapped("Enter commands and see the output here.");
+
+        if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetFrameHeightWithSpacing()), false, ImGuiWindowFlags_HorizontalScrollbar))
+        {
+            ImGui::TextUnformatted(consoleBuf.begin());
+
+            if (scrollToBottom)
+                ImGui::SetScrollHereY(1.0f);
+
+            scrollToBottom = false;
+        }
+        ImGui::EndChild();
+
+        if (ImGui::InputText("Input", inputBuf, IM_ARRAYSIZE(inputBuf), ImGuiInputTextFlags_EnterReturnsTrue))
+        {
+            consoleBuf.appendf(">>> %s\n", inputBuf);
+            std::string command(inputBuf);
+            inputBuf[0] = '\0';
+            scrollToBottom = true;
+
+            // Execute command asynchronously
+            futureResult = std::async(std::launch::async, [command, &con]() {
+                return con.executeShellCommand(command);
+            });
+            isExecuting = true;
+        }
+
+        // Check if command execution is finished
+        if (isExecuting && futureResult.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+        {
+            std::string commandOutput = futureResult.get();
+            consoleBuf.appendf("%s\n", commandOutput.c_str());
+            scrollToBottom = true;
+            isExecuting = false;
+
+            if (commandOutput.find("exit") != std::string::npos)
+            {
+                con.stop();
+                showConsole = false;
+            }
+        }
+    }
+    ImGui::End();
+}
+
+void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
+{
+    if (!showDebugger)
+        return;
+
+    ImGui::Begin("Debugger", &showDebugger);
+    ImGui::BeginChild("SourceWindow", ImVec2(ImGui::GetWindowWidth() * 0.6f, 0), true);
+    ImGui::Text("Source Code");
+    std::vector<uint8_t> fileData = FileIO::readFile(filePath);
+    fileEditor.openFileForRead(filePath);
+    std::string fileContent = fileEditor.readFile();
+    ImGui::Text("%s", fileContent.c_str());
+    ImGui::EndChild();
+    ImGui::SameLine();
+
+    ImGui::BeginChild("ControlArea", ImVec2(0, 0), true);
+    ImGui::Text("Control");
+    if (ImGui::Button("Start Debugging"))
+    {
+        debugger.startDebugging("executable_path");
+    }
+    if (ImGui::Button("Step Into"))
+    {
+        debugger.stepInto();
+    }
+    if (ImGui::Button("Step Over"))
+    {
+        debugger.stepOver();
+    }
+    if (ImGui::Button("Step Out"))
+    {
+        debugger.stepOut();
+    }
+    if (ImGui::Button("Run"))
+    {
+        debugger.run();
+    }
+    ImGui::EndChild();
+
+    ImGui::BeginChild("Callstack", ImVec2(ImGui::GetWindowWidth() * 0.3f, 0), true);
+    ImGui::Text("Callstack");
+    auto callstack = Debugger::getCallStack();
+    for (const auto& frame : callstack)
+    {
+        ImGui::Text("%s", frame.c_str());
+    }
+    ImGui::EndChild();
+
+    ImGui::BeginChild("Watch", ImVec2(0, 100), true);
+    ImGui::Text("Watch");
+    auto watch = Debugger::getWatch();
+    for (const auto& frame : watch)
+    {
+        ImGui::Text("%s", frame.c_str());
+    }
+    ImGui::EndChild();
+
+    ImGui::BeginChild("Locals", ImVec2(0, 100), true);
+    ImGui::Text("Locals");
+    auto locals = Debugger::getLocals();
+    for (const auto& frame : locals)
+    {
+        ImGui::Text("%s", frame.c_str());
+    }
+    ImGui::EndChild();
+
+    ImGui::End();
+}
+
+void logProgram(const std::function<void()>& program)
+{
+    Logger logger;
+    logger.log(Logger::LogLevel::INFO, "Program started.", "");
+
+    std::stringstream programOutput;
+    std::streambuf* old_stdout = std::cout.rdbuf();
+    std::cout.rdbuf(programOutput.rdbuf());
+
+    program();
+
+    std::cout.rdbuf(old_stdout);
+
+    logger.log(Logger::LogLevel::INFO, programOutput.str(), "");
+    logger.log(Logger::LogLevel::INFO, "Program finished.", "");
+}
+
 
 int runGUI()
 {
@@ -557,9 +828,37 @@ int runGUI()
             }
             if (ImGui::BeginMenu("Edit"))
             {
-                if (ImGui::MenuItem("Edit File"))
+                if (ImGui::MenuItem("File Editor"))
                 {
-                    menuItemInfo["Edit File"].windowOpen = true;
+                    showFileEditorWindow(fileEditor, showFileEdit, filePathInput);
+                    showFileEdit = true;
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Graph"))
+            {
+                if (ImGui::MenuItem("Import Table"))
+                {
+                    showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
+                    showImportTableWindow = true;
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Console"))
+            {
+                if (ImGui::MenuItem("Show Console"))
+                {
+                    showConsoleWindow(showConsole);
+                    showConsole = true;
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Debugger"))
+            {
+                if (ImGui::MenuItem("Show Debugger"))
+                {
+                    showDebuggerWindow(showDebugger, debugger);
+                    showDebugger = true;
                 }
                 ImGui::EndMenu();
             }
@@ -573,7 +872,10 @@ int runGUI()
         showDetectorMenu(filePathInput);
         showAntiDebugMenu(filePathInput);
         showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
-        showFileEditorWindow();
+        showFileEditorWindow(fileEditor, showFileEdit, filePathInput);
+        showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
+        showConsoleWindow(showConsole);
+        showDebuggerWindow(showDebugger, debugger);
 
         updateMenuItemWindows();
 
@@ -879,13 +1181,15 @@ int main(int argc, char** argv)
     if (use_gui)
     {
         PerformanceMonitor::start("GUI Performance");
-        runGUI();
+        //runGUI();
+        logProgram([]() { runGUI(); });
         PerformanceMonitor::stop("GUI Performance");
     }
     else
     {
         PerformanceMonitor::start("CLI Performance");
-        runCLI(argc, argv);
+        //runCLI(argc, argv);
+        logProgram([&]() { runCLI(argc, argv); });
         PerformanceMonitor::stop("CLI Performance");
     }
 

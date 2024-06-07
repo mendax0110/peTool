@@ -1,5 +1,6 @@
 #include "../include/CORE/Logger.h"
 #include <iostream>
+#include <iomanip>
 
 Logger::Logger() = default;
 

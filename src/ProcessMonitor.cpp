@@ -34,7 +34,7 @@ std::vector<std::string> ProcessMonitor::GetRunningProcesses()
 
     if (hProcessSnap == INVALID_HANDLE_VALUE)
     {
-        cerr << "Error: CreateToolhelp32Snapshot failed" << endl;
+        std::cerr << "Error: CreateToolhelp32Snapshot failed" << std::endl;
         return processes;
     }
 
@@ -42,15 +42,15 @@ std::vector<std::string> ProcessMonitor::GetRunningProcesses()
 
     if (!Process32First(hProcessSnap, &pe32))
     {
-        cerr << "Error: Process32First failed" << endl;
+        std::cerr << "Error: Process32First failed" << std::endl;
         CloseHandle(hProcessSnap);
         return processes;
     }
 
     do
     {
-        string ws(pe32.szExeFile);
-        string processName(ws.begin(), ws.end());
+        std::string ws(pe32.szExeFile);
+        std::string processName(ws.begin(), ws.end());
         processes.push_back(processName);
     } while (Process32Next(hProcessSnap, &pe32));
 

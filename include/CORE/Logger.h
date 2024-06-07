@@ -5,6 +5,11 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <mutex>
+
+#ifdef _WIN32
+#define ERROR_MACRO_ALREADY_DEFINED
+#endif
 
 class Logger
 {
@@ -16,7 +21,9 @@ public:
     {
         INFO,
         WARNING,
+#ifndef _WIN32
         ERROR
+#endif
     };
 
     struct LogMessage
@@ -24,7 +31,7 @@ public:
         LogLevel level;
         std::string message;
         std::string path;
-        LogMessage(LogLevel l, std::string  m, std::string  p)
+        LogMessage(LogLevel l, std::string m, std::string p)
             : level(l), message(std::move(m)), path(std::move(p)) {}
     };
 

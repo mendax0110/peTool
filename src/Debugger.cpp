@@ -252,7 +252,9 @@ bool Debugger::readMemory(unsigned long long address, void* buffer, size_t size)
     snprintf(command, sizeof(command), "memory read 0x%llx %zu", address, size);
     return executeLLDBCommand(command);
 #elif defined(_WIN32)
-    snprintf(command, sizeof(command), "x/%dxb 0x%llx", size, address);
+    // cast size to int to avoid warning
+    auto intSize = static_cast<int>(size);
+    snprintf(command, sizeof(command), "x/%dxb 0x%llx", intSize, address);
     return executeGDBCommand(command);
 #endif
 }
@@ -297,7 +299,7 @@ void Debugger::terminate()
 #elif defined(_WIN32)
     if (gdbProcessID != -1)
     {
-        _pclose(fdopen(gdbProcessID, "r"));
+        _pclose(_fdopen(gdbProcessID, "r"));
         gdbProcessID = -1;
     }
 #endif

@@ -3,7 +3,16 @@
 #include <iomanip>
 #include <iostream>
 #include <unordered_map>
+
+#if defined(_APPLE__)
 #include <unistd.h>
+#endif
+
+#if defined(_WIN32)
+#include <windows.h>
+#include <psapi.h>
+#endif
+
 
 std::vector<PerformanceMonitor::PerformanceData> PerformanceMonitor::performanceData;
 std::chrono::time_point<std::chrono::high_resolution_clock> PerformanceMonitor::startTime;

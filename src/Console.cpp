@@ -2,6 +2,9 @@
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <iostream>
+#include <sstream>
+#include <array>
 #elif defined(__APPLE__) || defined(__linux__)
 #include <unistd.h>
 #include <termios.h>
@@ -148,7 +151,7 @@ void Console::showConsole()
 
 std::string Console::executeShellCommand(const std::string &command)
 {
-    std::array<char, 128> buffer;
+    std::array<char, 128> buffer{};
     std::string result;
 
 #if defined(_WIN32)

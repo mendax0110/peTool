@@ -492,6 +492,239 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
     std::cout << "CheckSum: 0x" << std::hex << ntHeaders->OptionalHeader.CheckSum << std::endl;
     std::cout << "Subsystem: 0x" << std::hex << ntHeaders->OptionalHeader.Subsystem << std::endl;
 }
+
+std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileData)
+{
+    std::vector<std::string> functionNames;
+
+	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
+	{
+		std::cerr << "Error: File is too small to contain a valid PE header.\n";
+		return functionNames;
+	}
+
+	PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(const_cast<uint8_t*>(&fileData[0]));
+	DWORD peHeaderOffset = dosHeader->e_lfanew;
+
+	PIMAGE_NT_HEADERS ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(const_cast<uint8_t*>(&fileData[peHeaderOffset]));
+
+	if (ntHeaders->Signature != IMAGE_NT_SIGNATURE)
+	{
+		std::cerr << "Error: Invalid PE header signature.\n";
+		return functionNames;
+	}
+
+	DWORD exportTableRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+	DWORD exportTableSize = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+
+	if (exportTableRVA == 0 || exportTableSize == 0)
+	{
+		std::cout << "No export table found.\n";
+		return functionNames;
+	}
+
+	DWORD exportTableOffset = exportTableRVA;
+	for (int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+	{
+		PIMAGE_SECTION_HEADER sectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(const_cast<uint8_t*>(&fileData[peHeaderOffset + sizeof(IMAGE_NT_HEADERS) + (i * sizeof(IMAGE_SECTION_HEADER))]));
+		if (exportTableRVA >= sectionHeader->VirtualAddress && exportTableRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
+		{
+			exportTableOffset = exportTableRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+			break;
+		}
+	}
+
+	PIMAGE_EXPORT_DIRECTORY exportDirectory = reinterpret_cast<PIMAGE_EXPORT_DIRECTORY>(const_cast<uint8_t*>(&fileData[exportTableOffset]));
+
+	DWORD* exportedFunctions = reinterpret_cast<DWORD*>(const_cast<uint8_t*>(&fileData[exportDirectory->AddressOfFunctions]));
+	DWORD numberOfFunctions = exportDirectory->NumberOfFunctions;
+
+    for (DWORD i = 0; i < numberOfFunctions; ++i)
+	{
+		DWORD functionRVA = exportedFunctions[i];
+		if (functionRVA == 0)
+			continue;
+
+		DWORD functionOffset = functionRVA;
+		for (int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+		{
+			PIMAGE_SECTION_HEADER sectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(const_cast<uint8_t*>(&fileData[peHeaderOffset + sizeof(IMAGE_NT_HEADERS) + (i * sizeof(IMAGE_SECTION_HEADER))]));
+			if (functionRVA >= sectionHeader->VirtualAddress && functionRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
+			{
+				functionOffset = functionRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+				break;
+			}
+		}
+
+		const char* functionName = reinterpret_cast<const char*>(&fileData[functionOffset]);
+		functionNames.push_back(functionName);
+	}
+
+    return functionNames;
+}
+
+std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileData)
+{
+    std::vector<uint64_t> functionAddresses;
+
+	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
+	{
+		std::cerr << "Error: File is too small to contain a valid PE header.\n";
+		return functionAddresses;
+	}
+
+	PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(const_cast<uint8_t*>(&fileData[0]));
+	DWORD peHeaderOffset = dosHeader->e_lfanew;
+
+	PIMAGE_NT_HEADERS ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(const_cast<uint8_t*>(&fileData[peHeaderOffset]));
+
+	if (ntHeaders->Signature != IMAGE_NT_SIGNATURE)
+	{
+		std::cerr << "Error: Invalid PE header signature.\n";
+		return functionAddresses;
+	}
+
+	DWORD exportTableRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+	DWORD exportTableSize = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+
+	if (exportTableRVA == 0 || exportTableSize == 0)
+	{
+		std::cout << "No export table found.\n";
+		return functionAddresses;
+	}
+
+	DWORD exportTableOffset = exportTableRVA;
+	for (int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+	{
+		PIMAGE_SECTION_HEADER sectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(const_cast<uint8_t*>(&fileData[peHeaderOffset + sizeof(IMAGE_NT_HEADERS) + (i * sizeof(IMAGE_SECTION_HEADER))]));
+		if (exportTableRVA >= sectionHeader->VirtualAddress && exportTableRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
+		{
+			exportTableOffset = exportTableRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+			break;
+		}
+	}
+
+	PIMAGE_EXPORT_DIRECTORY exportDirectory = reinterpret_cast<PIMAGE_EXPORT_DIRECTORY>(const_cast<uint8_t*>(&fileData[exportTableOffset]));
+
+	DWORD* exportedFunctions = reinterpret_cast<DWORD*>(const_cast<uint8_t*>(&fileData[exportDirectory->AddressOfFunctions]));
+	DWORD numberOfFunctions = exportDirectory->NumberOfFunctions;
+    
+    for (DWORD i = 0; i < numberOfFunctions; ++i)
+	{
+		DWORD functionRVA = exportedFunctions[i];
+		if (functionRVA == 0)
+			continue;
+
+		functionAddresses.push_back(functionRVA);
+	}
+
+	return functionAddresses;
+}
+
+std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
+{
+    std::vector<std::string> dllNames;
+
+	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
+	{
+		std::cerr << "Error: File is too small to contain a valid PE header.\n";
+		return dllNames;
+	}
+
+	PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(const_cast<uint8_t*>(&fileData[0]));
+	DWORD peHeaderOffset = dosHeader->e_lfanew;
+
+	PIMAGE_NT_HEADERS ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(const_cast<uint8_t*>(&fileData[peHeaderOffset]));
+
+	if (ntHeaders->Signature != IMAGE_NT_SIGNATURE)
+	{
+		std::cerr << "Error: Invalid PE header signature.\n";
+		return dllNames;
+	}
+
+	DWORD importTableRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
+	DWORD importTableSize = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].Size;
+
+	if (importTableRVA == 0 || importTableSize == 0)
+	{
+		std::cout << "No import table found.\n";
+		return dllNames;
+	}
+
+	DWORD importTableOffset = importTableRVA;
+	for (int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+	{
+		PIMAGE_SECTION_HEADER sectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(const_cast<uint8_t*>(&fileData[peHeaderOffset + sizeof(IMAGE_NT_HEADERS) + (i * sizeof(IMAGE_SECTION_HEADER))]));
+		if (importTableRVA >= sectionHeader->VirtualAddress && importTableRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
+		{
+			importTableOffset = importTableRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+			break;
+		}
+	}
+
+	PIMAGE_IMPORT_DESCRIPTOR importDescriptor = reinterpret_cast<PIMAGE_IMPORT_DESCRIPTOR>(const_cast<uint8_t*>(&fileData[importTableOffset]));
+
+	while (importDescriptor->OriginalFirstThunk != 0)
+	{
+		const char* dllName = reinterpret_cast<const char*>(&fileData[importDescriptor->Name]);
+		dllNames.push_back(dllName);
+		++importDescriptor;
+	}
+
+	return dllNames;
+}
+
+std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
+{
+	std::vector<uint64_t> dllAddresses;
+
+	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
+	{
+		std::cerr << "Error: File is too small to contain a valid PE header.\n";
+		return dllAddresses;
+	}
+
+	PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(const_cast<uint8_t*>(&fileData[0]));
+	DWORD peHeaderOffset = dosHeader->e_lfanew;
+
+	PIMAGE_NT_HEADERS ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(const_cast<uint8_t*>(&fileData[peHeaderOffset]));
+
+	if (ntHeaders->Signature != IMAGE_NT_SIGNATURE)
+	{
+		std::cerr << "Error: Invalid PE header signature.\n";
+		return dllAddresses;
+	}
+
+	DWORD importTableRVA = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress;
+	DWORD importTableSize = ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].Size;
+
+	if (importTableRVA == 0 || importTableSize == 0)
+	{
+		std::cout << "No import table found.\n";
+		return dllAddresses;
+	}
+
+	DWORD importTableOffset = importTableRVA;
+	for (int i = 0; i < ntHeaders->FileHeader.NumberOfSections; ++i)
+	{
+		PIMAGE_SECTION_HEADER sectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(const_cast<uint8_t*>(&fileData[peHeaderOffset + sizeof(IMAGE_NT_HEADERS) + (i * sizeof(IMAGE_SECTION_HEADER))]));
+		if (importTableRVA >= sectionHeader->VirtualAddress && importTableRVA < sectionHeader->VirtualAddress + sectionHeader->Misc.VirtualSize)
+		{
+			importTableOffset = importTableRVA - sectionHeader->VirtualAddress + sectionHeader->PointerToRawData;
+			break;
+		}
+	}
+
+	PIMAGE_IMPORT_DESCRIPTOR importDescriptor = reinterpret_cast<PIMAGE_IMPORT_DESCRIPTOR>(const_cast<uint8_t*>(&fileData[importTableOffset]));
+
+	while (importDescriptor->OriginalFirstThunk != 0)
+	{
+		dllAddresses.push_back(importDescriptor->OriginalFirstThunk);
+		++importDescriptor;
+	}
+
+	return dllAddresses;
+}
 #endif
 
 #if defined(__linux__)
