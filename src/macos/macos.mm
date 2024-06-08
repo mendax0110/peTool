@@ -6,13 +6,14 @@
 #include "../../include/CORE/Disassembler.h"
 #include "../../include/CORE/Detector.h"
 #include "../../include/CORE/Debugger.h"
+#include "../../include/CORE/Logger.h"
 #include "../../include/VIEW/Entropy.h"
 #include "../../include/VIEW/GraphView.h"
 #include "../../include/CLI/CLI.h"
 #include "../../include/CLI/Console.h"
 #include "../../include/MANMON/MemoryManager.h"
 #include "../../include/MANMON/PerfMon.h"
-#include "../../include/CORE/Logger.h"
+#include "../../include/MANMON/MemProfiler.h"
 
 #include <iostream>
 #include <vector>
@@ -63,6 +64,7 @@ bool showImportTableWindow = false;
 bool showConsole = false;
 bool showDebugger = false;
 bool showFileEdit = false;
+bool showMemoryProfiler = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -470,8 +472,8 @@ void showConsoleWindow(bool &showConsole)
             scrollToBottom = true;
 
             // Execute command asynchronously
-            futureResult = std::async(std::launch::async, [command, &con]() {
-                return con.executeShellCommand(command);
+            futureResult = std::async(std::launch::async, [command]() {
+                return Console::executeShellCommand(command);
             });
             isExecuting = true;
         }
@@ -559,6 +561,51 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
         ImGui::Text("%s", frame.c_str());
     }
     ImGui::EndChild();
+
+    ImGui::End();
+}
+
+void showMemoryProfilerWindow(bool& showMemoryProfiler)
+{
+    if (!showMemoryProfiler)
+        return;
+
+    MemProfiler memProfiler;
+    memProfiler.populateMemoryUsage();
+    memProfiler.populateRAMUsage();
+    memProfiler.populateVRAMUsage();
+
+    //auto memUsage = memProfiler.getMemoryUsage();
+    auto totalMem = memProfiler.getTotalMemoryUsage();
+
+    //auto memRam = memProfiler.getRAMUsage();
+    auto totalRam = memProfiler.getTotalRAMUsage();
+
+    //auto memVRam = memProfiler.getVRAMUsage();
+    auto totalVRam = memProfiler.getTotalVRAMUsage();
+
+    ImGui::Begin("Memory Profiler", &showMemoryProfiler);
+
+    /*for (const auto& usage : memUsage)
+    {
+        ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
+    }*/
+
+    ImGui::Text("Total Memory Usage: %zu", totalMem);
+
+    /*for (const auto& usage : memRam)
+    {
+        ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
+    }*/
+
+    ImGui::Text("Total RAM Usage: %zu", totalRam);
+
+    /*for (const auto& usage : memVRam)
+    {
+        ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
+    }*/
+
+    ImGui::Text("Total VRAM Usage: %zu", totalVRam);
 
     ImGui::End();
 }
@@ -825,6 +872,15 @@ int runGUI()
                     }
                     ImGui::EndMenu();
                 }
+                if (ImGui::BeginMenu("Memory Profiler"))
+                {
+                    if (ImGui::MenuItem("Show Memory Profiler"))
+                    {
+                        showMemoryProfilerWindow(showMemoryProfiler);
+                        showMemoryProfiler = true;
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMainMenuBar();
             }
 
@@ -839,6 +895,7 @@ int runGUI()
             showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
             showConsoleWindow(showConsole);
             showDebuggerWindow(showDebugger, debugger);
+            showMemoryProfilerWindow(showMemoryProfiler);
 
             updateMenuItemWindows();
 

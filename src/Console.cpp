@@ -156,7 +156,8 @@ std::string Console::executeShellCommand(const std::string &command)
 
 #if defined(_WIN32)
     std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(command.c_str(), "r"), _pclose);
-#elif defined(__APPLE__) || defined(__linux__)
+#endif
+#if defined(__APPLE__)
     std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"), pclose);
 #endif
 

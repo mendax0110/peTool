@@ -18,17 +18,17 @@ namespace ConsoleInternals
         Console();
         ~Console();
 
-        void Initialize();
+        static void Initialize();
         void run();
         void stop();
         void showConsole();
         std::string executeCommand(const std::string& command);
         void processInput(const std::string& input);
-        std::string executeShellCommand(const std::string& command);
+        static std::string executeShellCommand(const std::string& command);
 
     private:
 
-        void displayPrompt();
+        static void displayPrompt();
         void handleHelp();
         void handleExit();
         void handleHistory();
