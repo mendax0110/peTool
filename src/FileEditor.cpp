@@ -270,6 +270,38 @@ void FileEditor::Paste()
     }
 }
 
+void FileEditor::PushUndo()
+{
+    undoStack.push_back({GetText(), cursorPosition});
+    redoStack.clear();
+}
+
+void FileEditor::Undo()
+{
+    if (!undoStack.empty())
+    {
+        redoStack.push_back({GetText(), cursorPosition});
+        ApplyEditAction(undoStack.back());
+        undoStack.pop_back();
+    }
+}
+
+void FileEditor::Redo()
+{
+    if (!redoStack.empty())
+    {
+        undoStack.push_back({GetText(), cursorPosition});
+        ApplyEditAction(redoStack.back());
+        redoStack.pop_back();
+    }
+}
+
+void FileEditor::ApplyEditAction(const EditAction& action)
+{
+    SetText(action.content);
+    SetCursorPosition(action.cursorPos);
+}
+
 void FileEditor::EnsureCursorVisible()
 {
     if (cursorPosition.line < 0)

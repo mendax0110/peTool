@@ -221,6 +221,26 @@ void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std:
         }
     }
 
+    if (ImGui::Button("Save"))
+    {
+        if (fileEditor.openFileForWrite(filename))
+        {
+            std::string fileContent = fileEditor.GetText();
+            fileEditor.writeFile(fileContent);
+            fileEditor.closeFile();
+        }
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Undo"))
+    {
+        fileEditor.Undo();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Redo"))
+    {
+        fileEditor.Redo();
+    }
+
     ImVec2 availSize = ImGui::GetContentRegionAvail();
     fileEditor.Render("File Editor", availSize, true);
 

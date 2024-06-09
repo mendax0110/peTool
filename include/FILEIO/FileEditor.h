@@ -44,6 +44,8 @@ namespace FileEditorInternals
         bool openFileForAppend(const std::string& fileName);
         void closeFile();
         std::string readFile();
+        void Undo();
+        void Redo();
 
         bool writeFile(const std::string& content);
         bool appendToFile(const std::string& content);
@@ -55,11 +57,22 @@ namespace FileEditorInternals
         std::vector<std::string> lines;
         Position cursorPosition;
 
+        struct EditAction
+        {
+            std::string content;
+            Position cursorPos;
+        };
+
+        std::vector<EditAction> undoStack;
+        std::vector<EditAction> redoStack;
+
         bool inputFileOpen;
         bool outputFileOpen;
 
         void EnsureCursorVisible();
         void HandleKeyboardInputs();
         void HandleMouseInputs();
+        void PushUndo();
+        void ApplyEditAction(const EditAction& action);
     };
 }
