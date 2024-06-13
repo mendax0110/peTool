@@ -66,7 +66,21 @@ else()
     file(GLOB_RECURSE SOURCES "src/*.cpp")
 endif()
 
+add_custom_command(
+    OUTPUT ${IMGUI_DIR}/.git
+    COMMAND git -C ${IMGUI_DIR} checkout docking
+    COMMAND git -C ${IMGUI_DIR} pull
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    COMMENT "Ensuring ImGui submodule is on the docking branch"
+)
+
+add_custom_target(EnsureImGuiDockingBranch ALL
+    DEPENDS ${IMGUI_DIR}/.git
+)
+
 add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURCES})
+
+add_dependencies(${PROJECT_NAME} EnsureImGuiDockingBranch)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR} ${IMGUI_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${IMGUI_DIR}/backends)
@@ -80,12 +94,8 @@ if (APPLE)
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    #target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=address")
-    #target_link_libraries(${PROJECT_NAME} PRIVATE "-fsanitize=address")
-
     target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
     target_link_libraries(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
-
     target_compile_options(${PROJECT_NAME} PRIVATE "-fno-omit-frame-pointer")
 endif()
 
@@ -108,5 +118,3 @@ elseif (WIN32)
             "./build/peTool.exe\n"
     )
 endif()
-
-
