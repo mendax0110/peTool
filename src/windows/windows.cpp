@@ -11,6 +11,7 @@
 #include "../../include/FILEIO/FileEditor.h"
 #include "../../include/MANMON/MemoryManager.h"
 #include "../../include/MANMON/PerfMon.h"
+#include "../../include/MANMON/MemProfiler.h"
 #include "../../include/VIEW/Entropy.h"
 #include "../../include/VIEW/GraphView.h"
 #include "../../include/CLI/CLI.h"
@@ -110,6 +111,8 @@ bool showImportTableWindow = false;
 bool showConsole = false;
 bool showDebugger = false;
 bool showFileEdit = false;
+bool showMemoryProfiler = false;
+
 
 void runCLI(int argc, char** argv)
 {
@@ -250,47 +253,6 @@ void showFileSelector(std::string& filePathInput)
     filePathInput = filePathInputBuffer;
 }
 
-/*void showFileEditorWindow()
-{
-    static bool showFileEditor = false;
-
-    if (menuItemInfo["Edit File"].windowOpen)
-    {
-        showFileEditor = true;
-        menuItemInfo["Edit File"].windowOpen = false;
-    }
-
-    if (showFileEditor)
-    {
-        ImGui::Begin("File Editor", &showFileEditor);
-
-        if (!openFileForEdit)
-        {
-            showFileSelector(filePath);
-            if (!filePath.empty() && ImGui::Button("Edit Selected File"))
-            {
-                openFileForEdit = true;
-            }
-        }
-        else
-        {
-            std::string fileContent = fileEditor.readFile();
-            static const size_t bufferSize = 65536; // 64 KB buffer
-            static char* fileContentBuffer = new char[bufferSize];
-            strcpy_s(fileContentBuffer, bufferSize, fileContent.c_str());
-            ImGui::InputTextMultiline("##source", fileContentBuffer, bufferSize, ImVec2(800, 600), ImGuiInputTextFlags_AllowTabInput);
-
-            if (ImGui::IsItemActive())
-            {
-                fileContent = fileContentBuffer;
-                fileEditor.openFileForWrite(filePath);
-                fileEditor.writeFile(fileContent);
-            }
-        }
-
-        ImGui::End();
-    }
-}*/
 void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std::string& filename)
 {
     if (!showFileEdit)
@@ -310,11 +272,56 @@ void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std:
         }
     }
 
+    if (ImGui::Button("Save"))
+    {
+        if (fileEditor.openFileForWrite(filename))
+        {
+            std::string fileContent = fileEditor.GetText();
+            fileEditor.writeFile(fileContent);
+            fileEditor.closeFile();
+        }
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Undo"))
+    {
+        fileEditor.Undo();
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Redo"))
+    {
+        fileEditor.Redo();
+    }
+
     ImVec2 availSize = ImGui::GetContentRegionAvail();
     fileEditor.Render("File Editor", availSize, true);
 
     ImGui::End();
 }
+
+//void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std::string& filename)
+//{
+//    if (!showFileEdit)
+//        return;
+//
+//    if (filename.empty())
+//        return;
+//
+//    ImGui::Begin("File Editor", &showFileEdit, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+//
+//    if (!fileEditor.isOpen())
+//    {
+//        if (fileEditor.openFileForRead(filename))
+//        {
+//            std::string fileContent = fileEditor.readFile();
+//            fileEditor.SetText(fileContent);
+//        }
+//    }
+//
+//    ImVec2 availSize = ImGui::GetContentRegionAvail();
+//    fileEditor.Render("File Editor", availSize, true);
+//
+//    ImGui::End();
+//}
 
 void showExtractMenu(const std::string& filePath)
 {
@@ -517,7 +524,6 @@ void showDetailedViewOfImportTable(const std::string& filePath, bool& showImport
 
 
     size_t minCount = std::min(funcCount, dllCount);
-    //auto minCount = std::min(funcCount, dllCount);
     for (int i = 0; i < minCount; ++i)
     {
         graphView.AddConnection(i * 2, i * 2 + 1);
@@ -656,6 +662,51 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
     ImGui::End();
 }
 
+void showMemoryProfilerWindow(bool& showMemoryProfiler)
+{
+    if (!showMemoryProfiler)
+        return;
+
+    MemProfiler memProfiler;
+    memProfiler.populateMemoryUsage();
+    memProfiler.populateRAMUsage();
+    memProfiler.populateVRAMUsage();
+
+    //auto memUsage = memProfiler.getMemoryUsage();
+    auto totalMem = memProfiler.getTotalMemoryUsage();
+
+    //auto memRam = memProfiler.getRAMUsage();
+    auto totalRam = memProfiler.getTotalRAMUsage();
+
+    //auto memVRam = memProfiler.getVRAMUsage();
+    auto totalVRam = memProfiler.getTotalVRAMUsage();
+
+    ImGui::Begin("Memory Profiler", &showMemoryProfiler);
+
+    /*for (const auto& usage : memUsage)
+    {
+        ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
+    }*/
+
+    ImGui::Text("Total Memory Usage: %zu", totalMem);
+
+    /*for (const auto& usage : memRam)
+    {
+        ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
+    }*/
+
+    ImGui::Text("Total RAM Usage: %zu", totalRam);
+
+    /*for (const auto& usage : memVRam)
+    {
+        ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
+    }*/
+
+    ImGui::Text("Total VRAM Usage: %zu", totalVRam);
+
+    ImGui::End();
+}
+
 void logProgram(const std::function<void()>& program)
 {
     Logger logger;
@@ -699,6 +750,7 @@ int runGUI()
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;      // Enable Docking
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
@@ -738,6 +790,7 @@ int runGUI()
         ImGui_ImplDX12_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
+        ImGui::DockSpaceOverViewport();
 
         if (ImGui::BeginMainMenuBar())
         {
