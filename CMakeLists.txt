@@ -17,6 +17,16 @@ include_directories(${INCLUDE_DIR})
 include_directories(${IMGUI_DIR})
 include_directories(${IMGUI_DIR}/backends)
 
+if (WIN32)
+    find_package(Doxygen REQUIRED)
+    get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
+    set(DOXYGEN_DIRS
+            ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/include
+    )
+    string(REPLACE ";" " " DOXYGEN_DIRS "${DOXYGEN_DIRS}")
+endif()
+
 if (APPLE)
     include_directories("/opt/homebrew/Cellar/sdl2/2.30.3/include/SDL2")
 endif()
@@ -66,21 +76,26 @@ else()
     file(GLOB_RECURSE SOURCES "src/*.cpp")
 endif()
 
-add_custom_command(
-    OUTPUT ${IMGUI_DIR}/.git
-    COMMAND git -C ${IMGUI_DIR} checkout docking
-    COMMAND git -C ${IMGUI_DIR} pull
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    COMMENT "Ensuring ImGui submodule is on the docking branch"
-)
+if (APPLE)
+    add_custom_command(
+        OUTPUT ${IMGUI_DIR}/.git
+        COMMAND git -C ${IMGUI_DIR} fetch --all
+        COMMAND git -C ${IMGUI_DIR} checkout docking || git -C ${IMGUI_DIR} checkout -b docking origin/docking
+        COMMAND git -C ${IMGUI_DIR} pull origin docking
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Ensuring ImGui submodule is on the docking branch"
+    )
 
-add_custom_target(EnsureImGuiDockingBranch ALL
-    DEPENDS ${IMGUI_DIR}/.git
-)
+    add_custom_target(EnsureImGuiDockingBranch ALL
+        DEPENDS ${IMGUI_DIR}/.git
+    )
+endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURCES})
 
-add_dependencies(${PROJECT_NAME} EnsureImGuiDockingBranch)
+if (APPLE)
+    add_dependencies(${PROJECT_NAME} EnsureImGuiDockingBranch)
+endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR} ${IMGUI_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${IMGUI_DIR}/backends)
@@ -117,4 +132,32 @@ elseif (WIN32)
     file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.bat"
             "./build/peTool.exe\n"
     )
+endif()
+
+if (WIN32)
+    find_package(Doxygen REQUIRED)
+    if(DOXYGEN_FOUND)
+        set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+        set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+        configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/docs/Doxygen)
+
+        if (WIN32)
+            get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
+        endif()
+
+        add_custom_target(doc_doxygen ALL
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+            COMMENT "Generating API documentation with Doxygen"
+            VERBATIM)
+
+        add_custom_command(TARGET doc_doxygen POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_BINARY_DIR}/docs/Doxygen
+            ${CMAKE_SOURCE_DIR}/docs/Doxygen
+            COMMENT "Copying generated documentation to the target directory"
+        )
+    endif()
 endif()
