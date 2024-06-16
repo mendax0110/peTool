@@ -7,7 +7,7 @@ var searchData=
   ['settraverser_4',['setTraverser',['../class_pe_internals_1_1_resource_directory.html#a7c47ed37527002ea9dae4ad7d7d9a4aa',1,'PeInternals::ResourceDirectory']]],
   ['showconsole_5',['showConsole',['../class_console_internals_1_1_console.html#a240497de9dcf1a768bd9b76f39a2a048',1,'ConsoleInternals::Console']]],
   ['showentropy_6',['showEntropy',['../_c_l_i_8cpp.html#a227dfce3db06b0d18d82e7d857b44f33',1,'CLI.cpp']]],
-  ['size_7',['size',['../struct_memory_manager_1_1_allocation_info.html#a6627659177eadb8fb309bbfb257952b2',1,'MemoryManager::AllocationInfo::size'],['../struct_node.html#a3be4191789359b0944f780c99475f843',1,'Node::size']]],
+  ['size_7',['size',['../struct_node.html#a3be4191789359b0944f780c99475f843',1,'Node::size'],['../struct_memory_manager_1_1_allocation_info.html#a6627659177eadb8fb309bbfb257952b2',1,'MemoryManager::AllocationInfo::size']]],
   ['sourcenodeid_8',['sourceNodeId',['../struct_connection.html#a10c6163ce4fcdc2028b098bf504efc19',1,'Connection']]],
   ['split_9',['split',['../class_database.html#a5df0cc9ed9d53fc8f3134357300030cf',1,'Database']]],
   ['start_10',['start',['../class_performance_monitor.html#ad4ad655ec88fcc660e1ae900bf5f499c',1,'PerformanceMonitor']]],

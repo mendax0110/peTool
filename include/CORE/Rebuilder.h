@@ -14,12 +14,12 @@ public:
     Rebuilder();
     ~Rebuilder();
 
-    bool fixDump(const std::string& filePath);
-    bool wipeLocations(const std::string& filePath);
-    bool rebuildResourceDirectory(const std::string& filePath);
-    bool validatePEFile(const std::string& filePath);
-    bool bindImports(const std::string& filePath);
-    bool changeImageBase(const std::string& filePath, uint64_t newImageBase);
+    static bool fixDump(const std::string& filePath);
+    static bool wipeLocations(const std::string& filePath);
+    static bool rebuildResourceDirectory(const std::string& filePath);
+    static bool validatePEFile(const std::string& filePath);
+    static bool bindImports(const std::string& filePath);
+    static bool changeImageBase(const std::string& filePath, uint64_t newImageBase);
 
 private:
     static std::vector<uint8_t> readFile(const std::string& filePath);

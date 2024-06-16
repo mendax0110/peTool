@@ -17,15 +17,14 @@ include_directories(${INCLUDE_DIR})
 include_directories(${IMGUI_DIR})
 include_directories(${IMGUI_DIR}/backends)
 
-if (WIN32)
-    find_package(Doxygen REQUIRED)
-    get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
-    set(DOXYGEN_DIRS
-            ${CMAKE_SOURCE_DIR}/src
-            ${CMAKE_SOURCE_DIR}/include
-    )
-    string(REPLACE ";" " " DOXYGEN_DIRS "${DOXYGEN_DIRS}")
-endif()
+
+find_package(Doxygen REQUIRED)
+get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
+set(DOXYGEN_DIRS
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/include
+)
+string(REPLACE ";" " " DOXYGEN_DIRS "${DOXYGEN_DIRS}")
 
 if (APPLE)
     include_directories("/opt/homebrew/Cellar/sdl2/2.30.3/include/SDL2")
@@ -134,30 +133,27 @@ elseif (WIN32)
     )
 endif()
 
-if (WIN32)
-    find_package(Doxygen REQUIRED)
-    if(DOXYGEN_FOUND)
-        set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
-        set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
-        configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
-        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/docs/Doxygen)
+find_package(Doxygen REQUIRED)
+if(DOXYGEN_FOUND)
+    set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+    set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
-        if (WIN32)
-            get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
-        endif()
+    configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/docs/Doxygen)
 
-        add_custom_target(doc_doxygen ALL
+    get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
+
+    add_custom_target(doc_doxygen ALL
             COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen"
             VERBATIM)
 
-        add_custom_command(TARGET doc_doxygen POST_BUILD
+    add_custom_command(TARGET doc_doxygen POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_BINARY_DIR}/docs/Doxygen
             ${CMAKE_SOURCE_DIR}/docs/Doxygen
-            COMMENT "Copying generated documentation to the target directory"
-        )
-    endif()
+            COMMENT "Copying generated documentation to the target directory")
 endif()
+

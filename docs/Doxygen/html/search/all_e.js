@@ -1,7 +1,7 @@
 var searchData=
 [
   ['packerdetection_0',['packerdetection',['../class_detector_internals_1_1_packer_detection.html',1,'DetectorInternals::PackerDetection'],['../class_detector_internals_1_1_packer_detection.html#a40a395af7569cfdd96752f2d0e37be70',1,'DetectorInternals::PackerDetection::PackerDetection()']]],
-  ['parseheaders_1',['parseheaders',['../class_pe_internals_1_1_p_e.html#adb22a4a3af334478eaa33da4aee3787c',1,'PeInternals::PE::parseHeaders()'],['../_c_l_i_8cpp.html#a94574425757ef962144cd4aa30cfee30',1,'parseHeaders():&#160;CLI.cpp']]],
+  ['parseheaders_1',['parseheaders',['../_c_l_i_8cpp.html#a94574425757ef962144cd4aa30cfee30',1,'parseHeaders():&#160;CLI.cpp'],['../class_pe_internals_1_1_p_e.html#adb22a4a3af334478eaa33da4aee3787c',1,'PeInternals::PE::parseHeaders()']]],
   ['paste_2',['Paste',['../class_file_editor_internals_1_1_file_editor.html#aedde128139b3b5415df836a74113d8e7',1,'FileEditorInternals::FileEditor']]],
   ['path_3',['path',['../struct_logger_1_1_log_message.html#a900b4e6ab35ea4864b15368305524052',1,'Logger::LogMessage']]],
   ['paused_4',['Paused',['../class_debugger.html#a0d542b4ace585987ab6e3b5eb2639a0eae99180abf47a8b3a856e0bcb2656990a',1,'Debugger']]],
@@ -11,7 +11,7 @@ var searchData=
   ['peinternals_8',['PeInternals',['../namespace_pe_internals.html',1,'']]],
   ['perfmon_2ecpp_9',['PerfMon.cpp',['../_perf_mon_8cpp.html',1,'']]],
   ['perfmon_2eh_10',['PerfMon.h',['../_perf_mon_8h.html',1,'']]],
-  ['performancedata_11',['performancedata',['../struct_performance_monitor_1_1_performance_data.html',1,'PerformanceMonitor::PerformanceData'],['../class_performance_monitor.html#a3227ef030da1526b4537c265c9dcfcf7',1,'PerformanceMonitor::performanceData']]],
+  ['performancedata_11',['performancedata',['../class_performance_monitor.html#a3227ef030da1526b4537c265c9dcfcf7',1,'PerformanceMonitor::performanceData'],['../struct_performance_monitor_1_1_performance_data.html',1,'PerformanceMonitor::PerformanceData']]],
   ['performancemonitor_12',['PerformanceMonitor',['../class_performance_monitor.html',1,'']]],
   ['populatememoryusage_13',['populateMemoryUsage',['../class_mem_profiler.html#aff2373527117a5509351bc03a139019b',1,'MemProfiler']]],
   ['populateramusage_14',['populateRAMUsage',['../class_mem_profiler.html#a30cf6cafd8bd8ba16f0e17439b335ac0',1,'MemProfiler']]],

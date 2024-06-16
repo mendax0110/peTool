@@ -304,22 +304,51 @@ bool Rebuilder::fixDumpInternal(std::vector<uint8_t>& data)
  * @param data The file data
  * @return True if the locations were wiped, false otherwise
  */
-bool Rebuilder::wipeLocationsInternal(std::vector<uint8_t>& data)
-{
+bool Rebuilder::wipeLocationsInternal(std::vector<uint8_t>& data) {
     std::cout << "Wiping locations in file" << std::endl;
-    auto it = data.begin();
-    for (const auto& byte : data)
+#if defined(_WIN32)
+    auto dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(data.data());
+    if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
     {
-        auto offset = std::distance(data.begin(), it);
-        auto value = *it;
-
-        // TODO : Implement wipeLocationsInternal
+        std::cerr << "Invalid DOS header signature." << std::endl;
+        return false;
     }
 
-    if (data.size() > 0)
-        return true;
-    else
+    auto ntHeader = reinterpret_cast<IMAGE_NT_HEADERS*>(data.data() + dosHeader->e_lfanew);
+    if (ntHeader->Signature != IMAGE_NT_SIGNATURE)
+    {
+        std::cerr << "Invalid NT header signature." << std::endl;
         return false;
+    }
+
+    memset(&ntHeader->OptionalHeader, 0, sizeof(ntHeader->OptionalHeader));
+    return true;
+#endif
+
+#if defined(__APPLE__)
+    auto machHeader = reinterpret_cast<mach_header*>(data.data());
+    if (machHeader->magic != MH_MAGIC)
+    {
+        std::cerr << "Invalid Mach-O header magic." << std::endl;
+        return false;
+    }
+
+    auto command = reinterpret_cast<load_command*>(data.data() + sizeof(mach_header));
+    auto segmentCommand = reinterpret_cast<segment_command*>(command);
+    auto section = reinterpret_cast<struct section*>(segmentCommand + 1);
+
+    for (int i = 0; i < segmentCommand->nsects; i++, ++section)
+    {
+        if (section->offset == 0)
+        {
+            std::cerr << "Invalid section offset." << std::endl;
+            return false;
+        }
+
+        memset(section, 0, sizeof(struct section));
+    }
+    return true;
+#endif
 }
 
 /**
@@ -366,9 +395,36 @@ bool Rebuilder::rebuildResourceDirectoryInternal(std::vector<uint8_t>& data)
 bool Rebuilder::validatePEFileInternal(std::vector<uint8_t>& data)
 {
     std::cout << "Validating PE file" << std::endl;
-    auto it = data.begin();
+    auto it = data.data();
 
-    return false;
+#if defined(_WIN32)
+    auto dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(it);
+    if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
+    {
+        std::cerr << "Invalid DOS header signature." << std::endl;
+        return false;
+    }
+
+    auto ntHeader = reinterpret_cast<IMAGE_NT_HEADERS*>(it + dosHeader->e_lfanew);
+    if (ntHeader->Signature != IMAGE_NT_SIGNATURE)
+    {
+        std::cerr << "Invalid NT header signature." << std::endl;
+        return false;
+    }
+
+    return true;
+#endif
+
+#if defined(__APPLE__)
+    auto machHeader = reinterpret_cast<mach_header*>(it);
+    if (machHeader->magic != MH_MAGIC)
+    {
+        std::cerr << "Invalid Mach-O header magic." << std::endl;
+        return false;
+    }
+
+    return true;
+#endif
 }
 
 /**
@@ -379,9 +435,78 @@ bool Rebuilder::validatePEFileInternal(std::vector<uint8_t>& data)
 bool Rebuilder::bindImportsInternal(std::vector<uint8_t>& data)
 {
     std::cout << "Binding imports" << std::endl;
-    auto it = data.begin();
+#if defined(_WIN32)
+    auto dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(data.data());
+    if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
+    {
+        std::cerr << "Invalid DOS header signature." << std::endl;
+        return false;
+    }
 
+    auto ntHeader = reinterpret_cast<IMAGE_NT_HEADERS*>(data.data() + dosHeader->e_lfanew);
+    if (ntHeader->Signature != IMAGE_NT_SIGNATURE)
+    {
+        std::cerr << "Invalid NT header signature." << std::endl;
+        return false;
+    }
+
+    auto importDescriptor = reinterpret_cast<IMAGE_IMPORT_DESCRIPTOR*>(data.data() + ntHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
+
+    while (!importDescriptor->Name)
+    {
+        auto name = reinterpret_cast<char*>(data.data() + importDescriptor->Name);
+        auto thunk = reinterpret_cast<IMAGE_THUNK_DATA*>(data.data() + importDescriptor->OriginalFirstThunk);
+        auto firstThunk = reinterpret_cast<IMAGE_THUNK_DATA*>(data.data() + importDescriptor->FirstThunk);
+
+        HMODULE module = LoadLibraryA(name);
+        if (!module)
+        {
+            std::cerr << "Failed to load library: " << name << std::endl;
+            return false;
+        }
+
+        while (thunk->u1.AddressOfData)
+        {
+            auto importByName = reinterpret_cast<IMAGE_IMPORT_BY_NAME*>(data.data() + thunk->u1.AddressOfData);
+            auto function = GetProcAddress(module, importByName->Name);
+            if (!function)
+            {
+                std::cerr << "Failed to get function address: " << importByName->Name << std::endl;
+                return false;
+            }
+            firstThunk->u1.Function = reinterpret_cast<uint32_t>(function);
+            ++thunk;
+            ++firstThunk;
+        }
+
+        ++importDescriptor;
+        return true;
+    }
+#endif
+
+#if defined(__APPLE__)
+    auto machHeader = reinterpret_cast<mach_header*>(data.data());
+    if (machHeader->magic != MH_MAGIC)
+    {
+        std::cerr << "Invalid Mach-O header magic." << std::endl;
+        return false;
+    }
+
+    auto command = reinterpret_cast<load_command*>(data.data() + sizeof(mach_header));
+    auto segmentCommand = reinterpret_cast<segment_command*>(command);
+    auto section = reinterpret_cast<struct section*>(segmentCommand + 1);
+
+    for (int i = 0; i < segmentCommand->nsects; i++, ++section)
+    {
+        if (strcmp(section->sectname, "__text") == 0)
+        {
+            section->offset = 0;
+            section->size = 0;
+            return true;
+        }
+    }
     return false;
+#endif
 }
 
 /**
@@ -393,7 +518,35 @@ bool Rebuilder::bindImportsInternal(std::vector<uint8_t>& data)
 bool Rebuilder::changeImageBaseInternal(std::vector<uint8_t>& data, uint64_t newImageBase)
 {
     std::cout << "Changing image base" << std::endl;
-    auto it = data.begin();
 
-    return false;
+#if defined(_WIN32)
+    auto dosHeader = reinterpret_cast<IMAGE_DOS_HEADER*>(data.data());
+    if (dosHeader->e_magic != IMAGE_DOS_SIGNATURE)
+    {
+        std::cerr << "Invalid DOS header signature." << std::endl;
+        return false;
+    }
+
+    auto ntHeader = reinterpret_cast<IMAGE_NT_HEADERS*>(data.data() + dosHeader->e_lfanew);
+    if (ntHeader->Signature != IMAGE_NT_SIGNATURE)
+    {
+        std::cerr << "Invalid NT header signature." << std::endl;
+        return false;
+    }
+
+    ntHeader->OptionalHeader.ImageBase = newImageBase;
+    return true;
+#endif
+
+#if defined(__APPLE__)
+    auto machHeader = reinterpret_cast<mach_header*>(data.data());
+    if (machHeader->magic != MH_MAGIC)
+    {
+        std::cerr << "Invalid Mach-O header magic." << std::endl;
+        return false;
+    }
+
+    machHeader->ncmds = newImageBase;
+    return true;
+#endif
 }

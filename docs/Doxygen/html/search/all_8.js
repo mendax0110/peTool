@@ -6,7 +6,7 @@ var searchData=
   ['injectdll_3',['InjectDLL',['../class_dll_injector_1_1_injector_platform.html#af759b0e2f1c807ba6288e37135e7f337',1,'DllInjector::InjectorPlatform']]],
   ['injector_2ecpp_4',['Injector.cpp',['../_injector_8cpp.html',1,'']]],
   ['injector_2eh_5',['Injector.h',['../_injector_8h.html',1,'']]],
-  ['injectorplatform_6',['injectorplatform',['../class_dll_injector_1_1_injector_platform.html',1,'DllInjector::InjectorPlatform'],['../namespace_injector_platform.html',1,'InjectorPlatform']]],
+  ['injectorplatform_6',['injectorplatform',['../namespace_injector_platform.html',1,'InjectorPlatform'],['../class_dll_injector_1_1_injector_platform.html',1,'DllInjector::InjectorPlatform']]],
   ['inputfileopen_7',['inputFileOpen',['../class_file_editor_internals_1_1_file_editor.html#af96e215ca52d870e5a5d4f8b0fa25fdf',1,'FileEditorInternals::FileEditor']]],
   ['inputfilestream_8',['inputFileStream',['../class_file_editor_internals_1_1_file_editor.html#abc6abf05e1153a4443e2cb9ad47abb0d',1,'FileEditorInternals::FileEditor']]],
   ['inputthread_9',['inputThread',['../class_console_internals_1_1_console.html#a0413c3b45a13a94ab67e396bf35ee3ee',1,'ConsoleInternals::Console']]],
