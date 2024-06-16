@@ -10,8 +10,16 @@
 #include <functional>
 #include <deque>
 
+/**
+ * @brief ConsoleInternals namespace
+ * @namespace ConsoleInternals
+ */
 namespace ConsoleInternals
 {
+    /**
+     * @brief The Console class
+     * @class Console, used for Console
+     */
     class Console
     {
     public:

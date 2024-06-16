@@ -21,6 +21,10 @@
 
 using namespace PeInternals;
 
+/**
+ * @brief Create a new ResourceDirectoryTraverser object
+ * @return A new ResourceDirectoryTraverser object
+ */
 ResourceDirectoryTraverser* ResourceDirectoryTraverserFactory::createTraverser()
 {
 #if defined(_WIN32)
@@ -34,6 +38,12 @@ ResourceDirectoryTraverser* ResourceDirectoryTraverserFactory::createTraverser()
 #endif
 }
 
+/**
+ * @brief Traverse the resource directory
+ * @param fileData The file data
+ * @param level The level of the resource directory
+ * @param parentName The name of the parent directory
+ */
 void ResourceDirectory::traverse(const std::vector<uint8_t>& fileData, int level, const std::string& parentName)
 {
     if (traverser != nullptr)
@@ -42,11 +52,20 @@ void ResourceDirectory::traverse(const std::vector<uint8_t>& fileData, int level
     }
 }
 
+/**
+ * @brief Set the traverser
+ * @param traverser The traverser to set
+ */
 void ResourceDirectory::setTraverser(ResourceDirectoryTraverser* traverser)
 {
     this->traverser = traverser;
 }
 
+/**
+ * @brief Get the resource directory offset
+ * @param fileData The file data
+ * @return The resource directory offset
+ */
 uint32_t PE::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
 {
     std::vector<uint8_t> mutableFileData(fileData.begin(), fileData.end());
@@ -131,6 +150,13 @@ uint32_t PE::GetResourceDirectoryOffset(const std::vector<uint8_t>& fileData)
 }
 
 #if defined(_WIN32)
+/**
+ * @brief Traverse the resource directory
+ * @param fileData The file data
+ * @param resourceDirectory The resource directory
+ * @param level The level of the resource directory
+ * @param parentName The name of the parent directory
+ */
 void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
 {
     uint32_t RESOURCE_DIRECTORY_OFFSET = PE::GetResourceDirectoryOffset(fileData);
@@ -164,6 +190,13 @@ void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileDat
 
 
 #if defined(__linux__)
+/**
+ * @brief Traverse the resource directory
+ * @param fileData The file data
+ * @param resourceDirectory The resource directory
+ * @param level The level of the resource directory
+ * @param parentName The name of the parent directory
+ */
 void LinuxResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
 {
     auto elfHeader = reinterpret_cast<const Elf64_Ehdr*>(fileData.data());
@@ -192,6 +225,13 @@ void LinuxResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileD
 #endif
 
 #if defined(__APPLE__)
+/**
+ * @brief Traverse the resource directory
+ * @param fileData The file data
+ * @param resourceDirectory The resource directory
+ * @param level The level of the resource directory
+ * @param parentName The name of the parent directory
+ */
 void AppleResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileData, ResourceDirectory* resourceDirectory, int level, const std::string& parentName)
 {
     auto resourceDirectoryData = reinterpret_cast<const struct mach_header*>(fileData.data());
@@ -227,6 +267,10 @@ void AppleResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileD
 
 
 #if defined(_WIN32)
+/**
+ * @brief Extract the import table from a PE file
+ * @param fileData The file data
+ */
 void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -291,6 +335,10 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 	}
 }
 
+/**
+ * @brief Extract the export table from a PE file
+ * @param fileData The file data
+ */
 void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -358,6 +406,10 @@ void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 	}
 }
 
+/**
+ * @brief Extract the resources from a PE file
+ * @param fileData The file data
+ */
 void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
 	if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -405,6 +457,10 @@ void PE::extractResources(const std::vector<uint8_t>& fileData)
     resourceTraverser.traverse(fileData, &resourceDir, 0, "");
 }
 
+/**
+ * @brief Extract the section info from a PE file
+ * @param fileData The file data
+ */
 void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -438,6 +494,10 @@ void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
     }
 }
 
+/**
+ * @brief Extract the headers from a PE file
+ * @param fileData The file data
+ */
 void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(IMAGE_DOS_HEADER) + sizeof(DWORD) + sizeof(IMAGE_NT_HEADERS))
@@ -493,6 +553,11 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
     std::cout << "Subsystem: 0x" << std::hex << ntHeaders->OptionalHeader.Subsystem << std::endl;
 }
 
+/**
+ * @brief Extract the function names from a PE file
+ * @param fileData The file data
+ * @return The function names
+ */
 std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileData)
 {
     std::vector<std::string> functionNames;
@@ -563,6 +628,11 @@ std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileDa
     return functionNames;
 }
 
+/**
+ * @brief Extract the function addresses from a PE file
+ * @param fileData The file data
+ * @return The function addresses
+ */
 std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileData)
 {
     std::vector<uint64_t> functionAddresses;
@@ -621,6 +691,11 @@ std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileD
 	return functionAddresses;
 }
 
+/**
+ * @brief Extract the DLL names from a PE file
+ * @param fileData The file data
+ * @return The DLL names
+ */
 std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
 {
     std::vector<std::string> dllNames;
@@ -674,6 +749,11 @@ std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
 	return dllNames;
 }
 
+/**
+ * @brief Extract the DLL addresses from a PE file
+ * @param fileData The file data
+ * @return The DLL addresses
+ */
 std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
 {
 	std::vector<uint64_t> dllAddresses;
@@ -728,6 +808,10 @@ std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
 #endif
 
 #if defined(__linux__)
+/**
+ * @brief Extract the import table from an ELF file
+ * @param fileData The file data
+ */
 void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -767,6 +851,10 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No import table found.\n";
 }
 
+/**
+ * @brief Extract the export table from an ELF file
+ * @param fileData The file data
+ */
 void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -806,6 +894,10 @@ void PE::extractExportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No export table found.\n";
 }
 
+/**
+ * @brief Extract the resources from an ELF file
+ * @param fileData The file data
+ */
 void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -844,6 +936,10 @@ void PE::extractResources(const std::vector<uint8_t>& fileData)
     resourceTraverser.traverse(fileData, &resourceDir, 0, "");
 }
 
+/**
+ * @brief Extract the section info from an ELF file
+ * @param fileData The file data
+ */
 void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -878,6 +974,10 @@ void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
     }
 }
 
+/**
+ * @brief Extract the headers from an ELF file
+ * @param fileData The file data
+ */
 void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(Elf64_Ehdr))
@@ -904,6 +1004,10 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 #endif
 
 #if defined(__APPLE__)
+/**
+ * @brief Extract the import table from a Mach-O file
+ * @param fileData The file data
+ */
 void PE::extractImportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(mach_header_64))
@@ -945,6 +1049,10 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No import table found.\n";
 }
 
+/**
+ * @brief Extract the export table from a Mach-O file
+ * @param fileData The file data
+ */
 void PE::extractExportTable(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(mach_header_64))
@@ -980,6 +1088,10 @@ void PE::extractExportTable(const std::vector<uint8_t>& fileData)
     std::cout << "No export table found.\n";
 }
 
+/**
+ * @brief Extract the resources from a Mach-O file
+ * @param fileData The file data
+ */
 void PE::extractResources(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(mach_header_64))
@@ -1014,6 +1126,10 @@ void PE::extractResources(const std::vector<uint8_t>& fileData)
     std::cout << "No resource directory found.\n";
 }
 
+/**
+ * @brief Extract the section info from a Mach-O file
+ * @param fileData The file data
+ */
 void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(mach_header_64))
@@ -1049,6 +1165,10 @@ void PE::extractSectionInfo(const std::vector<uint8_t>& fileData)
     }
 }
 
+/**
+ * @brief Extract the headers from a Mach-O file
+ * @param fileData The file data
+ */
 void PE::parseHeaders(const std::vector<uint8_t>& fileData)
 {
     if (fileData.size() < sizeof(mach_header_64))
@@ -1067,7 +1187,11 @@ void PE::parseHeaders(const std::vector<uint8_t>& fileData)
     std::cout << std::endl;
 }
 
-// method to return the functionnames, the function address, the dllNames and the dllAdresses
+/**
+ * @brief Extract the function names from a Mach-O file
+ * @param fileData The file data
+ * @return The function names
+ */
 std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileData)
 {
     std::vector<std::string> functionNames;
@@ -1109,7 +1233,11 @@ std::vector<std::string> PE::getFunctionNames(const std::vector<uint8_t>& fileDa
     return functionNames;
 }
 
-// method to return the functionnames, the function address, the dllNames and the dllAdresses
+/**
+ * @brief Extract the DLL names from a Mach-O file
+ * @param fileData The file data
+ * @return The DLL names
+ */
 std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
 {
     std::vector<std::string> dllNames;
@@ -1142,7 +1270,11 @@ std::vector<std::string> PE::getDllNames(const std::vector<uint8_t>& fileData)
     return dllNames;
 }
 
-// method to return the functionnames, the function address, the dllNames and the dllAdresses
+/**
+ * @brief Extract the function addresses from a Mach-O file
+ * @param fileData The file data
+ * @return The function addresses
+ */
 std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileData)
 {
     std::vector<uint64_t> functionAddresses;
@@ -1184,7 +1316,11 @@ std::vector<uint64_t> PE::getFunctionAddresses(const std::vector<uint8_t>& fileD
     return functionAddresses;
 }
 
-// method to return the functionnames, the function address, the dllNames and the dllAdresses
+/**
+ * @brief Extract the DLL addresses from a Mach-O file
+ * @param fileData The file data
+ * @return The DLL addresses
+ */
 std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
 {
     std::vector<uint64_t> dllAddresses;
@@ -1215,6 +1351,4 @@ std::vector<uint64_t> PE::getDllAddresses(const std::vector<uint8_t>& fileData)
     }
     return dllAddresses;
 }
-
-
 #endif

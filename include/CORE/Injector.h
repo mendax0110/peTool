@@ -22,8 +22,16 @@
 #include <iostream>
 #include <vector>
 
+/**
+ * @brief The InjectorPlatform class
+ * @namespace InjectorPlatform
+ */
 namespace DllInjector
 {
+    /**
+     * @brief The InjectorPlatform class
+     * @class InjectorPlatform, the base class for the platform specific implementations
+     */
     class InjectorPlatform
     {
     public:
@@ -35,6 +43,10 @@ namespace DllInjector
     };
 
 #if defined(_WIN32)
+    /**
+     * @brief The InjectorWindows class
+     * @class InjectorWindows, the Windows specific implementation of the InjectorPlatform
+     */
     class InjectorWindows : public InjectorPlatform 
     {
     public:
@@ -44,6 +56,10 @@ namespace DllInjector
 #endif
 
 #if defined(__linux__)
+    /**
+     * @brief The InjectorLinux class
+     * @class InjectorLinux, the Linux specific implementation of the InjectorPlatform
+     */
     class InjectorLinux : public InjectorPlatform
     {
     public:
@@ -53,6 +69,10 @@ namespace DllInjector
 #endif
 
 #if defined(__APPLE__)
+    /**
+     * @brief The InjectorMacOS class
+     * @class InjectorMacOS, the MacOS specific implementation of the InjectorPlatform
+     */
     class InjectorMacOS : public InjectorPlatform
     {
     public:

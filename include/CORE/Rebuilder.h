@@ -4,6 +4,10 @@
 #include <vector>
 #include <string>
 
+/**
+ * @brief The Rebuilder class
+ * @class Rebuilder
+ */
 class Rebuilder
 {
 public:

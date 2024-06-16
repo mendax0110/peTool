@@ -4,8 +4,16 @@
 #include <vector>
 #include "imgui.h"
 
+/**
+ * @brief The FileEditor class
+ * @namespace FileEditorInternals
+ */
 namespace FileEditorInternals
 {
+    /**
+     * @brief The FileEditor class
+     * @class FileEditor
+     */
     class FileEditor
     {
     public:

@@ -18,9 +18,16 @@
 #include <sys/stat.h>
 #endif
 
-
+/**
+ * @brief The DetectorInternals namespace
+ * @namespace DetectorInternals
+ */
 namespace DetectorInternals
 {
+    /**
+     * @brief The PackerDetection class
+     * @class PackerDetection
+     */
     class PackerDetection
     {
     public:
@@ -36,6 +43,10 @@ namespace DetectorInternals
     protected: 
     };
 
+    /**
+     * @brief The AntiDebugDetection class
+     * @class AntiDebugDetection
+     */
     class AntiDebugDetection
     {
     public:

@@ -18,6 +18,10 @@ struct Node
     std::string name;
 };
 
+/**
+ * @brief The GraphView class
+ * @class GraphView
+ */
 class GraphView
 {
 public:

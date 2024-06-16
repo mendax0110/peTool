@@ -9,6 +9,24 @@
 #include <sys/sysctl.h>
 #endif
 
+/**
+ * @brief Construct a new MemProfiler object
+ */
+MemProfiler::MemProfiler()
+{
+#if defined(_WIN32)
+    profiler = std::make_unique<WinMemProfiler>();
+#elif defined(__APPLE__)
+    profiler = std::make_unique<MacMemProfiler>();
+#else
+    throw std::runtime_error("Platform not supported.");
+#endif
+}
+
+/**
+ * @brief Get the memory usage of the process
+ * @return A vector of pairs containing the memory usage information
+ */
 std::vector<std::pair<std::string, size_t>> WinMemProfiler::getMemoryUsage()
 {
     std::vector<std::pair<std::string, size_t>> memoryUsage;
@@ -29,6 +47,10 @@ std::vector<std::pair<std::string, size_t>> WinMemProfiler::getMemoryUsage()
     return memoryUsage;
 }
 
+/**
+ * @brief Get the RAM usage of the system
+ * @return A vector of pairs containing the RAM usage information
+ */
 std::vector<std::pair<std::string, size_t>> WinMemProfiler::getRAMUsage()
 {
     std::vector<std::pair<std::string, size_t>> ramUsage;
@@ -44,6 +66,10 @@ std::vector<std::pair<std::string, size_t>> WinMemProfiler::getRAMUsage()
     return ramUsage;
 }
 
+/**
+ * @brief Get the VRAM usage of the system
+ * @return A vector of pairs containing the VRAM usage information
+ */
 std::vector<std::pair<std::string, size_t>> WinMemProfiler::getVRAMUsage()
 {
     std::vector<std::pair<std::string, size_t>> vramUsage;
@@ -53,7 +79,10 @@ std::vector<std::pair<std::string, size_t>> WinMemProfiler::getVRAMUsage()
     return vramUsage;
 }
 
-
+/**
+ * @brief Get the memory usage of the process
+ * @return A vector of pairs containing the memory usage information
+ */
 std::vector<std::pair<std::string, size_t>> MacMemProfiler::getMemoryUsage()
 {
     std::vector<std::pair<std::string, size_t>> memoryUsage;
@@ -63,6 +92,10 @@ std::vector<std::pair<std::string, size_t>> MacMemProfiler::getMemoryUsage()
     return memoryUsage;
 }
 
+/**
+ * @brief Get the RAM usage of the system
+ * @return A vector of pairs containing the RAM usage information
+ */
 std::vector<std::pair<std::string, size_t>> MacMemProfiler::getRAMUsage()
 {
     std::vector<std::pair<std::string, size_t>> ramUsage;
@@ -81,6 +114,10 @@ std::vector<std::pair<std::string, size_t>> MacMemProfiler::getRAMUsage()
     return ramUsage;
 }
 
+/**
+ * @brief Get the VRAM usage of the system
+ * @return A vector of pairs containing the VRAM usage information
+ */
 std::vector<std::pair<std::string, size_t>> MacMemProfiler::getVRAMUsage()
 {
     std::vector<std::pair<std::string, size_t>> vramUsage;
@@ -90,32 +127,34 @@ std::vector<std::pair<std::string, size_t>> MacMemProfiler::getVRAMUsage()
     return vramUsage;
 }
 
-MemProfiler::MemProfiler()
-{
-#if defined(_WIN32)
-    profiler = std::make_unique<WinMemProfiler>();
-#elif defined(__APPLE__)
-    profiler = std::make_unique<MacMemProfiler>();
-#else
-    throw std::runtime_error("Platform not supported.");
-#endif
-}
-
+/**
+ * @brief Populate the memory usage information
+ */
 void MemProfiler::populateMemoryUsage()
 {
     memoryUsage = profiler->getMemoryUsage();
 }
 
+/**
+ * @brief Populate the RAM usage information
+ */
 void MemProfiler::populateRAMUsage()
 {
     ramUsage = profiler->getRAMUsage();
 }
 
+/**
+ * @brief Populate the VRAM usage information
+ */
 void MemProfiler::populateVRAMUsage()
 {
     vramUsage = profiler->getVRAMUsage();
 }
 
+/**
+ * @brief Get the total memory usage
+ * @return The total memory usage
+ */
 size_t MemProfiler::getTotalMemoryUsage()
 {
     size_t totalMemoryUsage = 0;
@@ -126,6 +165,10 @@ size_t MemProfiler::getTotalMemoryUsage()
     return totalMemoryUsage;
 }
 
+/**
+ * @brief Get the total RAM usage
+ * @return The total RAM usage
+ */
 size_t MemProfiler::getTotalRAMUsage()
 {
     size_t totalRAMUsage = 0;
@@ -136,6 +179,10 @@ size_t MemProfiler::getTotalRAMUsage()
     return totalRAMUsage;
 }
 
+/**
+ * @brief Get the total VRAM usage
+ * @return The total VRAM usage
+ */
 size_t MemProfiler::getTotalVRAMUsage()
 {
     size_t totalVRAMUsage = 0;
@@ -146,6 +193,9 @@ size_t MemProfiler::getTotalVRAMUsage()
     return totalVRAMUsage;
 }
 
+/**
+ * @brief Print the memory usage information
+ */
 void MemProfiler::printMemoryUsage()
 {
     std::cout << "Memory usage:" << std::endl;
@@ -156,6 +206,9 @@ void MemProfiler::printMemoryUsage()
     std::cout << "Total memory usage: " << getTotalMemoryUsage() << " bytes" << std::endl;
 }
 
+/**
+ * @brief Print the RAM usage information
+ */
 void MemProfiler::printRAMUsage()
 {
     std::cout << "RAM usage:" << std::endl;
@@ -166,6 +219,9 @@ void MemProfiler::printRAMUsage()
     std::cout << "Total RAM usage: " << getTotalRAMUsage() << " bytes" << std::endl;
 }
 
+/**
+ * @brief Print the VRAM usage information
+ */
 void MemProfiler::printVRAMUsage()
 {
     std::cout << "VRAM usage:" << std::endl;

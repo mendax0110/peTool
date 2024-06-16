@@ -19,9 +19,19 @@
 #include <mach-o/fat.h>
 #endif
 
+/**
+ * @brief The namespace for the Portable Executable (PE) file format
+ * @namespace PeInternals
+
+ */
 namespace PeInternals
 {
     class ResourceDirectory;
+
+    /**
+     * @brief The ResourceDirectoryTraverser class, a base class for traversing the resource directory
+     * @class ResourceDirectoryTraverser
+     */
     class ResourceDirectoryTraverser
     {
     public:
@@ -30,6 +40,10 @@ namespace PeInternals
     };
 
 #if defined(_WIN32)
+    /**
+     * @brief The WinResourceDirectoryTraverser class, a class for traversing the resource directory on Windows
+     * @class WinResourceDirectoryTraverser
+     */
     class WinResourceDirectoryTraverser : public ResourceDirectoryTraverser
     {
     public:
@@ -38,6 +52,10 @@ namespace PeInternals
 #endif
 
 #if defined(__linux__)
+    /**
+     * @brief The LinuxResourceDirectoryTraverser class, a class for traversing the resource directory on Linux
+     * @class LinuxResourceDirectoryTraverser
+     */
     class LinuxResourceDirectoryTraverser : public ResourceDirectoryTraverser
     {
     public:
@@ -46,6 +64,10 @@ namespace PeInternals
 #endif
 
 #if defined(__APPLE__)
+    /**
+     * @brief The AppleResourceDirectoryTraverser class, a class for traversing the resource directory on Apple
+     * @class AppleResourceDirectoryTraverser
+     */
     class AppleResourceDirectoryTraverser : public ResourceDirectoryTraverser
     {
     public:
@@ -53,12 +75,20 @@ namespace PeInternals
     };
 #endif
 
+    /**
+     * @brief The ResourceDirectoryTraverserFactory class, a factory class for creating resource directory traversers
+     * @class ResourceDirectoryTraverserFactory
+     */
     class ResourceDirectoryTraverserFactory
     {
     public:
         static ResourceDirectoryTraverser* createTraverser();
     };
 
+    /**
+     * @brief The ResourceDirectory class, a class for traverse the resource directory
+     * @class ResourceDirectory
+     */
     class ResourceDirectory
     {
     public:
@@ -68,6 +98,10 @@ namespace PeInternals
         ResourceDirectoryTraverser* traverser;
     };
 
+    /**
+     * @brief The PE class, a class for parsing
+     * @class PE
+     */
     class PE
     {
     public:

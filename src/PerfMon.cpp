@@ -19,11 +19,19 @@ std::chrono::time_point<std::chrono::high_resolution_clock> PerformanceMonitor::
 std::chrono::time_point<std::chrono::high_resolution_clock> PerformanceMonitor::endTime;
 std::unordered_map<const char*, std::chrono::time_point<std::chrono::high_resolution_clock>> startTimes;
 
+/**
+ * @brief Start measuring the performance of a task
+ * @param name The name of the task
+ */
 void PerformanceMonitor::start(const char* name)
 {
     startTime = std::chrono::high_resolution_clock::now();
 }
 
+/**
+ * @brief Stop measuring the performance of a task
+ * @param name The name of the task
+ */
 void PerformanceMonitor::stop(const char* name)
 {
     endTime = std::chrono::high_resolution_clock::now();
@@ -31,11 +39,17 @@ void PerformanceMonitor::stop(const char* name)
     performanceData.push_back({name, duration});
 }
 
+/**
+ * @brief Reset the performance monitor
+ */
 void PerformanceMonitor::reset()
 {
     performanceData.clear();
 }
 
+/**
+ * @brief Report the performance data
+ */
 void PerformanceMonitor::report()
 {
     std::cout << std::setw(70) << std::setfill('-') << "" << std::setfill(' ') << std::endl;
@@ -55,6 +69,10 @@ void PerformanceMonitor::report()
     std::cout << std::setw(70) << std::setfill('-') << "" << std::setfill(' ') << std::endl;
 }
 
+/**
+ * @brief Get the CPU usage
+ * @return The CPU usage in percentage
+ */
 double PerformanceMonitor::getCPUUsage()
 {
 #if defined(_WIN32)
@@ -130,6 +148,10 @@ double PerformanceMonitor::getCPUUsage()
 #endif
 }
 
+/**
+ * @brief Get the memory usage
+ * @return The memory usage in MB
+ */
 double PerformanceMonitor::getMemoryUsage()
 {
 #if defined(_WIN32)

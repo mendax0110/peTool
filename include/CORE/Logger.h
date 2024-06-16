@@ -11,6 +11,10 @@
 #define ERROR_MACRO_ALREADY_DEFINED
 #endif
 
+/**
+ * @brief The Logger class
+ * @class Logger
+ */
 class Logger
 {
 public:

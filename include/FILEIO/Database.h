@@ -5,6 +5,10 @@
 #include <string>
 #include <map>
 
+/**
+ * @brief A simple database class
+ * @class Database
+ */
 class Database
 {
 public:

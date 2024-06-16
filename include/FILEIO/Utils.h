@@ -3,8 +3,17 @@
 #include <iostream>
 #include <vector>
 
+/**
+ * @brief The internal utilities namespace
+ * @namespace UtilsInternals
+
+ */
 namespace UtilsInternals
 {
+    /**
+     * @brief The Utils class
+     * @class Utils
+     */
     class Utils
     {
     public:

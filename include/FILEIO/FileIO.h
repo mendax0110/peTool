@@ -5,8 +5,16 @@
 #include <vector>
 #include <string>
 
+/**
+ * @brief The FileIO class
+ * @namespace FileIoInternals
+ */
 namespace FileIoInternals
 {
+    /**
+     * @brief The FileIO class
+     * @class FileIO
+     */
     class FileIO
     {
     public:

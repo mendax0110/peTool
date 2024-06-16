@@ -14,6 +14,11 @@ Debugger::~Debugger()
     terminate();
 }
 
+/**
+ * @brief Start debugging the specified executable.
+ * @param executablePath Path to the executable to debug.
+ * @return true if the debugger was successfully started, false otherwise.
+ */
 bool Debugger::startDebugging(const std::string& executablePath)
 {
 #if defined(__APPLE__)
@@ -26,6 +31,11 @@ bool Debugger::startDebugging(const std::string& executablePath)
 }
 
 #if defined(__APPLE__)
+/**
+ * @brief Launch the LLDB debugger with the specified executable.
+ * @param executablePath Path to the executable to debug.
+ * @return true if the debugger was successfully launched, false otherwise.
+ */
 bool Debugger::launchLLDB(const std::string& executablePath)
 {
     std::string command = "lldb --batch -o 'target create \"" + executablePath + "\"'";
@@ -40,6 +50,11 @@ bool Debugger::launchLLDB(const std::string& executablePath)
     return true;
 }
 
+/**
+ * @brief Execute the specified LLDB command.
+ * @param command Command to execute.
+ * @return true if the command was successfully executed, false otherwise.
+ */
 bool Debugger::executeLLDBCommand(const std::string& command)
 {
     if (gdbProcessID == -1)
@@ -64,6 +79,11 @@ bool Debugger::executeLLDBCommand(const std::string& command)
 }
 
 #elif defined(_WIN32)
+/**
+ * @brief Launch the GDB debugger with the specified executable.
+ * @param executablePath Path to the executable to debug.
+ * @return true if the debugger was successfully launched, false otherwise.
+ */
 bool Debugger::launchGDB(const std::string& executablePath)
 {
     std::string command = "gdb " + executablePath;
@@ -78,6 +98,11 @@ bool Debugger::launchGDB(const std::string& executablePath)
     return true;
 }
 
+/**
+ * @brief Execute the specified GDB command.
+ * @param command Command to execute.
+ * @return true if the command was successfully executed, false otherwise.
+ */
 bool Debugger::executeGDBCommand(const std::string& command)
 {
     if (gdbProcessID == -1)
@@ -102,6 +127,10 @@ bool Debugger::executeGDBCommand(const std::string& command)
 }
 #endif
 
+/**
+ * @brief Step into the next instruction.
+ * @return true if the step was successful, false otherwise.
+ */
 bool Debugger::stepInto()
 {
     std::cout << "Stepping into..." << std::endl;
@@ -112,6 +141,10 @@ bool Debugger::stepInto()
 #endif
 }
 
+/**
+ * @brief Step over the next instruction.
+ * @return true if the step was successful, false otherwise.
+ */
 bool Debugger::stepOver()
 {
     std::cout << "Stepping over..." << std::endl;
@@ -122,6 +155,10 @@ bool Debugger::stepOver()
 #endif
 }
 
+/**
+ * @brief Step out of the current function.
+ * @return true if the step was successful, false otherwise.
+ */
 bool Debugger::stepOut()
 {
     std::cout << "Stepping out..." << std::endl;
@@ -132,6 +169,10 @@ bool Debugger::stepOut()
 #endif
 }
 
+/**
+ * @brief Run the program until the next breakpoint.
+ * @return true if the run was successful, false otherwise.
+ */
 bool Debugger::run()
 {
     std::cout << "Running..." << std::endl;
@@ -142,6 +183,11 @@ bool Debugger::run()
 #endif
 }
 
+/**
+ * @brief Set a breakpoint at the specified address.
+ * @param address Address to set the breakpoint at.
+ * @return true if the breakpoint was successfully set, false otherwise.
+ */
 bool Debugger::setBreakpoint(unsigned long long address)
 {
     std::cout << "Setting breakpoint at address: " << address << std::endl;
@@ -155,6 +201,11 @@ bool Debugger::setBreakpoint(unsigned long long address)
 #endif
 }
 
+/**
+ * @brief Remove the breakpoint at the specified address.
+ * @param address Address to remove the breakpoint from.
+ * @return true if the breakpoint was successfully removed, false otherwise.
+ */
 bool Debugger::removeBreakpoint(unsigned long long address)
 {
     std::cout << "Removing breakpoint at address: " << address << std::endl;
@@ -168,6 +219,11 @@ bool Debugger::removeBreakpoint(unsigned long long address)
 #endif
 }
 
+/**
+ * @brief Get the value of the specified register.
+ * @param registerName Name of the register to get the value of.
+ * @return Value of the register.
+ */
 unsigned long long Debugger::getRegisterValue(const std::string& registerName)
 {
     std::cout << "Getting register value for: " << registerName << std::endl;
@@ -204,6 +260,10 @@ unsigned long long Debugger::getRegisterValue(const std::string& registerName)
     return 0;
 }
 
+/**
+ * @brief Get all registers and their values.
+ * @return Vector of pairs containing the register name and value.
+ */
 std::vector<std::pair<std::string, unsigned long long>> Debugger::getRegisters()
 {
     std::cout << "Getting all registers" << std::endl;
@@ -223,6 +283,10 @@ std::vector<std::pair<std::string, unsigned long long>> Debugger::getRegisters()
     return {};
 }
 
+/**
+ * @brief Get the instruction pointer.
+ * @return Value of the instruction pointer.
+ */
 unsigned long long Debugger::getInstructionPointer()
 {
     std::cout << "Getting instruction pointer" << std::endl;
@@ -244,6 +308,13 @@ unsigned long long Debugger::getInstructionPointer()
     return 0;
 }
 
+/**
+ * @brief Read memory at the specified address.
+ * @param address Address to read memory from.
+ * @param buffer Buffer to store the memory in.
+ * @param size Size of the memory to read.
+ * @return true if the memory was successfully read, false otherwise.
+ */
 bool Debugger::readMemory(unsigned long long address, void* buffer, size_t size)
 {
     std::cout << "Reading memory at address: " << address << std::endl;
@@ -259,6 +330,13 @@ bool Debugger::readMemory(unsigned long long address, void* buffer, size_t size)
 #endif
 }
 
+/**
+ * @brief Write memory at the specified address.
+ * @param address Address to write memory to.
+ * @param buffer Buffer containing the memory to write.
+ * @param size Size of the memory to write.
+ * @return true if the memory was successfully written, false otherwise.
+ */
 bool Debugger::writeMemory(unsigned long long address, const void* buffer, size_t size)
 {
     std::cout << "Writing memory at address: " << address << std::endl;
@@ -287,6 +365,10 @@ bool Debugger::writeMemory(unsigned long long address, const void* buffer, size_
 #endif
 }
 
+/**
+ * @brief Get the current state of the debugger.
+ * @return Current state of the debugger.
+ */
 void Debugger::terminate()
 {
     std::cout << "Terminating debugger process" << std::endl;
@@ -305,6 +387,10 @@ void Debugger::terminate()
 #endif
 }
 
+/**
+ * @brief Get the current state of the debugger.
+ * @return Current state of the debugger.
+ */
 std::vector<std::string> Debugger::getCallStack()
 {
     std::vector<std::string> callStack;
@@ -313,6 +399,10 @@ std::vector<std::string> Debugger::getCallStack()
     return callStack;
 }
 
+/**
+ * @brief Get the current watch variables.
+ * @return Vector of strings containing the watch variables.
+ */
 std::vector<std::string> Debugger::getWatch()
 {
     std::vector<std::string> watch;
@@ -321,6 +411,10 @@ std::vector<std::string> Debugger::getWatch()
     return watch;
 }
 
+/**
+ * @brief Get the current local variables.
+ * @return Vector of strings containing the local variables.
+ */
 std::vector<std::string> Debugger::getLocals()
 {
     std::vector<std::string> locals;

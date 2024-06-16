@@ -14,6 +14,10 @@
 #include <sys/sysctl.h>
 #endif
 
+/**
+ * @brief A class to monitor the performance of the program
+ * @class PerformanceMonitor
+ */
 class PerformanceMonitor
 {
 public:

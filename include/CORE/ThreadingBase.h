@@ -6,6 +6,10 @@
 #include <queue>
 #include <condition_variable>
 
+/**
+ * @brief The ThreadingBase class
+ * @class ThreadingBase
+ */
 class ThreadingBase
 {
 public:

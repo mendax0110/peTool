@@ -114,12 +114,18 @@ bool showFileEdit = false;
 bool showMemoryProfiler = false;
 
 
+/**
+ * @brief Run the CLI interface
+ */
 void runCLI(int argc, char** argv)
 {
     CLI::startCli(argc, argv);
 }
 std::map<std::string, MenuItemInfo> menuItemInfo;
 
+/**
+ * @brief Initialize the menu item information
+ */
 void initMenuItemInfo()
 {
     // File path input
@@ -143,6 +149,9 @@ void initMenuItemInfo()
     menuItemInfo["Console"];
 }
 
+/**
+ * @brief Update the menu item windows
+ */
 void updateMenuItemWindows()
 {
     for (auto& item : menuItemInfo)
@@ -154,6 +163,10 @@ void updateMenuItemWindows()
     }
 }
 
+/**
+ * @brief Open a file dialog to select a file
+ * @return true if the file was selected, false otherwise
+ */
 bool openFile()
 {
     OPENFILENAME ofn;
@@ -179,6 +192,12 @@ bool openFile()
     }
 }
 
+/**
+ * @brief Display the output window
+ * @param title The title of the window
+ * @param output The output to display
+ * @param windowOpen The window open flag
+ */
 void displayOutputWindow(const char* title, std::string& output, bool& windowOpen)
 {
     if (!output.empty())
@@ -192,6 +211,12 @@ void displayOutputWindow(const char* title, std::string& output, bool& windowOpe
     }
 }
 
+/**
+ * @brief Process a menu item
+ * @param label The label of the menu item
+ * @param action The action to perform
+ * @param itemName The name of the menu item
+ */
 void processMenuItem(const char* label, const std::function<void()>& action, const std::string& itemName)
 {
     if (ImGui::MenuItem(label))
@@ -206,6 +231,12 @@ void processMenuItem(const char* label, const std::function<void()>& action, con
     }
 }
 
+/**
+ * @brief Process a menu item
+ * @param label The label of the menu item
+ * @param action The action to perform
+ * @param itemName The name of the menu item
+ */
 void processEntropyMenuItem(const std::string& filePath, std::vector<int>& histogram, std::vector<std::string>& entropyOutput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePath);
@@ -223,6 +254,12 @@ void processEntropyMenuItem(const std::string& filePath, std::vector<int>& histo
     }
 }
 
+/**
+ * @brief Process a file and menu item
+ * @param label The label of the menu item
+ * @param filePath The file path
+ * @param action The action to perform
+ */
 void processFileAndMenuItem(const char* label, const std::string& filePath, const std::function<void(const std::vector<uint8_t>&)>& action)
 {
     processMenuItem(label, [&] {
@@ -231,6 +268,10 @@ void processFileAndMenuItem(const char* label, const std::string& filePath, cons
     }, label);
 }
 
+/**
+ * @brief Show the metrics window
+ * @param show_metrics The show metrics flag
+ */
 void showMetricsWindow(bool& show_metrics)
 {
     if (show_metrics)
@@ -239,6 +280,10 @@ void showMetricsWindow(bool& show_metrics)
     }
 }
 
+/**
+ * @brief Show the file selector
+ * @param filePathInput The file path input
+ */
 void showFileSelector(std::string& filePathInput)
 {
     if (ImGui::Button("Select File"))
@@ -253,6 +298,12 @@ void showFileSelector(std::string& filePathInput)
     filePathInput = filePathInputBuffer;
 }
 
+/**
+ * @brief Show the file editor window
+ * @param fileEditor The file editor
+ * @param showFileEdit The show file edit flag
+ * @param filename The filename
+ */
 void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std::string& filename)
 {
     if (!showFileEdit)
@@ -323,6 +374,10 @@ void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std:
 //    ImGui::End();
 //}
 
+/**
+ * @brief Show the extract menu
+ * @param filePath The file path
+ */
 void showExtractMenu(const std::string& filePath)
 {
     if (ImGui::BeginMenu("Extract"))
@@ -336,6 +391,10 @@ void showExtractMenu(const std::string& filePath)
     }
 }
 
+/**
+ * @brief Show the process id menu
+ * @param filePath The file path
+ */
 void showProcessIdMenu(const std::string& filePath)
 {
     if (ImGui::BeginMenu("Process Id"))
@@ -351,6 +410,10 @@ void showProcessIdMenu(const std::string& filePath)
     }
 }
 
+/**
+ * @brief Show the checksum menu
+ * @param filePath The file path
+ */
 void showMetricsMenu(bool& show_metrics)
 {
     if (ImGui::BeginMenu("Metrics"))
@@ -363,6 +426,10 @@ void showMetricsMenu(bool& show_metrics)
     }
 }
 
+/**
+ * @brief Show the utils menu
+ * @param filePath The file path
+ */
 void showUtilsMenu(const std::string& filePath)
 {
     if (ImGui::BeginMenu("Utils"))
@@ -377,6 +444,12 @@ void showUtilsMenu(const std::string& filePath)
     }
 }
 
+/**
+ * @brief Show the entropy menu
+ * @param filePath The file path
+ * @param histogram The histogram
+ * @param entropyOutput The entropy output
+ */
 void showEntropyMenu(const std::string& filePath, std::vector<int>& histogram, std::vector<std::string>& entropyOutput)
 {
     if (ImGui::BeginMenu("Entropy"))
@@ -390,6 +463,11 @@ void showEntropyMenu(const std::string& filePath, std::vector<int>& histogram, s
     }
 }
 
+/**
+ * @brief Show the disassembler menu
+ * @param filePath The file path
+ * @param disassemblyOutput The disassembly output
+ */
 void showDisassemblerMenu(const std::string& filePath, std::vector<std::string>& disassemblyOutput)
 {
     if (ImGui::BeginMenu("Disassembler"))
@@ -404,6 +482,10 @@ void showDisassemblerMenu(const std::string& filePath, std::vector<std::string>&
     }
 }
 
+/**
+ * @brief Show the detector menu
+ * @param filePath The file path
+ */
 void showDetectorMenu(const std::string& filePath)
 {
     if (ImGui::BeginMenu("Detector"))
@@ -416,6 +498,10 @@ void showDetectorMenu(const std::string& filePath)
     }
 }
 
+/**
+ * @brief Show the anti debug menu
+ * @param filePath The file path
+ */
 void showAntiDebugMenu(const std::string& filePath)
 {
     if (ImGui::BeginMenu("Anti Debug"))
@@ -431,6 +517,12 @@ void showAntiDebugMenu(const std::string& filePath)
     }
 }
 
+/**
+ * @brief Show Histogram Window
+ * @param histogram The histogram
+ * @param entropyOutput The entropy output
+ * @param showEntropyHistogram The show entropy histogram flag
+ */
 void showHistogramWindow(const std::vector<int>& histogram, const std::vector<std::string>& entropyOutput, bool& showEntropyHistogram)
 {
     if (showEntropyHistogram && !histogram.empty())
@@ -449,6 +541,11 @@ void showHistogramWindow(const std::vector<int>& histogram, const std::vector<st
     }
 }
 
+/**
+ * @brief Show the Detailed View of Import Table
+ * @param filePath The file path
+ * @param showImportTableWindow The show import table window flag
+ */
 void showDetailedViewOfImportTable(const std::string& filePath, bool& showImportTableWindow)
 {
     if (!showImportTableWindow)
@@ -534,6 +631,10 @@ void showDetailedViewOfImportTable(const std::string& filePath, bool& showImport
     ImGui::End();
 }
 
+/**
+ * @brief Show Console Window
+ * @param showConsole The show console flag
+ */
 void showConsoleWindow(bool &showConsole)
 {
     if (!showConsole)
@@ -593,6 +694,11 @@ void showConsoleWindow(bool &showConsole)
     ImGui::End();
 }
 
+/**
+ * @brief Show the debugger window
+ * @param showDebugger The show debugger flag
+ * @param debugger The debugger
+ */
 void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
 {
     if (!showDebugger)
@@ -662,6 +768,10 @@ void showDebuggerWindow(bool& showDebugger, class Debugger& debugger)
     ImGui::End();
 }
 
+/**
+ * @brief Show the memory profiler window
+ * @param showMemoryProfiler The show memory profiler flag
+ */
 void showMemoryProfilerWindow(bool& showMemoryProfiler)
 {
     if (!showMemoryProfiler)
@@ -707,6 +817,10 @@ void showMemoryProfilerWindow(bool& showMemoryProfiler)
     ImGui::End();
 }
 
+/**
+ * @brief Show the main menu
+ * @param filePathInput The file path input
+ */
 void logProgram(const std::function<void()>& program)
 {
     Logger logger;
@@ -724,7 +838,9 @@ void logProgram(const std::function<void()>& program)
     logger.log(Logger::LogLevel::INFO, "Program finished.", "");
 }
 
-
+/**
+ * @brief Show the main GUI window
+ */
 int runGUI()
 {
     // Create application window
@@ -1219,6 +1335,11 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
+/**
+ * @brief Main function
+ * @param argc The number of arguments
+ * @param argv The arguments
+ */
 int main(int argc, char** argv)
 {
     bool use_gui = false;

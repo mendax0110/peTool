@@ -29,6 +29,10 @@
 using namespace DllInjector;
 
 
+/**
+ * @brief Create a platform specific injector
+ * @return The platform specific injector
+ */
 InjectorPlatform* InjectorPlatform::CreatePlatform()
 {
 #if defined(_WIN32)
@@ -47,6 +51,11 @@ InjectorPlatform* InjectorPlatform::CreatePlatform()
 }
 
 #if defined(_WIN32)
+/**
+ * @brief Get the process ID of a process by name
+ * @param procName The name of the process
+ * @return The process ID
+ */
 unsigned int InjectorWindows::GetProcId(const char* procName)
 {
     DWORD processId = 0;
@@ -113,6 +122,11 @@ bool InjectorWindows::InjectDLL(unsigned int procId, const char* dllPath)
 #endif
 
 #if defined(__linux__)
+/**
+ * @brief Get the process ID of a process by name
+ * @param procName The name of the process
+ * @return The process ID
+ */
 unsigned int InjectorLinux::GetProcId(const char* procName)
 {
     if (procName == nullptr)
@@ -141,6 +155,12 @@ unsigned int InjectorLinux::GetProcId(const char* procName)
     return processId;
 }
 
+/**
+ * @brief Inject a DLL into a process
+ * @param procId The process ID
+ * @param dllPath The path to the DLL
+ * @return True if the DLL was injected, false otherwise
+ */
 bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
 {
     if (procId == 0 || dllPath == nullptr)
@@ -176,6 +196,11 @@ bool InjectorLinux::InjectDLL(unsigned int procId, const char* dllPath)
 #endif
 
 #if defined(__APPLE__)
+/**
+ * @brief Get the process ID of a process by name
+ * @param procName The name of the process
+ * @return The process ID
+ */
 unsigned int InjectorMacOS::GetProcId(const char* procName)
 {
     if (procName == nullptr)
@@ -206,6 +231,12 @@ unsigned int InjectorMacOS::GetProcId(const char* procName)
     return processId;
 }
 
+/**
+ * @brief Inject a DLL into a process
+ * @param procId The process ID
+ * @param dllPath The path to the DLL
+ * @return True if the DLL was injected, false otherwise
+ */
 bool InjectorMacOS::InjectDLL(unsigned int procId, const char* dllPath)
 {
     if (procId == 0 || dllPath == nullptr)

@@ -4,8 +4,16 @@
 #include <cstdint>
 #include <tuple>
 
+/**
+ * @brief The DissassemblerInternals namespace
+ * @namespace DissassemblerInternals
+ */
 namespace DissassemblerInternals
 {
+    /**
+     * @brief The Disassembler class
+     * @class Disassembler
+     */
     class Disassembler
     {
     public:

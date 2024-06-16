@@ -5,16 +5,29 @@
 
 using namespace FileEditorInternals;
 
+/**
+ * @brief Construct a new File Editor:: File Editor object
+ * @details Initializes the cursor position to the start of the file
+ */
 FileEditor::FileEditor() : inputFileOpen(false), outputFileOpen(false), cursorPosition(0, 0)
 {
     lines.emplace_back();
 }
 
+/**
+ * @brief Destroy the File Editor:: File Editor object
+ */
 FileEditor::~FileEditor()
 {
     closeFile();
 }
 
+/**
+ * @brief Open a file for reading
+ * @param fileName The name of the file to open
+ * @return true if the file was opened successfully
+ * @return false if the file could not be opened
+ */
 bool FileEditor::openFileForRead(const std::string& fileName)
 {
     if (inputFileOpen)
@@ -25,6 +38,12 @@ bool FileEditor::openFileForRead(const std::string& fileName)
     return inputFileOpen;
 }
 
+/**
+ * @brief Open a file for writing
+ * @param fileName The name of the file to open
+ * @return true if the file was opened successfully
+ * @return false if the file could not be opened
+ */
 bool FileEditor::openFileForWrite(const std::string& fileName)
 {
     if (outputFileOpen)
@@ -35,6 +54,12 @@ bool FileEditor::openFileForWrite(const std::string& fileName)
     return outputFileOpen;
 }
 
+/**
+ * @brief Open a file for appending
+ * @param fileName The name of the file to open
+ * @return true if the file was opened successfully
+ * @return false if the file could not be opened
+ */
 bool FileEditor::openFileForAppend(const std::string& fileName)
 {
     if (outputFileOpen)
@@ -45,6 +70,9 @@ bool FileEditor::openFileForAppend(const std::string& fileName)
     return outputFileOpen;
 }
 
+/**
+ * @brief Close the file
+ */
 void FileEditor::closeFile()
 {
     if (inputFileStream.is_open())
@@ -56,6 +84,10 @@ void FileEditor::closeFile()
     outputFileOpen = false;
 }
 
+/**
+ * @brief Read the contents of the file
+ * @return std::string The contents of the file
+ */
 std::string FileEditor::readFile()
 {
     std::string content;
@@ -73,6 +105,12 @@ std::string FileEditor::readFile()
     return content;
 }
 
+/**
+ * @brief Write to the file
+ * @param content The content to write to the file
+ * @return true if the content was written successfully
+ * @return false if the content could not be written
+ */
 bool FileEditor::writeFile(const std::string& content)
 {
     if (outputFileOpen)
@@ -88,6 +126,12 @@ bool FileEditor::writeFile(const std::string& content)
     return false;
 }
 
+/**
+ * @brief Append to the file
+ * @param content The content to append to the file
+ * @return true if the content was appended successfully
+ * @return false if the content could not be appended
+ */
 bool FileEditor::appendToFile(const std::string& content)
 {
     if (outputFileOpen)
@@ -103,6 +147,10 @@ bool FileEditor::appendToFile(const std::string& content)
     return false;
 }
 
+/**
+ * @brief Get the size of the file
+ * @return size_t The size of the file
+ */
 size_t FileEditor::getFileSize()
 {
     if (outputFileOpen)
@@ -117,11 +165,20 @@ size_t FileEditor::getFileSize()
     return 0;
 }
 
+/**
+ * @brief Check if the file is open
+ * @return true if the file is open
+ * @return false if the file is not open
+ */
 bool FileEditor::isOpen() const
 {
     return inputFileOpen || outputFileOpen;
 }
 
+/**
+ * @brief Set the text of the file editor
+ * @param text The text to set
+ */
 void FileEditor::SetText(const std::string& text)
 {
     lines.clear();
@@ -137,6 +194,10 @@ void FileEditor::SetText(const std::string& text)
     cursorPosition = Position(0, 0);
 }
 
+/**
+ * @brief Get the text of the file editor
+ * @return std::string The text of the file editor
+ */
 std::string FileEditor::GetText() const
 {
     std::string result;
@@ -147,6 +208,12 @@ std::string FileEditor::GetText() const
     return result;
 }
 
+/**
+ * @brief Render the file editor
+ * @param title The title of the file editor window
+ * @param size The size of the file editor window
+ * @param border Whether to show the border of the window
+ */
 void FileEditor::Render(const char* title, const ImVec2& size, bool border)
 {
     static std::vector<char> buffer;
@@ -187,11 +254,19 @@ void FileEditor::Render(const char* title, const ImVec2& size, bool border)
     }
 }
 
+/**
+ * @brief Get the cursor position
+ * @return Position The cursor position
+ */
 FileEditor::Position FileEditor::GetCursorPosition() const
 {
     return cursorPosition;
 }
 
+/**
+ * @brief Set the cursor position
+ * @param pos The position to set the cursor to
+ */
 void FileEditor::SetCursorPosition(const Position& pos)
 {
     if (pos.line >= 0 && pos.line < lines.size()
@@ -200,6 +275,9 @@ void FileEditor::SetCursorPosition(const Position& pos)
     }
 }
 
+/**
+ * @brief Move the cursor up
+ */
 void FileEditor::MoveUp()
 {
     if (cursorPosition.line > 0)
@@ -210,6 +288,9 @@ void FileEditor::MoveUp()
     }
 }
 
+/**
+ * @brief Move the cursor down
+ */
 void FileEditor::MoveDown()
 {
     if (cursorPosition.line < lines.size() - 1)
@@ -220,6 +301,9 @@ void FileEditor::MoveDown()
     }
 }
 
+/**
+ * @brief Move the cursor left
+ */
 void FileEditor::MoveLeft()
 {
     if (cursorPosition.column > 0)
@@ -234,6 +318,9 @@ void FileEditor::MoveLeft()
     EnsureCursorVisible();
 }
 
+/**
+ * @brief Move the cursor right
+ */
 void FileEditor::MoveRight()
 {
     if (cursorPosition.column < lines[cursorPosition.line].size())
@@ -248,6 +335,10 @@ void FileEditor::MoveRight()
     EnsureCursorVisible();
 }
 
+/**
+ * @brief Insert text at the cursor position
+ * @param text The text to insert
+ */
 void FileEditor::InsertText(const std::string &text)
 {
     auto& line = lines[cursorPosition.line];
@@ -255,6 +346,9 @@ void FileEditor::InsertText(const std::string &text)
     cursorPosition.column += static_cast<int>(text.size());
 }
 
+/**
+ * @brief Delete text at the cursor position
+ */
 void FileEditor::DeleteText()
 {
     auto& line = lines[cursorPosition.line];
@@ -269,17 +363,26 @@ void FileEditor::DeleteText()
     }
 }
 
+/**
+ * @brief Copy the text at the cursor position
+ */
 void FileEditor::Copy()
 {
     ImGui::SetClipboardText(lines[cursorPosition.line].c_str());
 }
 
+/**
+ * @brief Cut the text at the cursor position
+ */
 void FileEditor::Cut()
 {
     ImGui::SetClipboardText(lines[cursorPosition.line].c_str());
     lines[cursorPosition.line].clear();
 }
 
+/**
+ * @brief Paste text at the cursor position
+ */
 void FileEditor::Paste()
 {
     auto clipboardText = ImGui::GetClipboardText();
@@ -289,12 +392,18 @@ void FileEditor::Paste()
     }
 }
 
+/**
+ * @brief Push the current state of the file editor to the undo stack
+ */
 void FileEditor::PushUndo()
 {
     undoStack.push_back({GetText(), cursorPosition});
     redoStack.clear();
 }
 
+/**
+ * @brief Undo the last edit action
+ */
 void FileEditor::Undo()
 {
     if (!undoStack.empty())
@@ -305,6 +414,9 @@ void FileEditor::Undo()
     }
 }
 
+/**
+ * @brief Redo the last edit action
+ */
 void FileEditor::Redo()
 {
     if (!redoStack.empty())
@@ -315,12 +427,19 @@ void FileEditor::Redo()
     }
 }
 
+/**
+ * @brief Apply an edit action
+ * @param action The edit action to apply
+ */
 void FileEditor::ApplyEditAction(const EditAction& action)
 {
     SetText(action.content);
     SetCursorPosition(action.cursorPos);
 }
 
+/**
+ * @brief Ensure the cursor is visible
+ */
 void FileEditor::EnsureCursorVisible()
 {
     if (cursorPosition.line < 0)
@@ -342,6 +461,9 @@ void FileEditor::EnsureCursorVisible()
     }
 }
 
+/**
+ * @brief Handle keyboard inputs
+ */
 void FileEditor::HandleKeyboardInputs()
 {
     if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_UpArrow)))
@@ -378,6 +500,9 @@ void FileEditor::HandleKeyboardInputs()
     }
 }
 
+/**
+ * @brief Handle mouse inputs
+ */
 void FileEditor::HandleMouseInputs()
 {
     if (ImGui::IsItemHovered())

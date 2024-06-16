@@ -1,8 +1,16 @@
 #include <iostream>
 #include <vector>
 
+/**
+ * @brief Namespace for the Entropy class
+ * @namespace EntropyInternals
+ */
 namespace EntropyInternals
 {
+    /**
+     * @brief A class to calculate the entropy of data
+     * @class Entropy
+     */
     class Entropy
     {
     public:

@@ -22,6 +22,9 @@ using namespace DissassemblerInternals;
 using namespace CliInterface;
 using namespace DetectorInternals;
 
+/**
+ * @brief Prints the help menu.
+ */
 void CLI::printHelp()
 {
     const std::string menu = R"(
@@ -40,17 +43,28 @@ void CLI::printHelp()
     std::cout << menu << std::endl;
 }
 
+/**
+ * @brief Prints an error message.
+ * @param message The error message to print.
+ */
 void CLI::printError(const std::string& message)
 {
-    //
 
 }
 
+/**
+ * @brief Prints a message.
+ * @param message The message to print.
+ */
 void CLI::printMessage(const std::string& message)
 {
 
 }
 
+/**
+ * @brief Extracts the import table from a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void extractImportTable(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -62,6 +76,10 @@ void extractImportTable(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Extracts the export table from a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void extractExportTable(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -73,6 +91,10 @@ void extractExportTable(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Extracts resources from a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void extractResources(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -84,6 +106,10 @@ void extractResources(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Extracts section information from a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void extractSectionInfo(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -95,6 +121,10 @@ void extractSectionInfo(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Parses the headers of a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void parseHeaders(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -106,6 +136,10 @@ void parseHeaders(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Gets the process ID of a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void getProcessId(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -127,6 +161,10 @@ void getProcessId(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Calculates the checksum of a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void calculateChecksum(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -139,6 +177,10 @@ void calculateChecksum(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Shows the entropy of a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void showEntropy(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -155,6 +197,10 @@ void showEntropy(const std::string& filePathInput)
     }
 }
 
+/**
+ * @brief Disassembles a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void disassemble(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -168,6 +214,10 @@ void disassemble(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Detects packers in a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void detector(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -180,6 +230,10 @@ void detector(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Detects anti-debugging techniques in a PE file.
+ * @param filePathInput The path to the PE file.
+ */
 void antiDebug(const std::string& filePathInput)
 {
     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
@@ -196,6 +250,11 @@ void antiDebug(const std::string& filePathInput)
     std::cout << output.str();
 }
 
+/**
+ * @brief Starts the CLI.
+ * @param argc The number of arguments.
+ * @param argv The arguments.
+ */
 void CLI::startCli(int argc, char** argv)
 {
     if (argc < 2)

@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief The ProcessMonitor class
+ * @class ProcessMonitor
+ */
 class ProcessMonitor
 {
 public:

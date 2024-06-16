@@ -11,6 +11,10 @@
 #include <iostream>
 #include <new>
 
+/**
+ * @brief The MemoryManager class
+ * @class MemoryManager
+ */
 class MemoryManager
 {
 public:

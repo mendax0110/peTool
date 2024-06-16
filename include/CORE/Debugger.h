@@ -4,6 +4,10 @@
 #include <vector>
 #include <string>
 
+/**
+ * @brief The Debugger class
+ * @class Debugger
+ */
 class Debugger
 {
 public:

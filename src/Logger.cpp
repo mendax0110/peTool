@@ -9,12 +9,21 @@ Logger::~Logger()
     writeLogToFile();
 }
 
+/**
+ * @brief Log a message
+ * @param level The log level
+ * @param message The message to log
+ * @param path The path to save the log file
+ */
 void Logger::log(LogLevel level, const std::string& message, const std::string& path /* = "" */)
 {
     std::lock_guard<std::mutex> lock(logMutex);
     logMessages.emplace_back(level, message, path);
 }
 
+/**
+ * @brief Write Log to file
+ */
 void Logger::writeLogToFile()
 {
     auto now = std::chrono::system_clock::now();
