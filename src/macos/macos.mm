@@ -293,7 +293,6 @@ void showUtilsMenu(const std::string& filePath)
     {
         processFileAndMenuItem("Calculate Checksum", filePath, [&](const std::vector<uint8_t>& fileData)
         {
-            //Utils unt;
             auto checksumOutput = Utils::calculateChecksum(fileData);
             auto checksum = std::to_string(checksumOutput);
         });

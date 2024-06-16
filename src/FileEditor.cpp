@@ -149,23 +149,42 @@ std::string FileEditor::GetText() const
 
 void FileEditor::Render(const char* title, const ImVec2& size, bool border)
 {
+    static std::vector<char> buffer;
+    std::string text = GetText();
+
+    if (buffer.size() < text.size() + 1)
+    {
+        buffer.resize(text.size() + 1);
+    }
+
+    if (strncmp(buffer.data(), text.c_str(), text.size()) != 0)
+    {
+        std::copy(text.begin(), text.end(), buffer.begin());
+        buffer[text.size()] = '\0'; // null terminator for end of string
+    }
+
+    ImGui::SetNextWindowSize(size, ImGuiCond_FirstUseEver);
     if (ImGui::Begin(title, nullptr, ImGuiWindowFlags_HorizontalScrollbar | (border ? 0 : ImGuiWindowFlags_NoTitleBar)))
     {
         HandleKeyboardInputs();
         HandleMouseInputs();
 
-        std::string text = GetText();
-        char* buffer = &text[0];
         ImVec2 availSize = ImGui::GetContentRegionAvail();
-        ImGui::InputTextMultiline("##editor", buffer, text.size() + 1, availSize, ImGuiInputTextFlags_AllowTabInput);
-        SetText(buffer);
+        ImGui::InputTextMultiline("##editor", buffer.data(), buffer.size(), availSize, ImGuiInputTextFlags_AllowTabInput);
+
+        std::string newText(buffer.data());
+        if (newText != text)
+        {
+            SetText(newText);
+        }
 
         if (ImGui::IsWindowFocused())
         {
             ImGui::SetKeyboardFocusHere();
         }
+
+        ImGui::End();
     }
-    ImGui::End();
 }
 
 FileEditor::Position FileEditor::GetCursorPosition() const
