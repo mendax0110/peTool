@@ -26,8 +26,12 @@ jobs:
         if: runner.os == 'macos'
         run: |
           git -C external/imgui fetch --all
-          git -C external/imgui checkout docking || git -C external/imgui checkout -b docking origin/docking
-          git -C external/imgui pull origin docking
+          if git -C external/imgui show-ref --verify --quiet refs/heads/docking; then
+            git -C external/imgui checkout docking
+          else
+            git -C external/imgui checkout -b docking origin/main
+          fi
+          git -C external/imgui pull origin docking || true  # Pull changes if branch exists
 
       - name: Build with CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -39,8 +43,9 @@ jobs:
         if: success()
         run: |
           mkdir -p release
-          cp -r ${{github.workspace}}/build/* release/
+          cp -r ${{github.workspace}}/build/*.app release/
           cp -r ${{github.workspace}}/docs/Doxygen release/
+          # Add more commands to package other necessary files
 
       - name: Create Release Directory
         if: success()
