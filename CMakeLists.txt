@@ -17,7 +17,6 @@ include_directories(${INCLUDE_DIR})
 include_directories(${IMGUI_DIR})
 include_directories(${IMGUI_DIR}/backends)
 
-
 find_package(Doxygen REQUIRED)
 get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
 set(DOXYGEN_DIRS
@@ -27,7 +26,12 @@ set(DOXYGEN_DIRS
 string(REPLACE ";" " " DOXYGEN_DIRS "${DOXYGEN_DIRS}")
 
 if (APPLE)
-    include_directories("/opt/homebrew/Cellar/sdl2/2.30.3/include/SDL2")
+    find_package(SDL2 REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIRS})
+
+    if (NOT SDL2_FOUND)
+        message(FATAL_ERROR "SDL2 library not found")
+    endif()
 endif()
 
 file(GLOB IMGUI_SOURCES "${IMGUI_DIR}/*.cpp" "${IMGUI_DIR}/*.h")
@@ -58,8 +62,6 @@ if (APPLE)
     find_library(GL_LIBRARY OpenGL)
 
     set(DirectX_LIBRARIES ${METAL_LIBRARY} ${COCOA_LIBRARY} ${QUARTZCORE_LIBRARY} ${APPKIT_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${GL_LIBRARY})
-
-    find_library(SDL2_LIBRARY SDL2)
 endif()
 
 if (LINUX)
@@ -77,16 +79,16 @@ endif()
 
 if (APPLE)
     add_custom_command(
-        OUTPUT ${IMGUI_DIR}/.git
-        COMMAND git -C ${IMGUI_DIR} fetch --all
-        COMMAND git -C ${IMGUI_DIR} checkout docking || git -C ${IMGUI_DIR} checkout -b docking origin/docking
-        COMMAND git -C ${IMGUI_DIR} pull origin docking
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        COMMENT "Ensuring ImGui submodule is on the docking branch"
+            OUTPUT ${IMGUI_DIR}/.git
+            COMMAND git -C ${IMGUI_DIR} fetch --all
+            COMMAND git -C ${IMGUI_DIR} checkout docking || git -C ${IMGUI_DIR} checkout -b docking origin/docking
+            COMMAND git -C ${IMGUI_DIR} pull origin docking
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Ensuring ImGui submodule is on the docking branch"
     )
 
     add_custom_target(EnsureImGuiDockingBranch ALL
-        DEPENDS ${IMGUI_DIR}/.git
+            DEPENDS ${IMGUI_DIR}/.git
     )
 endif()
 
@@ -104,7 +106,7 @@ if (WIN32)
 endif()
 
 if (APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES} ${SDL2_LIBRARY})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES} ${SDL2_LIBRARIES})
 endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -133,7 +135,6 @@ elseif (WIN32)
     )
 endif()
 
-
 find_package(Doxygen REQUIRED)
 if(DOXYGEN_FOUND)
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
@@ -156,4 +157,3 @@ if(DOXYGEN_FOUND)
             ${CMAKE_SOURCE_DIR}/docs/Doxygen
             COMMENT "Copying generated documentation to the target directory")
 endif()
-
