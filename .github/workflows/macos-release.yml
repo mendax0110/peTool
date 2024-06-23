@@ -1,4 +1,4 @@
-name: Release Build
+name: Release Build macOS
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
@@ -18,25 +18,20 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install Chocolatey and CMake
+      - name: Install CMake
         run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force
-          iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-      - name: Configure Git and Set Upstream
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git remote set-url origin https://github.com/${{ github.repository }}
-          git remote -v
+          brew install cmake
 
       - name: Checkout ImGui docking branch
-        if: runner.os == 'Windows'
+        if: runner.os == 'macos'
         run: |
           git -C external/imgui fetch --all
-          git -C external/imgui checkout docking || git -C external/imgui checkout -b docking origin/docking
-          git -C external/imgui pull origin docking
+          if git -C external/imgui show-ref --verify --quiet refs/heads/docking; then
+            git -C external/imgui checkout docking
+          else
+            git -C external/imgui checkout -b docking origin/main
+          fi
+          git -C external/imgui pull origin docking || true  # Pull changes if branch exists
 
       - name: Build with CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -48,9 +43,13 @@ jobs:
         if: success()
         run: |
           mkdir -p release
-          cp -r ${{github.workspace}}/build/* release/
+          cp -r ${{github.workspace}}/build/*.app release/
           cp -r ${{github.workspace}}/docs/Doxygen release/
           # Add more commands to package other necessary files
+
+      - name: Create Release Directory
+        if: success()
+        run: mkdir -p release
 
       - name: Create Tag
         if: success()
@@ -66,5 +65,5 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v2
         with:
-          name: peTool-Windows-${{ env.BUILD_TYPE }}
+          name: peTool-macOS-${{ env.BUILD_TYPE }}
           path: release/
