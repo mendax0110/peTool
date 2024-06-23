@@ -698,7 +698,7 @@ void showMemoryProfilerWindow(bool& showMemoryProfiler)
     memProfiler.populateRAMUsage();
     memProfiler.populateVRAMUsage();
 
-    //auto memUsage = memProfiler.getMemoryUsage();
+    //auto memUsage = memProfiler.getMemoryUsage()
     auto totalMem = memProfiler.getTotalMemoryUsage();
 
     //auto memRam = memProfiler.getRAMUsage();
