@@ -24,6 +24,11 @@ jobs:
           iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
           choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
+      - name: Configure Git
+        run: |
+          git config --global user.email "adrian.goessl@outlool.com"
+          git config --global user.name "mendax0110"
+
       - name: Checkout ImGui docking branch
         if: runner.os == 'Windows'
         run: |
