@@ -15,6 +15,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: false
+
+    - name: Initialize and update submodules
+      run: |
+        git submodule update --init --recursive
+        cd external/imgui
+        git fetch
+        git checkout docking
+        git pull origin docking
 
     - name: Install dependencies
       run: |
