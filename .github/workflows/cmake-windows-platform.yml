@@ -17,7 +17,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        submodules: false
+        submodules: recursive
 
     - name: Install Chocolatey and CMake
       run: |
@@ -25,22 +25,15 @@ jobs:
         iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
+    - name: Checkout ImGui docking branch
+      if: runner.os == 'Windows'
+      run: |
+        git -C external/imgui fetch --all
+        git -C external/imgui checkout docking || git -C external/imgui checkout -b docking origin/docking
+        git -C external/imgui pull origin docking
+
     - name: Build with CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    # Add additional steps specific to Windows if needed
-
-    - name: Generate Documentation
-      if: success()
-      run: cmake --build ${{github.workspace}}/build --target doc_doxygen
-
-    - name: Prepare artifacts
-      if: success()
-      run: |
-        mkdir -p docs
-        cp -r ${{github.workspace}}/docs/Doxygen docs/
-
-    # Add additional Windows specific steps as needed
