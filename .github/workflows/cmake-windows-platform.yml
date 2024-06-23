@@ -17,25 +17,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        submodules: recursive  # Ensure submodules are fetched and updated recursively
+        submodules: recursive
 
     - name: Install Chocolatey and CMake
       run: |
         Set-ExecutionPolicy Bypass -Scope Process -Force
         iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
         choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-    - name: Install SDL2 (if needed)
-      if: runner.os == 'Windows'
-      run: |
-        choco install sdl2
-
-    # Add steps to install DirectX SDK if required
-    # Example using Chocolatey:
-    # - name: Install DirectX SDK (if needed)
-    #   if: runner.os == 'Windows'
-    #   run: |
-    #     choco install directx-sdk
 
     - name: Checkout ImGui docking branch
       if: runner.os == 'Windows'
@@ -50,16 +38,10 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    # Add additional steps specific to Windows if needed
-
-    - name: Generate Documentation
-      if: success()
-      run: cmake --build ${{github.workspace}}/build --target doc_doxygen
-
     - name: Prepare artifacts
       if: success()
       run: |
         mkdir -p docs
         cp -r ${{github.workspace}}/docs/Doxygen docs/
 
-    # Add additional Windows specific steps as needed
+    # Add additional steps specific to Windows if needed
