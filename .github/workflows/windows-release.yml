@@ -59,7 +59,7 @@ jobs:
       - name: Push Tag
         if: success()
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_P }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: git push origin v${{ github.run_number }}
 
       - name: Upload Release Artifacts
