@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['join_0',['join',['../class_database.html#a81568e20f50b046182a05b14955792d8',1,'Database']]],
-  ['joinallthreads_1',['joinAllThreads',['../class_threading_base.html#a98031e5c2cd3110e1dd5fd332eb946bc',1,'ThreadingBase']]]
+  ['linux_2ecpp_2eo_2ed_0',['linux.cpp.o.d',['../linux_8cpp_8o_8d.html',1,'(Global Namespace)'],['../linux_2linux_8cpp_8o_8d.html',1,'(Global Namespace)']]],
+  ['logger_2ecpp_2eo_2ed_1',['Logger.cpp.o.d',['../_logger_8cpp_8o_8d.html',1,'']]]
 ];

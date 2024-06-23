@@ -9,8 +9,8 @@ set(INCLUDE_DIR
         "${CMAKE_SOURCE_DIR}/src/CORE"
         "${CMAKE_SOURCE_DIR}/src/FILEIO"
         "${CMAKE_SOURCE_DIR}/src/MANMON"
-        "${CMAKE_SOURCE_DIR}/src/VIEW")
-
+        "${CMAKE_SOURCE_DIR}/src/VIEW"
+)
 set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
 
 include_directories(${INCLUDE_DIR})
@@ -19,42 +19,7 @@ include_directories(${IMGUI_DIR}/backends)
 
 if (APPLE)
     find_package(Doxygen REQUIRED)
-    get_target_property(DOXYGEN_EXECUTABLE Doxygen::doxygen IMPORTED_LOCATION)
-    set(DOXYGEN_DIRS
-            ${CMAKE_SOURCE_DIR}/src
-            ${CMAKE_SOURCE_DIR}/include
-    )
-    string(REPLACE ";" " " DOXYGEN_DIRS "${DOXYGEN_DIRS}")
-endif()
-
-if (APPLE)
     find_package(SDL2 REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIRS})
-
-    if (NOT SDL2_FOUND)
-        message(FATAL_ERROR "SDL2 library not found")
-    endif()
-endif()
-
-file(GLOB IMGUI_SOURCES "${IMGUI_DIR}/*.cpp" "${IMGUI_DIR}/*.h")
-
-if (WIN32)
-    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_dx12.cpp" "${IMGUI_DIR}/backends/imgui_impl_win32.cpp")
-endif()
-
-if (APPLE)
-    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_metal.mm")
-endif()
-
-if (LINUX)
-    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp")
-endif()
-
-if (WIN32)
-    set(DirectX_LIBRARIES d3d12 dxgi d3dcompiler)
-endif()
-
-if (APPLE)
     find_library(METAL_LIBRARY Metal)
     find_library(COCOA_LIBRARY Cocoa)
     find_library(QUARTZCORE_LIBRARY QuartzCore)
@@ -63,20 +28,48 @@ if (APPLE)
     find_library(COREVIDEO_LIBRARY CoreVideo)
     find_library(GL_LIBRARY OpenGL)
 
-    set(DirectX_LIBRARIES ${METAL_LIBRARY} ${COCOA_LIBRARY} ${QUARTZCORE_LIBRARY} ${APPKIT_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${GL_LIBRARY})
-endif()
+    include_directories(${SDL2_INCLUDE_DIRS})
 
-if (LINUX)
+    set(DIRECTX_LIBRARIES ${METAL_LIBRARY} ${COCOA_LIBRARY} ${QUARTZCORE_LIBRARY} ${APPKIT_LIBRARY} ${IOKIT_LIBRARY} ${COREVIDEO_LIBRARY} ${GL_LIBRARY})
+elseif (WIN32)
+    set(DIRECTX_LIBRARIES d3d12 dxgi d3dcompiler)
+elseif (LINUX)
     find_package(SDL2 REQUIRED)
     find_package(OpenGL REQUIRED)
 
-    set(DirectX_LIBRARIES SDL2 OpenGL::GL)
+    set(DIRECTX_LIBRARIES ${SDL2_LIBRARIES} OpenGL::GL)
+endif()
+
+file(GLOB IMGUI_SOURCES "${IMGUI_DIR}/*.cpp" "${IMGUI_DIR}/*.h")
+
+if (WIN32)
+    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_dx12.cpp" "${IMGUI_DIR}/backends/imgui_impl_win32.cpp")
+elseif (APPLE)
+    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_metal.mm")
+elseif (LINUX)
+    set(IMGUI_BACKEND_SOURCES "${IMGUI_DIR}/backends/imgui_impl_sdl2.cpp" "${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp")
 endif()
 
 if (APPLE)
     file(GLOB_RECURSE SOURCES "src/*.cpp" "src/macos/*.mm" "src/linux/*.cpp" "src/windows/*.cpp")
 else()
     file(GLOB_RECURSE SOURCES "src/*.cpp")
+endif()
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURCES})
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR} ${IMGUI_DIR} ${IMGUI_DIR}/backends)
+
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${DIRECTX_LIBRARIES})
+elseif (APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${DIRECTX_LIBRARIES} ${SDL2_LIBRARIES})
+endif()
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-fno-omit-frame-pointer")
 endif()
 
 if (APPLE)
@@ -89,52 +82,7 @@ if (APPLE)
             COMMENT "Ensuring ImGui submodule is on the docking branch"
     )
 
-    add_custom_target(EnsureImGuiDockingBranch ALL
-            DEPENDS ${IMGUI_DIR}/.git
-    )
-endif()
-
-add_executable(${PROJECT_NAME} ${SOURCES} ${IMGUI_SOURCES} ${IMGUI_BACKEND_SOURCES})
-
-if (APPLE)
-    add_dependencies(${PROJECT_NAME} EnsureImGuiDockingBranch)
-endif()
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR} ${IMGUI_DIR})
-target_include_directories(${PROJECT_NAME} PRIVATE ${IMGUI_DIR}/backends)
-
-if (WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES})
-endif()
-
-if (APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${DirectX_LIBRARIES} ${SDL2_LIBRARIES})
-endif()
-
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_options(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
-    target_link_libraries(${PROJECT_NAME} PRIVATE "-fsanitize=undefined")
-    target_compile_options(${PROJECT_NAME} PRIVATE "-fno-omit-frame-pointer")
-endif()
-
-if (APPLE)
-    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.sh"
-            "#!/bin/bash\n"
-            "./cmake-build-debug/peTool\n"
-            "leaks -atExit -- ./peTool\n"
-    )
-    execute_process(COMMAND chmod +x "${CMAKE_BINARY_DIR}/run_leaks.sh")
-elseif (LINUX)
-    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.sh"
-            "#!/bin/bash\n"
-            "./cmake-build-debug/peTool\n"
-            "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./peTool\n"
-    )
-    execute_process(COMMAND chmod +x "${CMAKE_BINARY_DIR}/run_leaks.sh")
-elseif (WIN32)
-    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.bat"
-            "./build/peTool.exe\n"
-    )
+    add_custom_target(EnsureImGuiDockingBranch ALL DEPENDS ${IMGUI_DIR}/.git)
 endif()
 
 if (APPLE)
@@ -160,4 +108,24 @@ if (APPLE)
                 ${CMAKE_SOURCE_DIR}/docs/Doxygen
                 COMMENT "Copying generated documentation to the target directory")
     endif()
+endif()
+
+if (APPLE)
+    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.sh"
+            "#!/bin/bash\n"
+            "./cmake-build-debug/peTool\n"
+            "leaks -atExit -- ./peTool\n"
+    )
+    execute_process(COMMAND chmod +x "${CMAKE_BINARY_DIR}/run_leaks.sh")
+elseif (LINUX)
+    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.sh"
+            "#!/bin/bash\n"
+            "./cmake-build-debug/peTool\n"
+            "valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./peTool\n"
+    )
+    execute_process(COMMAND chmod +x "${CMAKE_BINARY_DIR}/run_leaks.sh")
+elseif (WIN32)
+    file(WRITE "${CMAKE_BINARY_DIR}/run_leaks.bat"
+            "./build/peTool.exe\n"
+    )
 endif()
