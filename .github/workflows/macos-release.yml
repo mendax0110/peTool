@@ -39,13 +39,13 @@ jobs:
 
       - name: Create Tag
         if: success()
-        run: git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
+        run: git tag -a macOS-${{ github.run_number }} -m "Release version macOS-${{ github.run_number }}"
 
       - name: Push Tag
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: git push origin v${{ github.run_number }}
+        run: git push origin macOS-${{ github.run_number }}
 
       - name: Upload Release Artifacts
         if: success()
