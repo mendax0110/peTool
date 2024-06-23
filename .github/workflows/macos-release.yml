@@ -18,16 +18,10 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install CMake
+      - name: Install CMake and Dependencies
         run: |
-          brew install cmake
-
-      - name: Configure Git and Set Upstream
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git remote set-url origin https://github.com/${{ github.repository }}
-          git remote -v
+          brew update
+          brew install cmake doxygen sdl2
 
       - name: Build with CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -45,13 +39,13 @@ jobs:
 
       - name: Create Tag
         if: success()
-        run: git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
+        run: git tag -a macOS-${{ github.run_number }} -m "Release version macOS-${{ github.run_number }}"
 
       - name: Push Tag
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: git push origin v${{ github.run_number }}
+        run: git push origin macOS-${{ github.run_number }}
 
       - name: Upload Release Artifacts
         if: success()
