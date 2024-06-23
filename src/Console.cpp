@@ -12,6 +12,7 @@
 #include <memory>
 #include <array>
 #include <future>
+#include <sstream>
 #endif
 
 using namespace ConsoleInternals;
