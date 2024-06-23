@@ -31,4 +31,5 @@ private:
     static bool validatePEFileInternal(std::vector<uint8_t>& data);
     static bool bindImportsInternal(std::vector<uint8_t>& data);
     static bool changeImageBaseInternal(std::vector<uint8_t>& data, uint64_t newImageBase);
+    
 };
