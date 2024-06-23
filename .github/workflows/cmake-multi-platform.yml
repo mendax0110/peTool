@@ -1,4 +1,4 @@
-name: CMake on macOS
+name: CMake Build and Test
 
 on:
   push:
@@ -11,7 +11,11 @@ env:
 
 jobs:
   build:
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        operating-system: [macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.operating-system }}
 
     steps:
     - uses: actions/checkout@v4
@@ -27,9 +31,17 @@ jobs:
         git pull origin docking
 
     - name: Install dependencies
+      if: matrix.operating-system == 'macos-latest'
       run: |
         brew update
         brew install cmake doxygen sdl2
+
+    - name: Install dependencies
+      if: matrix.operating-system == 'windows-latest'
+      run: |
+        choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+        choco install doxygen
+        choco install sdl2
 
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -38,8 +50,14 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Test
+      if: matrix.operating-system == 'macos-latest'
       working-directory: ${{github.workspace}}/build
       run: ctest -C ${{env.BUILD_TYPE}}
+
+    - name: Test
+      if: matrix.operating-system == 'windows-latest'
+      working-directory: ${{github.workspace}}/build
+      run: ctest -C ${{env.BUILD_TYPE}} --output-on-failure
 
     - name: Generate Documentation
       if: success()
