@@ -26,7 +26,7 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.email "adrian.goessl@outlool.com"
+          git config --global user.email "adrian.goessl@outlook.com"
           git config --global user.name "mendax0110"
 
       - name: Checkout ImGui docking branch
