@@ -1,0 +1,64 @@
+name: Release Build macOS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install CMake
+        run: |
+          brew install cmake
+
+      - name: Checkout ImGui docking branch
+        if: runner.os == 'macos'
+        run: |
+          git -C external/imgui fetch --all
+          git -C external/imgui checkout docking || git -C external/imgui checkout -b docking origin/docking
+          git -C external/imgui pull origin docking
+
+      - name: Build with CMake
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+      - name: Prepare Release
+        if: success()
+        run: |
+          mkdir -p release
+          cp -r ${{github.workspace}}/build/* release/
+          cp -r ${{github.workspace}}/docs/Doxygen release/
+
+      - name: Create Release Directory
+        if: success()
+        run: mkdir -p release
+
+      - name: Create Tag
+        if: success()
+        run: git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
+
+      - name: Push Tag
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: git push origin v${{ github.run_number }}
+
+      - name: Upload Release Artifacts
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: peTool-macOS-${{ env.BUILD_TYPE }}
+          path: release/
