@@ -29,12 +29,17 @@ jobs:
           git remote set-url origin https://github.com/${{ github.repository }}
           git remote -v
 
+      - name: Debug Submodule
+        run: |
+          git -C external/imgui status
+          git -C external/imgui branch -a
+
       - name: Checkout ImGui docking branch
         if: runner.os == 'macos'
         run: |
-          git -C external/imgui fetch --all
-          git -C external/imgui checkout docking || git -C external/imgui checkout -b docking origin/docking
-          git -C external/imgui pull origin docking
+          git -C external/imgui fetch --all || exit 1
+          git -C external/imgui checkout docking || git -C external/imgui checkout -b docking origin/docking || exit 1
+          git -C external/imgui pull origin docking || exit 1
 
       - name: Build with CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
