@@ -44,18 +44,22 @@ jobs:
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-      - name: Package Release
+      - name: Prepare Release
         if: success()
         run: |
           mkdir -p release
-          cp -r ${{github.workspace}}/build release/
+          cp -r ${{github.workspace}}/build/* release/
           cp -r ${{github.workspace}}/docs/Doxygen release/
           # Add more commands to package other necessary files
+
+      - name: Create Release Directory
+        if: success()
+        run: mkdir -p release
 
       - name: Create Tag
         if: success()
         run: git tag -a v${{ github.run_number }} -m "Release version v${{ github.run_number }}"
-      
+
       - name: Push Tag
         if: success()
         env:
