@@ -65,6 +65,8 @@ bool showConsole = false;
 bool showDebugger = false;
 bool showFileEdit = false;
 bool showMemoryProfiler = false;
+bool showProcessId = false;
+bool showUtils = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -316,18 +318,30 @@ void showExtractMenu(const std::string& filePath)
  * @brief Show process id menu
  * @param filePath File path
  */
-void showProcessIdMenu(const std::string& filePath)
+void showProcessIdMenu(const std::string& filePath, bool& showProcessId)
 {
-    if (ImGui::BeginMenu("Process Id"))
+    if (!showProcessId || filePath.empty())
+        return;
+
+    if (showProcessId)
     {
-        processFileAndMenuItem("Get Process Id", filePath, [&](const std::vector<uint8_t>& fileData)
-        {
-            auto exename = static_cast<const char*>(filePath.c_str());
-            InjectorMacOS injector;
-            InjectorMacOS::CreatePlatform();
-            injector.GetProcId(exename);
-        });
-        ImGui::EndMenu();
+        auto exeName = static_cast<const char *>(filePath.c_str());
+#if defined(__APPLE__)
+        InjectorMacOS injector;
+        InjectorMacOS::CreatePlatform();
+        auto id = injector.GetProcId(exeName);
+#elif defined(__linux__)
+        InjectorLinux injector;
+        InjectorLinux::CreatePlatform();
+        auto id = injector.GetProcId(exeName);
+#elif defined(_WIN32)
+        InjectorWin injector;
+        InjectorWin::CreatePlatform();
+        auto id = injector.GetProcId(exeName);
+#endif
+        ImGui::Begin("Process Id", &showProcessId);
+        ImGui::Text("Process ID: %d of %s", id, exeName);
+        ImGui::End();
     }
 }
 
@@ -351,16 +365,19 @@ void showMetricsMenu(bool& show_metrics)
  * @brief Show file menu
  * @param filePath File path
  */
-void showUtilsMenu(const std::string& filePath)
+void showUtilsMenu(const std::string& filePath, bool& showUtils)
 {
-    if (ImGui::BeginMenu("Utils"))
+    if (!showUtils || filePath.empty())
+        return;
+
+    if (showUtils && !filePath.empty())
     {
-        processFileAndMenuItem("Calculate Checksum", filePath, [&](const std::vector<uint8_t>& fileData)
-        {
-            auto checksumOutput = Utils::calculateChecksum(fileData);
-            auto checksum = std::to_string(checksumOutput);
-        });
-        ImGui::EndMenu();
+        auto checksumOutput = Utils::calculateChecksum(FileIO::readFile(filePath));
+        auto checksum = std::to_string(checksumOutput);
+
+        ImGui::Begin("Checksum", &showUtils);
+        ImGui::Text("Checksum: %s", checksum.c_str());
+        ImGui::End();
     }
 }
 
@@ -698,18 +715,13 @@ void showMemoryProfilerWindow(bool& showMemoryProfiler)
     memProfiler.populateRAMUsage();
     memProfiler.populateVRAMUsage();
 
-    //auto memUsage = memProfiler.getMemoryUsage();
     auto totalMem = memProfiler.getTotalMemoryUsage();
-
-    //auto memRam = memProfiler.getRAMUsage();
     auto totalRam = memProfiler.getTotalRAMUsage();
-
-    //auto memVRam = memProfiler.getVRAMUsage();
     auto totalVRam = memProfiler.getTotalVRAMUsage();
 
     ImGui::Begin("Memory Profiler", &showMemoryProfiler);
 
-    /*for (const auto& usage : memUsage)
+    /*for (const auto& usage : totalMem)
     {
         ImGui::Text("%s: %zu", usage.first.c_str(), usage.second);
     }*/
@@ -904,11 +916,11 @@ int runGUI()
                     }
                     if (ImGui::BeginMenu("Process Id"))
                     {
-                        processFileAndMenuItem("Get Process Id", filePathInput, [&](const std::vector<uint8_t>& fileData) {
-                            auto exename = static_cast<const char*>(filePathInput.c_str());
-                            InjectorMacOS injector;
-                            injector.GetProcId(exename);
-                        });
+                        if (ImGui::MenuItem("Get Process Id"))
+                        {
+                            showProcessIdMenu(filePathInput, showProcessId);
+                            showProcessId = true;
+                        }
                         ImGui::EndMenu();
                     }
                     ImGui::EndMenu();
@@ -923,11 +935,11 @@ int runGUI()
                 }
                 if (ImGui::BeginMenu("Utils"))
                 {
-                    processFileAndMenuItem("Calculate Checksum", filePathInput, [&](const std::vector<uint8_t>& fileData) {
-                        //Utils unt;
-                        auto checksumOutput = Utils::calculateChecksum(fileData);
-                        auto checksum = std::to_string(checksumOutput);
-                    });
+                    if (ImGui::MenuItem("Checksum"))
+                    {
+                        showUtilsMenu(filePathInput, showUtils);
+                        showUtils = true;
+                    }
                     ImGui::EndMenu();
                 }
                 if (ImGui::BeginMenu("Entropy"))
@@ -1018,7 +1030,7 @@ int runGUI()
             showMetricsWindow(show_metrics);
             showFileSelector(filePathInput);
             showExtractMenu(filePathInput);
-            showProcessIdMenu(filePathInput);
+            showProcessIdMenu(filePathInput, showProcessId);
             showDetectorMenu(filePathInput);
             showAntiDebugMenu(filePathInput);
             showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
@@ -1027,6 +1039,7 @@ int runGUI()
             showConsoleWindow(showConsole);
             showDebuggerWindow(showDebugger, debugger);
             showMemoryProfilerWindow(showMemoryProfiler);
+            showUtilsMenu(filePathInput, showUtils);
 
             updateMenuItemWindows();
 
