@@ -766,13 +766,20 @@ void logProgram(const std::function<void()>& program)
     logger.log(Logger::LogLevel::INFO, "Program finished.", "");
 }
 
-/*void setApplicationIcon()
+/**
+ * @brief Set application icon
+ */
+void setApplicationIcon()
 {
-    NSString *executablePath = [[NSBundle mainBundle] executablePath];
-    NSString *executableDirectory = [executablePath stringByDeletingLastPathComponent];
-    NSString *iconFileName = @"cog.icns";
-    NSString *iconFilePath = [executableDirectory stringByAppendingPathComponent:@"icon"];
-    iconFilePath = [iconFilePath stringByAppendingPathComponent:iconFileName];
+    auto path = "../icon/cog.icns";
+    NSString *iconFileName = @(path);
+    NSString *iconFilePath = [[NSBundle mainBundle] pathForResource:[iconFileName stringByDeletingPathExtension] ofType:[iconFileName pathExtension]];
+
+    if (iconFilePath == nil)
+    {
+        NSLog(@"Failed to find image %@", iconFileName);
+        return;
+    }
 
     NSImage *iconImage = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
     if (!iconImage)
@@ -781,8 +788,8 @@ void logProgram(const std::function<void()>& program)
         return;
     }
 
-    [[NSApp mainWindow] setIcon:iconImage];
-}*/
+    [NSApp setApplicationIconImage:iconImage];
+}
 
 /**
  * @brief Run GUI
@@ -829,6 +836,9 @@ int runGUI()
         printf("Error creating renderer: %s\n", SDL_GetError());
         return -3;
     }
+
+    // set application icon
+    setApplicationIcon();
 
     // Setup Platform/Renderer backends
     auto layer = (__bridge CAMetalLayer*)SDL_RenderGetMetalLayer(renderer);
@@ -1081,7 +1091,6 @@ int runGUI()
  */
 int main(int argc, char** argv)
 {
-    //setApplicationIcon();
     bool use_gui = false;
     for (int i = 1; i < argc; ++i)
     {
