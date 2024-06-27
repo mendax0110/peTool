@@ -685,7 +685,23 @@ git clone https://github.com/mendax0110/peTool
 cd peTool
 ```
 
-3. Build the project:
+3. Get Dependencies:
+
+```sh
+cd DependencySetup
+```
+
+4. Run the Dependency Setup Script (macos/windows)
+
+```sh
+./setup_macos_dep.sh 
+```
+
+```sh
+setup_windows_dep.bat
+```
+
+5. Build the project:
 
 ```sh
 cmake ..
