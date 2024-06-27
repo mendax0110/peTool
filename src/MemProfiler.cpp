@@ -3,6 +3,10 @@
 #if defined(_WIN32)
 #include <windows.h>
 #include <psapi.h>
+#include <dxgi.h>
+#include <iostream>
+#include <vector>
+#include <utility>
 #endif
 
 #if defined(__APPLE__)
