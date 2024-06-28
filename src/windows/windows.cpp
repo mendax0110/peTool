@@ -112,7 +112,9 @@ bool showConsole = false;
 bool showDebugger = false;
 bool showFileEdit = false;
 bool showMemoryProfiler = false;
-
+bool showProcessId = false;
+bool showUtils = false;
+bool showDllInjector = false;
 
 /**
  * @brief Run the CLI interface
@@ -135,6 +137,7 @@ void initMenuItemInfo()
     menuItemInfo["Section Info"];
     menuItemInfo["Headers"];
     menuItemInfo["Process Id"];
+    menuItemInfo["Inject Dll"];
     menuItemInfo["Checksum"];
     menuItemInfo["Entropy Histogram"];
     menuItemInfo["Disassemble"];
@@ -349,31 +352,6 @@ void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std:
     ImGui::End();
 }
 
-//void showFileEditorWindow(FileEditor& fileEditor, bool& showFileEdit, const std::string& filename)
-//{
-//    if (!showFileEdit)
-//        return;
-//
-//    if (filename.empty())
-//        return;
-//
-//    ImGui::Begin("File Editor", &showFileEdit, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
-//
-//    if (!fileEditor.isOpen())
-//    {
-//        if (fileEditor.openFileForRead(filename))
-//        {
-//            std::string fileContent = fileEditor.readFile();
-//            fileEditor.SetText(fileContent);
-//        }
-//    }
-//
-//    ImVec2 availSize = ImGui::GetContentRegionAvail();
-//    fileEditor.Render("File Editor", availSize, true);
-//
-//    ImGui::End();
-//}
-
 /**
  * @brief Show the extract menu
  * @param filePath The file path
@@ -395,19 +373,73 @@ void showExtractMenu(const std::string& filePath)
  * @brief Show the process id menu
  * @param filePath The file path
  */
-void showProcessIdMenu(const std::string& filePath)
+void showProcessIdMenu(const std::string& filePath, bool& showProcessId)
 {
-    if (ImGui::BeginMenu("Process Id"))
+    if (!showProcessId || filePath.empty())
+        return;
+
+    if (showProcessId)
     {
-        processFileAndMenuItem("Get Process Id", filePath, [&](const std::vector<uint8_t>& fileData)
-        {
-            auto exename = static_cast<const char*>(filePath.c_str());
-            InjectorWindows injector;
-            injector.CreatePlatform();
-            injector.GetProcId(exename);
-        });
-        ImGui::EndMenu();
+        auto exeName = static_cast<const char *>(filePath.c_str());
+#if defined(__APPLE__)
+        InjectorMacOS injector;
+        InjectorMacOS::CreatePlatform();
+        auto id = injector.GetProcId(exeName);
+#elif defined(__linux__)
+        InjectorLinux injector;
+        InjectorLinux::CreatePlatform();
+        auto id = injector.GetProcId(exeName);
+#elif defined(_WIN32)
+        InjectorWindows injector;
+        InjectorWindows::CreatePlatform();
+        auto id = injector.GetProcId(exeName);
+#endif
+        ImGui::Begin("Process Id", &showProcessId);
+        ImGui::Text("Process ID: %d of %s", id, exeName);
+        ImGui::End();
     }
+}
+
+void showDllInjectorMenu(const std::string& exePath, const std::string& dllPath, bool& showDllInjector)
+{
+	if (!showDllInjector || exePath.empty() || dllPath.empty())
+		return;
+
+    if (showDllInjector)
+    {
+        auto exeName = static_cast<const char*>(filePath.c_str());
+        auto dll = static_cast<const char*>(dllPath.c_str());
+        ImGui::Begin("DLL Injector", &showDllInjector);
+		ImGui::Text("Injecting %s into %s", dllPath.c_str(), exePath.c_str());
+        
+#if defined (__APPLE__)
+        InjectorMacOS injector;
+		InjectorMacOS::CreatePlatform();
+		injector.InjectDll(exePath, dllPath);
+#elif defined (__linux__)
+		InjectorLinux injector;
+        InjectorLinux::CreatePlatform();
+        injector.InjectDll(exePath, dllPath);
+#elif defined (_WIN32)
+        InjectorWindows injector;
+		InjectorWindows::CreatePlatform();
+#endif
+        auto id = injector.GetProcId(exeName);
+        auto injected = injector.InjectDLL(id, dll);
+
+        if (injected)
+        {
+			ImGui::Text("Process ID: %d of %s", id, exeName);
+			ImGui::Text("DLL Path: %s", dll);
+			ImGui::Text("DLL Injected Successfully");
+		}
+		else
+		{
+			ImGui::Text("DLL Injection Failed");
+		}
+
+		ImGui::End();
+	}
 }
 
 /**
@@ -430,17 +462,19 @@ void showMetricsMenu(bool& show_metrics)
  * @brief Show the utils menu
  * @param filePath The file path
  */
-void showUtilsMenu(const std::string& filePath)
+void showUtilsMenu(const std::string& filePath, bool& showUtils)
 {
-    if (ImGui::BeginMenu("Utils"))
+    if (!showUtils || filePath.empty())
+        return;
+
+    if (showUtils && !filePath.empty())
     {
-        processFileAndMenuItem("Calculate Checksum", filePath, [&](const std::vector<uint8_t>& fileData)
-        {
-            Utils unt;
-            auto checksumOutput = Utils::calculateChecksum(fileData);
-            auto checksum = std::to_string(checksumOutput);
-        });
-        ImGui::EndMenu();
+        auto checksumOutput = Utils::calculateChecksum(FileIO::readFile(filePath));
+        auto checksum = std::to_string(checksumOutput);
+
+        ImGui::Begin("Checksum", &showUtils);
+        ImGui::Text("Checksum: %s", checksum.c_str());
+        ImGui::End();
     }
 }
 
@@ -839,6 +873,42 @@ void logProgram(const std::function<void()>& program)
 }
 
 /**
+ * .@brief Set the application icon
+ */
+void setApplicationIcon()
+{
+    auto path = "../icon/cog.ico";
+
+    if (!std::filesystem::exists(path))
+    {
+        std::cout << "Icon file not found." << std::endl;
+        return;
+    }
+
+    HICON hIcon = static_cast<HICON>(LoadImage(nullptr, path, IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED));
+
+    if (!hIcon)
+    {
+        std::cout << "Failed to load icon." << std::endl;
+        return;
+    }
+
+    // find the main windwo handle
+    auto hwnd = FindWindow(nullptr, static_cast<LPCSTR>("PETOOL"));
+    if (!hwnd)
+    {
+        std::cout << "Window not found." << std::endl;
+        return;
+    }
+
+    SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+    SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+
+    auto taskbarHwnd = FindWindow("Shell_TrayWnd", nullptr);
+    SendMessage(taskbarHwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+}
+
+/**
  * @brief Show the main GUI window
  */
 int runGUI()
@@ -874,6 +944,8 @@ int runGUI()
         DXGI_FORMAT_R8G8B8A8_UNORM, g_pd3dSrvDescHeap,
         g_pd3dSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
         g_pd3dSrvDescHeap->GetGPUDescriptorHandleForHeapStart());
+
+    setApplicationIcon();
 
     bool show_demo_window = true;
     bool show_another_window = false;
@@ -932,11 +1004,22 @@ int runGUI()
                 }
                 if (ImGui::BeginMenu("Process Id"))
                 {
-                    processFileAndMenuItem("Get Process Id", filePathInput, [&](const std::vector<uint8_t>& fileData) {
-                        auto exename = static_cast<const char*>(filePathInput.c_str());
-                        InjectorWindows injector;
-                        injector.GetProcId(exename);
-                    });
+                    if (ImGui::MenuItem("Get Process Id"))
+                    {
+                        showProcessIdMenu(filePathInput, showProcessId);
+                        showProcessId = true;
+                    }
+                    ImGui::EndMenu();
+                }
+                if (ImGui::BeginMenu("Inject Dll"))
+                {
+                    if (ImGui::MenuItem("Injector"))
+                    {
+                        auto exePath = filePathInput;
+                        auto dllPath = openFile() ? filePath : "";
+                        showDllInjectorMenu(exePath, dllPath, showDllInjector);
+                        showDllInjector = true;
+                    }
                     ImGui::EndMenu();
                 }
                 ImGui::EndMenu();
@@ -951,11 +1034,11 @@ int runGUI()
             }
             if (ImGui::BeginMenu("Utils"))
             {
-                processFileAndMenuItem("Calculate Checksum", filePathInput, [&](const std::vector<uint8_t>& fileData) {
-                    Utils unt;
-                    auto checksumOutput = unt.calculateChecksum(fileData);
-                    auto checksum = std::to_string(checksumOutput);
-                });
+                if (ImGui::MenuItem("Checksum"))
+                {
+                    showUtilsMenu(filePathInput, showUtils);
+                    showUtils = true;
+                }
                 ImGui::EndMenu();
             }
             if (ImGui::BeginMenu("Entropy"))
@@ -1031,13 +1114,22 @@ int runGUI()
                 }
                 ImGui::EndMenu();
             }
+            if (ImGui::BeginMenu("Memory Profiler"))
+            {
+                if (ImGui::MenuItem("Show Memory Profiler"))
+                {
+                    showMemoryProfilerWindow(showMemoryProfiler);
+                    showMemoryProfiler = true;
+                }
+                ImGui::EndMenu();
+            }
             ImGui::EndMainMenuBar();
         }
 
         showMetricsWindow(show_metrics);
         showFileSelector(filePathInput);
         showExtractMenu(filePathInput);
-        showProcessIdMenu(filePathInput);
+        showProcessIdMenu(filePathInput, showProcessId);
         showDetectorMenu(filePathInput);
         showAntiDebugMenu(filePathInput);
         showHistogramWindow(histogram, entropyOutput, showEntropyHistogram);
@@ -1045,6 +1137,9 @@ int runGUI()
         showDetailedViewOfImportTable(filePathInput, showImportTableWindow);
         showConsoleWindow(showConsole);
         showDebuggerWindow(showDebugger, debugger);
+        showUtilsMenu(filePathInput, showUtils);
+        showMemoryProfilerWindow(showMemoryProfiler);
+        showDllInjectorMenu(filePathInput, filePath, showDllInjector);
 
         updateMenuItemWindows();
 
