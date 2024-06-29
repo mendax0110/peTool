@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>peTool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .menu {
+            margin: 20px 0;
+        }
+        .menu button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .menu button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>peTool</h1>
+    <div class="container">
+        <div class="menu">
+            <button onclick="showSection('import-table')">Import Table</button>
+            <button onclick="showSection('export-table')">Export Table</button>
+            <button onclick="showSection('resources')">Resources</button>
+            <button onclick="showSection('section-info')">Section Info</button>
+            <button onclick="showSection('headers')">Headers</button>
+            <button onclick="showSection('process-id')">Process ID</button>
+            <button onclick="showSection('inject-dll')">Inject DLL</button>
+            <button onclick="showSection('checksum')">Checksum</button>
+            <button onclick="showSection('entropy-histogram')">Entropy Histogram</button>
+            <button onclick="showSection('disassemble')">Disassemble</button>
+            <button onclick="showSection('upx-detection')">UPX Detection</button>
+            <button onclick="showSection('themida-detection')">Themida Detection</button>
+            <button onclick="showSection('entry-point')">Entry Point</button>
+            <button onclick="showSection('find-debugger')">Find Debugger</button>
+            <button onclick="showSection('nt-global-flag')">Nt Global Flag</button>
+            <button onclick="showSection('heap-flags')">Heap Flags</button>
+            <button onclick="showSection('output-debug-string')">Output Debug String</button>
+            <button onclick="showSection('edit-file')">Edit File</button>
+            <button onclick="showSection('console')">Console</button>
+        </div>
+        <div id="content">
+            <p>Welcome to peTool! Select a functionality from the menu above to get started.</p>
+        </div>
+    </div>
+    <script>
+        function showSection(section) {
+            const content = document.getElementById('content');
+            let htmlContent = '';
+
+            switch (section) {
+                case 'import-table':
+                    htmlContent = '<h2>Import Table</h2><p>Functionality to display the import table of a PE file.</p>';
+                    break;
+                case 'export-table':
+                    htmlContent = '<h2>Export Table</h2><p>Functionality to display the export table of a PE file.</p>';
+                    break;
+                case 'resources':
+                    htmlContent = '<h2>Resources</h2><p>Functionality to display the resources of a PE file.</p>';
+                    break;
+                case 'section-info':
+                    htmlContent = '<h2>Section Info</h2><p>Functionality to display the section information of a PE file.</p>';
+                    break;
+                case 'headers':
+                    htmlContent = '<h2>Headers</h2><p>Functionality to display the headers of a PE file.</p>';
+                    break;
+                case 'process-id':
+                    htmlContent = '<h2>Process ID</h2><p>Functionality to display the process ID of an executable.</p>';
+                    break;
+                case 'inject-dll':
+                    htmlContent = '<h2>Inject DLL</h2><p>Functionality to inject a DLL into a process.</p>';
+                    break;
+                case 'checksum':
+                    htmlContent = '<h2>Checksum</h2><p>Functionality to calculate and display the checksum of a PE file.</p>';
+                    break;
+                case 'entropy-histogram':
+                    htmlContent = '<h2>Entropy Histogram</h2><p>Functionality to display the entropy histogram of a PE file.</p>';
+                    break;
+                case 'disassemble':
+                    htmlContent = '<h2>Disassemble</h2><p>Functionality to disassemble the code of a PE file.</p>';
+                    break;
+                case 'upx-detection':
+                    htmlContent = '<h2>UPX Detection</h2><p>Functionality to detect UPX packing in a PE file.</p>';
+                    break;
+                case 'themida-detection':
+                    htmlContent = '<h2>Themida Detection</h2><p>Functionality to detect Themida packing in a PE file.</p>';
+                    break;
+                case 'entry-point':
+                    htmlContent = '<h2>Entry Point</h2><p>Functionality to check the entry point of a PE file.</p>';
+                    break;
+                case 'find-debugger':
+                    htmlContent = '<h2>Find Debugger</h2><p>Functionality to detect if a debugger is present.</p>';
+                    break;
+                case 'nt-global-flag':
+                    htmlContent = '<h2>Nt Global Flag</h2><p>Functionality to detect Nt Global Flag.</p>';
+                    break;
+                case 'heap-flags':
+                    htmlContent = '<h2>Heap Flags</h2><p>Functionality to detect heap flags in a PE file.</p>';
+                    break;
+                case 'output-debug-string':
+                    htmlContent = '<h2>Output Debug String</h2><p>Functionality to detect OutputDebugString usage.</p>';
+                    break;
+                case 'edit-file':
+                    htmlContent = '<h2>Edit File</h2><p>Functionality to edit the content of a file.</p>';
+                    break;
+                case 'console':
+                    htmlContent = '<h2>Console</h2><p>Functionality to provide a console interface for executing commands.</p>';
+                    break;
+                default:
+                    htmlContent = '<p>Welcome to peTool! Select a functionality from the menu above to get started.</p>';
+            }
+
+            content.innerHTML = htmlContent;
+        }
+    </script>
+</body>
+</html>

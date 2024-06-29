@@ -1430,6 +1430,12 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
+
+typedef void (*SetProcessedDataFunc)(const char*);
+typedef const char* (*GetProcessedDataFunc)();
+typedef void (*StartHttpServerFunc)();
+
+
 /**
  * @brief Main function
  * @param argc The number of arguments
@@ -1443,21 +1449,47 @@ int main(int argc, char** argv)
         if (std::string(argv[i]) == "--gui")
         {
             use_gui = true;
-            break;
         }
+        else if (std::string(argv[i]) == "--lib")
+        {
+            if (i + 1 < argc)
+            {
+				std::string libPath = argv[i + 1];
+				HMODULE lib = LoadLibrary(libPath.c_str());
+                if (lib)
+                {
+					SetProcessedDataFunc setProcessedData = (SetProcessedDataFunc)GetProcAddress(lib, "setProcessedData");
+					GetProcessedDataFunc getProcessedData = (GetProcessedDataFunc)GetProcAddress(lib, "getProcessedData");
+					StartHttpServerFunc startHttpServer = (StartHttpServerFunc)GetProcAddress(lib, "startHttpServer");
+
+                    if (setProcessedData && getProcessedData && startHttpServer)
+                    {
+						setProcessedData("Hello from main");
+						std::cout << getProcessedData() << std::endl;
+						startHttpServer();
+					}
+                    else
+                    {
+						std::cout << "Failed to load functions from library." << std::endl;
+					}
+				}
+                else
+                {
+					std::cout << "Failed to load library." << std::endl;
+				}
+			}
+		}
     }
 
     if (use_gui)
     {
         PerformanceMonitor::start("GUI Performance");
-        //runGUI();
         logProgram([]() { runGUI(); });
         PerformanceMonitor::stop("GUI Performance");
     }
     else
     {
         PerformanceMonitor::start("CLI Performance");
-        //runCLI(argc, argv);
         logProgram([&]() { runCLI(argc, argv); });
         PerformanceMonitor::stop("CLI Performance");
     }
