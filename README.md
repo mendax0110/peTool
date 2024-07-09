@@ -23,6 +23,10 @@
 
 https://github.com/mendax0110/peTool/assets/52537419/10e026ed-bbae-46ee-8f58-e464a75fc9f9
 
+## Demo Picture
+
+<img width="1469" alt="Demo_2" src="https://github.com/mendax0110/peTool/assets/52537419/8c00ba46-b249-47af-90ba-74afcd29b9e4">
+
 ---
 
 ##  Quick Links
