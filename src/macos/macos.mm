@@ -14,6 +14,7 @@
 #include "../../include/MANMON/MemoryManager.h"
 #include "../../include/MANMON/PerfMon.h"
 #include "../../include/MANMON/MemProfiler.h"
+#include "../../include/LIBMAN/MacOsInjector.h"
 
 #include <iostream>
 #include <vector>
@@ -67,6 +68,7 @@ bool showFileEdit = false;
 bool showMemoryProfiler = false;
 bool showProcessId = false;
 bool showUtils = false;
+bool showInject = false;
 
 void runCLI(int argc, char** argv)
 {
@@ -98,6 +100,7 @@ void initMenuItemInfo()
     menuItemInfo["Output Debug String"];
     menuItemInfo["Edit File"];
     menuItemInfo["Console"];
+    menuItemInfo["Injector"];
 }
 
 /**
@@ -745,6 +748,66 @@ void showMemoryProfilerWindow(bool& showMemoryProfiler)
     ImGui::End();
 }
 
+void showInjectorMenu(bool& showInject)
+{
+    if (!showInject)
+        return;
+
+    std::vector<std::string> processNames = MacInject::GetRunningProcesses();
+
+    ImGui::Begin("Injector", &showInject);
+    ImGui::Text("Select a dynamic library to inject into a process.");
+
+    if (ImGui::Button("Select File"))
+    {
+        openFile();
+    }
+
+    ImGui::Text("Selected file: %s", filePath.c_str());
+
+    static int selectedProcess = -1;
+    static bool processConfirmed = false;
+
+    if (ImGui::BeginCombo("Select Process", (selectedProcess >= 0 && selectedProcess < processNames.size()) ? processNames[selectedProcess].c_str() : "Select a process"))
+    {
+        for (int i = 0; i < processNames.size(); i++)
+        {
+            bool isSelected = (selectedProcess == i);
+            if (ImGui::Selectable(processNames[i].c_str(), isSelected))
+            {
+                selectedProcess = i;
+                processConfirmed = false;
+            }
+            if (isSelected)
+            {
+                ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndCombo();
+    }
+
+    if (selectedProcess != -1 && !processConfirmed)
+    {
+        if (ImGui::Button("Confirm Process"))
+        {
+            processConfirmed = true;
+        }
+    }
+
+    if (!filePath.empty() && selectedProcess != -1 && processConfirmed)
+    {
+        MacInject injector(filePath.c_str(), processNames[selectedProcess].c_str());
+        std::vector<Result> results = injector.InjectDylib();
+
+        for (const auto& result : results)
+        {
+            ImGui::Text("%s", result.message.c_str());
+        }
+    }
+
+    ImGui::End();
+}
+
 /**
  * @brief Log program
  * @param program Program
@@ -1034,6 +1097,15 @@ int runGUI()
                     }
                     ImGui::EndMenu();
                 }
+                if (ImGui::BeginMenu("Injector"))
+                {
+                    if (ImGui::MenuItem("Show Injector"))
+                    {
+                        showInjectorMenu(showInject);
+                        showInject = true;
+                    }
+                    ImGui::EndMenu();
+                }
                 ImGui::EndMainMenuBar();
             }
 
@@ -1050,6 +1122,7 @@ int runGUI()
             showDebuggerWindow(showDebugger, debugger);
             showMemoryProfilerWindow(showMemoryProfiler);
             showUtilsMenu(filePathInput, showUtils);
+            showInjectorMenu(showInject);
 
             updateMenuItemWindows();
 

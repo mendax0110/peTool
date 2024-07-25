@@ -5,11 +5,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(INCLUDE_DIR
-        "${CMAKE_SOURCE_DIR}/src/CLI"
-        "${CMAKE_SOURCE_DIR}/src/CORE"
-        "${CMAKE_SOURCE_DIR}/src/FILEIO"
-        "${CMAKE_SOURCE_DIR}/src/MANMON"
-        "${CMAKE_SOURCE_DIR}/src/VIEW"
+        "${CMAKE_SOURCE_DIR}/include/CLI"
+        "${CMAKE_SOURCE_DIR}/include/CORE"
+        "${CMAKE_SOURCE_DIR}/include/FILEIO"
+        "${CMAKE_SOURCE_DIR}/include/MANMON"
+        "${CMAKE_SOURCE_DIR}/include/VIEW"
+        "${CMAKE_SOURCE_DIR}/include/LIBMAN"
 )
 set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
 
