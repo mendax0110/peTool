@@ -15,9 +15,9 @@
 #endif
 
 #ifdef HTTP_SERVER_EXPORTS
-#define DLL_EXPORT __declspec(dllexport)
+    #define DLL_EXPORT __declspec(dllexport)
 #else
-#define DLL_EXPORT __declspec(dllimport)
+    #define DLL_EXPORT __declspec(dllimport)
 #endif
 
 namespace serverHandler
@@ -26,6 +26,7 @@ namespace serverHandler
     {
     public:
         website_handler();
+        ~website_handler();
         int load(const char* filename);
         const char* get_page(const char* filename, int request_type, std::string input, std::string text);
         void add_dictionary(std::string word);
@@ -62,7 +63,8 @@ namespace serverHandler
         struct sockaddr_in address;
     };
 
-    extern "C" {
+    extern "C"
+    {
         DLL_EXPORT void setProcessedData(const char* data);
         DLL_EXPORT const char* getProcessedData();
         DLL_EXPORT void start_http_server();

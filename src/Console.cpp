@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "../include/CLI/Console.h"
 
 #if defined(_WIN32)

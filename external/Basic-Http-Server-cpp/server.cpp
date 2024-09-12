@@ -1,9 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <condition_variable>
 #include <filesystem>
 #include <thread>
+#include <cstring>
 
 #if defined(__LINUX__)
 #include <sys/socket.h>
@@ -27,14 +30,18 @@
 
 using namespace serverHandler;
 
-website_handler::website_handler()
-{
-}
+website_handler::website_handler() {}
 
+/**
+ * @brief 
+ * 
+ * @param fileName 
+ * @return char* 
+ */
 char* website_handler::readFile(const char* fileName)
 {
     FILE* file = fopen(fileName, "rb");
-    if (file == nullptr)
+    if (!file)
     {
         perror("Error opening file");
         return nullptr;
@@ -54,7 +61,7 @@ char* website_handler::readFile(const char* fileName)
     std::cout << "File size: " << fileSize << " bytes" << std::endl;
 
     char* code = new (std::nothrow) char[fileSize + 1];
-    if (code == nullptr)
+    if (!code)
     {
         perror("Error allocating memory");
         fclose(file);
@@ -75,7 +82,7 @@ char* website_handler::readFile(const char* fileName)
             std::cerr << "Error reading file: " << strerror(errno) << "\n";
         }
 
-        delete[] code; // Free memory on error
+        delete[] code;
         return nullptr;
     }
 
@@ -83,18 +90,24 @@ char* website_handler::readFile(const char* fileName)
     return code;
 }
 
+/**
+ * @brief 
+ * 
+ * @param filename 
+ * @return int 
+ */
 int website_handler::load(const char* filename)
 {
     if (page.find(filename) != page.end())
     {
-        printf("File '%s' is already loaded.\n", filename);
+        std::cout << "File '" << filename << "' is already loaded.\n";
         return 0;
     }
 
     char* fileContent = readFile(filename);
-    if (fileContent == nullptr)
+    if (!fileContent)
     {
-        printf("Error loading file '%s'.\n", filename);
+        std::cerr << "Error loading file '" << filename << "'.\n";
         return 1;
     }
 
@@ -102,6 +115,15 @@ int website_handler::load(const char* filename)
     return 0;
 }
 
+/**
+ * @brief 
+ * 
+ * @param filename 
+ * @param request_type 
+ * @param input 
+ * @param text 
+ * @return const char* 
+ */
 const char* website_handler::get_page(const char* filename, int request_type, std::string input, std::string text)
 {
     if (std::filesystem::exists(filename))
@@ -145,6 +167,11 @@ const char* website_handler::get_page(const char* filename, int request_type, st
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param word 
+ */
 void website_handler::add_dictionary(std::string word)
 {
     if (word.empty())
@@ -169,7 +196,6 @@ void website_handler::add_dictionary(std::string word)
         if (fDictionary.good())
         {
             fDictionary << word << "\n";
-            fDictionary.close();
         }
         else
         {
@@ -178,12 +204,22 @@ void website_handler::add_dictionary(std::string word)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param word 
+ * @return int 
+ */
 int website_handler::check_dictionary(std::string word)
 {
     std::lock_guard<std::mutex> lock(dictionaryMutex);
     return dictionary.count(word);
 }
 
+/**
+ * @brief 
+ * 
+ */
 void website_handler::init_dictionary()
 {
     std::lock_guard<std::mutex> lock(dictionaryMutex);
@@ -216,10 +252,14 @@ void website_handler::init_dictionary()
 
     if (!word.empty())
         dictionary.insert(word);
-    fp.close();
-    fp2.close();
 }
 
+/**
+ * @brief 
+ * 
+ * @param filename 
+ * @return int 
+ */
 int website_handler::saveDataToXMLDatabase(const std::string& filename)
 {
     std::ofstream file(filename);
@@ -249,6 +289,12 @@ int website_handler::saveDataToXMLDatabase(const std::string& filename)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param filename 
+ * @return int 
+ */
 int website_handler::loadDataFromXMLDatabase(const std::string& filename)
 {
     std::ifstream file(filename);
@@ -276,6 +322,13 @@ int website_handler::loadDataFromXMLDatabase(const std::string& filename)
     }
 }
 
+/**
+ * @brief Construct a new server::server object
+ * 
+ * @param internet_address 
+ * @param port_number 
+ * @param THREAD_COUNT 
+ */
 server::server(int internet_address, int port_number, int THREAD_COUNT)
 {
     this->THREAD_COUNT = THREAD_COUNT;
@@ -284,11 +337,43 @@ server::server(int internet_address, int port_number, int THREAD_COUNT)
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = htonl(internet_address);
     address.sin_port = htons(port_number);
+
     file_descriptor = socket(AF_INET, SOCK_STREAM, 0);
-    bind_address();
-    start_listen();
+    if (file_descriptor < 0)
+    {
+        std::cerr << "Socket creation failed: " << strerror(errno) << std::endl;
+        return;
+    }
+
+#if defined(_WIN32)
+    char opt = 1;
+#else
+    int opt = 1;
+#endif
+
+    if (setsockopt(file_descriptor, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+    {
+        std::cerr << "Set socket options failed: " << strerror(errno) << std::endl;
+        return;
+    }
+
+    if (bind(file_descriptor, (struct sockaddr*)&address, sizeof_address) < 0)
+    {
+        std::cerr << "Bind failed: " << strerror(errno) << std::endl;
+        return;
+    }
+
+    if (listen(file_descriptor, THREAD_COUNT) < 0)
+    {
+        std::cerr << "Listen failed: " << strerror(errno) << std::endl;
+        return;
+    }
 }
 
+/**
+ * @brief Destroy the server::server object
+ * 
+ */
 server::~server()
 {
 #if defined(_WIN32) || defined(_WIN64)
@@ -307,39 +392,78 @@ void server::start()
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int server::new_socket()
 {
     return socket(AF_INET, SOCK_STREAM, 0);
 }
 
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int server::bind_address()
 {
     return bind(file_descriptor, (struct sockaddr*)&address, sizeof_address);
 }
 
+/**
+ * @brief 
+ * 
+ * @param k 
+ * @return int 
+ */
 int server::start_listen(int k)
 {
     return listen(file_descriptor, k);
 }
 
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int server::accept_connection()
 {
     struct sockaddr_in client_addr;
-    socklen_t c = sizeof(struct sockaddr_in);
-    int sock = accept(file_descriptor, (struct sockaddr*)&client_addr, &c);
+    socklen_t addr_len = sizeof(client_addr);
+    int sock = accept(file_descriptor, (struct sockaddr*)&client_addr, &addr_len);
 
-    if (sock == -1)
+    if (sock < 0)
     {
-        std::cerr << "Failed to accept connection" << std::endl;
+        if (errno == EINTR)
+        {
+            std::cerr << "Accept was interrupted by a signal. Retrying..." << std::endl;
+            return 0;
+        }
+        std::cerr << "Failed to accept connection. Error code: " << errno << std::endl;
+        std::cerr << "Error message: " << strerror(errno) << std::endl;
         return -1;
     }
 
-    std::thread connectionThread(&server::connection_thread, this, sock);
-    connectionThread.detach();
-
-    return 0;
+    if (sock >= 0)
+    {
+        std::thread connectionThread(&server::connection_thread, this, sock);
+        connectionThread.detach();
+        return 0;
+    }
+    else
+    {
+        std::cerr << "Error creating socket for the connection." << std::endl;
+        return -1;
+    }
 }
 
+/**
+ * @brief 
+ * 
+ * @param sock 
+ */
 void server::connection_thread(int sock)
 {
     char buf[1024] = { 0 };
@@ -350,7 +474,7 @@ void server::connection_thread(int sock)
 #else
     read(sock, buf, 1024);
 #endif
-    send(sock, str, strlen(str), 0);
+    send(sock, str, static_cast<int>(strlen(str)), 0);
 #ifdef _WIN32
     closesocket(sock);
 #else
@@ -358,19 +482,33 @@ void server::connection_thread(int sock)
 #endif
 }
 
-void setProcessedData(const char* data)
+/**
+ * @brief 
+ * 
+ */
+extern "C" void setProcessedData(const char* data)
 {
     std::string temp_data(data);
     std::transform(temp_data.begin(), temp_data.end(), temp_data.begin(), ::toupper);
     std::cout << "Processed Data: " << temp_data << std::endl;
 }
 
-const char* getProcessedData()
+/**
+ * @brief 
+ * 
+ */
+extern "C" const char* getProcessedData()
 {
     return "Dummy Data";
 }
 
-void start_http_server()
+/**
+ * @brief 
+ * 
+ */
+extern "C" void start_http_server()
 {
     std::cout << "HTTP Server started." << std::endl;
+    server srv(127, 8080, 10);
+    srv.start();
 }

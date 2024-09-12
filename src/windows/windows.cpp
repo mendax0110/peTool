@@ -1454,31 +1454,38 @@ int main(int argc, char** argv)
         {
             if (i + 1 < argc)
             {
-				std::string libPath = argv[i + 1];
-				HMODULE lib = LoadLibrary(libPath.c_str());
+                std::string libPath = argv[i + 1];
+                HMODULE lib = LoadLibrary(libPath.c_str());
                 if (lib)
                 {
-					SetProcessedDataFunc setProcessedData = (SetProcessedDataFunc)GetProcAddress(lib, "setProcessedData");
-					GetProcessedDataFunc getProcessedData = (GetProcessedDataFunc)GetProcAddress(lib, "getProcessedData");
-					StartHttpServerFunc startHttpServer = (StartHttpServerFunc)GetProcAddress(lib, "startHttpServer");
+                    std::cout << "Library loaded successfully." << std::endl;
+
+                    SetProcessedDataFunc setProcessedData = (SetProcessedDataFunc)GetProcAddress(lib, "setProcessedData");
+                    GetProcessedDataFunc getProcessedData = (GetProcessedDataFunc)GetProcAddress(lib, "getProcessedData");
+                    StartHttpServerFunc startHttpServer = (StartHttpServerFunc)GetProcAddress(lib, "start_http_server");
 
                     if (setProcessedData && getProcessedData && startHttpServer)
                     {
-						setProcessedData("Hello from main");
-						std::cout << getProcessedData() << std::endl;
-						startHttpServer();
-					}
+                        setProcessedData("Hello from main");
+                        std::cout << getProcessedData() << std::endl;
+                        startHttpServer();
+                    }
                     else
                     {
-						std::cout << "Failed to load functions from library." << std::endl;
-					}
-				}
+                        std::cout << "Failed to load functions from library." << std::endl;
+                        if (!setProcessedData) std::cout << "setProcessedData not found" << std::endl;
+                        if (!getProcessedData) std::cout << "getProcessedData not found" << std::endl;
+                        if (!startHttpServer) std::cout << "start_http_server not found" << std::endl;
+                    }
+
+                    FreeLibrary(lib);
+                }
                 else
                 {
-					std::cout << "Failed to load library." << std::endl;
-				}
-			}
-		}
+                    std::cout << "Failed to load library." << std::endl;
+                }
+            }
+        }
     }
 
     if (use_gui)
