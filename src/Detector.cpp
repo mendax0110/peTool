@@ -1,6 +1,7 @@
 #include "../include/CORE/Detector.h"
 #include <algorithm>
 #include <iostream>
+#include <print>
 
 using namespace DetectorInternals;
 
@@ -132,6 +133,23 @@ bool AntiDebugDetection::detectIsDebuggerPresent()
 #endif
 
 #if defined(__APPLE__)
+    auto task = mach_task_self();
+    struct task_dyld_info dyld_info{};
+    mach_msg_type_number_t count = TASK_DYLD_INFO_COUNT;
+    if (task_info(task, TASK_DYLD_INFO, (task_info_t)&dyld_info, &count) == KERN_SUCCESS)
+    {
+        if (dyld_info.all_image_info_addr != 0)
+        {
+            std::cout << "Debugger detected" << std::endl;
+            return true;
+        }
+    }
+    else
+    {
+        std::cout << "Debugger not detected" << std::endl;
+        return false;
+    }
+
     return false;
 #endif
 
@@ -157,6 +175,14 @@ bool AntiDebugDetection::detectNtGlobalFlag()
     std::cout << "NtGlobalFlag: " << NtGlobalFlag << std::endl;
     return (NtGlobalFlag & 0x70) != 0;
 #else
+    int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid() };
+    struct kinfo_proc info{};
+    size_t size = sizeof(info);
+    if (sysctl(mib, 4, &info, &size, nullptr, 0) == 0)
+    {
+        std::cout << "NtGlobalFlag: " << info.kp_proc.p_flag << std::endl;
+        return (info.kp_proc.p_flag & 0x70) != 0;
+    }
     std::cout << "NtGlobalFlag not detected" << std::endl;
     return false;
 #endif
@@ -178,8 +204,19 @@ bool AntiDebugDetection::detectHeapFlags()
     std::cout << "HeapFlags: " << HeapFlags << std::endl;
     return (HeapFlags & 0x70) != 0;
 #else
-    std::cout << "HeapFlags not detected" << std::endl;
-    return false;
+    auto task = mach_task_self();
+    struct task_basic_info info{};
+    mach_msg_type_number_t count = TASK_BASIC_INFO_COUNT;
+    if (task_info(task, TASK_BASIC_INFO, (task_info_t)&info, &count) == KERN_SUCCESS)
+    {
+        std::cout << "HeapFlags: " << info.virtual_size << std::endl;
+        return (info.virtual_size & 0x70) != 0;
+    }
+    else
+    {
+        std::cout << "HeapFlags not detected" << std::endl;
+        return false;
+    }
 #endif
 }
 

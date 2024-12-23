@@ -6,13 +6,9 @@
 
 using namespace DissassemblerInternals;
 
-Disassembler::Disassembler()
-{
-}
+Disassembler::Disassembler() = default;
 
-Disassembler::~Disassembler()
-{
-}
+Disassembler::~Disassembler() = default;
 
 /**
  * @brief Disassemble 32-bit x86 instructions

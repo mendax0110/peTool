@@ -10,6 +10,9 @@
 
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
+#include <mach/mach_init.h>
+#include <mach/task.h>
+#include <sys/sysctl.h>
 #endif
 
 #if defined(__linux__)
@@ -53,9 +56,9 @@ namespace DetectorInternals
         AntiDebugDetection(const std::vector<uint8_t>& fileData) : fileData(fileData) {}
 
         bool checkEntryPoint(const std::vector<uint8_t>& pattern);
-        bool detectIsDebuggerPresent();
-        bool detectNtGlobalFlag();
-        bool detectHeapFlags();
+        static bool detectIsDebuggerPresent();
+        static bool detectNtGlobalFlag();
+        static bool detectHeapFlags();
         bool detectOutputDebugString();
 
     private:

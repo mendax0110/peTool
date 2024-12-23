@@ -58,7 +58,7 @@ std::vector<double> Entropy::calculateProbabilities(const std::vector<int>& hist
     probabilities.reserve(histogram.size());
     for (int count : histogram)
     {
-        probabilities.push_back(static_cast<double>(count) / dataSize);
+        probabilities.push_back(static_cast<double>(count / dataSize));
     }
     return probabilities;
 }

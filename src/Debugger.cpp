@@ -55,7 +55,7 @@ bool Debugger::launchLLDB(const std::string& executablePath)
  * @param command Command to execute.
  * @return true if the command was successfully executed, false otherwise.
  */
-bool Debugger::executeLLDBCommand(const std::string& command)
+bool Debugger::executeLLDBCommand(const std::string& command) const
 {
     if (gdbProcessID == -1)
     {

@@ -26,7 +26,7 @@ public:
     std::vector<std::pair<std::string, unsigned long long>> getRegisters();
     unsigned long long getInstructionPointer();
     bool readMemory(unsigned long long address, void* buffer, size_t size);
-    bool writeMemory(unsigned long long address, const void* buffer, size_t size);
+    static bool writeMemory(unsigned long long address, const void* buffer, size_t size);
     static std::vector<std::string> getCallStack();
     static std::vector<std::string> getWatch();
     static std::vector<std::string> getLocals();
@@ -44,7 +44,7 @@ public:
 private:
 #if defined(__APPLE__)
     bool launchLLDB(const std::string& executablePath);
-    bool executeLLDBCommand(const std::string& command);
+    bool executeLLDBCommand(const std::string& command) const;
     int gdbProcessID;
 #elif defined(_WIN32)
     bool launchGDB(const std::string& executablePath);

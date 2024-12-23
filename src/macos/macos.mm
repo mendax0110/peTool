@@ -199,7 +199,7 @@ void processEntropyMenuItem(const std::string& filePath, std::vector<int>& histo
         std::stringstream output;
         std::streambuf* old_cout = std::cout.rdbuf();
         std::cout.rdbuf(output.rdbuf());
-        ent.printEntropy(fileData, i, 1);
+        Entropy::printEntropy(fileData, i, 1);
         std::cout.rdbuf(old_cout);
         entropyOutput.push_back(output.str());
     }
@@ -415,8 +415,8 @@ void showDisassemblerMenu(const std::string& filePath, std::vector<std::string>&
         processFileAndMenuItem("Disassemble", filePath, [&](const std::vector<uint8_t>& fileData)
         {
             Disassembler dis;
-            auto exe = dis.getExecutable(filePath);
-            dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
+            auto exe = Disassembler::getExecutable(filePath);
+            Disassembler::printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
         });
         ImGui::EndMenu();
     }
@@ -449,9 +449,9 @@ void showAntiDebugMenu(const std::string& filePath)
         std::vector<uint8_t> fileData = FileIO::readFile(filePath);
         AntiDebugDetection antiDebugDetection(fileData);
         processMenuItem("Check Entry Point", [&] { antiDebugDetection.checkEntryPoint(fileData); }, "Entry Point");
-        processMenuItem("Find Debugger", [&] { antiDebugDetection.detectIsDebuggerPresent(); }, "Find Debugger");
-        processMenuItem("Nt Global Flag", [&] { antiDebugDetection.detectNtGlobalFlag(); }, "Nt Global Flag");
-        processMenuItem("Heap Flags", [&] { antiDebugDetection.detectHeapFlags(); }, "Heap Flags");
+        processMenuItem("Find Debugger", [&] { AntiDebugDetection::detectIsDebuggerPresent(); }, "Find Debugger");
+        processMenuItem("Nt Global Flag", [&] { AntiDebugDetection::detectNtGlobalFlag(); }, "Nt Global Flag");
+        processMenuItem("Heap Flags", [&] { AntiDebugDetection::detectHeapFlags(); }, "Heap Flags");
         processMenuItem("Output Debug String", [&] { antiDebugDetection.detectOutputDebugString(); }, "Output Debug String");
         ImGui::EndMenu();
     }
@@ -1028,8 +1028,8 @@ int runGUI()
                 {
                     processFileAndMenuItem("Disassemble", filePathInput, [&](const std::vector<uint8_t>& fileData) {
                         Disassembler dis;
-                        auto exe = dis.getExecutable(filePathInput);
-                        dis.printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
+                        auto exe = Disassembler::getExecutable(filePathInput);
+                        Disassembler::printDisassembly(std::get<0>(exe), std::get<1>(exe), std::get<2>(exe));
                     });
                     ImGui::EndMenu();
                 }
@@ -1046,9 +1046,9 @@ int runGUI()
                     std::vector<uint8_t> fileData = FileIO::readFile(filePathInput);
                     AntiDebugDetection antiDebugDetection(fileData);
                     processMenuItem("Check Entry Point", [&] { antiDebugDetection.checkEntryPoint(fileData); }, "Entry Point");
-                    processMenuItem("Find Debugger", [&] { antiDebugDetection.detectIsDebuggerPresent(); }, "Find Debugger");
-                    processMenuItem("Nt Global Flag", [&] { antiDebugDetection.detectNtGlobalFlag(); }, "Nt Global Flag");
-                    processMenuItem("Heap Flags", [&] { antiDebugDetection.detectHeapFlags(); }, "Heap Flags");
+                    processMenuItem("Find Debugger", [&] { AntiDebugDetection::detectIsDebuggerPresent(); }, "Find Debugger");
+                    processMenuItem("Nt Global Flag", [&] { AntiDebugDetection::detectNtGlobalFlag(); }, "Nt Global Flag");
+                    processMenuItem("Heap Flags", [&] { AntiDebugDetection::detectHeapFlags(); }, "Heap Flags");
                     processMenuItem("Output Debug String", [&] { antiDebugDetection.detectOutputDebugString(); }, "Output Debug String");
                     ImGui::EndMenu();
                 }
