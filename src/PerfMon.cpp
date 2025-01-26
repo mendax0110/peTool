@@ -123,7 +123,7 @@ double PerformanceMonitor::getCPUUsage()
     user = info.kp_proc.p_rtime;
     system = info.kp_proc.p_rtime;
 
-    double totalTimeMs = (user.tv_sec + system.tv_sec) * 1000.0 + (user.tv_usec + system.tv_usec) / 1000.0;
+    double totalTimeMs = static_cast<double>(user.tv_sec + system.tv_sec) * 1000.0 + (user.tv_usec + system.tv_usec) / 1000.0;
 
     struct timeval now {};
     gettimeofday(&now, nullptr);

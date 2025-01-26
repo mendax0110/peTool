@@ -66,7 +66,7 @@ void ThreadingBase::startThreadPool(size_t numThreads)
 {
     for (size_t i = 0; i < numThreads; ++i)
     {
-        threads.push_back(std::thread(&ThreadingBase::threadPoolFunction, this));
+        threads.emplace_back(&ThreadingBase::threadPoolFunction, this);
     }
 }
 

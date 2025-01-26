@@ -96,7 +96,7 @@ std::vector<std::string> ProcessMonitor::GetRunningProcesses()
     struct kinfo_proc *procs;
     int status;
 
-    status = sysctl(mib, 4, NULL, &len, NULL, 0);
+    status = sysctl(mib, 4, nullptr, &len, nullptr, 0);
     if (status == -1)
     {
         perror("sysctl");
@@ -104,7 +104,7 @@ std::vector<std::string> ProcessMonitor::GetRunningProcesses()
     }
 
     procs = (struct kinfo_proc *)malloc(len);
-    status = sysctl(mib, 4, procs, &len, NULL, 0);
+    status = sysctl(mib, 4, procs, &len, nullptr, 0);
     if (status == -1)
     {
         perror("sysctl");

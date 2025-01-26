@@ -17,9 +17,7 @@
 
 #if defined(__APPLE__)
 #include <mach-o/loader.h>
-#include <mach-o/fat.h>
 #include <mach-o/nlist.h>
-#include <mach-o/dyld.h>
 #endif
 
 Rebuilder::Rebuilder() = default;

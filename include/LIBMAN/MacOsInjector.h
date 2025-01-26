@@ -33,13 +33,13 @@ public:
     void* m_dlopenAddress;
     char m_fullDylibPath[PATH_MAX]{};
 
-    Result FindProcessId(const char* processName, pid_t& processId);
+    static Result FindProcessId(const char* processName, pid_t& processId);
     Result OpenProcessHandle(pid_t processId);
     Result AllocateAndWriteMemory();
     Result GetDlopenAddress();
     Result CreateRemoteThreadToLoadDylib();
-    void PrintResults(const std::vector<Result>& results);
-    std::string HexDump(const void* data, size_t size);
+    static void PrintResults(const std::vector<Result>& results);
+    static std::string HexDump(const void* data, size_t size);
     static std::vector<std::string> GetRunningProcesses();
 };
 #endif

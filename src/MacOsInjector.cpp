@@ -90,18 +90,18 @@ Result MacInject::FindProcessId(const char* processName, pid_t& processId)
     int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0 };
     size_t size;
 
-    if (sysctl(mib, 4, NULL, &size, NULL, 0) == -1)
+    if (sysctl(mib, 4, nullptr, &size, nullptr, 0) == -1)
     {
         return { false, "Failed to get the size of the process list: " + std::string(strerror(errno)) };
     }
 
-    struct kinfo_proc* procList = (struct kinfo_proc*)malloc(size);
+    auto* procList = (struct kinfo_proc*)malloc(size);
     if (procList == nullptr)
     {
         return { false, "Failed to allocate memory for the process list" };
     }
 
-    if (sysctl(mib, 4, procList, &size, NULL, 0) == -1)
+    if (sysctl(mib, 4, procList, &size, nullptr, 0) == -1)
     {
         free(procList);
         return { false, "Failed to get the process list: " + std::string(strerror(errno)) };
@@ -254,18 +254,18 @@ std::vector<std::string> MacInject::GetRunningProcesses()
     int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0 };
     size_t size;
 
-    if (sysctl(mib, 4, NULL, &size, NULL, 0) == -1)
+    if (-1 == sysctl(mib, 4, nullptr, &size, nullptr, 0))
     {
         return processes;
     }
 
-    struct kinfo_proc* procList = (struct kinfo_proc*)malloc(size);
+    auto* procList = (struct kinfo_proc*)malloc(size);
     if (procList == nullptr)
     {
         return processes;
     }
 
-    if (sysctl(mib, 4, procList, &size, NULL, 0) == -1)
+    if (sysctl(mib, 4, procList, &size, nullptr, 0) == -1)
     {
         free(procList);
         return processes;
@@ -273,7 +273,7 @@ std::vector<std::string> MacInject::GetRunningProcesses()
 
     for (size_t i = 0; i < size / sizeof(struct kinfo_proc); i++)
     {
-        processes.push_back(procList[i].kp_proc.p_comm);
+        processes.emplace_back(procList[i].kp_proc.p_comm);
     }
 
     free(procList);
