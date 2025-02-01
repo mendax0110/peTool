@@ -3,6 +3,7 @@
 #if defined(_WIN32)
 #include <windows.h>
 #include <winnt.h>
+#include <cstdint> 
 #endif
 
 #if defined(__linux__)
@@ -182,6 +183,7 @@ void WinResourceDirectoryTraverser::traverse(const std::vector<uint8_t>& fileDat
         {
             const PIMAGE_RESOURCE_DATA_ENTRY dataEntry = reinterpret_cast<const PIMAGE_RESOURCE_DATA_ENTRY>(&mutableFileData[entry->OffsetToData]);
             std::cout << "Level " << level << ": " << parentName << "ID: " << entry->Name << "\n";
+
             std::cout << "Data RVA: 0x" << std::hex << dataEntry->OffsetToData << ", Size: " << std::dec << dataEntry->Size << "\n";
         }
     }
@@ -319,14 +321,13 @@ void PE::extractImportTable(const std::vector<uint8_t>& fileData)
         PIMAGE_THUNK_DATA thunk = reinterpret_cast<PIMAGE_THUNK_DATA>(const_cast<uint8_t*>(&fileData[importDescriptor->OriginalFirstThunk]));
 		while (thunk->u1.AddressOfData != 0)
 		{
-            uint32_t addressOfData = thunk->u1.AddressOfData;
+            uint64_t addressOfData = thunk->u1.AddressOfData;
             if (addressOfData >= fileData.size())
             {
                 std::cerr << "AddressOfData out of bounds: " << addressOfData << std::endl;
                 break;
             }
             PIMAGE_IMPORT_BY_NAME importByName = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(const_cast<uint8_t*>(fileData.data() + addressOfData));
-			//PIMAGE_IMPORT_BY_NAME importByName = reinterpret_cast<PIMAGE_IMPORT_BY_NAME>(const_cast<uint8_t*>(&fileData[thunk->u1.AddressOfData]));
 
 			std::cout << importByName->Name << std::endl;
 			++thunk;

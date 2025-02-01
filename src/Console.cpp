@@ -44,9 +44,22 @@ void Console::Initialize()
 {
 #if defined(_WIN32)
     AllocConsole();
-    freopen("CONIN$", "r", stdin);
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONOUT$", "w", stderr);
+#include <cstdio>
+
+    FILE* dummy;
+    if (freopen_s(&dummy, "CONIN$", "r", stdin) != 0)
+    {
+        std::cerr << "Error opening CONIN$ for reading." << std::endl;
+    }
+    if (freopen_s(&dummy, "CONOUT$", "w", stdout) != 0)
+    {
+        std::cerr << "Error opening CONOUT$ for writing." << std::endl;
+}
+    if (freopen_s(&dummy, "CONOUT$", "w", stderr) != 0)
+    {
+        std::cerr << "Error opening CONOUT$ for writing." << std::endl;
+    }
+
 #elif defined(__APPLE__) || defined(__linux__)
     struct termios term;
     tcgetattr(STDIN_FILENO, &term);

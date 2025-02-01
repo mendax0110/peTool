@@ -1,9 +1,11 @@
 #include "../include/CORE/Rebuilder.h"
+#include "../include/UTILS/PrintUtils.h"
 #include <iostream>
 #include <fstream>
 
 #if defined(_WIN32)
 #include <Windows.h>
+#include <cstdint>
 #include <winnt.h>
 #endif
 
@@ -136,7 +138,7 @@ std::vector<uint8_t> Rebuilder::readFile(const std::string& filePath)
     std::vector<uint8_t> data((std::istreambuf_iterator<char>(fileStream)), std::istreambuf_iterator<char>());
     if (fileStream.fail() && !fileStream.eof())
     {
-        std::cerr << "Error reading file: " << strerror(errno) << std::endl;
+        std::cerr << "Error reading file: " << getErrorMessage() << std::endl;
         return {};
     }
     return data;
@@ -159,7 +161,7 @@ bool Rebuilder::writeFile(const std::string& filePath, const std::vector<uint8_t
     file.write(reinterpret_cast<const char*>(data.data()), data.size());
     if (file.fail())
     {
-        std::cerr << "Error writing file: " << strerror(errno) << std::endl;
+        std::cerr << "Error writing file: " << getErrorMessage() << std::endl;
         return false;
     }
     return true;
@@ -472,7 +474,8 @@ bool Rebuilder::bindImportsInternal(std::vector<uint8_t>& data)
                 std::cerr << "Failed to get function address: " << importByName->Name << std::endl;
                 return false;
             }
-            firstThunk->u1.Function = reinterpret_cast<uint32_t>(function);
+            firstThunk->u1.Function = reinterpret_cast<uintptr_t>(function);
+
             ++thunk;
             ++firstThunk;
         }
@@ -505,6 +508,8 @@ bool Rebuilder::bindImportsInternal(std::vector<uint8_t>& data)
     }
     return false;
 #endif
+
+    return false;
 }
 
 /**

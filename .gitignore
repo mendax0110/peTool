@@ -24,3 +24,6 @@ log/*
 
 # Ignore the DS_Store file
 .DS_Store
+
+# Ignore the .vs folder
+.vs

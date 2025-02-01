@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(peTool)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(INCLUDE_DIR
@@ -11,6 +11,7 @@ set(INCLUDE_DIR
         "${CMAKE_SOURCE_DIR}/include/MANMON"
         "${CMAKE_SOURCE_DIR}/include/VIEW"
         "${CMAKE_SOURCE_DIR}/include/LIBMAN"
+        "${CMAKE_SOURCE_DIR}/include/UTILS"
 )
 set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/external/imgui")
 

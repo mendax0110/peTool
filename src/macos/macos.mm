@@ -70,6 +70,9 @@ bool showProcessId = false;
 bool showUtils = false;
 bool showInject = false;
 
+/**
+ * @brief Run the CLI interface
+ */
 void runCLI(int argc, char** argv)
 {
     CLI::startCli(argc, argv);

@@ -1,3 +1,4 @@
+#include "../include/UTILS/PrintUtils.h"
 #include "../include/FILEIO/FileEditor.h"
 #include <iostream>
 #include <sstream>
@@ -9,6 +10,7 @@ using namespace FileEditorInternals;
  * @brief Construct a new File Editor:: File Editor object
  * @details Initializes the cursor position to the start of the file
  */
+
 FileEditor::FileEditor() : inputFileOpen(false), outputFileOpen(false), cursorPosition(0, 0)
 {
     lines.emplace_back();
@@ -99,7 +101,7 @@ std::string FileEditor::readFile()
 
         if (inputFileStream.fail() && !inputFileStream.eof())
         {
-            std::cerr << "Error reading file: " << strerror(errno) << std::endl;
+            std::cerr << "Error reading file: " << getErrorMessage() << std::endl;
         }
     }
     return content;
@@ -118,7 +120,7 @@ bool FileEditor::writeFile(const std::string& content)
         outputFileStream << content;
         if (outputFileStream.fail())
         {
-            std::cerr << "Error writing file: " << strerror(errno) << std::endl;
+            std::cerr << "Error writing file: " << getErrorMessage() << std::endl;
             return false;
         }
         return true;
@@ -139,7 +141,7 @@ bool FileEditor::appendToFile(const std::string& content)
         outputFileStream << content;
         if (outputFileStream.fail())
         {
-            std::cerr << "Error appending to file: " << strerror(errno) << std::endl;
+            std::cerr << "Error appending to file: " << getErrorMessage() << std::endl;
             return false;
         }
         return true;
@@ -283,7 +285,7 @@ void FileEditor::MoveUp()
     if (cursorPosition.line > 0)
     {
         cursorPosition.line--;
-        cursorPosition.column = std::min(cursorPosition.column, static_cast<int>(lines[cursorPosition.line].size()));
+        cursorPosition.column = std::min<int>(cursorPosition.column, static_cast<int>(lines[cursorPosition.line].size()));
         EnsureCursorVisible();
     }
 }
@@ -296,7 +298,7 @@ void FileEditor::MoveDown()
     if (cursorPosition.line < lines.size() - 1)
     {
         cursorPosition.line++;
-        cursorPosition.column = std::min(cursorPosition.column, static_cast<int>(lines[cursorPosition.line].size()));
+        cursorPosition.column = std::min<int>(cursorPosition.column, static_cast<int>(lines[cursorPosition.line].size()));
         EnsureCursorVisible();
     }
 }
