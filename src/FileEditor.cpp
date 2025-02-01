@@ -468,35 +468,35 @@ void FileEditor::EnsureCursorVisible()
  */
 void FileEditor::HandleKeyboardInputs()
 {
-    if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_UpArrow)))
+    if (ImGui::IsKeyPressed(ImGuiKey_UpArrow))
     {
         MoveUp();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_DownArrow)))
+    else if (ImGui::IsKeyPressed(ImGuiKey_DownArrow))
     {
         MoveDown();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_LeftArrow)))
+    else if (ImGui::IsKeyPressed(ImGuiKey_LeftArrow))
     {
         MoveLeft();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_RightArrow)))
+    else if (ImGui::IsKeyPressed(ImGuiKey_RightArrow))
     {
         MoveRight();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_C)) && ImGui::GetIO().KeyCtrl)
+    else if (ImGui::IsKeyPressed(ImGuiKey_C) && ImGui::GetIO().KeyCtrl)
     {
         Copy();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_X)) && ImGui::GetIO().KeyCtrl)
+    else if (ImGui::IsKeyPressed(ImGuiKey_X) && ImGui::GetIO().KeyCtrl)
     {
         Cut();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_V)) && ImGui::GetIO().KeyCtrl)
+    else if (ImGui::IsKeyPressed(ImGuiKey_V) && ImGui::GetIO().KeyCtrl)
     {
         Paste();
     }
-    else if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Backspace)))
+    else if (ImGui::IsKeyPressed(ImGuiKey_Backspace))
     {
         DeleteText();
     }
