@@ -2,7 +2,10 @@
 #include <algorithm>
 #include <iostream>
 #include <print>
+
+#ifdef __APPLE__
 #include <unistd.h>
+#endif
 
 using namespace DetectorInternals;
 
