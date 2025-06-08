@@ -1,0 +1,96 @@
+\doxysection{Graph\+View Class Reference}
+\hypertarget{class_graph_view}{}\label{class_graph_view}\index{GraphView@{GraphView}}
+
+
+\doxylink{class_graph_view}{Graph\+View} class, which provides methods for rendering a graph view with nodes and connections.  
+
+
+
+
+{\ttfamily \#include $<$Graph\+View.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_graph_view_a8ae760b48905d637d6820ae3ac182861}\label{class_graph_view_a8ae760b48905d637d6820ae3ac182861} 
+{\bfseries Graph\+View} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_graph_view}{Graph\+View} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_view_ac8bd0e1a6d7c56b953d85943d812b32c}{Add\+Node}} (int id, const \mbox{\hyperlink{struct_im_vec2}{Im\+Vec2}} \&position, const \mbox{\hyperlink{struct_im_vec2}{Im\+Vec2}} \&size, const std\+::string \&name, const \mbox{\hyperlink{struct_im_vec4}{Im\+Vec4}} \&color=\mbox{\hyperlink{struct_im_vec4}{Im\+Vec4}}(1.\+0f, 1.\+0f, 1.\+0f, 1.\+0f))
+\begin{DoxyCompactList}\small\item\em Adds a node to the graph view. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_graph_view_ab956a3fc29bb5972733ec8c418cdf4f6}{Add\+Connection}} (int source\+Node\+Id, int target\+Node\+Id)
+\begin{DoxyCompactList}\small\item\em Adds a connection between two nodes in the graph view. \end{DoxyCompactList}\item 
+\Hypertarget{class_graph_view_aa2d1f6ce14f48fd68540f262be58cfe8}\label{class_graph_view_aa2d1f6ce14f48fd68540f262be58cfe8} 
+void {\bfseries Render} ()
+\begin{DoxyCompactList}\small\item\em Renders the graph view with nodes and connections. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{struct_node}{Node}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_graph_view_ad21859ea94d0631ff1b0a6d7f28f726b}{Find\+Node\+By\+Id}} (int id) const
+\begin{DoxyCompactList}\small\item\em Finds a node by its unique identifier. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_graph_view}{Graph\+View} class, which provides methods for rendering a graph view with nodes and connections. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_graph_view_ab956a3fc29bb5972733ec8c418cdf4f6}\label{class_graph_view_ab956a3fc29bb5972733ec8c418cdf4f6} 
+\index{GraphView@{GraphView}!AddConnection@{AddConnection}}
+\index{AddConnection@{AddConnection}!GraphView@{GraphView}}
+\doxysubsubsection{\texorpdfstring{AddConnection()}{AddConnection()}}
+{\footnotesize\ttfamily void Graph\+View\+::\+Add\+Connection (\begin{DoxyParamCaption}\item[{int}]{source\+Node\+Id,  }\item[{int}]{target\+Node\+Id }\end{DoxyParamCaption})}
+
+
+
+Adds a connection between two nodes in the graph view. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\+Node\+Id} & The unique identifier of the source node. \\
+\hline
+{\em target\+Node\+Id} & The unique identifier of the target node. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_graph_view_ac8bd0e1a6d7c56b953d85943d812b32c}\label{class_graph_view_ac8bd0e1a6d7c56b953d85943d812b32c} 
+\index{GraphView@{GraphView}!AddNode@{AddNode}}
+\index{AddNode@{AddNode}!GraphView@{GraphView}}
+\doxysubsubsection{\texorpdfstring{AddNode()}{AddNode()}}
+{\footnotesize\ttfamily void Graph\+View\+::\+Add\+Node (\begin{DoxyParamCaption}\item[{int}]{id,  }\item[{const \mbox{\hyperlink{struct_im_vec2}{Im\+Vec2}} \&}]{position,  }\item[{const \mbox{\hyperlink{struct_im_vec2}{Im\+Vec2}} \&}]{size,  }\item[{const std\+::string \&}]{name,  }\item[{const \mbox{\hyperlink{struct_im_vec4}{Im\+Vec4}} \&}]{color = {\ttfamily \mbox{\hyperlink{struct_im_vec4}{Im\+Vec4}}(1.0f,~1.0f,~1.0f,~1.0f)} }\end{DoxyParamCaption})}
+
+
+
+Adds a node to the graph view. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The unique identifier for the node. \\
+\hline
+{\em position} & The position of the node in the graph view. \\
+\hline
+{\em size} & The size of the node. \\
+\hline
+{\em name} & The name of the node. \\
+\hline
+{\em color} & A color for the node, defaulting to white. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_graph_view_ad21859ea94d0631ff1b0a6d7f28f726b}\label{class_graph_view_ad21859ea94d0631ff1b0a6d7f28f726b} 
+\index{GraphView@{GraphView}!FindNodeById@{FindNodeById}}
+\index{FindNodeById@{FindNodeById}!GraphView@{GraphView}}
+\doxysubsubsection{\texorpdfstring{FindNodeById()}{FindNodeById()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{struct_node}{Node}} \texorpdfstring{$\ast$}{*} Graph\+View\+::\+Find\+Node\+By\+Id (\begin{DoxyParamCaption}\item[{int}]{id }\end{DoxyParamCaption}) const}
+
+
+
+Finds a node by its unique identifier. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & The unique identifier of the node to find. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the found node, or nullptr if not found. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+VIEW/Graph\+View.\+h\item 
+src/Graph\+View.\+cpp\end{DoxyCompactItemize}

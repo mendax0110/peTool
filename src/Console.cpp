@@ -17,10 +17,6 @@
 
 using namespace ConsoleInternals;
 
-/**
- * @brief Construct a new Console:: Console object
- * @details Initializes the console with default commands.
- */
 Console::Console() : running(false), historyIndex(0)
 {
     commandMap["help"] = [this]() { handleHelp(); };
@@ -29,17 +25,11 @@ Console::Console() : running(false), historyIndex(0)
     commandMap["custom"] = [this]() { handleCustomCommand("custom"); };
 }
 
-/**
- * @brief Destroy the Console:: Console object
- */
 Console::~Console()
 {
     stop();
 }
 
-/**
- * @brief Initialize the console
- */
 void Console::Initialize()
 {
 #if defined(_WIN32)
@@ -68,9 +58,6 @@ void Console::Initialize()
 #endif
 }
 
-/**
- * @brief Run the console
- */
 void Console::run()
 {
     running = true;
@@ -86,9 +73,6 @@ void Console::run()
     }
 }
 
-/**
- * @brief Stop the console
- */
 void Console::stop()
 {
     running = false;
@@ -103,10 +87,6 @@ void Console::stop()
 #endif
 }
 
-/**
- * @brief Process the input from the console
- * @param input The input string
- */
 void Console::processInput(const std::string &input)
 {
     if (input.empty())
@@ -126,17 +106,11 @@ void Console::processInput(const std::string &input)
     }
 }
 
-/**
- * @brief Display the console prompt
- */
 void Console::displayPrompt()
 {
     std::cout << "> " << std::flush;
 }
 
-/**
- * @brief Handle the help command
- */
 void Console::handleHelp()
 {
     std::cout << "Available commands:" << std::endl;
@@ -146,18 +120,12 @@ void Console::handleHelp()
     }
 }
 
-/**
- * @brief Handle the exit command
- */
 void Console::handleExit()
 {
     std::cout << "Exiting..." << std::endl;
     stop();
 }
 
-/**
- * @brief Handle the history command
- */
 void Console::handleHistory()
 {
     std::cout << "Command history:" << std::endl;
@@ -167,10 +135,6 @@ void Console::handleHistory()
     }
 }
 
-/**
- * @brief Handle a custom command
- * @param command The custom command
- */
 void Console::handleCustomCommand(const std::string &command)
 {
     std::cout << "Custom command: " << command << std::endl;
@@ -183,11 +147,6 @@ void Console::handleCustomCommand(const std::string &command)
     }
 }
 
-/**
- * @brief Execute a command
- * @param command The command to execute
- * @return The output of the command
- */
 std::string Console::executeCommand(const std::string &command)
 {
     std::stringstream output;
@@ -198,20 +157,12 @@ std::string Console::executeCommand(const std::string &command)
     return output.str();
 }
 
-/**
- * @brief Show the console
- */
 void Console::showConsole()
 {
     Initialize();
     run();
 }
 
-/**
- * @brief Execute a shell command
- * @param command The command to execute
- * @return The output of the command
- */
 std::string Console::executeShellCommand(const std::string &command)
 {
     std::array<char, 128> buffer{};

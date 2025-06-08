@@ -23,10 +23,6 @@ ProcessMonitor::ProcessMonitor() = default;
 
 ProcessMonitor::~ProcessMonitor() = default;
 
-/**
- * @brief Get a list of running processes
- * @return A vector of process names
- */
 std::vector<std::string> ProcessMonitor::GetRunningProcesses()
 {
     std::vector<std::string> processes;
@@ -125,11 +121,6 @@ std::vector<std::string> ProcessMonitor::GetRunningProcesses()
     return processes;
 }
 
-/**
- * @brief Check if a process is running
- * @param processName The name of the process
- * @return True if the process is running, false otherwise
- */
 bool ProcessMonitor::IsProcessRunning(const std::string& processName)
 {
     std::vector<std::string> processes = GetRunningProcesses();

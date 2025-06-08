@@ -1,15 +1,21 @@
 var searchData=
 [
-  ['readfile_0',['readfile',['../class_rebuilder.html#a7d0662f10e78aaadd4f88921fa01e5c2',1,'Rebuilder::readFile()'],['../class_file_editor_internals_1_1_file_editor.html#a350fd59301e3b916eaf344dcc9b92a30',1,'FileEditorInternals::FileEditor::readFile()'],['../class_file_io_internals_1_1_file_i_o.html#a990dd64f736bde03e9299f6cec6e7b7e',1,'FileIoInternals::FileIO::readFile()']]],
-  ['readmemory_1',['readMemory',['../class_debugger.html#ab3ed758b2df188a6396688daddaef676',1,'Debugger']]],
-  ['rebuilder_2',['Rebuilder',['../class_rebuilder.html#a7418ceb8cb80439d56f7091831a04c95',1,'Rebuilder']]],
-  ['rebuildresourcedirectory_3',['rebuildResourceDirectory',['../class_rebuilder.html#ad2caa43c89e675dd1975c8e111304190',1,'Rebuilder']]],
-  ['rebuildresourcedirectoryinternal_4',['rebuildResourceDirectoryInternal',['../class_rebuilder.html#a69fb93b7c5cc33b6f6a41c8cc6fd9252',1,'Rebuilder']]],
-  ['redo_5',['Redo',['../class_file_editor_internals_1_1_file_editor.html#a3ea57aa6a9c8a1a770ececfe443bb719',1,'FileEditorInternals::FileEditor']]],
-  ['removebreakpoint_6',['removeBreakpoint',['../class_debugger.html#acdbad72e4089dfc812c7aa965f8f81bf',1,'Debugger']]],
-  ['render_7',['render',['../class_file_editor_internals_1_1_file_editor.html#a9655893cb347dbc2a6262fa1be611416',1,'FileEditorInternals::FileEditor::Render()'],['../class_graph_view.html#aa2d1f6ce14f48fd68540f262be58cfe8',1,'GraphView::Render()']]],
-  ['report_8',['report',['../class_performance_monitor.html#a8135eb4e6fc38e0b300c4a549e094d6b',1,'PerformanceMonitor']]],
-  ['reportleak_9',['reportLeak',['../class_memory_manager.html#afca715f9c06d435dbcbf43f7a0d68dde',1,'MemoryManager']]],
-  ['reset_10',['reset',['../class_performance_monitor.html#ac88782c1584ddc8c49dacc972d8bbf26',1,'PerformanceMonitor']]],
-  ['run_11',['run',['../class_console_internals_1_1_console.html#abb94712935512c723d314aead98db925',1,'ConsoleInternals::Console::run()'],['../class_debugger.html#a0865e65bab3d25f6d016dad12a3830f9',1,'Debugger::run()']]]
+  ['save_0',['save',['../class_database.html#ab8ba24447e1198797093499bd745986c',1,'Database']]],
+  ['scopedpointer_1',['ScopedPointer',['../class_scoped_pointer.html#a97bd2247d69d9ec23affc209fbc4f90f',1,'ScopedPointer']]],
+  ['set_2',['set',['../class_thread_safe_pointer.html#a91f03a7116a9cd90660b8f6008ab82e2',1,'ThreadSafePointer']]],
+  ['setbreakpoint_3',['setBreakpoint',['../class_debugger.html#a1ea7e836948af8b287aee646e8891aac',1,'Debugger']]],
+  ['setcursorposition_4',['SetCursorPosition',['../class_file_editor_internals_1_1_file_editor.html#afc8950bcf92735c9f601438da9a6d3c5',1,'FileEditorInternals::FileEditor']]],
+  ['settext_5',['SetText',['../class_file_editor_internals_1_1_file_editor.html#a0c4b47f981279f4744a192e05e9419ac',1,'FileEditorInternals::FileEditor']]],
+  ['settraverser_6',['setTraverser',['../class_pe_internals_1_1_resource_directory.html#a7c47ed37527002ea9dae4ad7d7d9a4aa',1,'PeInternals::ResourceDirectory']]],
+  ['showconsole_7',['showConsole',['../class_console_internals_1_1_console.html#a240497de9dcf1a768bd9b76f39a2a048',1,'ConsoleInternals::Console']]],
+  ['start_8',['start',['../class_performance_monitor.html#ad4ad655ec88fcc660e1ae900bf5f499c',1,'PerformanceMonitor']]],
+  ['startcli_9',['startCli',['../class_cli_interface_1_1_c_l_i.html#a88664bcf9b950416a5b67ed037843e77',1,'CliInterface::CLI']]],
+  ['startdebugging_10',['startDebugging',['../class_debugger.html#a5629e706a3eba9b10f32ad985c477c94',1,'Debugger']]],
+  ['startthread_11',['startThread',['../class_threading_base.html#ad4f54d1158709990133f4d9b81688b81',1,'ThreadingBase']]],
+  ['startthreadpool_12',['startThreadPool',['../class_threading_base.html#a1c9a929ebfbcbfb7c818bd05a9e730c7',1,'ThreadingBase']]],
+  ['stepinto_13',['stepInto',['../class_debugger.html#ad30e09cfe90d17a53951c4c96416392e',1,'Debugger']]],
+  ['stepout_14',['stepOut',['../class_debugger.html#a32bffba87f4767bbb1f170727f25108f',1,'Debugger']]],
+  ['stepover_15',['stepOver',['../class_debugger.html#a6b1ada14d842f1ed9c8656393c57b4a2',1,'Debugger']]],
+  ['stop_16',['stop',['../class_console_internals_1_1_console.html#ac9196cda083d783dc405e72b76842d96',1,'ConsoleInternals::Console::stop()'],['../class_performance_monitor.html#a289ccd6fbfb4b511e40a30573b5bc430',1,'PerformanceMonitor::stop()']]],
+  ['stopthreadpool_17',['stopThreadPool',['../class_threading_base.html#a4e3460e247182106d32fb258cf2046d2',1,'ThreadingBase']]]
 ];

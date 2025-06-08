@@ -1,0 +1,66 @@
+\doxysection{Pe\+Internals\+::Resource\+Directory Class Reference}
+\hypertarget{class_pe_internals_1_1_resource_directory}{}\label{class_pe_internals_1_1_resource_directory}\index{PeInternals::ResourceDirectory@{PeInternals::ResourceDirectory}}
+
+
+Forward declaration of \doxylink{class_pe_internals_1_1_resource_directory}{Resource\+Directory} class.  
+
+
+
+
+{\ttfamily \#include $<$PE.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_a1f3fabb928f53a80fad4c29c1d0e07de}{traverse}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data, int level, const std\+::string \&parent\+Name)
+\begin{DoxyCompactList}\small\item\em Traverse the resource directory. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_a7c47ed37527002ea9dae4ad7d7d9a4aa}{set\+Traverser}} (\mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser}{Resource\+Directory\+Traverser}} \texorpdfstring{$\ast$}{*}traverser)
+\begin{DoxyCompactList}\small\item\em Sets the traverser for the resource directory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Forward declaration of \doxylink{class_pe_internals_1_1_resource_directory}{Resource\+Directory} class. 
+
+The \doxylink{class_pe_internals_1_1_resource_directory}{Resource\+Directory} class, a class for travers. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_pe_internals_1_1_resource_directory_a7c47ed37527002ea9dae4ad7d7d9a4aa}\label{class_pe_internals_1_1_resource_directory_a7c47ed37527002ea9dae4ad7d7d9a4aa} 
+\index{PeInternals::ResourceDirectory@{PeInternals::ResourceDirectory}!setTraverser@{setTraverser}}
+\index{setTraverser@{setTraverser}!PeInternals::ResourceDirectory@{PeInternals::ResourceDirectory}}
+\doxysubsubsection{\texorpdfstring{setTraverser()}{setTraverser()}}
+{\footnotesize\ttfamily void Resource\+Directory\+::set\+Traverser (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser}{Resource\+Directory\+Traverser}} \texorpdfstring{$\ast$}{*}}]{traverser }\end{DoxyParamCaption})}
+
+
+
+Sets the traverser for the resource directory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em traverser} & The \doxylink{class_pe_internals_1_1_resource_directory_traverser}{Resource\+Directory\+Traverser} to set \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_pe_internals_1_1_resource_directory_a1f3fabb928f53a80fad4c29c1d0e07de}\label{class_pe_internals_1_1_resource_directory_a1f3fabb928f53a80fad4c29c1d0e07de} 
+\index{PeInternals::ResourceDirectory@{PeInternals::ResourceDirectory}!traverse@{traverse}}
+\index{traverse@{traverse}!PeInternals::ResourceDirectory@{PeInternals::ResourceDirectory}}
+\doxysubsubsection{\texorpdfstring{traverse()}{traverse()}}
+{\footnotesize\ttfamily void Resource\+Directory\+::traverse (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data,  }\item[{int}]{level,  }\item[{const std\+::string \&}]{parent\+Name }\end{DoxyParamCaption})}
+
+
+
+Traverse the resource directory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to traverse \\
+\hline
+{\em level} & The current level of traversal \\
+\hline
+{\em parent\+Name} & The name of the parent resource directory \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/PE.\+h\item 
+src/PE.\+cpp\end{DoxyCompactItemize}

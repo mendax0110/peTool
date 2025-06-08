@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: BaseMemProfiler Class Reference</title>
+<title>peTool: BaseMemProfiler Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The base memory profiler class.  
+<p>Base class for memory profilers, which defines the interface for platform-specific memory profiling classes.  
  <a href="class_base_mem_profiler.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_mem_profiler_8h_source.html">MemProfiler.h</a>&gt;</code></p>
@@ -86,52 +86,30 @@ Inheritance diagram for BaseMemProfiler:</div>
  <div class="center">
   <img src="class_base_mem_profiler.png" usemap="#BaseMemProfiler_map" alt=""/>
   <map id="BaseMemProfiler_map" name="BaseMemProfiler_map">
-<area href="class_mac_mem_profiler.html" title="The MacOS memory profiler class." alt="MacMemProfiler" shape="rect" coords="0,56,109,80"/>
-<area href="class_win_mem_profiler.html" title="The Windows memory profiler class." alt="WinMemProfiler" shape="rect" coords="119,56,228,80"/>
+<area href="class_mac_mem_profiler.html" title="The macOS memory profiler class, which provides methods for profiling memory usage on macOS." alt="MacMemProfiler" shape="rect" coords="0,56,109,80"/>
+<area href="class_win_mem_profiler.html" title="The Windows memory profiler class, which provides methods for profiling memory usage on Windows." alt="WinMemProfiler" shape="rect" coords="119,56,228,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a65544e2f75c428266ebce6347f1ef9b6" id="r_a65544e2f75c428266ebce6347f1ef9b6"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_mem_profiler.html#a65544e2f75c428266ebce6347f1ef9b6">getMemoryUsage</a> ()=0</td></tr>
+<tr class="memdesc:a65544e2f75c428266ebce6347f1ef9b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the memory usage information.  <br /></td></tr>
 <tr class="separator:a65544e2f75c428266ebce6347f1ef9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5e63f6eb909b5dfa843b3e260ccd69f" id="r_af5e63f6eb909b5dfa843b3e260ccd69f"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_mem_profiler.html#af5e63f6eb909b5dfa843b3e260ccd69f">getRAMUsage</a> ()=0</td></tr>
+<tr class="memdesc:af5e63f6eb909b5dfa843b3e260ccd69f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the RAM usage information.  <br /></td></tr>
 <tr class="separator:af5e63f6eb909b5dfa843b3e260ccd69f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9ae10c0b383d05a6b38c6197ab16c50" id="r_af9ae10c0b383d05a6b38c6197ab16c50"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_mem_profiler.html#af9ae10c0b383d05a6b38c6197ab16c50">getVRAMUsage</a> ()=0</td></tr>
+<tr class="memdesc:af9ae10c0b383d05a6b38c6197ab16c50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the VRAM usage information.  <br /></td></tr>
 <tr class="separator:af9ae10c0b383d05a6b38c6197ab16c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a121b0d2867e6077f62a2fd58388bce4c" id="r_a121b0d2867e6077f62a2fd58388bce4c"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_mem_profiler.html#a121b0d2867e6077f62a2fd58388bce4c">~BaseMemProfiler</a> ()=default</td></tr>
+<tr class="memitem:a121b0d2867e6077f62a2fd58388bce4c" id="r_a121b0d2867e6077f62a2fd58388bce4c"><td class="memItemLeft" align="right" valign="top"><a id="a121b0d2867e6077f62a2fd58388bce4c" name="a121b0d2867e6077f62a2fd58388bce4c"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BaseMemProfiler</b> ()=default</td></tr>
+<tr class="memdesc:a121b0d2867e6077f62a2fd58388bce4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the base memory profiler class. <br /></td></tr>
 <tr class="separator:a121b0d2867e6077f62a2fd58388bce4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The base memory profiler class. </p>
-<p>This class is an interface for memory profiling, a base class for platform-specific memory profilings </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a121b0d2867e6077f62a2fd58388bce4c" name="a121b0d2867e6077f62a2fd58388bce4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a121b0d2867e6077f62a2fd58388bce4c">&#9670;&#160;</a></span>~BaseMemProfiler()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual BaseMemProfiler::~BaseMemProfiler </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<div class="textblock"><p>Base class for memory profilers, which defines the interface for platform-specific memory profiling classes. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a65544e2f75c428266ebce6347f1ef9b6" name="a65544e2f75c428266ebce6347f1ef9b6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a65544e2f75c428266ebce6347f1ef9b6">&#9670;&#160;</a></span>getMemoryUsage()</h2>
 
@@ -154,6 +132,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get the memory usage information. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of pairs containing the memory usage information </dd></dl>
 
 <p>Implemented in <a class="el" href="class_win_mem_profiler.html#a062a57a886f34b7586de5cf23a6b0154">WinMemProfiler</a>, and <a class="el" href="class_mac_mem_profiler.html#a9f8c7869f0d66404527b36662af97896">MacMemProfiler</a>.</p>
 
@@ -182,6 +163,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the RAM usage information. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of pairs containing the RAM usage information </dd></dl>
+
 <p>Implemented in <a class="el" href="class_win_mem_profiler.html#a83cecd5a020dd05834980e3042fe2239">WinMemProfiler</a>, and <a class="el" href="class_mac_mem_profiler.html#aab036e659f515b5f0d2974a14b926b46">MacMemProfiler</a>.</p>
 
 </div>
@@ -209,12 +193,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the VRAM usage information. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector of pairs containing the VRAM usage information </dd></dl>
+
 <p>Implemented in <a class="el" href="class_win_mem_profiler.html#af81ddfe148d3e62c71483209192101a9">WinMemProfiler</a>, and <a class="el" href="class_mac_mem_profiler.html#ae833ceaf9bd55cb61ebbc8a6a7296be8">MacMemProfiler</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/MANMON/<a class="el" href="_mem_profiler_8h_source.html">MemProfiler.h</a></li>
+<li>include/MANMON/<a class="el" href="_mem_profiler_8h_source.html">MemProfiler.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,0 +1,89 @@
+\doxysection{Dll\+Injector\+::Injector\+Platform Class Reference}
+\hypertarget{class_dll_injector_1_1_injector_platform}{}\label{class_dll_injector_1_1_injector_platform}\index{DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}}
+
+
+The \doxylink{class_dll_injector_1_1_injector_platform}{Injector\+Platform} class.  
+
+
+
+
+{\ttfamily \#include $<$Injector.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_dll_injector_1_1_injector_platform_a0a611122d3a5d198bb2484d07d7397b9}\label{class_dll_injector_1_1_injector_platform_a0a611122d3a5d198bb2484d07d7397b9} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Injector\+Platform} () noexcept=default
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_dll_injector_1_1_injector_platform}{Injector\+Platform} object. \end{DoxyCompactList}\item 
+virtual unsigned int \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_a82d90480f4f8a4b4d6892b3057abded1}{Get\+Proc\+Id}} (const char \texorpdfstring{$\ast$}{*}proc\+Name)=0
+\begin{DoxyCompactList}\small\item\em Get the process ID of the specified process name. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_af759b0e2f1c807ba6288e37135e7f337}{Inject\+DLL}} (unsigned int proc\+Id, const char \texorpdfstring{$\ast$}{*}dll\+Path)=0
+\begin{DoxyCompactList}\small\item\em Inject a DLL into the specified process. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_dll_injector_1_1_injector_platform}{Injector\+Platform}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_ac1e8b85f0e3b0b9aae1d1757501042a4}{Create\+Platform}} ()
+\begin{DoxyCompactList}\small\item\em Create a platform-\/specific \doxylink{class_dll_injector_1_1_injector_platform}{Injector\+Platform} instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_dll_injector_1_1_injector_platform}{Injector\+Platform} class. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_dll_injector_1_1_injector_platform_ac1e8b85f0e3b0b9aae1d1757501042a4}\label{class_dll_injector_1_1_injector_platform_ac1e8b85f0e3b0b9aae1d1757501042a4} 
+\index{DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}!CreatePlatform@{CreatePlatform}}
+\index{CreatePlatform@{CreatePlatform}!DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}}
+\doxysubsubsection{\texorpdfstring{CreatePlatform()}{CreatePlatform()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_dll_injector_1_1_injector_platform}{Injector\+Platform}} \texorpdfstring{$\ast$}{*} Injector\+Platform\+::\+Create\+Platform (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Create a platform-\/specific \doxylink{class_dll_injector_1_1_injector_platform}{Injector\+Platform} instance. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to the created \doxylink{class_dll_injector_1_1_injector_platform}{Injector\+Platform} instance 
+\end{DoxyReturn}
+\Hypertarget{class_dll_injector_1_1_injector_platform_a82d90480f4f8a4b4d6892b3057abded1}\label{class_dll_injector_1_1_injector_platform_a82d90480f4f8a4b4d6892b3057abded1} 
+\index{DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}!GetProcId@{GetProcId}}
+\index{GetProcId@{GetProcId}!DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}}
+\doxysubsubsection{\texorpdfstring{GetProcId()}{GetProcId()}}
+{\footnotesize\ttfamily virtual unsigned int Dll\+Injector\+::\+Injector\+Platform\+::\+Get\+Proc\+Id (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{proc\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the process ID of the specified process name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em proc\+Name} & The name of the process \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The process ID if found, 0 otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_dll_injector_1_1_injector_platform_af759b0e2f1c807ba6288e37135e7f337}\label{class_dll_injector_1_1_injector_platform_af759b0e2f1c807ba6288e37135e7f337} 
+\index{DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}!InjectDLL@{InjectDLL}}
+\index{InjectDLL@{InjectDLL}!DllInjector::InjectorPlatform@{DllInjector::InjectorPlatform}}
+\doxysubsubsection{\texorpdfstring{InjectDLL()}{InjectDLL()}}
+{\footnotesize\ttfamily virtual bool Dll\+Injector\+::\+Injector\+Platform\+::\+Inject\+DLL (\begin{DoxyParamCaption}\item[{unsigned int}]{proc\+Id,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{dll\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Inject a DLL into the specified process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em proc\+Id} & The process ID to inject the DLL into \\
+\hline
+{\em dll\+Path} & The path to the DLL to inject \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the injection was successful, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Injector.\+h\item 
+src/Injector.\+cpp\end{DoxyCompactItemize}

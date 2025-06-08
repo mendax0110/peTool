@@ -1,0 +1,70 @@
+\doxysection{Process\+Monitor Class Reference}
+\hypertarget{class_process_monitor}{}\label{class_process_monitor}\index{ProcessMonitor@{ProcessMonitor}}
+
+
+\doxylink{class_process_monitor}{Process\+Monitor} class, which provides methods for monitoring running processes.  
+
+
+
+
+{\ttfamily \#include $<$Process\+Monitor.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_process_monitor_a71f92482867332e0d7b5ea83f8472e5f}\label{class_process_monitor_a71f92482867332e0d7b5ea83f8472e5f} 
+{\bfseries Process\+Monitor} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_process_monitor}{Process\+Monitor} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_process_monitor_a08e91867eb8d7db5445dfa8f1b9c1d57}\label{class_process_monitor_a08e91867eb8d7db5445dfa8f1b9c1d57} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Process\+Monitor} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_process_monitor}{Process\+Monitor} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_process_monitor_aeea803a72ab3c2a627b50a83df2c03c4}{Get\+Running\+Processes}} ()
+\begin{DoxyCompactList}\small\item\em Get the list of running processes. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_process_monitor_a6a147c4922701d3a36ca11c2e9143fba}{Is\+Process\+Running}} (const std\+::string \&process\+Name)
+\begin{DoxyCompactList}\small\item\em Check if a process is running. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_process_monitor}{Process\+Monitor} class, which provides methods for monitoring running processes. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_process_monitor_aeea803a72ab3c2a627b50a83df2c03c4}\label{class_process_monitor_aeea803a72ab3c2a627b50a83df2c03c4} 
+\index{ProcessMonitor@{ProcessMonitor}!GetRunningProcesses@{GetRunningProcesses}}
+\index{GetRunningProcesses@{GetRunningProcesses}!ProcessMonitor@{ProcessMonitor}}
+\doxysubsubsection{\texorpdfstring{GetRunningProcesses()}{GetRunningProcesses()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Process\+Monitor\+::\+Get\+Running\+Processes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the list of running processes. 
+
+\begin{DoxyReturn}{Returns}
+A vector of strings containing the names of running processes 
+\end{DoxyReturn}
+\Hypertarget{class_process_monitor_a6a147c4922701d3a36ca11c2e9143fba}\label{class_process_monitor_a6a147c4922701d3a36ca11c2e9143fba} 
+\index{ProcessMonitor@{ProcessMonitor}!IsProcessRunning@{IsProcessRunning}}
+\index{IsProcessRunning@{IsProcessRunning}!ProcessMonitor@{ProcessMonitor}}
+\doxysubsubsection{\texorpdfstring{IsProcessRunning()}{IsProcessRunning()}}
+{\footnotesize\ttfamily bool Process\+Monitor\+::\+Is\+Process\+Running (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{process\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Check if a process is running. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em process\+Name} & The name of the process to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the process is running, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Process\+Monitor.\+h\item 
+src/Process\+Monitor.\+cpp\end{DoxyCompactItemize}

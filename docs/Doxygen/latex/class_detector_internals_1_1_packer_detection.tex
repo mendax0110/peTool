@@ -1,0 +1,91 @@
+\doxysection{Detector\+Internals\+::Packer\+Detection Class Reference}
+\hypertarget{class_detector_internals_1_1_packer_detection}{}\label{class_detector_internals_1_1_packer_detection}\index{DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}}
+
+
+The \doxylink{class_detector_internals_1_1_packer_detection}{Packer\+Detection} class.  
+
+
+
+
+{\ttfamily \#include $<$Detector.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_detector_internals_1_1_packer_detection_a40a395af7569cfdd96752f2d0e37be70}{Packer\+Detection}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_detector_internals_1_1_packer_detection}{Packer\+Detection} object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_ab0ba785958a195134a606d04d497a763}{detect\+UPX}} ()
+\begin{DoxyCompactList}\small\item\em Detect if the file is packed with UPX. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_a890b00cf39d225ed4095dfaab9b70f3f}{detect\+Themida}} ()
+\begin{DoxyCompactList}\small\item\em Detect if the file is packed with Themida. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_a18b53278800ddbd7ca3b5fc6dcdc68a3}{check\+Section\+Names}} (const std\+::vector$<$ std\+::string $>$ \&section\+Names)
+\begin{DoxyCompactList}\small\item\em Check for suspicious sections in the file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_detector_internals_1_1_packer_detection}{Packer\+Detection} class. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_detector_internals_1_1_packer_detection_a40a395af7569cfdd96752f2d0e37be70}\label{class_detector_internals_1_1_packer_detection_a40a395af7569cfdd96752f2d0e37be70} 
+\index{DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}!PackerDetection@{PackerDetection}}
+\index{PackerDetection@{PackerDetection}!DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}}
+\doxysubsubsection{\texorpdfstring{PackerDetection()}{PackerDetection()}}
+{\footnotesize\ttfamily Detector\+Internals\+::\+Packer\+Detection\+::\+Packer\+Detection (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \doxylink{class_detector_internals_1_1_packer_detection}{Packer\+Detection} object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to analyze \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_detector_internals_1_1_packer_detection_a18b53278800ddbd7ca3b5fc6dcdc68a3}\label{class_detector_internals_1_1_packer_detection_a18b53278800ddbd7ca3b5fc6dcdc68a3} 
+\index{DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}!checkSectionNames@{checkSectionNames}}
+\index{checkSectionNames@{checkSectionNames}!DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}}
+\doxysubsubsection{\texorpdfstring{checkSectionNames()}{checkSectionNames()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Packer\+Detection\+::check\+Section\+Names (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{section\+Names }\end{DoxyParamCaption})}
+
+
+
+Check for suspicious sections in the file. 
+
+\begin{DoxyReturn}{Returns}
+A vector of strings containing the names of suspicious sections 
+\end{DoxyReturn}
+\Hypertarget{class_detector_internals_1_1_packer_detection_a890b00cf39d225ed4095dfaab9b70f3f}\label{class_detector_internals_1_1_packer_detection_a890b00cf39d225ed4095dfaab9b70f3f} 
+\index{DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}!detectThemida@{detectThemida}}
+\index{detectThemida@{detectThemida}!DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}}
+\doxysubsubsection{\texorpdfstring{detectThemida()}{detectThemida()}}
+{\footnotesize\ttfamily bool Packer\+Detection\+::detect\+Themida (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Detect if the file is packed with Themida. 
+
+\begin{DoxyReturn}{Returns}
+True if Themida is detected, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_detector_internals_1_1_packer_detection_ab0ba785958a195134a606d04d497a763}\label{class_detector_internals_1_1_packer_detection_ab0ba785958a195134a606d04d497a763} 
+\index{DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}!detectUPX@{detectUPX}}
+\index{detectUPX@{detectUPX}!DetectorInternals::PackerDetection@{DetectorInternals::PackerDetection}}
+\doxysubsubsection{\texorpdfstring{detectUPX()}{detectUPX()}}
+{\footnotesize\ttfamily bool Packer\+Detection\+::detect\+UPX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Detect if the file is packed with UPX. 
+
+\begin{DoxyReturn}{Returns}
+True if UPX is detected, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Detector.\+h\item 
+src/Detector.\+cpp\end{DoxyCompactItemize}

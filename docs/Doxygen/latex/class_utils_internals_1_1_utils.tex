@@ -1,0 +1,140 @@
+\doxysection{Utils\+Internals\+::Utils Class Reference}
+\hypertarget{class_utils_internals_1_1_utils}{}\label{class_utils_internals_1_1_utils}\index{UtilsInternals::Utils@{UtilsInternals::Utils}}
+
+
+The \doxylink{class_utils_internals_1_1_utils}{Utils} class, a class for various utility functions.  
+
+
+
+
+{\ttfamily \#include $<$Utils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_utils_internals_1_1_utils_a452e78692c87ed5c7c993b6c6ac4981a}\label{class_utils_internals_1_1_utils_a452e78692c87ed5c7c993b6c6ac4981a} 
+{\bfseries Utils} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_utils_internals_1_1_utils}{Utils} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_utils_internals_1_1_utils_afa5e70facffc286607498e7edb639b8a}\label{class_utils_internals_1_1_utils_afa5e70facffc286607498e7edb639b8a} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Utils} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_utils_internals_1_1_utils}{Utils} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_utils_internals_1_1_utils_a6336d59dd97a61b7bbafe07aa740a95b}{print\+Bytes}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data)
+\begin{DoxyCompactList}\small\item\em Prints the contents of a vector of bytes. \end{DoxyCompactList}\item 
+static uint32\+\_\+t \mbox{\hyperlink{class_utils_internals_1_1_utils_a782274e89e35d2ec36bb851848095453}{bytes\+To\+UInt32\+LE}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset)
+\begin{DoxyCompactList}\small\item\em Converts Bytes to a uint32\+\_\+t in little-\/endian format. \end{DoxyCompactList}\item 
+static uint16\+\_\+t \mbox{\hyperlink{class_utils_internals_1_1_utils_affa6253a6acfbf208e0d6a149b9ede52}{bytes\+To\+UInt16\+LE}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset)
+\begin{DoxyCompactList}\small\item\em Converts Bytes to a uint16\+\_\+t in little-\/endian format. \end{DoxyCompactList}\item 
+static std\+::string \mbox{\hyperlink{class_utils_internals_1_1_utils_a103470aed88c53d22d67cc72f742d81e}{bytes\+To\+String}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset, size\+\_\+t length)
+\begin{DoxyCompactList}\small\item\em Converts Bytes to a string. \end{DoxyCompactList}\item 
+static uint32\+\_\+t \mbox{\hyperlink{class_utils_internals_1_1_utils_ad05f43b51e42f9db020d4d505a68e3af}{calculate\+Checksum}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Calculates the checksum of a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_utils_internals_1_1_utils}{Utils} class, a class for various utility functions. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_utils_internals_1_1_utils_a103470aed88c53d22d67cc72f742d81e}\label{class_utils_internals_1_1_utils_a103470aed88c53d22d67cc72f742d81e} 
+\index{UtilsInternals::Utils@{UtilsInternals::Utils}!bytesToString@{bytesToString}}
+\index{bytesToString@{bytesToString}!UtilsInternals::Utils@{UtilsInternals::Utils}}
+\doxysubsubsection{\texorpdfstring{bytesToString()}{bytesToString()}}
+{\footnotesize\ttfamily std\+::string Utils\+::bytes\+To\+String (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset,  }\item[{size\+\_\+t}]{length }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts Bytes to a string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A vector of bytes. \\
+\hline
+{\em offset} & The offset in the vector where the string starts. \\
+\hline
+{\em length} & The length of the string to convert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string converted from the bytes at the specified offset and length. 
+\end{DoxyReturn}
+\Hypertarget{class_utils_internals_1_1_utils_affa6253a6acfbf208e0d6a149b9ede52}\label{class_utils_internals_1_1_utils_affa6253a6acfbf208e0d6a149b9ede52} 
+\index{UtilsInternals::Utils@{UtilsInternals::Utils}!bytesToUInt16LE@{bytesToUInt16LE}}
+\index{bytesToUInt16LE@{bytesToUInt16LE}!UtilsInternals::Utils@{UtilsInternals::Utils}}
+\doxysubsubsection{\texorpdfstring{bytesToUInt16LE()}{bytesToUInt16LE()}}
+{\footnotesize\ttfamily uint16\+\_\+t Utils\+::bytes\+To\+UInt16\+LE (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts Bytes to a uint16\+\_\+t in little-\/endian format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A vector of bytes. \\
+\hline
+{\em offset} & The offset in the vector where the uint16\+\_\+t starts. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A uint16\+\_\+t value converted from the bytes at the specified offset. 
+\end{DoxyReturn}
+\Hypertarget{class_utils_internals_1_1_utils_a782274e89e35d2ec36bb851848095453}\label{class_utils_internals_1_1_utils_a782274e89e35d2ec36bb851848095453} 
+\index{UtilsInternals::Utils@{UtilsInternals::Utils}!bytesToUInt32LE@{bytesToUInt32LE}}
+\index{bytesToUInt32LE@{bytesToUInt32LE}!UtilsInternals::Utils@{UtilsInternals::Utils}}
+\doxysubsubsection{\texorpdfstring{bytesToUInt32LE()}{bytesToUInt32LE()}}
+{\footnotesize\ttfamily uint32\+\_\+t Utils\+::bytes\+To\+UInt32\+LE (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Converts Bytes to a uint32\+\_\+t in little-\/endian format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A vector of bytes. \\
+\hline
+{\em offset} & The offset in the vector where the uint32\+\_\+t starts. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A uint32\+\_\+t value converted from the bytes at the specified offset. 
+\end{DoxyReturn}
+\Hypertarget{class_utils_internals_1_1_utils_ad05f43b51e42f9db020d4d505a68e3af}\label{class_utils_internals_1_1_utils_ad05f43b51e42f9db020d4d505a68e3af} 
+\index{UtilsInternals::Utils@{UtilsInternals::Utils}!calculateChecksum@{calculateChecksum}}
+\index{calculateChecksum@{calculateChecksum}!UtilsInternals::Utils@{UtilsInternals::Utils}}
+\doxysubsubsection{\texorpdfstring{calculateChecksum()}{calculateChecksum()}}
+{\footnotesize\ttfamily uint32\+\_\+t Utils\+::calculate\+Checksum (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates the checksum of a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & A vector of bytes representing the file data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A uint32\+\_\+t representing the checksum of the file. 
+\end{DoxyReturn}
+\Hypertarget{class_utils_internals_1_1_utils_a6336d59dd97a61b7bbafe07aa740a95b}\label{class_utils_internals_1_1_utils_a6336d59dd97a61b7bbafe07aa740a95b} 
+\index{UtilsInternals::Utils@{UtilsInternals::Utils}!printBytes@{printBytes}}
+\index{printBytes@{printBytes}!UtilsInternals::Utils@{UtilsInternals::Utils}}
+\doxysubsubsection{\texorpdfstring{printBytes()}{printBytes()}}
+{\footnotesize\ttfamily void Utils\+::print\+Bytes (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Prints the contents of a vector of bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The vector of bytes to print. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+FILEIO/Utils.\+h\item 
+src/Untils.\+cpp\end{DoxyCompactItemize}

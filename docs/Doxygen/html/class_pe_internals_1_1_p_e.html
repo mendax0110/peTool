@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: PeInternals::PE Class Reference</title>
+<title>peTool: PeInternals::PE Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -80,7 +80,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing.">PE</a> class, a class for parsing.  
+<p>The <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> class, a class for parsing and extracting information from <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> files.  
  <a href="class_pe_internals_1_1_p_e.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_p_e_8h_source.html">PE.h</a>&gt;</code></p>
@@ -88,29 +88,38 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:adb22a4a3af334478eaa33da4aee3787c" id="r_adb22a4a3af334478eaa33da4aee3787c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#adb22a4a3af334478eaa33da4aee3787c">parseHeaders</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:adb22a4a3af334478eaa33da4aee3787c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> headers and extract information.  <br /></td></tr>
 <tr class="separator:adb22a4a3af334478eaa33da4aee3787c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a174b3fcc7c21d31c7b08555e7f93e822" id="r_a174b3fcc7c21d31c7b08555e7f93e822"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#a174b3fcc7c21d31c7b08555e7f93e822">extractSectionInfo</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:a174b3fcc7c21d31c7b08555e7f93e822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract section information from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file.  <br /></td></tr>
 <tr class="separator:a174b3fcc7c21d31c7b08555e7f93e822"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee2a6f5be338053aaf1edf0146e883b5" id="r_aee2a6f5be338053aaf1edf0146e883b5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#aee2a6f5be338053aaf1edf0146e883b5">extractImportTable</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:aee2a6f5be338053aaf1edf0146e883b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the Import Table from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file.  <br /></td></tr>
 <tr class="separator:aee2a6f5be338053aaf1edf0146e883b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc295892d1c031603d4df4d4a058cf23" id="r_afc295892d1c031603d4df4d4a058cf23"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#afc295892d1c031603d4df4d4a058cf23">extractExportTable</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:afc295892d1c031603d4df4d4a058cf23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the Export Table from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file.  <br /></td></tr>
 <tr class="separator:afc295892d1c031603d4df4d4a058cf23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1a7d3427a84b1ac72e03f2835f308af" id="r_ad1a7d3427a84b1ac72e03f2835f308af"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#ad1a7d3427a84b1ac72e03f2835f308af">extractResources</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:ad1a7d3427a84b1ac72e03f2835f308af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract resources from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file.  <br /></td></tr>
 <tr class="separator:ad1a7d3427a84b1ac72e03f2835f308af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a119963b0895a91c29ff86997c185aa40" id="r_a119963b0895a91c29ff86997c185aa40"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#a119963b0895a91c29ff86997c185aa40">GetResourceDirectoryOffset</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
-<tr class="memdesc:a119963b0895a91c29ff86997c185aa40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the resource directory offset.  <br /></td></tr>
+<tr class="memdesc:a119963b0895a91c29ff86997c185aa40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the offset of the Resource Directory in the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file.  <br /></td></tr>
 <tr class="separator:a119963b0895a91c29ff86997c185aa40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc2a9a6bf331d4e95898610aabef644d" id="r_acc2a9a6bf331d4e95898610aabef644d"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#acc2a9a6bf331d4e95898610aabef644d">getFunctionNames</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:acc2a9a6bf331d4e95898610aabef644d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the function names in the Import Table.  <br /></td></tr>
 <tr class="separator:acc2a9a6bf331d4e95898610aabef644d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a592a4ed3cb0b7c55a22248b9c3c5b096" id="r_a592a4ed3cb0b7c55a22248b9c3c5b096"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#a592a4ed3cb0b7c55a22248b9c3c5b096">getDllNames</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:a592a4ed3cb0b7c55a22248b9c3c5b096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the DLL names in the Import Table.  <br /></td></tr>
 <tr class="separator:a592a4ed3cb0b7c55a22248b9c3c5b096"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8b74d906bdd0851a883a5a26b9e5d18" id="r_ab8b74d906bdd0851a883a5a26b9e5d18"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#ab8b74d906bdd0851a883a5a26b9e5d18">getFunctionAddresses</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:ab8b74d906bdd0851a883a5a26b9e5d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the function addresses in the Import Table.  <br /></td></tr>
 <tr class="separator:ab8b74d906bdd0851a883a5a26b9e5d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e53b1aac3bd672452d1d267d13561c6" id="r_a4e53b1aac3bd672452d1d267d13561c6"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_p_e.html#a4e53b1aac3bd672452d1d267d13561c6">getDllAddresses</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:a4e53b1aac3bd672452d1d267d13561c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the DLL addresses in the Import Table.  <br /></td></tr>
 <tr class="separator:a4e53b1aac3bd672452d1d267d13561c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing.">PE</a> class, a class for parsing. </p>
+<div class="textblock"><p>The <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> class, a class for parsing and extracting information from <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> files. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="afc295892d1c031603d4df4d4a058cf23" name="afc295892d1c031603d4df4d4a058cf23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afc295892d1c031603d4df4d4a058cf23">&#9670;&#160;</a></span>extractExportTable()</h2>
@@ -135,6 +144,14 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Extract the Export Table from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to extract the Export Table from </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -162,6 +179,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Extract the Import Table from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to extract the Import Table from </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ad1a7d3427a84b1ac72e03f2835f308af" name="ad1a7d3427a84b1ac72e03f2835f308af"></a>
@@ -187,6 +212,14 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Extract resources from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to extract resources from </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -214,6 +247,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Extract section information from the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to extract section information from </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a4e53b1aac3bd672452d1d267d13561c6" name="a4e53b1aac3bd672452d1d267d13561c6"></a>
@@ -239,6 +280,15 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Getter for the DLL addresses in the Import Table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>the file data to extract DLL addresses from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of uint64_t containing the DLL addresses </dd></dl>
 
 </div>
 </div>
@@ -266,6 +316,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Getter for the DLL names in the Import Table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>the file data to extract DLL names from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of strings containing the DLL names </dd></dl>
+
 </div>
 </div>
 <a id="ab8b74d906bdd0851a883a5a26b9e5d18" name="ab8b74d906bdd0851a883a5a26b9e5d18"></a>
@@ -291,6 +350,15 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Getter for the function addresses in the Import Table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>the file data to extract function addresses from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of uint64_t containing the function addresses </dd></dl>
 
 </div>
 </div>
@@ -318,6 +386,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Getter for the function names in the Import Table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>the file data to extract function names from </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A vector of strings containing the function names </dd></dl>
+
 </div>
 </div>
 <a id="a119963b0895a91c29ff86997c185aa40" name="a119963b0895a91c29ff86997c185aa40"></a>
@@ -344,14 +421,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the resource directory offset. </p>
+<p>Get the offset of the Resource Directory in the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fileData</td><td>The file data </td></tr>
+    <tr><td class="paramname">fileData</td><td>The file data to get the Resource Directory offset from </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The resource directory offset </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The offset of the Resource Directory </dd></dl>
 
 </div>
 </div>
@@ -379,11 +456,19 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Parse the <a class="el" href="class_pe_internals_1_1_p_e.html" title="The PE class, a class for parsing and extracting information from PE files.">PE</a> headers and extract information. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to parse </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/CORE/<a class="el" href="_p_e_8h_source.html">PE.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_p_e_8cpp.html">PE.cpp</a></li>
+<li>include/CORE/<a class="el" href="_p_e_8h_source.html">PE.h</a></li>
+<li>src/<b>PE.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

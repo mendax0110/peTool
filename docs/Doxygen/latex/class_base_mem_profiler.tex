@@ -1,0 +1,91 @@
+\doxysection{Base\+Mem\+Profiler Class Reference}
+\hypertarget{class_base_mem_profiler}{}\label{class_base_mem_profiler}\index{BaseMemProfiler@{BaseMemProfiler}}
+
+
+Base class for memory profilers, which defines the interface for platform-\/specific memory profiling classes.  
+
+
+
+
+{\ttfamily \#include $<$Mem\+Profiler.\+h$>$}
+
+Inheritance diagram for Base\+Mem\+Profiler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_base_mem_profiler}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_base_mem_profiler_a65544e2f75c428266ebce6347f1ef9b6}{get\+Memory\+Usage}} ()=0
+\begin{DoxyCompactList}\small\item\em Get the memory usage information. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_base_mem_profiler_af5e63f6eb909b5dfa843b3e260ccd69f}{get\+RAMUsage}} ()=0
+\begin{DoxyCompactList}\small\item\em Get the RAM usage information. \end{DoxyCompactList}\item 
+virtual std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_base_mem_profiler_af9ae10c0b383d05a6b38c6197ab16c50}{get\+VRAMUsage}} ()=0
+\begin{DoxyCompactList}\small\item\em Get the VRAM usage information. \end{DoxyCompactList}\item 
+\Hypertarget{class_base_mem_profiler_a121b0d2867e6077f62a2fd58388bce4c}\label{class_base_mem_profiler_a121b0d2867e6077f62a2fd58388bce4c} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Base\+Mem\+Profiler} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor for the base memory profiler class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Base class for memory profilers, which defines the interface for platform-\/specific memory profiling classes. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_base_mem_profiler_a65544e2f75c428266ebce6347f1ef9b6}\label{class_base_mem_profiler_a65544e2f75c428266ebce6347f1ef9b6} 
+\index{BaseMemProfiler@{BaseMemProfiler}!getMemoryUsage@{getMemoryUsage}}
+\index{getMemoryUsage@{getMemoryUsage}!BaseMemProfiler@{BaseMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getMemoryUsage()}{getMemoryUsage()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Base\+Mem\+Profiler\+::get\+Memory\+Usage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the memory usage information. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the memory usage information 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_win_mem_profiler_a062a57a886f34b7586de5cf23a6b0154}{Win\+Mem\+Profiler}}, and \mbox{\hyperlink{class_mac_mem_profiler_a9f8c7869f0d66404527b36662af97896}{Mac\+Mem\+Profiler}}.
+
+\Hypertarget{class_base_mem_profiler_af5e63f6eb909b5dfa843b3e260ccd69f}\label{class_base_mem_profiler_af5e63f6eb909b5dfa843b3e260ccd69f} 
+\index{BaseMemProfiler@{BaseMemProfiler}!getRAMUsage@{getRAMUsage}}
+\index{getRAMUsage@{getRAMUsage}!BaseMemProfiler@{BaseMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getRAMUsage()}{getRAMUsage()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Base\+Mem\+Profiler\+::get\+RAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the RAM usage information. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the RAM usage information 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_win_mem_profiler_a83cecd5a020dd05834980e3042fe2239}{Win\+Mem\+Profiler}}, and \mbox{\hyperlink{class_mac_mem_profiler_aab036e659f515b5f0d2974a14b926b46}{Mac\+Mem\+Profiler}}.
+
+\Hypertarget{class_base_mem_profiler_af9ae10c0b383d05a6b38c6197ab16c50}\label{class_base_mem_profiler_af9ae10c0b383d05a6b38c6197ab16c50} 
+\index{BaseMemProfiler@{BaseMemProfiler}!getVRAMUsage@{getVRAMUsage}}
+\index{getVRAMUsage@{getVRAMUsage}!BaseMemProfiler@{BaseMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getVRAMUsage()}{getVRAMUsage()}}
+{\footnotesize\ttfamily virtual std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Base\+Mem\+Profiler\+::get\+VRAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get the VRAM usage information. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the VRAM usage information 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_win_mem_profiler_af81ddfe148d3e62c71483209192101a9}{Win\+Mem\+Profiler}}, and \mbox{\hyperlink{class_mac_mem_profiler_ae833ceaf9bd55cb61ebbc8a6a7296be8}{Mac\+Mem\+Profiler}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+MANMON/Mem\+Profiler.\+h\end{DoxyCompactItemize}

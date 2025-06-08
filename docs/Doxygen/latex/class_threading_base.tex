@@ -1,0 +1,122 @@
+\doxysection{Threading\+Base Class Reference}
+\hypertarget{class_threading_base}{}\label{class_threading_base}\index{ThreadingBase@{ThreadingBase}}
+
+
+\doxylink{class_threading_base}{Threading\+Base} class, which provides methods for managing threads and task queues.  
+
+
+
+
+{\ttfamily \#include $<$Threading\+Base.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_threading_base_abeb15273fd89348f06d57fbd56e778b8}\label{class_threading_base_abeb15273fd89348f06d57fbd56e778b8} 
+{\bfseries Threading\+Base} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_threading_base}{Threading\+Base} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_threading_base_a9ef92da4bf39cae74bdbbb179069127d}\label{class_threading_base_a9ef92da4bf39cae74bdbbb179069127d} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Threading\+Base} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_threading_base}{Threading\+Base} object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_threading_base_ad4f54d1158709990133f4d9b81688b81}{start\+Thread}} (const std\+::function$<$ void()$>$ \&thread\+Function)
+\begin{DoxyCompactList}\small\item\em Start a new thread with the specified function. \end{DoxyCompactList}\item 
+\Hypertarget{class_threading_base_a98031e5c2cd3110e1dd5fd332eb946bc}\label{class_threading_base_a98031e5c2cd3110e1dd5fd332eb946bc} 
+void {\bfseries join\+All\+Threads} ()
+\begin{DoxyCompactList}\small\item\em Join all threads and wait for them to finish. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_threading_base_abdb7dae796c119f97b12de8d8a7a9fd8}{enqueue\+Task}} (const std\+::function$<$ void()$>$ \&task)
+\begin{DoxyCompactList}\small\item\em Enqueue a task to be executed by the thread pool. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_threading_base_a1c9a929ebfbcbfb7c818bd05a9e730c7}{start\+Thread\+Pool}} (size\+\_\+t num\+Threads)
+\begin{DoxyCompactList}\small\item\em Start the thread pool with the specified number of threads. \end{DoxyCompactList}\item 
+\Hypertarget{class_threading_base_a4e3460e247182106d32fb258cf2046d2}\label{class_threading_base_a4e3460e247182106d32fb258cf2046d2} 
+void {\bfseries stop\+Thread\+Pool} ()
+\begin{DoxyCompactList}\small\item\em Stop the thread pool and wait for all tasks to finish. \end{DoxyCompactList}\item 
+\Hypertarget{class_threading_base_a9765f35f4ea2d5c68265c95bd684ebb8}\label{class_threading_base_a9765f35f4ea2d5c68265c95bd684ebb8} 
+void {\bfseries wait\+For\+Tasks} ()
+\begin{DoxyCompactList}\small\item\em Wait for all tasks in the queue to finish. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_threading_base_a6f2d7a8d44b009173fb129de9b01f965}{get\+Num\+Threads}} () const
+\begin{DoxyCompactList}\small\item\em Get the number of active threads in the thread pool. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_threading_base_a4c6f288b5868ee6f64b717ff37f4ce0f}{is\+Thread\+Pool\+Running}} () const
+\begin{DoxyCompactList}\small\item\em Check if the thread pool is currently running. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_threading_base}{Threading\+Base} class, which provides methods for managing threads and task queues. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_threading_base_abdb7dae796c119f97b12de8d8a7a9fd8}\label{class_threading_base_abdb7dae796c119f97b12de8d8a7a9fd8} 
+\index{ThreadingBase@{ThreadingBase}!enqueueTask@{enqueueTask}}
+\index{enqueueTask@{enqueueTask}!ThreadingBase@{ThreadingBase}}
+\doxysubsubsection{\texorpdfstring{enqueueTask()}{enqueueTask()}}
+{\footnotesize\ttfamily void Threading\+Base\+::enqueue\+Task (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void()$>$ \&}]{task }\end{DoxyParamCaption})}
+
+
+
+Enqueue a task to be executed by the thread pool. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & The task to enqueue \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_threading_base_a6f2d7a8d44b009173fb129de9b01f965}\label{class_threading_base_a6f2d7a8d44b009173fb129de9b01f965} 
+\index{ThreadingBase@{ThreadingBase}!getNumThreads@{getNumThreads}}
+\index{getNumThreads@{getNumThreads}!ThreadingBase@{ThreadingBase}}
+\doxysubsubsection{\texorpdfstring{getNumThreads()}{getNumThreads()}}
+{\footnotesize\ttfamily size\+\_\+t Threading\+Base\+::get\+Num\+Threads (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the number of active threads in the thread pool. 
+
+\begin{DoxyReturn}{Returns}
+The number of active threads 
+\end{DoxyReturn}
+\Hypertarget{class_threading_base_a4c6f288b5868ee6f64b717ff37f4ce0f}\label{class_threading_base_a4c6f288b5868ee6f64b717ff37f4ce0f} 
+\index{ThreadingBase@{ThreadingBase}!isThreadPoolRunning@{isThreadPoolRunning}}
+\index{isThreadPoolRunning@{isThreadPoolRunning}!ThreadingBase@{ThreadingBase}}
+\doxysubsubsection{\texorpdfstring{isThreadPoolRunning()}{isThreadPoolRunning()}}
+{\footnotesize\ttfamily bool Threading\+Base\+::is\+Thread\+Pool\+Running (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Check if the thread pool is currently running. 
+
+\begin{DoxyReturn}{Returns}
+true if the thread pool is running, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_threading_base_ad4f54d1158709990133f4d9b81688b81}\label{class_threading_base_ad4f54d1158709990133f4d9b81688b81} 
+\index{ThreadingBase@{ThreadingBase}!startThread@{startThread}}
+\index{startThread@{startThread}!ThreadingBase@{ThreadingBase}}
+\doxysubsubsection{\texorpdfstring{startThread()}{startThread()}}
+{\footnotesize\ttfamily void Threading\+Base\+::start\+Thread (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void()$>$ \&}]{thread\+Function }\end{DoxyParamCaption})}
+
+
+
+Start a new thread with the specified function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em thread\+Function} & The function to run in the new thread \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_threading_base_a1c9a929ebfbcbfb7c818bd05a9e730c7}\label{class_threading_base_a1c9a929ebfbcbfb7c818bd05a9e730c7} 
+\index{ThreadingBase@{ThreadingBase}!startThreadPool@{startThreadPool}}
+\index{startThreadPool@{startThreadPool}!ThreadingBase@{ThreadingBase}}
+\doxysubsubsection{\texorpdfstring{startThreadPool()}{startThreadPool()}}
+{\footnotesize\ttfamily void Threading\+Base\+::start\+Thread\+Pool (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{num\+Threads }\end{DoxyParamCaption})}
+
+
+
+Start the thread pool with the specified number of threads. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num\+Threads} & The number of threads to start in the pool \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Threading\+Base.\+h\item 
+src/Threading\+Base.\+cpp\end{DoxyCompactItemize}

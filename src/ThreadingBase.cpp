@@ -1,28 +1,16 @@
 #include "../include/CORE/ThreadingBase.h"
 
-/**
- * @brief Construct a new Threading Base:: Threading Base object
- * @details Initializes the stop flag and the number of active threads
- */
 ThreadingBase::ThreadingBase() : stopFlag(false), numActiveThreads(0)
 {
 
 }
 
-/**
- * @brief Destroy the Threading Base:: Threading Base object
- * @details Stops the thread pool and joins all threads
- */
 ThreadingBase::~ThreadingBase()
 {
     stopThreadPool();
     joinAllThreads();
 }
 
-/**
- * @brief Start a new thread
- * @param threadFunction The function to run in the thread
- */
 void ThreadingBase::startThread(const std::function<void()>& threadFunction)
 {
     std::thread newThread(threadFunction);
@@ -32,9 +20,6 @@ void ThreadingBase::startThread(const std::function<void()>& threadFunction)
     }
 }
 
-/**
- * @brief Join all threads
- */
 void ThreadingBase::joinAllThreads()
 {
     for (auto& thread : threads)
@@ -47,10 +32,6 @@ void ThreadingBase::joinAllThreads()
     threads.clear();
 }
 
-/**
- * @brief Enqueue a task to the thread pool
- * @param task The task to enqueue
- */
 void ThreadingBase::enqueueTask(const std::function<void()>& task)
 {
     std::lock_guard<std::mutex> lock(queueMutex);
@@ -58,10 +39,6 @@ void ThreadingBase::enqueueTask(const std::function<void()>& task)
     condition.notify_one();
 }
 
-/**
- * @brief Start the thread pool
- * @param numThreads The number of threads to start
- */
 void ThreadingBase::startThreadPool(size_t numThreads)
 {
     for (size_t i = 0; i < numThreads; ++i)
@@ -70,18 +47,12 @@ void ThreadingBase::startThreadPool(size_t numThreads)
     }
 }
 
-/**
- * @brief Stop the thread pool
- */
 void ThreadingBase::stopThreadPool()
 {
     stopFlag = true;
     condition.notify_all();
 }
 
-/**
- * @brief Wait for all tasks to complete
- */
 void ThreadingBase::waitForTasks()
 {
     while (!taskQueue.empty())
@@ -90,28 +61,16 @@ void ThreadingBase::waitForTasks()
     }
 }
 
-/**
- * @brief Get the number of threads in the thread pool
- * @return The number of threads
- */
 size_t ThreadingBase::getNumThreads() const
 {
     return threads.size();
 }
 
-/**
- * @brief Check if the thread pool is running
- * @return True if the thread pool is running, false otherwise
- */
 bool ThreadingBase::isThreadPoolRunning() const
 {
     return !stopFlag.load();
 }
 
-/**
- * @brief Get the number of active threads
- * @return The number of active threads
- */
 void ThreadingBase::threadPoolFunction()
 {
     ++numActiveThreads;

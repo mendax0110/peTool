@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: Rebuilder Class Reference</title>
+<title>peTool: Rebuilder Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -72,126 +72,51 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="class_rebuilder-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Rebuilder Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_rebuilder.html" title="The Rebuilder class.">Rebuilder</a> class.  
+<p><a class="el" href="class_rebuilder.html" title="Rebuilder class, which provides methods for fixing, wiping, rebuilding, validating,...">Rebuilder</a> class, which provides methods for fixing, wiping, rebuilding, validating, binding imports, and changing the image base of PE files.  
  <a href="class_rebuilder.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_rebuilder_8h_source.html">Rebuilder.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7418ceb8cb80439d56f7091831a04c95" id="r_a7418ceb8cb80439d56f7091831a04c95"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a7418ceb8cb80439d56f7091831a04c95">Rebuilder</a> ()</td></tr>
+<tr class="memitem:a7418ceb8cb80439d56f7091831a04c95" id="r_a7418ceb8cb80439d56f7091831a04c95"><td class="memItemLeft" align="right" valign="top"><a id="a7418ceb8cb80439d56f7091831a04c95" name="a7418ceb8cb80439d56f7091831a04c95"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Rebuilder</b> ()</td></tr>
+<tr class="memdesc:a7418ceb8cb80439d56f7091831a04c95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_rebuilder.html" title="Rebuilder class, which provides methods for fixing, wiping, rebuilding, validating,...">Rebuilder</a> object. <br /></td></tr>
 <tr class="separator:a7418ceb8cb80439d56f7091831a04c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fc008405faf0f0887b6536021fe63a0" id="r_a9fc008405faf0f0887b6536021fe63a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a9fc008405faf0f0887b6536021fe63a0">~Rebuilder</a> ()</td></tr>
+<tr class="memitem:a9fc008405faf0f0887b6536021fe63a0" id="r_a9fc008405faf0f0887b6536021fe63a0"><td class="memItemLeft" align="right" valign="top"><a id="a9fc008405faf0f0887b6536021fe63a0" name="a9fc008405faf0f0887b6536021fe63a0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~Rebuilder</b> ()</td></tr>
+<tr class="memdesc:a9fc008405faf0f0887b6536021fe63a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="class_rebuilder.html" title="Rebuilder class, which provides methods for fixing, wiping, rebuilding, validating,...">Rebuilder</a> object. <br /></td></tr>
 <tr class="separator:a9fc008405faf0f0887b6536021fe63a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aca5cf17713e1920ed5385123b7410739" id="r_aca5cf17713e1920ed5385123b7410739"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#aca5cf17713e1920ed5385123b7410739">fixDump</a> (const std::string &amp;filePath)</td></tr>
-<tr class="memdesc:aca5cf17713e1920ed5385123b7410739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fix a dump file.  <br /></td></tr>
+<tr class="memdesc:aca5cf17713e1920ed5385123b7410739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fix a dumped PE file.  <br /></td></tr>
 <tr class="separator:aca5cf17713e1920ed5385123b7410739"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87ccd2a266057e3c325af3ba412c9460" id="r_a87ccd2a266057e3c325af3ba412c9460"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a87ccd2a266057e3c325af3ba412c9460">wipeLocations</a> (const std::string &amp;filePath)</td></tr>
-<tr class="memdesc:a87ccd2a266057e3c325af3ba412c9460"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wipe locations in a file.  <br /></td></tr>
+<tr class="memdesc:a87ccd2a266057e3c325af3ba412c9460"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wipe locations in a PE file.  <br /></td></tr>
 <tr class="separator:a87ccd2a266057e3c325af3ba412c9460"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2caa43c89e675dd1975c8e111304190" id="r_ad2caa43c89e675dd1975c8e111304190"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#ad2caa43c89e675dd1975c8e111304190">rebuildResourceDirectory</a> (const std::string &amp;filePath)</td></tr>
-<tr class="memdesc:ad2caa43c89e675dd1975c8e111304190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuild the resource directory in a file.  <br /></td></tr>
+<tr class="memdesc:ad2caa43c89e675dd1975c8e111304190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuild the resource directory in a PE file.  <br /></td></tr>
 <tr class="separator:ad2caa43c89e675dd1975c8e111304190"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a226eb2e61d4fde219ae915e81137fcfd" id="r_a226eb2e61d4fde219ae915e81137fcfd"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a226eb2e61d4fde219ae915e81137fcfd">validatePEFile</a> (const std::string &amp;filePath)</td></tr>
 <tr class="memdesc:a226eb2e61d4fde219ae915e81137fcfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a PE file.  <br /></td></tr>
 <tr class="separator:a226eb2e61d4fde219ae915e81137fcfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a320a443676ecd53f411e5d4d7821117f" id="r_a320a443676ecd53f411e5d4d7821117f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a320a443676ecd53f411e5d4d7821117f">bindImports</a> (const std::string &amp;filePath)</td></tr>
-<tr class="memdesc:a320a443676ecd53f411e5d4d7821117f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind imports in a file.  <br /></td></tr>
+<tr class="memdesc:a320a443676ecd53f411e5d4d7821117f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind imports in a PE file.  <br /></td></tr>
 <tr class="separator:a320a443676ecd53f411e5d4d7821117f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c6de5cad7cedf550855fce63482952f" id="r_a0c6de5cad7cedf550855fce63482952f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a0c6de5cad7cedf550855fce63482952f">changeImageBase</a> (const std::string &amp;filePath, uint64_t newImageBase)</td></tr>
-<tr class="memdesc:a0c6de5cad7cedf550855fce63482952f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the image base of a file.  <br /></td></tr>
+<tr class="memdesc:a0c6de5cad7cedf550855fce63482952f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the image base of a PE file.  <br /></td></tr>
 <tr class="separator:a0c6de5cad7cedf550855fce63482952f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a7d0662f10e78aaadd4f88921fa01e5c2" id="r_a7d0662f10e78aaadd4f88921fa01e5c2"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a7d0662f10e78aaadd4f88921fa01e5c2">readFile</a> (const std::string &amp;filePath)</td></tr>
-<tr class="memdesc:a7d0662f10e78aaadd4f88921fa01e5c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a file into a vector of bytes.  <br /></td></tr>
-<tr class="separator:a7d0662f10e78aaadd4f88921fa01e5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b2446484e848b08a812f267cbb26104" id="r_a9b2446484e848b08a812f267cbb26104"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a9b2446484e848b08a812f267cbb26104">writeFile</a> (const std::string &amp;filePath, const std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:a9b2446484e848b08a812f267cbb26104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a vector of bytes to a file.  <br /></td></tr>
-<tr class="separator:a9b2446484e848b08a812f267cbb26104"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c12264a87d6871d669fdd6d1e50f84b" id="r_a5c12264a87d6871d669fdd6d1e50f84b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a5c12264a87d6871d669fdd6d1e50f84b">fixDumpInternal</a> (std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:a5c12264a87d6871d669fdd6d1e50f84b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fix a dump file.  <br /></td></tr>
-<tr class="separator:a5c12264a87d6871d669fdd6d1e50f84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ea4b3de20d7564c8d03d998ace5fb8c" id="r_a1ea4b3de20d7564c8d03d998ace5fb8c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a1ea4b3de20d7564c8d03d998ace5fb8c">wipeLocationsInternal</a> (std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:a1ea4b3de20d7564c8d03d998ace5fb8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wipe locations in a file.  <br /></td></tr>
-<tr class="separator:a1ea4b3de20d7564c8d03d998ace5fb8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69fb93b7c5cc33b6f6a41c8cc6fd9252" id="r_a69fb93b7c5cc33b6f6a41c8cc6fd9252"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a69fb93b7c5cc33b6f6a41c8cc6fd9252">rebuildResourceDirectoryInternal</a> (std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:a69fb93b7c5cc33b6f6a41c8cc6fd9252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuild the resource directory in a file.  <br /></td></tr>
-<tr class="separator:a69fb93b7c5cc33b6f6a41c8cc6fd9252"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adffcb698384c45eac835c075d1d00ddc" id="r_adffcb698384c45eac835c075d1d00ddc"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#adffcb698384c45eac835c075d1d00ddc">validatePEFileInternal</a> (std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:adffcb698384c45eac835c075d1d00ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a PE file.  <br /></td></tr>
-<tr class="separator:adffcb698384c45eac835c075d1d00ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4d803f84404f6a4c817acd0ec92599e" id="r_ad4d803f84404f6a4c817acd0ec92599e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#ad4d803f84404f6a4c817acd0ec92599e">bindImportsInternal</a> (std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:ad4d803f84404f6a4c817acd0ec92599e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind imports in a file.  <br /></td></tr>
-<tr class="separator:ad4d803f84404f6a4c817acd0ec92599e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3aec3780604348e002d2d05d85ca7158" id="r_a3aec3780604348e002d2d05d85ca7158"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_rebuilder.html#a3aec3780604348e002d2d05d85ca7158">changeImageBaseInternal</a> (std::vector&lt; uint8_t &gt; &amp;data, uint64_t newImageBase)</td></tr>
-<tr class="memdesc:a3aec3780604348e002d2d05d85ca7158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the image base of a file.  <br /></td></tr>
-<tr class="separator:a3aec3780604348e002d2d05d85ca7158"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_rebuilder.html" title="The Rebuilder class.">Rebuilder</a> class. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a7418ceb8cb80439d56f7091831a04c95" name="a7418ceb8cb80439d56f7091831a04c95"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7418ceb8cb80439d56f7091831a04c95">&#9670;&#160;</a></span>Rebuilder()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Rebuilder::Rebuilder </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9fc008405faf0f0887b6536021fe63a0" name="a9fc008405faf0f0887b6536021fe63a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fc008405faf0f0887b6536021fe63a0">&#9670;&#160;</a></span>~Rebuilder()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Rebuilder::~Rebuilder </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<div class="textblock"><p><a class="el" href="class_rebuilder.html" title="Rebuilder class, which provides methods for fixing, wiping, rebuilding, validating,...">Rebuilder</a> class, which provides methods for fixing, wiping, rebuilding, validating, binding imports, and changing the image base of PE files. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a320a443676ecd53f411e5d4d7821117f" name="a320a443676ecd53f411e5d4d7821117f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a320a443676ecd53f411e5d4d7821117f">&#9670;&#160;</a></span>bindImports()</h2>
 
@@ -216,49 +141,14 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Bind imports in a file. </p>
+<p>Bind imports in a PE file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the file </td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the PE file to bind imports </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the imports were bound, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="ad4d803f84404f6a4c817acd0ec92599e" name="ad4d803f84404f6a4c817acd0ec92599e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4d803f84404f6a4c817acd0ec92599e">&#9670;&#160;</a></span>bindImportsInternal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::bindImportsInternal </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Bind imports in a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The file data </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the imports were bound, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the binding was successful, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -296,61 +186,15 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Change the image base of a file. </p>
+<p>Change the image base of a PE file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the file </td></tr>
-    <tr><td class="paramname">newImageBase</td><td>The new image base </td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the PE file to change the image base </td></tr>
+    <tr><td class="paramname">newImageBase</td><td>The new image base to set </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the image base was changed, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="a3aec3780604348e002d2d05d85ca7158" name="a3aec3780604348e002d2d05d85ca7158"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aec3780604348e002d2d05d85ca7158">&#9670;&#160;</a></span>changeImageBaseInternal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::changeImageBaseInternal </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>newImageBase</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Change the image base of a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The file data </td></tr>
-    <tr><td class="paramname">newImageBase</td><td>The new image base </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the image base was changed, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the change was successful, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -378,84 +222,14 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Fix a dump file. </p>
+<p>Fix a dumped PE file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the dump file </td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the PE file to fix </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the dump file was fixed, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="a5c12264a87d6871d669fdd6d1e50f84b" name="a5c12264a87d6871d669fdd6d1e50f84b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c12264a87d6871d669fdd6d1e50f84b">&#9670;&#160;</a></span>fixDumpInternal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::fixDumpInternal </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Fix a dump file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The dump file data </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the dump file was fixed, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="a7d0662f10e78aaadd4f88921fa01e5c2" name="a7d0662f10e78aaadd4f88921fa01e5c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d0662f10e78aaadd4f88921fa01e5c2">&#9670;&#160;</a></span>readFile()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; uint8_t &gt; Rebuilder::readFile </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>filePath</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Read a file into a vector of bytes. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the file </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The vector of bytes </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the fix was successful, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -483,49 +257,14 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Rebuild the resource directory in a file. </p>
+<p>Rebuild the resource directory in a PE file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the file </td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the PE file to rebuild the resource directory </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the resource directory was rebuilt, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="a69fb93b7c5cc33b6f6a41c8cc6fd9252" name="a69fb93b7c5cc33b6f6a41c8cc6fd9252"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69fb93b7c5cc33b6f6a41c8cc6fd9252">&#9670;&#160;</a></span>rebuildResourceDirectoryInternal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::rebuildResourceDirectoryInternal </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Rebuild the resource directory in a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The file data </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the resource directory was rebuilt, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the rebuild was successful, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -556,46 +295,11 @@ Static Private Member Functions</h2></td></tr>
 <p>Validate a PE file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the PE file </td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the PE file to validate </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the PE file is valid, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="adffcb698384c45eac835c075d1d00ddc" name="adffcb698384c45eac835c075d1d00ddc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adffcb698384c45eac835c075d1d00ddc">&#9670;&#160;</a></span>validatePEFileInternal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::validatePEFileInternal </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Validate a PE file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The PE file data </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the PE file is valid, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the validation was successful, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -623,101 +327,20 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Wipe locations in a file. </p>
+<p>Wipe locations in a PE file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the file </td></tr>
+    <tr><td class="paramname">filePath</td><td>The path to the PE file to wipe </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the locations were wiped, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="a1ea4b3de20d7564c8d03d998ace5fb8c" name="a1ea4b3de20d7564c8d03d998ace5fb8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ea4b3de20d7564c8d03d998ace5fb8c">&#9670;&#160;</a></span>wipeLocationsInternal()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::wipeLocationsInternal </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Wipe locations in a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>The file data </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the locations were wiped, false otherwise </dd></dl>
-
-</div>
-</div>
-<a id="a9b2446484e848b08a812f267cbb26104" name="a9b2446484e848b08a812f267cbb26104"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b2446484e848b08a812f267cbb26104">&#9670;&#160;</a></span>writeFile()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Rebuilder::writeFile </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>filePath</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; uint8_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>data</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Write a vector of bytes to a file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filePath</td><td>The path to the file </td></tr>
-    <tr><td class="paramname">data</td><td>The vector of bytes </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the file was written, false otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the wipe was successful, false otherwise </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/CORE/<a class="el" href="_rebuilder_8h_source.html">Rebuilder.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_rebuilder_8cpp.html">Rebuilder.cpp</a></li>
+<li>include/CORE/<a class="el" href="_rebuilder_8h_source.html">Rebuilder.h</a></li>
+<li>src/<b>Rebuilder.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

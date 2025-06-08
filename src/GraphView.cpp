@@ -5,36 +5,19 @@ GraphView::GraphView() : nodes(), connections()
 {
 }
 
-/**
- * @brief Add a node to the graph view
- * @param id The node id
- * @param position The node position
- * @param size The node size
- * @param name The node name
- * @param color The node color
- */
+
 void GraphView::AddNode(int id, const ImVec2& position, const ImVec2& size, const std::string& name, const ImVec4& color)
 {
     Node newNode{id, position, size, color, name};
     nodes.push_back(newNode);
 }
 
-/**
- * @brief Add a connection between two nodes
- * @param sourceNodeId The source node id
- * @param targetNodeId The target node id
- */
 void GraphView::AddConnection(int sourceNodeId, int targetNodeId)
 {
     Connection newConnection{sourceNodeId, targetNodeId};
     connections.push_back(newConnection);
 }
 
-/**
- * @brief Find a node by its id
- * @param id The node id
- * @return The node if found, nullptr otherwise
- */
 const Node* GraphView::FindNodeById(int id) const
 {
     for (const auto& node : nodes)
@@ -47,9 +30,6 @@ const Node* GraphView::FindNodeById(int id) const
     return nullptr;
 }
 
-/**
- * @brief Render the graph view
- */
 void GraphView::Render()
 {
     ImGui::Begin("Graph View", nullptr, ImGuiWindowFlags_HorizontalScrollbar);

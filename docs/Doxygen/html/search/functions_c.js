@@ -1,14 +1,21 @@
 var searchData=
 [
-  ['openfileforappend_0',['openFileForAppend',['../class_file_editor_internals_1_1_file_editor.html#ae803b545be1f3e454e65eb86dd4358a6',1,'FileEditorInternals::FileEditor']]],
-  ['openfileforread_1',['openFileForRead',['../class_file_editor_internals_1_1_file_editor.html#a5320a5ddb18d51485f5561a195293a76',1,'FileEditorInternals::FileEditor']]],
-  ['openfileforwrite_2',['openFileForWrite',['../class_file_editor_internals_1_1_file_editor.html#aed00193cbd8ee07e35688a654926c6cc',1,'FileEditorInternals::FileEditor']]],
-  ['opengotolinewindow_3',['openGotoLineWindow',['../class_debugger.html#a793c2097b2041913892f734344bf5134',1,'Debugger']]],
-  ['opentextsearchmode_4',['openTextSearchMode',['../class_debugger.html#a5843da6a34734df210e32da313a508ab',1,'Debugger']]],
-  ['operator_20delete_5',['operator delete',['../class_memory_manager.html#a4eb801c438bbc31567a6083032a33b20',1,'MemoryManager::operator delete(void *pointer, const char *file, int line)'],['../class_memory_manager.html#a1e0a5aa115926d2380193f909e4a4cd1',1,'MemoryManager::operator delete(void *pointer) noexcept']]],
-  ['operator_20delete_5b_5d_6',['operator delete[]',['../class_memory_manager.html#ab04be8e95db7464698d91b6f5b92d0c2',1,'MemoryManager::operator delete[](void *pointer, const char *file, int line)'],['../class_memory_manager.html#a6b5956094f2f788f13a34fd48aa728fe',1,'MemoryManager::operator delete[](void *pointer) noexcept']]],
-  ['operator_20new_7',['operator new',['../class_memory_manager.html#af3759b4ebc5d5ac4133e33b3df7b9d08',1,'MemoryManager']]],
-  ['operator_20new_5b_5d_8',['operator new[]',['../class_memory_manager.html#a906731fb6d62137e1924cbb6fca92bc6',1,'MemoryManager']]],
-  ['operator_21_3d_9',['operator!=',['../struct_file_editor_internals_1_1_file_editor_1_1_position.html#af9b7ce7556e319b74c446c418f2d27c4',1,'FileEditorInternals::FileEditor::Position']]],
-  ['operator_3d_3d_10',['operator==',['../struct_file_editor_internals_1_1_file_editor_1_1_position.html#a3b5414adf4b1d67af41c77fbcc9c6e7c',1,'FileEditorInternals::FileEditor::Position']]]
+  ['packerdetection_0',['PackerDetection',['../class_detector_internals_1_1_packer_detection.html#a40a395af7569cfdd96752f2d0e37be70',1,'DetectorInternals::PackerDetection']]],
+  ['parseheaders_1',['parseHeaders',['../class_pe_internals_1_1_p_e.html#adb22a4a3af334478eaa33da4aee3787c',1,'PeInternals::PE']]],
+  ['paste_2',['Paste',['../class_file_editor_internals_1_1_file_editor.html#aedde128139b3b5415df836a74113d8e7',1,'FileEditorInternals::FileEditor']]],
+  ['pointerwrapper_3',['PointerWrapper',['../class_pointer_wrapper.html#a4fa33c096ee2ed5e8ada93fe2f5d3378',1,'PointerWrapper']]],
+  ['populatememoryusage_4',['populateMemoryUsage',['../class_mem_profiler.html#aff2373527117a5509351bc03a139019b',1,'MemProfiler']]],
+  ['populateramusage_5',['populateRAMUsage',['../class_mem_profiler.html#a30cf6cafd8bd8ba16f0e17439b335ac0',1,'MemProfiler']]],
+  ['populatevramusage_6',['populateVRAMUsage',['../class_mem_profiler.html#ac86a711c275efc9a8d4d1931950ae80d',1,'MemProfiler']]],
+  ['printbytes_7',['printBytes',['../class_utils_internals_1_1_utils.html#a6336d59dd97a61b7bbafe07aa740a95b',1,'UtilsInternals::Utils']]],
+  ['printdisassembly_8',['printDisassembly',['../class_dissassembler_internals_1_1_disassembler.html#af481fdcccf15816688252c01591bf22c',1,'DissassemblerInternals::Disassembler']]],
+  ['printentropy_9',['printEntropy',['../class_entropy_internals_1_1_entropy.html#af04d0a01b3ecd5246ce461becedd6961',1,'EntropyInternals::Entropy']]],
+  ['printerror_10',['printError',['../class_cli_interface_1_1_c_l_i.html#a94a86c2baa032afcaeadc307b951c6c5',1,'CliInterface::CLI']]],
+  ['printhelp_11',['printHelp',['../class_cli_interface_1_1_c_l_i.html#a1cdb85951e420e273ab661d7646aea54',1,'CliInterface::CLI']]],
+  ['printmemoryusage_12',['printMemoryUsage',['../class_mem_profiler.html#afad3cc8e8064a165580679d6969ff34d',1,'MemProfiler']]],
+  ['printmessage_13',['printMessage',['../class_cli_interface_1_1_c_l_i.html#ae5bd6c291d95ba8ddfffc600f5da14bc',1,'CliInterface::CLI']]],
+  ['printramusage_14',['printRAMUsage',['../class_mem_profiler.html#a485004b0b47575e2a7c7e4d657a83312',1,'MemProfiler']]],
+  ['printvramusage_15',['printVRAMUsage',['../class_mem_profiler.html#acf0bab60ac333fbba91fb9f396625fc2',1,'MemProfiler']]],
+  ['processinput_16',['processInput',['../class_console_internals_1_1_console.html#a91704398b294835cc2fd63c295d24e89',1,'ConsoleInternals::Console']]],
+  ['processmonitor_17',['ProcessMonitor',['../class_process_monitor.html#a71f92482867332e0d7b5ea83f8472e5f',1,'ProcessMonitor']]]
 ];

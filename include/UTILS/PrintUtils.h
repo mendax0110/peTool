@@ -17,6 +17,10 @@
 #include <unistd.h>
 #endif
 
+/**
+ * @brief Prints the error message corresponding to the last error that occurred.
+ * @return A string containing the error message.
+ */
 inline std::string getErrorMessage()
 {
 #ifdef _WIN32

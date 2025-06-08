@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: /Users/adriangossl/Documents/git/peTool/include/VIEW/Entropy.h Source File</title>
+<title>peTool: include/VIEW/Entropy.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -81,33 +81,38 @@ $(document).ready(function() { init_codefold(0); });
   <div class="headertitle"><div class="title">Entropy.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="_entropy_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_entropy_internals.html">EntropyInternals</a></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
-<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="class_entropy_internals_1_1_entropy.html">   14</a></span>    <span class="keyword">class </span><a class="code hl_class" href="class_entropy_internals_1_1_entropy.html">Entropy</a></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="class_entropy_internals_1_1_entropy.html#a3d47059f9db166764d05c09190480a73">   17</a></span>        <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a3d47059f9db166764d05c09190480a73">Entropy</a>();</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_entropy_internals_1_1_entropy.html#a9986a614963786c782cd4ec992ac44a9">   18</a></span>        <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a9986a614963786c782cd4ec992ac44a9">~Entropy</a>();</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordtype">double</span> <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a73f40ecde87465ab7414cf03a99c5945">calculateEntropy</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data);</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">static</span> std::vector&lt;int&gt; <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a1371c6cf2989df090cf23f6a141e4382">createHistogram</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">static</span> std::vector&lt;double&gt; <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#ad0744d3a385bc981315d2935f47432ce">calculateProbabilities</a>(<span class="keyword">const</span> std::vector&lt;int&gt;&amp; histogram, <span class="keywordtype">size_t</span> dataSize);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#af04d0a01b3ecd5246ce461becedd6961">printEntropy</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data, <span class="keywordtype">size_t</span> offset, <span class="keywordtype">size_t</span> size);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    };</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_entropy_internals.html">EntropyInternals</a></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="foldopen" id="foldopen00008" data-start="{" data-end="};">
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="class_entropy_internals_1_1_entropy.html">    8</a></span>    <span class="keyword">class </span><a class="code hl_class" href="class_entropy_internals_1_1_entropy.html">Entropy</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="class_entropy_internals_1_1_entropy.html#a3d47059f9db166764d05c09190480a73">   15</a></span>        <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a3d47059f9db166764d05c09190480a73">Entropy</a>();</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="class_entropy_internals_1_1_entropy.html#a9986a614963786c782cd4ec992ac44a9">   20</a></span>        <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a9986a614963786c782cd4ec992ac44a9">~Entropy</a>();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a73f40ecde87465ab7414cf03a99c5945">calculateEntropy</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keyword">static</span> std::vector&lt;int&gt; <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#a1371c6cf2989df090cf23f6a141e4382">createHistogram</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">static</span> std::vector&lt;double&gt; <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#ad0744d3a385bc981315d2935f47432ce">calculateProbabilities</a>(<span class="keyword">const</span> std::vector&lt;int&gt;&amp; histogram, <span class="keywordtype">size_t</span> dataSize);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_entropy_internals_1_1_entropy.html#af04d0a01b3ecd5246ce461becedd6961">printEntropy</a>(<span class="keyword">const</span> std::vector&lt;uint8_t&gt;&amp; data, <span class="keywordtype">size_t</span> offset, <span class="keywordtype">size_t</span> size);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    };</div>
 </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html">EntropyInternals::Entropy</a></div><div class="ttdoc">A class to calculate the entropy of data.</div><div class="ttdef"><b>Definition</b> Entropy.h:15</div></div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a1371c6cf2989df090cf23f6a141e4382"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a1371c6cf2989df090cf23f6a141e4382">EntropyInternals::Entropy::createHistogram</a></div><div class="ttdeci">static std::vector&lt; int &gt; createHistogram(const std::vector&lt; uint8_t &gt; &amp;data)</div><div class="ttdoc">Create a histogram of the data.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:39</div></div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a3d47059f9db166764d05c09190480a73"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a3d47059f9db166764d05c09190480a73">EntropyInternals::Entropy::Entropy</a></div><div class="ttdeci">Entropy()</div></div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a73f40ecde87465ab7414cf03a99c5945"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a73f40ecde87465ab7414cf03a99c5945">EntropyInternals::Entropy::calculateEntropy</a></div><div class="ttdeci">double calculateEntropy(const std::vector&lt; uint8_t &gt; &amp;data)</div><div class="ttdoc">Calculate the entropy of a given data.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:18</div></div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a9986a614963786c782cd4ec992ac44a9"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a9986a614963786c782cd4ec992ac44a9">EntropyInternals::Entropy::~Entropy</a></div><div class="ttdeci">~Entropy()</div></div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_ad0744d3a385bc981315d2935f47432ce"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#ad0744d3a385bc981315d2935f47432ce">EntropyInternals::Entropy::calculateProbabilities</a></div><div class="ttdeci">static std::vector&lt; double &gt; calculateProbabilities(const std::vector&lt; int &gt; &amp;histogram, size_t dataSize)</div><div class="ttdoc">Calculate the probabilities of the histogram.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:55</div></div>
-<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_af04d0a01b3ecd5246ce461becedd6961"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#af04d0a01b3ecd5246ce461becedd6961">EntropyInternals::Entropy::printEntropy</a></div><div class="ttdeci">void printEntropy(const std::vector&lt; uint8_t &gt; &amp;data, size_t offset, size_t size)</div><div class="ttdoc">Print the entropy of the data.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:70</div></div>
-<div class="ttc" id="anamespace_entropy_internals_html"><div class="ttname"><a href="namespace_entropy_internals.html">EntropyInternals</a></div><div class="ttdoc">Namespace for the Entropy class.</div></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html">EntropyInternals::Entropy</a></div><div class="ttdoc">The Entropy class, a class for calculating the entropy of data.</div><div class="ttdef"><b>Definition</b> Entropy.h:9</div></div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a1371c6cf2989df090cf23f6a141e4382"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a1371c6cf2989df090cf23f6a141e4382">EntropyInternals::Entropy::createHistogram</a></div><div class="ttdeci">static std::vector&lt; int &gt; createHistogram(const std::vector&lt; uint8_t &gt; &amp;data)</div><div class="ttdoc">Creates a histogram of byte frequencies from the given data.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:29</div></div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a3d47059f9db166764d05c09190480a73"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a3d47059f9db166764d05c09190480a73">EntropyInternals::Entropy::Entropy</a></div><div class="ttdeci">Entropy()</div><div class="ttdoc">Construct a new Entropy object.</div></div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a73f40ecde87465ab7414cf03a99c5945"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a73f40ecde87465ab7414cf03a99c5945">EntropyInternals::Entropy::calculateEntropy</a></div><div class="ttdeci">static double calculateEntropy(const std::vector&lt; uint8_t &gt; &amp;data)</div><div class="ttdoc">Calculates the entropy of the given data.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:13</div></div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_a9986a614963786c782cd4ec992ac44a9"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#a9986a614963786c782cd4ec992ac44a9">EntropyInternals::Entropy::~Entropy</a></div><div class="ttdeci">~Entropy()</div><div class="ttdoc">Destroy the Entropy object.</div></div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_ad0744d3a385bc981315d2935f47432ce"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#ad0744d3a385bc981315d2935f47432ce">EntropyInternals::Entropy::calculateProbabilities</a></div><div class="ttdeci">static std::vector&lt; double &gt; calculateProbabilities(const std::vector&lt; int &gt; &amp;histogram, size_t dataSize)</div><div class="ttdoc">Calculates the probabilities of each byte in the histogram.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:39</div></div>
+<div class="ttc" id="aclass_entropy_internals_1_1_entropy_html_af04d0a01b3ecd5246ce461becedd6961"><div class="ttname"><a href="class_entropy_internals_1_1_entropy.html#af04d0a01b3ecd5246ce461becedd6961">EntropyInternals::Entropy::printEntropy</a></div><div class="ttdeci">static void printEntropy(const std::vector&lt; uint8_t &gt; &amp;data, size_t offset, size_t size)</div><div class="ttdoc">Prints the entropy of the data at a specific offset and size.</div><div class="ttdef"><b>Definition</b> Entropy.cpp:50</div></div>
+<div class="ttc" id="anamespace_entropy_internals_html"><div class="ttname"><a href="namespace_entropy_internals.html">EntropyInternals</a></div><div class="ttdoc">EntropyInternals namespace, which contains the Entropy class for calculating entropy of data.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

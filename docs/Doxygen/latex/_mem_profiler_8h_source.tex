@@ -1,0 +1,78 @@
+\doxysection{Mem\+Profiler.\+h}
+\hypertarget{_mem_profiler_8h_source}{}\label{_mem_profiler_8h_source}\index{include/MANMON/MemProfiler.h@{include/MANMON/MemProfiler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_base_mem_profiler}{BaseMemProfiler}}}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_base_mem_profiler_a65544e2f75c428266ebce6347f1ef9b6}{getMemoryUsage}}()\ =\ 0;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_base_mem_profiler_af5e63f6eb909b5dfa843b3e260ccd69f}{getRAMUsage}}()\ =\ 0;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{virtual}\ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_base_mem_profiler_af9ae10c0b383d05a6b38c6197ab16c50}{getVRAMUsage}}()\ =\ 0;}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_base_mem_profiler_a121b0d2867e6077f62a2fd58388bce4c}{\string~BaseMemProfiler}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_win_mem_profiler}{WinMemProfiler}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_base_mem_profiler}{BaseMemProfiler}}}
+\DoxyCodeLine{00039\ \{}
+\DoxyCodeLine{00040\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00046\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_win_mem_profiler_a062a57a886f34b7586de5cf23a6b0154}{getMemoryUsage}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00052\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_win_mem_profiler_a83cecd5a020dd05834980e3042fe2239}{getRAMUsage}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00058\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_win_mem_profiler_af81ddfe148d3e62c71483209192101a9}{getVRAMUsage}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00059\ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_mac_mem_profiler}{MacMemProfiler}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_base_mem_profiler}{BaseMemProfiler}}}
+\DoxyCodeLine{00063\ \{}
+\DoxyCodeLine{00064\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00070\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_mac_mem_profiler_a9f8c7869f0d66404527b36662af97896}{getMemoryUsage}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00076\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_mac_mem_profiler_aab036e659f515b5f0d2974a14b926b46}{getRAMUsage}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00082\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ \mbox{\hyperlink{class_mac_mem_profiler_ae833ceaf9bd55cb61ebbc8a6a7296be8}{getVRAMUsage}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00083\ \};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00086\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_mem_profiler}{MemProfiler}}}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00089\ \ \ \ \ std::unique\_ptr<BaseMemProfiler>\ profiler;}
+\DoxyCodeLine{00090\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ memoryUsage;}
+\DoxyCodeLine{00091\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ ramUsage;}
+\DoxyCodeLine{00092\ \ \ \ \ std::vector<std::pair<std::string,\ size\_t>>\ vramUsage;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00099\ \ \ \ \ \mbox{\hyperlink{class_mem_profiler_ac2e2e077d370cceee598284bf262a334}{MemProfiler}}();}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mem_profiler_aff2373527117a5509351bc03a139019b}{populateMemoryUsage}}();}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mem_profiler_a30cf6cafd8bd8ba16f0e17439b335ac0}{populateRAMUsage}}();}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mem_profiler_ac86a711c275efc9a8d4d1931950ae80d}{populateVRAMUsage}}();}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_mem_profiler_a2fbf55a9fb8aa9b319c27c334e00c279}{getTotalMemoryUsage}}();}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_mem_profiler_a0e92eda27a6831e06cb1b14f02a88d27}{getTotalRAMUsage}}();}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_mem_profiler_ab446166bd5011752e6956cc5fc7328fb}{getTotalVRAMUsage}}();}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mem_profiler_afad3cc8e8064a165580679d6969ff34d}{printMemoryUsage}}();}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mem_profiler_a485004b0b47575e2a7c7e4d657a83312}{printRAMUsage}}();}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_mem_profiler_acf0bab60ac333fbba91fb9f396625fc2}{printVRAMUsage}}();}
+\DoxyCodeLine{00148\ \};}
+
+\end{DoxyCode}

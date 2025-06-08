@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_5f_5fhas_5finclude_0',['__has_include',['../_c_make_c_compiler_id_8c.html#ae5510d82e4946f1656f4969911c54736',1,'__has_include:&#160;CMakeCCompilerId.c'],['../_c_make_c_x_x_compiler_id_8cpp.html#ae5510d82e4946f1656f4969911c54736',1,'__has_include:&#160;CMakeCXXCompilerId.cpp']]]
+  ['04_20and_20macos_0',['On Ubuntu 14.04+ and macOS',['../md_external_2imgui_2examples_2example__allegro5_2_r_e_a_d_m_e.html#autotoc_md175',1,'']]]
 ];

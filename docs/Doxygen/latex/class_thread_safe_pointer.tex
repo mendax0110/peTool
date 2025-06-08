@@ -1,0 +1,85 @@
+\doxysection{Thread\+Safe\+Pointer\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_thread_safe_pointer}{}\label{class_thread_safe_pointer}\index{ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}}
+
+
+Thread-\/safe pointer wrapper class that manages the lifetime of a pointer and provides thread-\/safe operations.  
+
+
+
+
+{\ttfamily \#include $<$Ptr\+Utils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_thread_safe_pointer_a74bf867f56db64947330d465eb2d66bf}{Thread\+Safe\+Pointer}} (T \texorpdfstring{$\ast$}{*}p=nullptr)
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{class_thread_safe_pointer}{Thread\+Safe\+Pointer} with an optional pointer. \end{DoxyCompactList}\item 
+\Hypertarget{class_thread_safe_pointer_a0a9e053864b22a6db36cb3ebe3aa40ce}\label{class_thread_safe_pointer_a0a9e053864b22a6db36cb3ebe3aa40ce} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Thread\+Safe\+Pointer} ()
+\begin{DoxyCompactList}\small\item\em Destructor that safely deletes the pointer. This ensures that the pointer is deleted when the \doxylink{class_thread_safe_pointer}{Thread\+Safe\+Pointer} goes out of scope. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_thread_safe_pointer_a91f03a7116a9cd90660b8f6008ab82e2}{set}} (T \texorpdfstring{$\ast$}{*}p)
+\begin{DoxyCompactList}\small\item\em Set the pointer to a new value in a thread-\/safe manner. \end{DoxyCompactList}\item 
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_thread_safe_pointer_aa6fd71da9a107cd507b2acda6d323681}{get}} () const
+\begin{DoxyCompactList}\small\item\em Get the pointer value in a thread-\/safe manner. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Thread\+Safe\+Pointer$<$ T $>$}
+Thread-\/safe pointer wrapper class that manages the lifetime of a pointer and provides thread-\/safe operations. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_thread_safe_pointer_a74bf867f56db64947330d465eb2d66bf}\label{class_thread_safe_pointer_a74bf867f56db64947330d465eb2d66bf} 
+\index{ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}!ThreadSafePointer@{ThreadSafePointer}}
+\index{ThreadSafePointer@{ThreadSafePointer}!ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ThreadSafePointer()}{ThreadSafePointer()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{class_thread_safe_pointer}{Thread\+Safe\+Pointer}}$<$ T $>$\mbox{\hyperlink{class_thread_safe_pointer}{\+::\+Thread\+Safe\+Pointer}} (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{p = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Construct a \doxylink{class_thread_safe_pointer}{Thread\+Safe\+Pointer} with an optional pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pointer to initialize the \doxylink{class_thread_safe_pointer}{Thread\+Safe\+Pointer} with. Defaults to nullptr. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_thread_safe_pointer_aa6fd71da9a107cd507b2acda6d323681}\label{class_thread_safe_pointer_aa6fd71da9a107cd507b2acda6d323681} 
+\index{ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}!get@{get}}
+\index{get@{get}!ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_thread_safe_pointer}{Thread\+Safe\+Pointer}}$<$ T $>$\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the pointer value in a thread-\/safe manner. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the managed object. 
+\end{DoxyReturn}
+\Hypertarget{class_thread_safe_pointer_a91f03a7116a9cd90660b8f6008ab82e2}\label{class_thread_safe_pointer_a91f03a7116a9cd90660b8f6008ab82e2} 
+\index{ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}!set@{set}}
+\index{set@{set}!ThreadSafePointer$<$ T $>$@{ThreadSafePointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{class_thread_safe_pointer}{Thread\+Safe\+Pointer}}$<$ T $>$\+::set (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the pointer to a new value in a thread-\/safe manner. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pointer to set the \doxylink{class_thread_safe_pointer}{Thread\+Safe\+Pointer} to. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+UTILS/Ptr\+Utils.\+h\end{DoxyCompactItemize}

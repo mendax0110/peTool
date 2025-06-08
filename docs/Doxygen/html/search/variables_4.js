@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['headers_0',['headers',['../class_database.html#abe1aebfe6128617279eb79823b43f6fa',1,'Database']]],
-  ['historyindex_1',['historyIndex',['../class_console_internals_1_1_console.html#a766ad92be2d7d25de49995bf9ba2fbd1',1,'ConsoleInternals::Console']]]
+  ['red_0',['red',['../struct_g_l_f_wgammaramp.html#a2cce5d968734b685623eef913e635138',1,'GLFWgammaramp']]],
+  ['redbits_1',['redBits',['../struct_g_l_f_wvidmode.html#a6066c4ecd251098700062d3b735dba1b',1,'GLFWvidmode']]],
+  ['refreshrate_2',['refreshRate',['../struct_g_l_f_wvidmode.html#a791bdd6c7697b09f7e9c97054bf05649',1,'GLFWvidmode']]]
 ];

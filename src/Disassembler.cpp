@@ -10,12 +10,6 @@ Disassembler::Disassembler() = default;
 
 Disassembler::~Disassembler() = default;
 
-/**
- * @brief Disassemble 32-bit x86 instructions
- * @param data The executable data
- * @param offset The offset to start disassembling
- * @param size The size of the executable data
- */
 void Disassembler::disassemble32bit(const std::vector<uint8_t>& data, size_t offset, size_t size)
 {
     for (size_t i = 0; i < size; ++i)
@@ -32,12 +26,6 @@ void Disassembler::disassemble32bit(const std::vector<uint8_t>& data, size_t off
     }
 }
 
-/**
- * @brief Disassemble 64-bit x86 instructions
- * @param data The executable data
- * @param offset The offset to start disassembling
- * @param size The size of the executable data
- */
 void Disassembler::disassemble64bit(const std::vector<uint8_t>& data, size_t offset, size_t size)
 {
     for (size_t i = 0; i < size; ++i)
@@ -54,12 +42,6 @@ void Disassembler::disassemble64bit(const std::vector<uint8_t>& data, size_t off
     }
 }
 
-/**
- * @brief Disassemble ARM instructions
- * @param data The executable data
- * @param offset The offset to start disassembling
- * @param size The size of the executable data
- */
 void Disassembler::dissassembleArm(const std::vector<uint8_t>& data, size_t offset, size_t size)
 {
     for (size_t i = 0; i < size; ++i)
@@ -76,12 +58,6 @@ void Disassembler::dissassembleArm(const std::vector<uint8_t>& data, size_t offs
     }
 }
 
-/**
- * @brief Print the disassembly of an executable
- * @param data The executable data
- * @param offset The offset to start disassembling
- * @param size The size of the executable data
- */
 void Disassembler::printDisassembly(const std::vector<uint8_t>& data, size_t offset, size_t size)
 {
     std::cout << "Name\tOffset\tSize\tDisassembly" << std::endl;
@@ -107,11 +83,6 @@ void Disassembler::printDisassembly(const std::vector<uint8_t>& data, size_t off
     }
 }
 
-/**
- * @brief Get the executable data from a file
- * @param path The path to the executable
- * @return A tuple containing the executable data, offset, and size
- */
 std::tuple<std::vector<uint8_t>, size_t, size_t> Disassembler::getExecutable(const std::string& path)
 {
     std::ifstream file(path, std::ios::binary);

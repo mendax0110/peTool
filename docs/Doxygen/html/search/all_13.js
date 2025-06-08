@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['undo_0',['Undo',['../class_file_editor_internals_1_1_file_editor.html#aac399823a5551b210f24a0acccbd35c5',1,'FileEditorInternals::FileEditor']]],
-  ['undostack_1',['undoStack',['../class_file_editor_internals_1_1_file_editor.html#a1e86a7566ba8e47d9d39e2ec2e628012',1,'FileEditorInternals::FileEditor']]],
-  ['untils_2ecpp_2',['Untils.cpp',['../_untils_8cpp.html',1,'']]],
-  ['utils_3',['utils',['../class_utils_internals_1_1_utils.html',1,'UtilsInternals::Utils'],['../class_utils_internals_1_1_utils.html#a452e78692c87ed5c7c993b6c6ac4981a',1,'UtilsInternals::Utils::Utils()']]],
-  ['utils_2eh_4',['Utils.h',['../_utils_8h.html',1,'']]],
-  ['utilsinternals_5',['UtilsInternals',['../namespace_utils_internals.html',1,'']]]
+  ['native_20access_0',['Native access',['../group__native.html',1,'']]],
+  ['node_1',['Node',['../struct_node.html',1,'']]],
+  ['non_20ascii_20strings_2',['(2) Invalid UTF-8 encoding of your non-ASCII strings.',['../md_external_2imgui_2docs_2_f_o_n_t_s.html#autotoc_md109',1,'']]],
+  ['non_20latin_20characters_20such_20as_20chinese_20japanese_20korean_20cyrillic_3',['Q: How can I display and input non-Latin characters such as Chinese, Japanese, Korean, Cyrillic?',['../md_external_2imgui_2docs_2_f_a_q.html#autotoc_md85',1,'']]],
+  ['not_20reacting_20when_20i_20click_20on_20it_4',['Q: Why is my widget not reacting when I click on it?',['../md_external_2imgui_2docs_2_f_a_q.html#autotoc_md52',1,'']]],
+  ['nscursor_28_29_5',['NSCursor()',['../category_n_s_cursor_07_08.html',1,'']]]
 ];

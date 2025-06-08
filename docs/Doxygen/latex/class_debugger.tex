@@ -1,0 +1,325 @@
+\doxysection{Debugger Class Reference}
+\hypertarget{class_debugger}{}\label{class_debugger}\index{Debugger@{Debugger}}
+
+
+\doxylink{class_debugger}{Debugger} class, which provides methods for debugging applications.  
+
+
+
+
+{\ttfamily \#include $<$Debugger.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_debugger_a0d542b4ace585987ab6e3b5eb2639a0e}\label{class_debugger_a0d542b4ace585987ab6e3b5eb2639a0e} 
+enum class \mbox{\hyperlink{class_debugger_a0d542b4ace585987ab6e3b5eb2639a0e}{Debugger\+State}} \{ {\bfseries Running}
+, {\bfseries Paused}
+, {\bfseries Exited}
+ \}
+\begin{DoxyCompactList}\small\item\em Get the current state of the debugger. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_debugger_a2b76be38cdcef612b0f307758c5ea17a}\label{class_debugger_a2b76be38cdcef612b0f307758c5ea17a} 
+{\bfseries Debugger} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_debugger}{Debugger} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_debugger_a12f822c5d6749212d35a6ff006edcf31}\label{class_debugger_a12f822c5d6749212d35a6ff006edcf31} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Debugger} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_debugger}{Debugger} object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_a5629e706a3eba9b10f32ad985c477c94}{start\+Debugging}} (const std\+::string \&executable\+Path)
+\begin{DoxyCompactList}\small\item\em Start debugging the specified executable. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_ad30e09cfe90d17a53951c4c96416392e}{step\+Into}} ()
+\begin{DoxyCompactList}\small\item\em Step into the next instruction. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_a6b1ada14d842f1ed9c8656393c57b4a2}{step\+Over}} ()
+\begin{DoxyCompactList}\small\item\em Step over the next instruction. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_a32bffba87f4767bbb1f170727f25108f}{step\+Out}} ()
+\begin{DoxyCompactList}\small\item\em Step out of the current function. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_a0865e65bab3d25f6d016dad12a3830f9}{run}} ()
+\begin{DoxyCompactList}\small\item\em Run the program until the next breakpoint. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_a1ea7e836948af8b287aee646e8891aac}{set\+Breakpoint}} (unsigned long long address)
+\begin{DoxyCompactList}\small\item\em Set a breakpoint at the specified address. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_acdbad72e4089dfc812c7aa965f8f81bf}{remove\+Breakpoint}} (unsigned long long address)
+\begin{DoxyCompactList}\small\item\em Remove the breakpoint at the specified address. \end{DoxyCompactList}\item 
+unsigned long long \mbox{\hyperlink{class_debugger_ae4d97baa77ecb4cfe8c4337d7c4e414a}{get\+Register\+Value}} (const std\+::string \&register\+Name)
+\begin{DoxyCompactList}\small\item\em Get the value of the specified register. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, unsigned long long $>$ $>$ \mbox{\hyperlink{class_debugger_a997c3fa2fb4bfeec551ea515426e3411}{get\+Registers}} ()
+\begin{DoxyCompactList}\small\item\em Get all registers and their values. \end{DoxyCompactList}\item 
+unsigned long long \mbox{\hyperlink{class_debugger_a92bc79fdd132a4dbbcf6a65887f64399}{get\+Instruction\+Pointer}} ()
+\begin{DoxyCompactList}\small\item\em Get the instruction pointer. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_debugger_ab3ed758b2df188a6396688daddaef676}{read\+Memory}} (unsigned long long address, void \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Read memory at the specified address. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_debugger_a0d542b4ace585987ab6e3b5eb2639a0e}{Debugger\+State}} \mbox{\hyperlink{class_debugger_ae6dac996d24b2e5c667389f56c66a066}{get\+State}} ()
+\begin{DoxyCompactList}\small\item\em Get the current state of the debugger. \end{DoxyCompactList}\item 
+\Hypertarget{class_debugger_a4bdfcfb6cce33544dd8cb10715f4e964}\label{class_debugger_a4bdfcfb6cce33544dd8cb10715f4e964} 
+void {\bfseries terminate} ()
+\begin{DoxyCompactList}\small\item\em Terminate the debugger process. This will close the debugger and clean up any resources used. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{class_debugger_a29b577de91869b034526d60e8da54941}{write\+Memory}} (unsigned long long address, const void \texorpdfstring{$\ast$}{*}buffer, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Write memory at the specified address. \end{DoxyCompactList}\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_debugger_ac123fb1a96df85773cf3482c526019fc}{get\+Call\+Stack}} ()
+\begin{DoxyCompactList}\small\item\em Get the current call stack. \end{DoxyCompactList}\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_debugger_abc3669b1d15b0b6b89b0c27c46713fcc}{get\+Watch}} ()
+\begin{DoxyCompactList}\small\item\em Get the current registers. \end{DoxyCompactList}\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_debugger_ac159971b393235e504c0313c38317381}{get\+Locals}} ()
+\begin{DoxyCompactList}\small\item\em Get the current locals. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_debugger}{Debugger} class, which provides methods for debugging applications. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_debugger_ac123fb1a96df85773cf3482c526019fc}\label{class_debugger_ac123fb1a96df85773cf3482c526019fc} 
+\index{Debugger@{Debugger}!getCallStack@{getCallStack}}
+\index{getCallStack@{getCallStack}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getCallStack()}{getCallStack()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Debugger\+::get\+Call\+Stack (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the current call stack. 
+
+\begin{DoxyReturn}{Returns}
+Vector of strings containing the call stack. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a92bc79fdd132a4dbbcf6a65887f64399}\label{class_debugger_a92bc79fdd132a4dbbcf6a65887f64399} 
+\index{Debugger@{Debugger}!getInstructionPointer@{getInstructionPointer}}
+\index{getInstructionPointer@{getInstructionPointer}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getInstructionPointer()}{getInstructionPointer()}}
+{\footnotesize\ttfamily unsigned long long Debugger\+::get\+Instruction\+Pointer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the instruction pointer. 
+
+\begin{DoxyReturn}{Returns}
+Value of the instruction pointer. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_ac159971b393235e504c0313c38317381}\label{class_debugger_ac159971b393235e504c0313c38317381} 
+\index{Debugger@{Debugger}!getLocals@{getLocals}}
+\index{getLocals@{getLocals}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getLocals()}{getLocals()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Debugger\+::get\+Locals (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the current locals. 
+
+\begin{DoxyReturn}{Returns}
+Vector of strings containing the local variables. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a997c3fa2fb4bfeec551ea515426e3411}\label{class_debugger_a997c3fa2fb4bfeec551ea515426e3411} 
+\index{Debugger@{Debugger}!getRegisters@{getRegisters}}
+\index{getRegisters@{getRegisters}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getRegisters()}{getRegisters()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, unsigned long long $>$ $>$ Debugger\+::get\+Registers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get all registers and their values. 
+
+\begin{DoxyReturn}{Returns}
+Vector of pairs containing the register name and value. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_ae4d97baa77ecb4cfe8c4337d7c4e414a}\label{class_debugger_ae4d97baa77ecb4cfe8c4337d7c4e414a} 
+\index{Debugger@{Debugger}!getRegisterValue@{getRegisterValue}}
+\index{getRegisterValue@{getRegisterValue}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getRegisterValue()}{getRegisterValue()}}
+{\footnotesize\ttfamily unsigned long long Debugger\+::get\+Register\+Value (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{register\+Name }\end{DoxyParamCaption})}
+
+
+
+Get the value of the specified register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em register\+Name} & Name of the register to get the value of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Value of the register. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_ae6dac996d24b2e5c667389f56c66a066}\label{class_debugger_ae6dac996d24b2e5c667389f56c66a066} 
+\index{Debugger@{Debugger}!getState@{getState}}
+\index{getState@{getState}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getState()}{getState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_debugger_a0d542b4ace585987ab6e3b5eb2639a0e}{Debugger\+State}} Debugger\+::get\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the current state of the debugger. 
+
+\begin{DoxyReturn}{Returns}
+Current state of the debugger. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_abc3669b1d15b0b6b89b0c27c46713fcc}\label{class_debugger_abc3669b1d15b0b6b89b0c27c46713fcc} 
+\index{Debugger@{Debugger}!getWatch@{getWatch}}
+\index{getWatch@{getWatch}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{getWatch()}{getWatch()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ Debugger\+::get\+Watch (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the current registers. 
+
+\begin{DoxyReturn}{Returns}
+Vector of pairs containing the register name and value. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_ab3ed758b2df188a6396688daddaef676}\label{class_debugger_ab3ed758b2df188a6396688daddaef676} 
+\index{Debugger@{Debugger}!readMemory@{readMemory}}
+\index{readMemory@{readMemory}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{readMemory()}{readMemory()}}
+{\footnotesize\ttfamily bool Debugger\+::read\+Memory (\begin{DoxyParamCaption}\item[{unsigned long long}]{address,  }\item[{void \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+
+
+Read memory at the specified address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & Address to read memory from. \\
+\hline
+{\em buffer} & Buffer to store the memory in. \\
+\hline
+{\em size} & Size of the memory to read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the memory was successfully read, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_acdbad72e4089dfc812c7aa965f8f81bf}\label{class_debugger_acdbad72e4089dfc812c7aa965f8f81bf} 
+\index{Debugger@{Debugger}!removeBreakpoint@{removeBreakpoint}}
+\index{removeBreakpoint@{removeBreakpoint}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{removeBreakpoint()}{removeBreakpoint()}}
+{\footnotesize\ttfamily bool Debugger\+::remove\+Breakpoint (\begin{DoxyParamCaption}\item[{unsigned long long}]{address }\end{DoxyParamCaption})}
+
+
+
+Remove the breakpoint at the specified address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & Address to remove the breakpoint from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the breakpoint was successfully removed, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a0865e65bab3d25f6d016dad12a3830f9}\label{class_debugger_a0865e65bab3d25f6d016dad12a3830f9} 
+\index{Debugger@{Debugger}!run@{run}}
+\index{run@{run}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily bool Debugger\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run the program until the next breakpoint. 
+
+\begin{DoxyReturn}{Returns}
+true if the run was successful, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a1ea7e836948af8b287aee646e8891aac}\label{class_debugger_a1ea7e836948af8b287aee646e8891aac} 
+\index{Debugger@{Debugger}!setBreakpoint@{setBreakpoint}}
+\index{setBreakpoint@{setBreakpoint}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{setBreakpoint()}{setBreakpoint()}}
+{\footnotesize\ttfamily bool Debugger\+::set\+Breakpoint (\begin{DoxyParamCaption}\item[{unsigned long long}]{address }\end{DoxyParamCaption})}
+
+
+
+Set a breakpoint at the specified address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & Address to set the breakpoint at. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the breakpoint was successfully set, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a5629e706a3eba9b10f32ad985c477c94}\label{class_debugger_a5629e706a3eba9b10f32ad985c477c94} 
+\index{Debugger@{Debugger}!startDebugging@{startDebugging}}
+\index{startDebugging@{startDebugging}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{startDebugging()}{startDebugging()}}
+{\footnotesize\ttfamily bool Debugger\+::start\+Debugging (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{executable\+Path }\end{DoxyParamCaption})}
+
+
+
+Start debugging the specified executable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em executable\+Path} & Path to the executable to debug. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the debugger was successfully started, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_ad30e09cfe90d17a53951c4c96416392e}\label{class_debugger_ad30e09cfe90d17a53951c4c96416392e} 
+\index{Debugger@{Debugger}!stepInto@{stepInto}}
+\index{stepInto@{stepInto}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{stepInto()}{stepInto()}}
+{\footnotesize\ttfamily bool Debugger\+::step\+Into (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Step into the next instruction. 
+
+\begin{DoxyReturn}{Returns}
+true if the step was successful, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a32bffba87f4767bbb1f170727f25108f}\label{class_debugger_a32bffba87f4767bbb1f170727f25108f} 
+\index{Debugger@{Debugger}!stepOut@{stepOut}}
+\index{stepOut@{stepOut}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{stepOut()}{stepOut()}}
+{\footnotesize\ttfamily bool Debugger\+::step\+Out (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Step out of the current function. 
+
+\begin{DoxyReturn}{Returns}
+true if the step was successful, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a6b1ada14d842f1ed9c8656393c57b4a2}\label{class_debugger_a6b1ada14d842f1ed9c8656393c57b4a2} 
+\index{Debugger@{Debugger}!stepOver@{stepOver}}
+\index{stepOver@{stepOver}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{stepOver()}{stepOver()}}
+{\footnotesize\ttfamily bool Debugger\+::step\+Over (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Step over the next instruction. 
+
+\begin{DoxyReturn}{Returns}
+true if the step was successful, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_debugger_a29b577de91869b034526d60e8da54941}\label{class_debugger_a29b577de91869b034526d60e8da54941} 
+\index{Debugger@{Debugger}!writeMemory@{writeMemory}}
+\index{writeMemory@{writeMemory}!Debugger@{Debugger}}
+\doxysubsubsection{\texorpdfstring{writeMemory()}{writeMemory()}}
+{\footnotesize\ttfamily bool Debugger\+::write\+Memory (\begin{DoxyParamCaption}\item[{unsigned long long}]{address,  }\item[{const void \texorpdfstring{$\ast$}{*}}]{buffer,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Write memory at the specified address. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em address} & Address to write memory to. \\
+\hline
+{\em buffer} & Buffer containing the memory to write. \\
+\hline
+{\em size} & Size of the memory to write. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the memory was successfully written, false otherwise. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Debugger.\+h\item 
+src/Debugger.\+cpp\end{DoxyCompactItemize}

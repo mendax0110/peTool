@@ -1,0 +1,139 @@
+\doxysection{Dissassembler\+Internals\+::Disassembler Class Reference}
+\hypertarget{class_dissassembler_internals_1_1_disassembler}{}\label{class_dissassembler_internals_1_1_disassembler}\index{DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}}
+
+
+The \doxylink{class_dissassembler_internals_1_1_disassembler}{Disassembler} class.  
+
+
+
+
+{\ttfamily \#include $<$Disassembler.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_a29059b29d68850eb1e5bc8614ab27eb5}\label{class_dissassembler_internals_1_1_disassembler_a29059b29d68850eb1e5bc8614ab27eb5} 
+{\bfseries Disassembler} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_dissassembler_internals_1_1_disassembler}{Disassembler} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_ab1890cca0da800fcb3391f3b4906c98f}\label{class_dissassembler_internals_1_1_disassembler_ab1890cca0da800fcb3391f3b4906c98f} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Disassembler} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_dissassembler_internals_1_1_disassembler}{Disassembler} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_dissassembler_internals_1_1_disassembler_a69612bc2f2ccd228a956b7539d598f3d}{disassemble32bit}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Disassemble 32-\/bit x86 instructions. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_dissassembler_internals_1_1_disassembler_a5bd3beec0439323f85be9578f56c649a}{disassemble64bit}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Disassemble 64-\/bit x86 instructions. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_dissassembler_internals_1_1_disassembler_a26babbf77b10d544cf483421fc8588f8}{dissassemble\+Arm}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Disassemble ARM instructions. \end{DoxyCompactList}\item 
+static std\+::tuple$<$ std\+::vector$<$ uint8\+\_\+t $>$, size\+\_\+t, size\+\_\+t $>$ \mbox{\hyperlink{class_dissassembler_internals_1_1_disassembler_a44edf12188d89421e957ebc88565d9ce}{get\+Executable}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Get the executable data from a file. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_dissassembler_internals_1_1_disassembler_af481fdcccf15816688252c01591bf22c}{print\+Disassembly}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Print the disassembly of an executable. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_dissassembler_internals_1_1_disassembler}{Disassembler} class. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_a69612bc2f2ccd228a956b7539d598f3d}\label{class_dissassembler_internals_1_1_disassembler_a69612bc2f2ccd228a956b7539d598f3d} 
+\index{DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}!disassemble32bit@{disassemble32bit}}
+\index{disassemble32bit@{disassemble32bit}!DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}}
+\doxysubsubsection{\texorpdfstring{disassemble32bit()}{disassemble32bit()}}
+{\footnotesize\ttfamily void Disassembler\+::disassemble32bit (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Disassemble 32-\/bit x86 instructions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The executable data \\
+\hline
+{\em offset} & The offset to start disassembling \\
+\hline
+{\em size} & The size of the executable data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_a5bd3beec0439323f85be9578f56c649a}\label{class_dissassembler_internals_1_1_disassembler_a5bd3beec0439323f85be9578f56c649a} 
+\index{DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}!disassemble64bit@{disassemble64bit}}
+\index{disassemble64bit@{disassemble64bit}!DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}}
+\doxysubsubsection{\texorpdfstring{disassemble64bit()}{disassemble64bit()}}
+{\footnotesize\ttfamily void Disassembler\+::disassemble64bit (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Disassemble 64-\/bit x86 instructions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The executable data \\
+\hline
+{\em offset} & The offset to start disassembling \\
+\hline
+{\em size} & The size of the executable data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_a26babbf77b10d544cf483421fc8588f8}\label{class_dissassembler_internals_1_1_disassembler_a26babbf77b10d544cf483421fc8588f8} 
+\index{DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}!dissassembleArm@{dissassembleArm}}
+\index{dissassembleArm@{dissassembleArm}!DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}}
+\doxysubsubsection{\texorpdfstring{dissassembleArm()}{dissassembleArm()}}
+{\footnotesize\ttfamily void Disassembler\+::dissassemble\+Arm (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Disassemble ARM instructions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The executable data \\
+\hline
+{\em offset} & The offset to start disassembling \\
+\hline
+{\em size} & The size of the executable data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_a44edf12188d89421e957ebc88565d9ce}\label{class_dissassembler_internals_1_1_disassembler_a44edf12188d89421e957ebc88565d9ce} 
+\index{DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}!getExecutable@{getExecutable}}
+\index{getExecutable@{getExecutable}!DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}}
+\doxysubsubsection{\texorpdfstring{getExecutable()}{getExecutable()}}
+{\footnotesize\ttfamily std\+::tuple$<$ std\+::vector$<$ uint8\+\_\+t $>$, size\+\_\+t, size\+\_\+t $>$ Disassembler\+::get\+Executable (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the executable data from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path to the executable \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A tuple containing the executable data, offset, and size 
+\end{DoxyReturn}
+\Hypertarget{class_dissassembler_internals_1_1_disassembler_af481fdcccf15816688252c01591bf22c}\label{class_dissassembler_internals_1_1_disassembler_af481fdcccf15816688252c01591bf22c} 
+\index{DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}!printDisassembly@{printDisassembly}}
+\index{printDisassembly@{printDisassembly}!DissassemblerInternals::Disassembler@{DissassemblerInternals::Disassembler}}
+\doxysubsubsection{\texorpdfstring{printDisassembly()}{printDisassembly()}}
+{\footnotesize\ttfamily void Disassembler\+::print\+Disassembly (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Print the disassembly of an executable. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The executable data \\
+\hline
+{\em offset} & The offset to start disassembling \\
+\hline
+{\em size} & The size of the executable data \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Disassembler.\+h\item 
+src/Disassembler.\+cpp\end{DoxyCompactItemize}

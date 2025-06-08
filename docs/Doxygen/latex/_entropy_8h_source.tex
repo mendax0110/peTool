@@ -1,0 +1,28 @@
+\doxysection{Entropy.\+h}
+\hypertarget{_entropy_8h_source}{}\label{_entropy_8h_source}\index{include/VIEW/Entropy.h@{include/VIEW/Entropy.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_entropy_internals}{EntropyInternals}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entropy_internals_1_1_entropy}{Entropy}}}
+\DoxyCodeLine{00009\ \ \ \ \ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_a3d47059f9db166764d05c09190480a73}{Entropy}}();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_a9986a614963786c782cd4ec992ac44a9}{\string~Entropy}}();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_a73f40ecde87465ab7414cf03a99c5945}{calculateEntropy}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::vector<int>\ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_a1371c6cf2989df090cf23f6a141e4382}{createHistogram}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::vector<double>\ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_ad0744d3a385bc981315d2935f47432ce}{calculateProbabilities}}(\textcolor{keyword}{const}\ std::vector<int>\&\ histogram,\ \textcolor{keywordtype}{size\_t}\ dataSize);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_af04d0a01b3ecd5246ce461becedd6961}{printEntropy}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ data,\ \textcolor{keywordtype}{size\_t}\ offset,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00051\ \ \ \ \ \};}
+\DoxyCodeLine{00052\ \}}
+
+\end{DoxyCode}

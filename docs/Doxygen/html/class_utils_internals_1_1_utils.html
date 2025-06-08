@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: UtilsInternals::Utils Class Reference</title>
+<title>peTool: UtilsInternals::Utils Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -81,90 +81,43 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_utils_internals_1_1_utils.html" title="The Utils class.">Utils</a> class.  
+<p>The <a class="el" href="class_utils_internals_1_1_utils.html" title="The Utils class, a class for various utility functions.">Utils</a> class, a class for various utility functions.  
  <a href="class_utils_internals_1_1_utils.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_utils_8h_source.html">Utils.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a452e78692c87ed5c7c993b6c6ac4981a" id="r_a452e78692c87ed5c7c993b6c6ac4981a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#a452e78692c87ed5c7c993b6c6ac4981a">Utils</a> ()</td></tr>
+<tr class="memitem:a452e78692c87ed5c7c993b6c6ac4981a" id="r_a452e78692c87ed5c7c993b6c6ac4981a"><td class="memItemLeft" align="right" valign="top"><a id="a452e78692c87ed5c7c993b6c6ac4981a" name="a452e78692c87ed5c7c993b6c6ac4981a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Utils</b> ()</td></tr>
+<tr class="memdesc:a452e78692c87ed5c7c993b6c6ac4981a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_utils_internals_1_1_utils.html" title="The Utils class, a class for various utility functions.">Utils</a> object. <br /></td></tr>
 <tr class="separator:a452e78692c87ed5c7c993b6c6ac4981a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa5e70facffc286607498e7edb639b8a" id="r_afa5e70facffc286607498e7edb639b8a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#afa5e70facffc286607498e7edb639b8a">~Utils</a> ()</td></tr>
+<tr class="memitem:afa5e70facffc286607498e7edb639b8a" id="r_afa5e70facffc286607498e7edb639b8a"><td class="memItemLeft" align="right" valign="top"><a id="afa5e70facffc286607498e7edb639b8a" name="afa5e70facffc286607498e7edb639b8a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~Utils</b> ()</td></tr>
+<tr class="memdesc:afa5e70facffc286607498e7edb639b8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="class_utils_internals_1_1_utils.html" title="The Utils class, a class for various utility functions.">Utils</a> object. <br /></td></tr>
 <tr class="separator:afa5e70facffc286607498e7edb639b8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a6336d59dd97a61b7bbafe07aa740a95b" id="r_a6336d59dd97a61b7bbafe07aa740a95b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#a6336d59dd97a61b7bbafe07aa740a95b">printBytes</a> (const std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="memdesc:a6336d59dd97a61b7bbafe07aa740a95b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the bytes in the data vector.  <br /></td></tr>
+<tr class="memdesc:a6336d59dd97a61b7bbafe07aa740a95b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the contents of a vector of bytes.  <br /></td></tr>
 <tr class="separator:a6336d59dd97a61b7bbafe07aa740a95b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a782274e89e35d2ec36bb851848095453" id="r_a782274e89e35d2ec36bb851848095453"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#a782274e89e35d2ec36bb851848095453">bytesToUInt32LE</a> (const std::vector&lt; uint8_t &gt; &amp;data, size_t offset)</td></tr>
-<tr class="memdesc:a782274e89e35d2ec36bb851848095453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a uint32_t to a vector of bytes in little-endian format.  <br /></td></tr>
+<tr class="memdesc:a782274e89e35d2ec36bb851848095453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts Bytes to a uint32_t in little-endian format.  <br /></td></tr>
 <tr class="separator:a782274e89e35d2ec36bb851848095453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affa6253a6acfbf208e0d6a149b9ede52" id="r_affa6253a6acfbf208e0d6a149b9ede52"><td class="memItemLeft" align="right" valign="top">static uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#affa6253a6acfbf208e0d6a149b9ede52">bytesToUInt16LE</a> (const std::vector&lt; uint8_t &gt; &amp;data, size_t offset)</td></tr>
-<tr class="memdesc:affa6253a6acfbf208e0d6a149b9ede52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a uint16_t to a vector of bytes in little-endian format.  <br /></td></tr>
+<tr class="memdesc:affa6253a6acfbf208e0d6a149b9ede52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts Bytes to a uint16_t in little-endian format.  <br /></td></tr>
 <tr class="separator:affa6253a6acfbf208e0d6a149b9ede52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a103470aed88c53d22d67cc72f742d81e" id="r_a103470aed88c53d22d67cc72f742d81e"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#a103470aed88c53d22d67cc72f742d81e">bytesToString</a> (const std::vector&lt; uint8_t &gt; &amp;data, size_t offset, size_t length)</td></tr>
-<tr class="memdesc:a103470aed88c53d22d67cc72f742d81e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert bytes to a string.  <br /></td></tr>
+<tr class="memdesc:a103470aed88c53d22d67cc72f742d81e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts Bytes to a string.  <br /></td></tr>
 <tr class="separator:a103470aed88c53d22d67cc72f742d81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad05f43b51e42f9db020d4d505a68e3af" id="r_ad05f43b51e42f9db020d4d505a68e3af"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_utils_internals_1_1_utils.html#ad05f43b51e42f9db020d4d505a68e3af">calculateChecksum</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
-<tr class="memdesc:ad05f43b51e42f9db020d4d505a68e3af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a vector of bytes to a string.  <br /></td></tr>
+<tr class="memdesc:ad05f43b51e42f9db020d4d505a68e3af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the checksum of a file.  <br /></td></tr>
 <tr class="separator:ad05f43b51e42f9db020d4d505a68e3af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_utils_internals_1_1_utils.html" title="The Utils class.">Utils</a> class. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a452e78692c87ed5c7c993b6c6ac4981a" name="a452e78692c87ed5c7c993b6c6ac4981a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a452e78692c87ed5c7c993b6c6ac4981a">&#9670;&#160;</a></span>Utils()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Utils::Utils </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afa5e70facffc286607498e7edb639b8a" name="afa5e70facffc286607498e7edb639b8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa5e70facffc286607498e7edb639b8a">&#9670;&#160;</a></span>~Utils()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Utils::~Utils </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<div class="textblock"><p>The <a class="el" href="class_utils_internals_1_1_utils.html" title="The Utils class, a class for various utility functions.">Utils</a> class, a class for various utility functions. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a103470aed88c53d22d67cc72f742d81e" name="a103470aed88c53d22d67cc72f742d81e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a103470aed88c53d22d67cc72f742d81e">&#9670;&#160;</a></span>bytesToString()</h2>
 
@@ -205,16 +158,16 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert bytes to a string. </p>
+<p>Converts Bytes to a string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>The data to convert </td></tr>
-    <tr><td class="paramname">offset</td><td>The offset to start converting </td></tr>
-    <tr><td class="paramname">length</td><td>The length of the string </td></tr>
+    <tr><td class="paramname">data</td><td>A vector of bytes. </td></tr>
+    <tr><td class="paramname">offset</td><td>The offset in the vector where the string starts. </td></tr>
+    <tr><td class="paramname">length</td><td>The length of the string to convert. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The string </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A string converted from the bytes at the specified offset and length. </dd></dl>
 
 </div>
 </div>
@@ -252,15 +205,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert a uint16_t to a vector of bytes in little-endian format. </p>
+<p>Converts Bytes to a uint16_t in little-endian format. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>The data to convert </td></tr>
-    <tr><td class="paramname">offset</td><td>The offset to start converting </td></tr>
+    <tr><td class="paramname">data</td><td>A vector of bytes. </td></tr>
+    <tr><td class="paramname">offset</td><td>The offset in the vector where the uint16_t starts. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The vector of bytes </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A uint16_t value converted from the bytes at the specified offset. </dd></dl>
 
 </div>
 </div>
@@ -298,15 +251,15 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert a uint32_t to a vector of bytes in little-endian format. </p>
+<p>Converts Bytes to a uint32_t in little-endian format. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>The data to convert </td></tr>
-    <tr><td class="paramname">offset</td><td>The offset to start converting </td></tr>
+    <tr><td class="paramname">data</td><td>A vector of bytes. </td></tr>
+    <tr><td class="paramname">offset</td><td>The offset in the vector where the uint32_t starts. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The vector of bytes </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A uint32_t value converted from the bytes at the specified offset. </dd></dl>
 
 </div>
 </div>
@@ -334,14 +287,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Convert a vector of bytes to a string. </p>
+<p>Calculates the checksum of a file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fileData</td><td>The data to convert </td></tr>
+    <tr><td class="paramname">fileData</td><td>A vector of bytes representing the file data. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The string </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A uint32_t representing the checksum of the file. </dd></dl>
 
 </div>
 </div>
@@ -369,10 +322,10 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Print the bytes in the data vector. </p>
+<p>Prints the contents of a vector of bytes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>The data to print </td></tr>
+    <tr><td class="paramname">data</td><td>The vector of bytes to print. </td></tr>
   </table>
   </dd>
 </dl>
@@ -380,8 +333,8 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/FILEIO/<a class="el" href="_utils_8h_source.html">Utils.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_untils_8cpp.html">Untils.cpp</a></li>
+<li>include/FILEIO/<a class="el" href="_utils_8h_source.html">Utils.h</a></li>
+<li>src/<b>Untils.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

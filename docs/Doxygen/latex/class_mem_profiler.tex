@@ -1,0 +1,92 @@
+\doxysection{Mem\+Profiler Class Reference}
+\hypertarget{class_mem_profiler}{}\label{class_mem_profiler}\index{MemProfiler@{MemProfiler}}
+
+
+The \doxylink{class_mem_profiler}{Mem\+Profiler} class, which provides methods for profiling memory usage across different platforms.  
+
+
+
+
+{\ttfamily \#include $<$Mem\+Profiler.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_mem_profiler_ac2e2e077d370cceee598284bf262a334}\label{class_mem_profiler_ac2e2e077d370cceee598284bf262a334} 
+{\bfseries Mem\+Profiler} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_mem_profiler}{Mem\+Profiler} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_mem_profiler_aff2373527117a5509351bc03a139019b}\label{class_mem_profiler_aff2373527117a5509351bc03a139019b} 
+void {\bfseries populate\+Memory\+Usage} ()
+\begin{DoxyCompactList}\small\item\em Populate memory usage information. \end{DoxyCompactList}\item 
+\Hypertarget{class_mem_profiler_a30cf6cafd8bd8ba16f0e17439b335ac0}\label{class_mem_profiler_a30cf6cafd8bd8ba16f0e17439b335ac0} 
+void {\bfseries populate\+RAMUsage} ()
+\begin{DoxyCompactList}\small\item\em Populate RAM usage information. \end{DoxyCompactList}\item 
+\Hypertarget{class_mem_profiler_ac86a711c275efc9a8d4d1931950ae80d}\label{class_mem_profiler_ac86a711c275efc9a8d4d1931950ae80d} 
+void {\bfseries populate\+VRAMUsage} ()
+\begin{DoxyCompactList}\small\item\em Populate VRAM usage information. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_mem_profiler_a2fbf55a9fb8aa9b319c27c334e00c279}{get\+Total\+Memory\+Usage}} ()
+\begin{DoxyCompactList}\small\item\em Get the memory usage information. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_mem_profiler_a0e92eda27a6831e06cb1b14f02a88d27}{get\+Total\+RAMUsage}} ()
+\begin{DoxyCompactList}\small\item\em Get the RAM usage information. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{class_mem_profiler_ab446166bd5011752e6956cc5fc7328fb}{get\+Total\+VRAMUsage}} ()
+\begin{DoxyCompactList}\small\item\em Get the VRAM usage information. \end{DoxyCompactList}\item 
+\Hypertarget{class_mem_profiler_afad3cc8e8064a165580679d6969ff34d}\label{class_mem_profiler_afad3cc8e8064a165580679d6969ff34d} 
+void {\bfseries print\+Memory\+Usage} ()
+\begin{DoxyCompactList}\small\item\em Print the memory usage information. \end{DoxyCompactList}\item 
+\Hypertarget{class_mem_profiler_a485004b0b47575e2a7c7e4d657a83312}\label{class_mem_profiler_a485004b0b47575e2a7c7e4d657a83312} 
+void {\bfseries print\+RAMUsage} ()
+\begin{DoxyCompactList}\small\item\em Print the RAM usage information. \end{DoxyCompactList}\item 
+\Hypertarget{class_mem_profiler_acf0bab60ac333fbba91fb9f396625fc2}\label{class_mem_profiler_acf0bab60ac333fbba91fb9f396625fc2} 
+void {\bfseries print\+VRAMUsage} ()
+\begin{DoxyCompactList}\small\item\em Print the VRAM usage information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_mem_profiler}{Mem\+Profiler} class, which provides methods for profiling memory usage across different platforms. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_mem_profiler_a2fbf55a9fb8aa9b319c27c334e00c279}\label{class_mem_profiler_a2fbf55a9fb8aa9b319c27c334e00c279} 
+\index{MemProfiler@{MemProfiler}!getTotalMemoryUsage@{getTotalMemoryUsage}}
+\index{getTotalMemoryUsage@{getTotalMemoryUsage}!MemProfiler@{MemProfiler}}
+\doxysubsubsection{\texorpdfstring{getTotalMemoryUsage()}{getTotalMemoryUsage()}}
+{\footnotesize\ttfamily size\+\_\+t Mem\+Profiler\+::get\+Total\+Memory\+Usage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the memory usage information. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the memory usage information 
+\end{DoxyReturn}
+\Hypertarget{class_mem_profiler_a0e92eda27a6831e06cb1b14f02a88d27}\label{class_mem_profiler_a0e92eda27a6831e06cb1b14f02a88d27} 
+\index{MemProfiler@{MemProfiler}!getTotalRAMUsage@{getTotalRAMUsage}}
+\index{getTotalRAMUsage@{getTotalRAMUsage}!MemProfiler@{MemProfiler}}
+\doxysubsubsection{\texorpdfstring{getTotalRAMUsage()}{getTotalRAMUsage()}}
+{\footnotesize\ttfamily size\+\_\+t Mem\+Profiler\+::get\+Total\+RAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the RAM usage information. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the RAM usage information 
+\end{DoxyReturn}
+\Hypertarget{class_mem_profiler_ab446166bd5011752e6956cc5fc7328fb}\label{class_mem_profiler_ab446166bd5011752e6956cc5fc7328fb} 
+\index{MemProfiler@{MemProfiler}!getTotalVRAMUsage@{getTotalVRAMUsage}}
+\index{getTotalVRAMUsage@{getTotalVRAMUsage}!MemProfiler@{MemProfiler}}
+\doxysubsubsection{\texorpdfstring{getTotalVRAMUsage()}{getTotalVRAMUsage()}}
+{\footnotesize\ttfamily size\+\_\+t Mem\+Profiler\+::get\+Total\+VRAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the VRAM usage information. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the VRAM usage information 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+MANMON/Mem\+Profiler.\+h\item 
+src/Mem\+Profiler.\+cpp\end{DoxyCompactItemize}

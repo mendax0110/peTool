@@ -1,0 +1,107 @@
+\doxysection{Pointer\+Wrapper\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_pointer_wrapper}{}\label{class_pointer_wrapper}\index{PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}}
+
+
+Pointer wrapper class that manages the lifetime of a pointer and provides utility functions.  
+
+
+
+
+{\ttfamily \#include $<$Ptr\+Utils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_pointer_wrapper_a4fa33c096ee2ed5e8ada93fe2f5d3378}{Pointer\+Wrapper}} (T \texorpdfstring{$\ast$}{*}p=nullptr)
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{class_pointer_wrapper}{Pointer\+Wrapper} with an optional pointer. \end{DoxyCompactList}\item 
+\Hypertarget{class_pointer_wrapper_ac6e8c7f6bfe7c03035178108d97fa504}\label{class_pointer_wrapper_ac6e8c7f6bfe7c03035178108d97fa504} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Pointer\+Wrapper} ()
+\begin{DoxyCompactList}\small\item\em Destructor that safely deletes the pointer. This ensures that the pointer is deleted when the \doxylink{class_pointer_wrapper}{Pointer\+Wrapper} goes out of scope. \end{DoxyCompactList}\item 
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_pointer_wrapper_a6d53e07298a06368d0ac8b1bb0b6884f}{get}} () const
+\begin{DoxyCompactList}\small\item\em Get the pointer value. \end{DoxyCompactList}\item 
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_pointer_wrapper_a91b40486ea987433ac28437d36fc3160}{release}} ()
+\begin{DoxyCompactList}\small\item\em Release the pointer and return it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_pointer_wrapper_a34480ad9d88a01b5f4411f7c225892a0}{reset}} (T \texorpdfstring{$\ast$}{*}p=nullptr)
+\begin{DoxyCompactList}\small\item\em Set the pointer to a new value. \end{DoxyCompactList}\item 
+\Hypertarget{class_pointer_wrapper_ad56d4e8ce95cc501be254cf68d481dd4}\label{class_pointer_wrapper_ad56d4e8ce95cc501be254cf68d481dd4} 
+T \& {\bfseries operator\texorpdfstring{$\ast$}{*}} ()
+\item 
+\Hypertarget{class_pointer_wrapper_ae0cfbaa63daf1d75e2ce12cd6b7a5edd}\label{class_pointer_wrapper_ae0cfbaa63daf1d75e2ce12cd6b7a5edd} 
+T \texorpdfstring{$\ast$}{*} {\bfseries operator-\/$>$} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Pointer\+Wrapper$<$ T $>$}
+Pointer wrapper class that manages the lifetime of a pointer and provides utility functions. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_pointer_wrapper_a4fa33c096ee2ed5e8ada93fe2f5d3378}\label{class_pointer_wrapper_a4fa33c096ee2ed5e8ada93fe2f5d3378} 
+\index{PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}!PointerWrapper@{PointerWrapper}}
+\index{PointerWrapper@{PointerWrapper}!PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{PointerWrapper()}{PointerWrapper()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{class_pointer_wrapper}{Pointer\+Wrapper}}$<$ T $>$\mbox{\hyperlink{class_pointer_wrapper}{\+::\+Pointer\+Wrapper}} (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{p = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Construct a \doxylink{class_pointer_wrapper}{Pointer\+Wrapper} with an optional pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pointer to initialize the \doxylink{class_pointer_wrapper}{Pointer\+Wrapper} with. Defaults to nullptr. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_pointer_wrapper_a6d53e07298a06368d0ac8b1bb0b6884f}\label{class_pointer_wrapper_a6d53e07298a06368d0ac8b1bb0b6884f} 
+\index{PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}!get@{get}}
+\index{get@{get}!PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_pointer_wrapper}{Pointer\+Wrapper}}$<$ T $>$\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the pointer value. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the managed object. 
+\end{DoxyReturn}
+\Hypertarget{class_pointer_wrapper_a91b40486ea987433ac28437d36fc3160}\label{class_pointer_wrapper_a91b40486ea987433ac28437d36fc3160} 
+\index{PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}!release@{release}}
+\index{release@{release}!PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{release()}{release()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_pointer_wrapper}{Pointer\+Wrapper}}$<$ T $>$\+::release (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Release the pointer and return it. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the managed object, and sets the internal pointer to nullptr. 
+\end{DoxyReturn}
+\Hypertarget{class_pointer_wrapper_a34480ad9d88a01b5f4411f7c225892a0}\label{class_pointer_wrapper_a34480ad9d88a01b5f4411f7c225892a0} 
+\index{PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}!reset@{reset}}
+\index{reset@{reset}!PointerWrapper$<$ T $>$@{PointerWrapper$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{class_pointer_wrapper}{Pointer\+Wrapper}}$<$ T $>$\+::reset (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{p = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the pointer to a new value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pointer to set the \doxylink{class_pointer_wrapper}{Pointer\+Wrapper} to. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+UTILS/Ptr\+Utils.\+h\end{DoxyCompactItemize}

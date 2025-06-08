@@ -1,0 +1,118 @@
+\doxysection{Entropy\+Internals\+::Entropy Class Reference}
+\hypertarget{class_entropy_internals_1_1_entropy}{}\label{class_entropy_internals_1_1_entropy}\index{EntropyInternals::Entropy@{EntropyInternals::Entropy}}
+
+
+The \doxylink{class_entropy_internals_1_1_entropy}{Entropy} class, a class for calculating the entropy of data.  
+
+
+
+
+{\ttfamily \#include $<$Entropy.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_entropy_internals_1_1_entropy_a3d47059f9db166764d05c09190480a73}\label{class_entropy_internals_1_1_entropy_a3d47059f9db166764d05c09190480a73} 
+{\bfseries Entropy} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_entropy_internals_1_1_entropy}{Entropy} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_entropy_internals_1_1_entropy_a9986a614963786c782cd4ec992ac44a9}\label{class_entropy_internals_1_1_entropy_a9986a614963786c782cd4ec992ac44a9} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Entropy} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_entropy_internals_1_1_entropy}{Entropy} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \mbox{\hyperlink{class_entropy_internals_1_1_entropy_a73f40ecde87465ab7414cf03a99c5945}{calculate\+Entropy}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data)
+\begin{DoxyCompactList}\small\item\em Calculates the entropy of the given data. \end{DoxyCompactList}\item 
+static std\+::vector$<$ int $>$ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_a1371c6cf2989df090cf23f6a141e4382}{create\+Histogram}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data)
+\begin{DoxyCompactList}\small\item\em Creates a histogram of byte frequencies from the given data. \end{DoxyCompactList}\item 
+static std\+::vector$<$ double $>$ \mbox{\hyperlink{class_entropy_internals_1_1_entropy_ad0744d3a385bc981315d2935f47432ce}{calculate\+Probabilities}} (const std\+::vector$<$ int $>$ \&histogram, size\+\_\+t data\+Size)
+\begin{DoxyCompactList}\small\item\em Calculates the probabilities of each byte in the histogram. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_entropy_internals_1_1_entropy_af04d0a01b3ecd5246ce461becedd6961}{print\+Entropy}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&data, size\+\_\+t offset, size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Prints the entropy of the data at a specific offset and size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_entropy_internals_1_1_entropy}{Entropy} class, a class for calculating the entropy of data. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_entropy_internals_1_1_entropy_a73f40ecde87465ab7414cf03a99c5945}\label{class_entropy_internals_1_1_entropy_a73f40ecde87465ab7414cf03a99c5945} 
+\index{EntropyInternals::Entropy@{EntropyInternals::Entropy}!calculateEntropy@{calculateEntropy}}
+\index{calculateEntropy@{calculateEntropy}!EntropyInternals::Entropy@{EntropyInternals::Entropy}}
+\doxysubsubsection{\texorpdfstring{calculateEntropy()}{calculateEntropy()}}
+{\footnotesize\ttfamily double Entropy\+::calculate\+Entropy (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates the entropy of the given data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A vector of bytes representing the data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A double representing the calculated entropy. 
+\end{DoxyReturn}
+\Hypertarget{class_entropy_internals_1_1_entropy_ad0744d3a385bc981315d2935f47432ce}\label{class_entropy_internals_1_1_entropy_ad0744d3a385bc981315d2935f47432ce} 
+\index{EntropyInternals::Entropy@{EntropyInternals::Entropy}!calculateProbabilities@{calculateProbabilities}}
+\index{calculateProbabilities@{calculateProbabilities}!EntropyInternals::Entropy@{EntropyInternals::Entropy}}
+\doxysubsubsection{\texorpdfstring{calculateProbabilities()}{calculateProbabilities()}}
+{\footnotesize\ttfamily std\+::vector$<$ double $>$ Entropy\+::calculate\+Probabilities (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ int $>$ \&}]{histogram,  }\item[{size\+\_\+t}]{data\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates the probabilities of each byte in the histogram. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em histogram} & A vector of integers representing the histogram of byte frequencies. \\
+\hline
+{\em data\+Size} & The size of the data used to create the histogram. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of doubles representing the probabilities of each byte. 
+\end{DoxyReturn}
+\Hypertarget{class_entropy_internals_1_1_entropy_a1371c6cf2989df090cf23f6a141e4382}\label{class_entropy_internals_1_1_entropy_a1371c6cf2989df090cf23f6a141e4382} 
+\index{EntropyInternals::Entropy@{EntropyInternals::Entropy}!createHistogram@{createHistogram}}
+\index{createHistogram@{createHistogram}!EntropyInternals::Entropy@{EntropyInternals::Entropy}}
+\doxysubsubsection{\texorpdfstring{createHistogram()}{createHistogram()}}
+{\footnotesize\ttfamily std\+::vector$<$ int $>$ Entropy\+::create\+Histogram (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Creates a histogram of byte frequencies from the given data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A vector of bytes representing the data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of integers representing the histogram of byte frequencies. 
+\end{DoxyReturn}
+\Hypertarget{class_entropy_internals_1_1_entropy_af04d0a01b3ecd5246ce461becedd6961}\label{class_entropy_internals_1_1_entropy_af04d0a01b3ecd5246ce461becedd6961} 
+\index{EntropyInternals::Entropy@{EntropyInternals::Entropy}!printEntropy@{printEntropy}}
+\index{printEntropy@{printEntropy}!EntropyInternals::Entropy@{EntropyInternals::Entropy}}
+\doxysubsubsection{\texorpdfstring{printEntropy()}{printEntropy()}}
+{\footnotesize\ttfamily void Entropy\+::print\+Entropy (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data,  }\item[{size\+\_\+t}]{offset,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Prints the entropy of the data at a specific offset and size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & A vector of bytes representing the data. \\
+\hline
+{\em offset} & The offset in the data where to start calculating entropy. \\
+\hline
+{\em size} & The size of the data segment to calculate entropy for. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+VIEW/Entropy.\+h\item 
+src/Entropy.\+cpp\end{DoxyCompactItemize}

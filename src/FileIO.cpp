@@ -3,11 +3,6 @@
 
 using namespace FileIoInternals;
 
-/**
- * @brief Read a file into a vector of bytes
- * @param filename The name of the file to read
- * @return The file data
- */
 std::vector<uint8_t> FileIO::readFile(const std::string& filename)
 {
     std::vector<uint8_t> fileData;
@@ -27,12 +22,6 @@ std::vector<uint8_t> FileIO::readFile(const std::string& filename)
     return fileData;
 }
 
-/**
- * @brief Write data to a file
- * @param filename The name of the file to write to
- * @param data The data to write
- * @return True if the write was successful, false otherwise
- */
 bool FileIO::writeFile(const std::string& filename, const std::vector<uint8_t>& data)
 {
     std::ofstream file(filename, std::ios::binary);
@@ -44,11 +33,6 @@ bool FileIO::writeFile(const std::string& filename, const std::vector<uint8_t>& 
     return false;
 }
 
-/**
- * @brief Get the size of a file
- * @param filename The name of the file
- * @return The size of the file
- */
 std::streamsize FileIO::getFileSize(const std::string& filename)
 {
     std::ifstream file(filename, std::ios::binary | std::ios::ate);
@@ -59,22 +43,12 @@ std::streamsize FileIO::getFileSize(const std::string& filename)
     return -1;
 }
 
-/**
- * @brief Check if a file exists
- * @param filename The name of the file
- * @return True if the file exists, false otherwise
- */
 bool FileIO::fileExists(const std::string& filename)
 {
     std::ifstream file(filename);
     return file.good();
 }
 
-/**
- * @brief Backup a file by copying it to a new file with a .bak extension
- * @param filename The name of the file to backup
- * @return True if the backup was successful, false otherwise
- */
 bool FileIO::backupFile(const std::string& filename)
 {
     std::ifstream source(filename, std::ios::binary);
@@ -93,11 +67,6 @@ bool FileIO::backupFile(const std::string& filename)
     return true;
 }
 
-/**
- * @brief Delete a file
- * @param filename The name of the file to delete
- * @return True if the file was deleted, false otherwise
- */
 bool FileIO::deleteFile(const std::string& filename)
 {
     if (std::remove(filename.c_str()) != 0)

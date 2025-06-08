@@ -1,0 +1,69 @@
+\doxysection{imgui\+\_\+impl\+\_\+glfw.\+h}
+\hypertarget{imgui__impl__glfw_8h_source}{}\label{imgui__impl__glfw_8h_source}\index{external/imgui/backends/imgui\_impl\_glfw.h@{external/imgui/backends/imgui\_impl\_glfw.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ GLFW}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ OpenGL3,\ Vulkan,\ WebGPU..)}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ (Info:\ GLFW\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ OpenGL/Vulkan\ graphics\ context\ creation,\ etc.)}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ (Requires:\ GLFW\ 3.1+.\ Prefer\ GLFW\ 3.3+\ for\ full\ feature\ support.)}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ support.\ Can\ discriminate\ Mouse/TouchScreen/Pen\ (Windows\ only).}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ GLFW\_KEY\_*\ values\ will\ also\ be\ supported\ unless\ IMGUI\_DISABLE\_OBSOLETE\_KEYIO\ is\ set]}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'\ (note:\ the\ resizing\ cursors\ requires\ GLFW\ 3.4+).}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ [X]\ Platform:\ Multi-\/viewport\ support\ (multiple\ windows).\ Enable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_ViewportsEnable'.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ Issues:}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Multi-\/viewport:\ ParentViewportID\ not\ honored,\ and\ so\ io.ConfigViewportsNoDefaultParent\ has\ no\ effect\ (minor).}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}};}
+\DoxyCodeLine{00029\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplGlfw\_InitForOpenGL(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks);}
+\DoxyCodeLine{00032\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplGlfw\_InitForVulkan(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks);}
+\DoxyCodeLine{00033\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplGlfw\_InitForOther(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{bool}\ install\_callbacks);}
+\DoxyCodeLine{00034\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_Shutdown();}
+\DoxyCodeLine{00035\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_NewFrame();}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ Emscripten\ related\ initialization\ phase\ methods\ (call\ after\ ImGui\_ImplGlfw\_InitForOpenGL)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#ifdef\ \_\_EMSCRIPTEN\_\_}}
+\DoxyCodeLine{00039\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_InstallEmscriptenCallbacks(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ canvas\_selector);}
+\DoxyCodeLine{00040\ \textcolor{comment}{//static\ inline\ void\ \ \ \ ImGui\_ImplGlfw\_InstallEmscriptenCanvasResizeCallback(const\ char*\ canvas\_selector)\ \{\ ImGui\_ImplGlfw\_InstallEmscriptenCallbacks(nullptr,\ canvas\_selector);\ \}\ \}\ //\ Renamed\ in\ 1.91.0}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ GLFW\ callbacks\ install}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ -\/\ When\ calling\ Init\ with\ 'install\_callbacks=true':\ ImGui\_ImplGlfw\_InstallCallbacks()\ is\ called.\ GLFW\ callbacks\ will\ be\ installed\ for\ you.\ They\ will\ chain-\/call\ user's\ previously\ installed\ callbacks,\ if\ any.}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ -\/\ When\ calling\ Init\ with\ 'install\_callbacks=false':\ GLFW\ callbacks\ won't\ be\ installed.\ You\ will\ need\ to\ call\ individual\ function\ yourself\ from\ your\ own\ GLFW\ callbacks.}}
+\DoxyCodeLine{00046\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_InstallCallbacks(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window);}
+\DoxyCodeLine{00047\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_RestoreCallbacks(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ GFLW\ callbacks\ options:}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ -\/\ Set\ 'chain\_for\_all\_windows=true'\ to\ enable\ chaining\ callbacks\ for\ all\ windows\ (including\ secondary\ viewports\ created\ by\ backends\ or\ by\ user)}}
+\DoxyCodeLine{00051\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_SetCallbacksChainForAllWindows(\textcolor{keywordtype}{bool}\ chain\_for\_all\_windows);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ GLFW\ callbacks\ (individual\ callbacks\ to\ call\ yourself\ if\ you\ didn't\ install\ callbacks)}}
+\DoxyCodeLine{00054\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_WindowFocusCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{int}\ focused);\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Since\ 1.84}}
+\DoxyCodeLine{00055\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_CursorEnterCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{int}\ entered);\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Since\ 1.84}}
+\DoxyCodeLine{00056\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_CursorPosCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{double}\ x,\ \textcolor{keywordtype}{double}\ y);\ \ \ \textcolor{comment}{//\ Since\ 1.87}}
+\DoxyCodeLine{00057\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_MouseButtonCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{int}\ button,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods);}
+\DoxyCodeLine{00058\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_ScrollCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{double}\ xoffset,\ \textcolor{keywordtype}{double}\ yoffset);}
+\DoxyCodeLine{00059\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_KeyCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{int}\ key,\ \textcolor{keywordtype}{int}\ scancode,\ \textcolor{keywordtype}{int}\ action,\ \textcolor{keywordtype}{int}\ mods);}
+\DoxyCodeLine{00060\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_CharCallback(\mbox{\hyperlink{group__window_ga3c96d80d363e67d13a41b5d1821f3242}{GLFWwindow}}*\ window,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{00061\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplGlfw\_MonitorCallback(\mbox{\hyperlink{group__monitor_ga8d9efd1cde9426692c73fe40437d0ae3}{GLFWmonitor}}*\ monitor,\ \textcolor{keywordtype}{int}\ event);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

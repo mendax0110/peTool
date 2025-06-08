@@ -1,0 +1,48 @@
+\doxysection{Threading\+Base.\+h}
+\hypertarget{_threading_base_8h_source}{}\label{_threading_base_8h_source}\index{include/CORE/ThreadingBase.h@{include/CORE/ThreadingBase.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <condition\_variable>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_threading_base}{ThreadingBase}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_threading_base_abeb15273fd89348f06d57fbd56e778b8}{ThreadingBase}}();}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{class_threading_base_a9ef92da4bf39cae74bdbbb179069127d}{\string~ThreadingBase}}();}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_threading_base_ad4f54d1158709990133f4d9b81688b81}{startThread}}(\textcolor{keyword}{const}\ std::function<\textcolor{keywordtype}{void}()>\&\ threadFunction);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_threading_base_a98031e5c2cd3110e1dd5fd332eb946bc}{joinAllThreads}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_threading_base_abdb7dae796c119f97b12de8d8a7a9fd8}{enqueueTask}}(\textcolor{keyword}{const}\ std::function<\textcolor{keywordtype}{void}()>\&\ task);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_threading_base_a1c9a929ebfbcbfb7c818bd05a9e730c7}{startThreadPool}}(\textcolor{keywordtype}{size\_t}\ numThreads);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_threading_base_a4e3460e247182106d32fb258cf2046d2}{stopThreadPool}}();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_threading_base_a9765f35f4ea2d5c68265c95bd684ebb8}{waitForTasks}}();}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_threading_base_a6f2d7a8d44b009173fb129de9b01f965}{getNumThreads}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_threading_base_a4c6f288b5868ee6f64b717ff37f4ce0f}{isThreadPoolRunning}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00070\ \ \ \ \ std::vector<std::thread>\ threads;}
+\DoxyCodeLine{00071\ \ \ \ \ std::mutex\ queueMutex;}
+\DoxyCodeLine{00072\ \ \ \ \ std::queue<std::function<void()>>\ taskQueue;}
+\DoxyCodeLine{00073\ \ \ \ \ std::condition\_variable\ condition;}
+\DoxyCodeLine{00074\ \ \ \ \ std::atomic<bool>\ stopFlag;}
+\DoxyCodeLine{00075\ \ \ \ \ std::atomic<size\_t>\ numActiveThreads;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{void}\ threadPoolFunction();}
+\DoxyCodeLine{00081\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,142 @@
+\doxysection{Database Class Reference}
+\hypertarget{class_database}{}\label{class_database}\index{Database@{Database}}
+
+
+\doxylink{class_database}{Database} class, which provides methods for loading, saving, and managing a simple database of rows.  
+
+
+
+
+{\ttfamily \#include $<$Database.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_database_a4b87fe8d6dda40035d4f0d2e22497bce}\label{class_database_a4b87fe8d6dda40035d4f0d2e22497bce} 
+using {\bfseries Row} = std\+::map$<$ std\+::string, std\+::string $>$
+\begin{DoxyCompactList}\small\item\em A row in the database, represented as a map of string key-\/value pairs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_database_a4703c80e6969d33565ea340f768fdadf}\label{class_database_a4703c80e6969d33565ea340f768fdadf} 
+{\bfseries Database} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_database}{Database} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_database_a84d399a2ad58d69daab9b05330e1316d}\label{class_database_a84d399a2ad58d69daab9b05330e1316d} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Database} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_database}{Database} object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_database_a4af3a897c552490456bc65b5e3b41526}{load}} (const std\+::string \&file\+Name)
+\begin{DoxyCompactList}\small\item\em Load a database from a file. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_database_ab8ba24447e1198797093499bd745986c}{save}} (const std\+::string \&file\+Name) const
+\begin{DoxyCompactList}\small\item\em Save the database to a file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_database_a6f67a55688b6345cab5a3d11fa0b66be}{add\+Row}} (const \mbox{\hyperlink{class_database_a4b87fe8d6dda40035d4f0d2e22497bce}{Row}} \&row)
+\begin{DoxyCompactList}\small\item\em Add a header to the database. \end{DoxyCompactList}\item 
+const std\+::vector$<$ \mbox{\hyperlink{class_database_a4b87fe8d6dda40035d4f0d2e22497bce}{Row}} $>$ \& \mbox{\hyperlink{class_database_ada88da7ce18be815069d55880ca73d80}{get\+Rows}} () const
+\begin{DoxyCompactList}\small\item\em Geter the headers of the database. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_database_a896b7040eea630ceccc1aa8a9060d238}{database\+Path}} (const std\+::filesystem\+::path \&path)
+\begin{DoxyCompactList}\small\item\em Set the database path. \end{DoxyCompactList}\item 
+const std\+::filesystem\+::path \& \mbox{\hyperlink{class_database_ab22e34ae381412c304008ea466ae6c47}{database\+Path}} () const
+\begin{DoxyCompactList}\small\item\em Get the database path. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_database}{Database} class, which provides methods for loading, saving, and managing a simple database of rows. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_database_a6f67a55688b6345cab5a3d11fa0b66be}\label{class_database_a6f67a55688b6345cab5a3d11fa0b66be} 
+\index{Database@{Database}!addRow@{addRow}}
+\index{addRow@{addRow}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{addRow()}{addRow()}}
+{\footnotesize\ttfamily void Database\+::add\+Row (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_database_a4b87fe8d6dda40035d4f0d2e22497bce}{Row}} \&}]{row }\end{DoxyParamCaption})}
+
+
+
+Add a header to the database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em header} & The header to add \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_database_ab22e34ae381412c304008ea466ae6c47}\label{class_database_ab22e34ae381412c304008ea466ae6c47} 
+\index{Database@{Database}!databasePath@{databasePath}}
+\index{databasePath@{databasePath}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{databasePath()}{databasePath()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily const std\+::filesystem\+::path \& Database\+::database\+Path (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the database path. 
+
+\begin{DoxyReturn}{Returns}
+The path to the database file 
+\end{DoxyReturn}
+\Hypertarget{class_database_a896b7040eea630ceccc1aa8a9060d238}\label{class_database_a896b7040eea630ceccc1aa8a9060d238} 
+\index{Database@{Database}!databasePath@{databasePath}}
+\index{databasePath@{databasePath}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{databasePath()}{databasePath()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Database\+::database\+Path (\begin{DoxyParamCaption}\item[{const std\+::filesystem\+::path \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Set the database path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path to the database file \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_database_ada88da7ce18be815069d55880ca73d80}\label{class_database_ada88da7ce18be815069d55880ca73d80} 
+\index{Database@{Database}!getRows@{getRows}}
+\index{getRows@{getRows}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{getRows()}{getRows()}}
+{\footnotesize\ttfamily const std\+::vector$<$ \mbox{\hyperlink{class_database_a4b87fe8d6dda40035d4f0d2e22497bce}{Database\+::\+Row}} $>$ \& Database\+::get\+Rows (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Geter the headers of the database. 
+
+\begin{DoxyReturn}{Returns}
+A vector of Rows containing the headers 
+\end{DoxyReturn}
+\Hypertarget{class_database_a4af3a897c552490456bc65b5e3b41526}\label{class_database_a4af3a897c552490456bc65b5e3b41526} 
+\index{Database@{Database}!load@{load}}
+\index{load@{load}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily bool Database\+::load (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Name }\end{DoxyParamCaption})}
+
+
+
+Load a database from a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & The name of the file to load the database from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the database was successfully loaded, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_database_ab8ba24447e1198797093499bd745986c}\label{class_database_ab8ba24447e1198797093499bd745986c} 
+\index{Database@{Database}!save@{save}}
+\index{save@{save}!Database@{Database}}
+\doxysubsubsection{\texorpdfstring{save()}{save()}}
+{\footnotesize\ttfamily bool Database\+::save (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Name }\end{DoxyParamCaption}) const}
+
+
+
+Save the database to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & The name of the file to save the database to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the database was successfully saved, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+FILEIO/Database.\+h\item 
+src/Database.\+cpp\end{DoxyCompactItemize}

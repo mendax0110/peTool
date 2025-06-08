@@ -2,13 +2,10 @@
 #include <algorithm>
 #include <iostream>
 #include <print>
+#include <unistd.h>
 
 using namespace DetectorInternals;
 
-/**
- * @brief Detects if the file is packed with UPX
- * @return True if UPX is detected, false otherwise
- */
 bool PackerDetection::detectUPX()
 {
     std::vector<std::string> upxSignatures = {"UPX0", "UPX1", "UPX2" };
@@ -26,10 +23,6 @@ bool PackerDetection::detectUPX()
     return false;
 }
 
-/**
- * @brief Detects if the file is packed with Themida
- * @return True if Themida is detected, false otherwise
- */
 bool PackerDetection::detectThemida()
 {
     std::vector<std::string> themidaSignatures = {
@@ -59,11 +52,6 @@ bool PackerDetection::detectThemida()
     return false;
 }
 
-/**
- * @brief Check the Section names for suspicious names
- * @param sectionNames The names of the sections to check
- * @return A vector of suspicious section names
- */
 std::vector<std::string> PackerDetection::checkSectionNames(const std::vector<std::string>& sectionNames)
 {
     std::vector<std::string> suspiciousSections;
@@ -82,11 +70,6 @@ std::vector<std::string> PackerDetection::checkSectionNames(const std::vector<st
     return suspiciousSections;
 }
 
-/**
- * @brief Check the Entry Point for a specific pattern
- * @param pattern The pattern to search for
- * @return A boolean indicating if the pattern was found
- */
 bool AntiDebugDetection::checkEntryPoint(const std::vector<uint8_t>& pattern)
 {
     auto it = std::search(fileData.begin(), fileData.end(), pattern.begin(), pattern.end());
@@ -104,10 +87,6 @@ bool AntiDebugDetection::checkEntryPoint(const std::vector<uint8_t>& pattern)
     return (it != fileData.end());
 }
 
-/**
- * @brief Detect if a Debugger is present
- * @return True if a debugger is detected, false otherwise
- */
 bool AntiDebugDetection::detectIsDebuggerPresent()
 {
 #if defined(_WIN32)
@@ -158,10 +137,6 @@ bool AntiDebugDetection::detectIsDebuggerPresent()
 #endif
 }
 
-/**
- * @brief Detect NT-specific flags
- * @return True if the flags are detected, false otherwise
- */
 bool AntiDebugDetection::detectNtGlobalFlag()
 {
 #if defined(_WIN32)
@@ -188,10 +163,6 @@ bool AntiDebugDetection::detectNtGlobalFlag()
 #endif
 }
 
-/**
- * @brief Detect Heap Flags
- * @return True if the flags are detected, false otherwise
- */
 bool AntiDebugDetection::detectHeapFlags()
 {
 #if defined(_WIN32)
@@ -220,10 +191,6 @@ bool AntiDebugDetection::detectHeapFlags()
 #endif
 }
 
-/**
- * @brief Detect if the file is being debugged
- * @return True if the file is being debugged, false otherwise
- */
 bool AntiDebugDetection::detectOutputDebugString()
 {
     std::vector<uint8_t> pattern = { 0xCC };

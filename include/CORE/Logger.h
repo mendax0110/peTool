@@ -11,16 +11,22 @@
 #define ERROR_MACRO_ALREADY_DEFINED
 #endif
 
-/**
- * @brief The Logger class
- * @class Logger
- */
+/// @brief Logger class, which provides methods for logging messages to a file \class Logger
 class Logger
 {
 public:
+
+    /**
+     * @brief Construct a new Logger object
+     */
     Logger();
+
+    /**
+     * @brief Destroy the Logger object
+     */
     ~Logger();
 
+    /// @brief Log levels for the logger \name
     enum class LogLevel
     {
         INFO,
@@ -30,6 +36,7 @@ public:
 #endif
     };
 
+    /// @brief Struct to hold log messages \struct LogMessage
     struct LogMessage
     {
         LogLevel level;
@@ -39,7 +46,18 @@ public:
             : level(l), message(std::move(m)), path(std::move(p)) {}
     };
 
+    /**
+     * @brief Log a message with a specific log level
+     * @param level The log level
+     * @param message The message to log
+     * @param path The file path associated with the log message
+     */
     void log(LogLevel level, const std::string& message, const std::string& path);
+
+    /**
+     * @brief Get the log messages
+     * @return A vector of log messages
+     */
     void writeLogToFile();
 
 private:

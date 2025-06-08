@@ -1,0 +1,47 @@
+\doxysection{imgui\+\_\+impl\+\_\+sdlrenderer2.\+h}
+\hypertarget{imgui__impl__sdlrenderer2_8h_source}{}\label{imgui__impl__sdlrenderer2_8h_source}\index{external/imgui/backends/imgui\_impl\_sdlrenderer2.h@{external/imgui/backends/imgui\_impl\_sdlrenderer2.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ dear\ imgui:\ Renderer\ Backend\ for\ SDL\_Renderer\ for\ SDL2}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ (Requires:\ SDL\ 2.0.17+)}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Note\ how\ SDL\_Renderer\ is\ an\ \_optional\_\ component\ of\ SDL2.}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ For\ a\ multi-\/platform\ app\ consider\ using\ e.g.\ SDL+DirectX\ on\ Windows\ and\ SDL+OpenGL\ on\ Linux/OSX.}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ If\ your\ application\ will\ want\ to\ render\ any\ non\ trivial\ amount\ of\ graphics\ other\ than\ UI,}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ please\ be\ aware\ that\ SDL\_Renderer\ currently\ offers\ a\ limited\ graphic\ API\ to\ the\ end-\/user\ and}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ it\ might\ be\ difficult\ to\ step\ out\ of\ those\ boundaries.}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ [X]\ Renderer:\ User\ texture\ binding.\ Use\ 'SDL\_Texture*'\ as\ ImTextureID.\ Read\ the\ FAQ\ about\ ImTextureID!}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ [X]\ Renderer:\ Large\ meshes\ support\ (64k+\ vertices)\ with\ 16-\/bit\ indices.}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ Missing\ features:}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ [\ ]\ Renderer:\ Multi-\/viewport\ support\ (multiple\ windows).}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{struct\ }SDL\_Renderer;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_Init(SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{00031\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_Shutdown();}
+\DoxyCodeLine{00032\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_NewFrame();}
+\DoxyCodeLine{00033\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_RenderDrawData(\mbox{\hyperlink{struct_im_draw_data}{ImDrawData}}*\ draw\_data,\ SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ Called\ by\ Init/NewFrame/Shutdown}}
+\DoxyCodeLine{00036\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_CreateFontsTexture();}
+\DoxyCodeLine{00037\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_DestroyFontsTexture();}
+\DoxyCodeLine{00038\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_CreateDeviceObjects();}
+\DoxyCodeLine{00039\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDLRenderer2\_DestroyDeviceObjects();}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

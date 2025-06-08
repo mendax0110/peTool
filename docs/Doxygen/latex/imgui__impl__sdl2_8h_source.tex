@@ -1,0 +1,55 @@
+\doxysection{imgui\+\_\+impl\+\_\+sdl2.\+h}
+\hypertarget{imgui__impl__sdl2_8h_source}{}\label{imgui__impl__sdl2_8h_source}\index{external/imgui/backends/imgui\_impl\_sdl2.h@{external/imgui/backends/imgui\_impl\_sdl2.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ dear\ imgui:\ Platform\ Backend\ for\ SDL2}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ This\ needs\ to\ be\ used\ along\ with\ a\ Renderer\ (e.g.\ DirectX11,\ OpenGL3,\ Vulkan..)}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ (Info:\ SDL2\ is\ a\ cross-\/platform\ general\ purpose\ library\ for\ handling\ windows,\ inputs,\ graphics\ context\ creation,\ etc.)}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ Implemented\ features:}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ \ [X]\ Platform:\ Clipboard\ support.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ support.\ Can\ discriminate\ Mouse/TouchScreen.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ [X]\ Platform:\ Keyboard\ support.\ Since\ 1.87\ we\ are\ using\ the\ io.AddKeyEvent()\ function.\ Pass\ ImGuiKey\ values\ to\ all\ key\ functions\ e.g.\ ImGui::IsKeyPressed(ImGuiKey\_Space).\ [Legacy\ SDL\_SCANCODE\_*\ values\ will\ also\ be\ supported\ unless\ IMGUI\_DISABLE\_OBSOLETE\_KEYIO\ is\ set]}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ [X]\ Platform:\ Gamepad\ support.\ Enabled\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NavEnableGamepad'.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ [X]\ Platform:\ Mouse\ cursor\ shape\ and\ visibility.\ Disable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_NoMouseCursorChange'.}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ [X]\ Platform:\ Multi-\/viewport\ support\ (multiple\ windows).\ Enable\ with\ 'io.ConfigFlags\ |=\ ImGuiConfigFlags\_ViewportsEnable'.}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ Issues:}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Multi-\/viewport:\ Minimized\ windows\ seems\ to\ break\ mouse\ wheel\ events\ (at\ least\ under\ Windows).}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ [\ ]\ Platform:\ Multi-\/viewport:\ ParentViewportID\ not\ honored,\ and\ so\ io.ConfigViewportsNoDefaultParent\ has\ no\ effect\ (minor).}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ [x]\ Platform:\ Basic\ IME\ support.\ App\ needs\ to\ call\ 'SDL\_SetHint(SDL\_HINT\_IME\_SHOW\_UI,\ "{}1"{});'\ before\ SDL\_CreateWindow()!.}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ You\ can\ use\ unmodified\ imgui\_impl\_*\ files\ in\ your\ project.\ See\ examples/\ folder\ for\ examples\ of\ using\ this.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Prefer\ including\ the\ entire\ imgui/\ repository\ into\ your\ project\ (either\ as\ a\ copy\ or\ as\ a\ submodule),\ and\ only\ build\ the\ backends\ you\ need.}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ Learn\ about\ Dear\ ImGui:}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ -\/\ FAQ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ https://dearimgui.com/faq}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ -\/\ Getting\ Started\ \ \ \ \ \ https://dearimgui.com/getting-\/started}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ -\/\ Documentation\ \ \ \ \ \ \ \ https://dearimgui.com/docs\ (same\ as\ your\ local\ docs/\ folder).}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ -\/\ Introduction,\ links\ and\ more\ at\ the\ top\ of\ imgui.cpp}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}\ \ \ \ \ \ \textcolor{comment}{//\ IMGUI\_IMPL\_API}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifndef\ IMGUI\_DISABLE}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{struct\ }SDL\_Window;}
+\DoxyCodeLine{00030\ \textcolor{keyword}{struct\ }SDL\_Renderer;}
+\DoxyCodeLine{00031\ \textcolor{keyword}{struct\ }\_SDL\_GameController;}
+\DoxyCodeLine{00032\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{union\ }SDL\_Event\ SDL\_Event;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForOpenGL(SDL\_Window*\ window,\ \textcolor{keywordtype}{void}*\ sdl\_gl\_context);}
+\DoxyCodeLine{00035\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForVulkan(SDL\_Window*\ window);}
+\DoxyCodeLine{00036\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForD3D(SDL\_Window*\ window);}
+\DoxyCodeLine{00037\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForMetal(SDL\_Window*\ window);}
+\DoxyCodeLine{00038\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForSDLRenderer(SDL\_Window*\ window,\ SDL\_Renderer*\ renderer);}
+\DoxyCodeLine{00039\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_InitForOther(SDL\_Window*\ window);}
+\DoxyCodeLine{00040\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDL2\_Shutdown();}
+\DoxyCodeLine{00041\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDL2\_NewFrame();}
+\DoxyCodeLine{00042\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{bool}\ \ \ \ \ ImGui\_ImplSDL2\_ProcessEvent(\textcolor{keyword}{const}\ SDL\_Event*\ event);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ Gamepad\ selection\ automatically\ starts\ in\ AutoFirst\ mode,\ picking\ first\ available\ SDL\_Gamepad.\ You\ may\ override\ this.}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ When\ using\ manual\ mode,\ caller\ is\ responsible\ for\ opening/closing\ gamepad.}}
+\DoxyCodeLine{00046\ \textcolor{keyword}{enum}\ ImGui\_ImplSDL2\_GamepadMode\ \{\ ImGui\_ImplSDL2\_GamepadMode\_AutoFirst,\ ImGui\_ImplSDL2\_GamepadMode\_AutoAll,\ ImGui\_ImplSDL2\_GamepadMode\_Manual\ \};}
+\DoxyCodeLine{00047\ IMGUI\_IMPL\_API\ \textcolor{keywordtype}{void}\ \ \ \ \ ImGui\_ImplSDL2\_SetGamepadMode(ImGui\_ImplSDL2\_GamepadMode\ mode,\ \textcolor{keyword}{struct}\ \_SDL\_GameController**\ manual\_gamepads\_array\ =\ NULL,\ \textcolor{keywordtype}{int}\ manual\_gamepads\_count\ =\ -\/1);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \#ifndef\ IMGUI\_DISABLE}}
+
+\end{DoxyCode}

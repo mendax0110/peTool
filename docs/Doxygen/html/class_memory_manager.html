@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: MemoryManager Class Reference</title>
+<title>peTool: MemoryManager Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -72,64 +72,52 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_memory_manager-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">MemoryManager Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_memory_manager.html" title="The MemoryManager class.">MemoryManager</a> class.  
+<p><a class="el" href="class_memory_manager.html" title="MemoryManager class, which provides methods for memory allocation, deallocation, and leak detection.">MemoryManager</a> class, which provides methods for memory allocation, deallocation, and leak detection.  
  <a href="class_memory_manager.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_memory_manager_8h_source.html">MemoryManager.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_memory_manager_1_1_allocation_info.html">AllocationInfo</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a915f582227ff100ddab4e7ca744a8a70" id="r_a915f582227ff100ddab4e7ca744a8a70"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a915f582227ff100ddab4e7ca744a8a70">allocate</a> (size_t size, const char *file, int line)</td></tr>
-<tr class="memdesc:a915f582227ff100ddab4e7ca744a8a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate memory and track the allocation.  <br /></td></tr>
+<tr class="memdesc:a915f582227ff100ddab4e7ca744a8a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates memory of the specified size and tracks the allocation for leak detection.  <br /></td></tr>
 <tr class="separator:a915f582227ff100ddab4e7ca744a8a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67f1754204805332adcdd9baaeda7ed4" id="r_a67f1754204805332adcdd9baaeda7ed4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a67f1754204805332adcdd9baaeda7ed4">deallocate</a> (void *pointer, const char *file, int line)</td></tr>
-<tr class="memdesc:a67f1754204805332adcdd9baaeda7ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate memory and remove the allocation from tracking.  <br /></td></tr>
+<tr class="memdesc:a67f1754204805332adcdd9baaeda7ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocates memory and removes the allocation from tracking.  <br /></td></tr>
 <tr class="separator:a67f1754204805332adcdd9baaeda7ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a080312ef566707d0bc635d07932f4497" id="r_a080312ef566707d0bc635d07932f4497"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a080312ef566707d0bc635d07932f4497">detectMemoryLeaks</a> ()</td></tr>
-<tr class="memdesc:a080312ef566707d0bc635d07932f4497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect memory leaks and print the results.  <br /></td></tr>
+<tr class="memitem:a080312ef566707d0bc635d07932f4497" id="r_a080312ef566707d0bc635d07932f4497"><td class="memItemLeft" align="right" valign="top"><a id="a080312ef566707d0bc635d07932f4497" name="a080312ef566707d0bc635d07932f4497"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>detectMemoryLeaks</b> ()</td></tr>
+<tr class="memdesc:a080312ef566707d0bc635d07932f4497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks for memory leaks and reports them. <br /></td></tr>
 <tr class="separator:a080312ef566707d0bc635d07932f4497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afca715f9c06d435dbcbf43f7a0d68dde" id="r_afca715f9c06d435dbcbf43f7a0d68dde"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#afca715f9c06d435dbcbf43f7a0d68dde">reportLeak</a> (void *pointer, size_t size, const char *file, int line)</td></tr>
-<tr class="memdesc:afca715f9c06d435dbcbf43f7a0d68dde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report a memory leak.  <br /></td></tr>
+<tr class="memdesc:afca715f9c06d435dbcbf43f7a0d68dde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reports a memory leak.  <br /></td></tr>
 <tr class="separator:afca715f9c06d435dbcbf43f7a0d68dde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3759b4ebc5d5ac4133e33b3df7b9d08" id="r_af3759b4ebc5d5ac4133e33b3df7b9d08"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#af3759b4ebc5d5ac4133e33b3df7b9d08">operator new</a> (size_t size, const char *file, int line)</td></tr>
-<tr class="memdesc:af3759b4ebc5d5ac4133e33b3df7b9d08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded new operator that tracks memory allocations.  <br /></td></tr>
+<tr class="memitem:af3759b4ebc5d5ac4133e33b3df7b9d08" id="r_af3759b4ebc5d5ac4133e33b3df7b9d08"><td class="memItemLeft" align="right" valign="top"><a id="af3759b4ebc5d5ac4133e33b3df7b9d08" name="af3759b4ebc5d5ac4133e33b3df7b9d08"></a>
+static void *&#160;</td><td class="memItemRight" valign="bottom"><b>operator new</b> (size_t size, const char *file, int line)</td></tr>
 <tr class="separator:af3759b4ebc5d5ac4133e33b3df7b9d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a906731fb6d62137e1924cbb6fca92bc6" id="r_a906731fb6d62137e1924cbb6fca92bc6"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a906731fb6d62137e1924cbb6fca92bc6">operator new[]</a> (size_t size, const char *file, int line)</td></tr>
-<tr class="memdesc:a906731fb6d62137e1924cbb6fca92bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded new[] operator that tracks memory allocations.  <br /></td></tr>
+<tr class="memitem:a906731fb6d62137e1924cbb6fca92bc6" id="r_a906731fb6d62137e1924cbb6fca92bc6"><td class="memItemLeft" align="right" valign="top"><a id="a906731fb6d62137e1924cbb6fca92bc6" name="a906731fb6d62137e1924cbb6fca92bc6"></a>
+static void *&#160;</td><td class="memItemRight" valign="bottom"><b>operator new[]</b> (size_t size, const char *file, int line)</td></tr>
 <tr class="separator:a906731fb6d62137e1924cbb6fca92bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb801c438bbc31567a6083032a33b20" id="r_a4eb801c438bbc31567a6083032a33b20"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a4eb801c438bbc31567a6083032a33b20">operator delete</a> (void *pointer, const char *file, int line)</td></tr>
-<tr class="memdesc:a4eb801c438bbc31567a6083032a33b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded delete operator that tracks memory deallocations.  <br /></td></tr>
+<tr class="memitem:a4eb801c438bbc31567a6083032a33b20" id="r_a4eb801c438bbc31567a6083032a33b20"><td class="memItemLeft" align="right" valign="top"><a id="a4eb801c438bbc31567a6083032a33b20" name="a4eb801c438bbc31567a6083032a33b20"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>operator delete</b> (void *pointer, const char *file, int line)</td></tr>
 <tr class="separator:a4eb801c438bbc31567a6083032a33b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab04be8e95db7464698d91b6f5b92d0c2" id="r_ab04be8e95db7464698d91b6f5b92d0c2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#ab04be8e95db7464698d91b6f5b92d0c2">operator delete[]</a> (void *pointer, const char *file, int line)</td></tr>
-<tr class="memdesc:ab04be8e95db7464698d91b6f5b92d0c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded delete[] operator that tracks memory deallocations.  <br /></td></tr>
+<tr class="memitem:ab04be8e95db7464698d91b6f5b92d0c2" id="r_ab04be8e95db7464698d91b6f5b92d0c2"><td class="memItemLeft" align="right" valign="top"><a id="ab04be8e95db7464698d91b6f5b92d0c2" name="ab04be8e95db7464698d91b6f5b92d0c2"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>operator delete[]</b> (void *pointer, const char *file, int line)</td></tr>
 <tr class="separator:ab04be8e95db7464698d91b6f5b92d0c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e0a5aa115926d2380193f909e4a4cd1" id="r_a1e0a5aa115926d2380193f909e4a4cd1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a1e0a5aa115926d2380193f909e4a4cd1">operator delete</a> (void *pointer) noexcept</td></tr>
-<tr class="memdesc:a1e0a5aa115926d2380193f909e4a4cd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded delete operator that tracks memory deallocations.  <br /></td></tr>
+<tr class="memitem:a1e0a5aa115926d2380193f909e4a4cd1" id="r_a1e0a5aa115926d2380193f909e4a4cd1"><td class="memItemLeft" align="right" valign="top"><a id="a1e0a5aa115926d2380193f909e4a4cd1" name="a1e0a5aa115926d2380193f909e4a4cd1"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>operator delete</b> (void *pointer) noexcept</td></tr>
 <tr class="separator:a1e0a5aa115926d2380193f909e4a4cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b5956094f2f788f13a34fd48aa728fe" id="r_a6b5956094f2f788f13a34fd48aa728fe"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a6b5956094f2f788f13a34fd48aa728fe">operator delete[]</a> (void *pointer) noexcept</td></tr>
-<tr class="memdesc:a6b5956094f2f788f13a34fd48aa728fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overloaded delete[] operator that tracks memory deallocations.  <br /></td></tr>
+<tr class="memitem:a6b5956094f2f788f13a34fd48aa728fe" id="r_a6b5956094f2f788f13a34fd48aa728fe"><td class="memItemLeft" align="right" valign="top"><a id="a6b5956094f2f788f13a34fd48aa728fe" name="a6b5956094f2f788f13a34fd48aa728fe"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>operator delete[]</b> (void *pointer) noexcept</td></tr>
 <tr class="separator:a6b5956094f2f788f13a34fd48aa728fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
-Static Private Attributes</h2></td></tr>
-<tr class="memitem:aa06c5749b4771ab4e9274155f1a52468" id="r_aa06c5749b4771ab4e9274155f1a52468"><td class="memItemLeft" align="right" valign="top">static std::map&lt; void *, <a class="el" href="struct_memory_manager_1_1_allocation_info.html">AllocationInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#aa06c5749b4771ab4e9274155f1a52468">allocations</a></td></tr>
-<tr class="separator:aa06c5749b4771ab4e9274155f1a52468"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b5d012c704d9c676ba77b4f657e9cc9" id="r_a5b5d012c704d9c676ba77b4f657e9cc9"><td class="memItemLeft" align="right" valign="top">static std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_memory_manager.html#a5b5d012c704d9c676ba77b4f657e9cc9">allocationMutex</a></td></tr>
-<tr class="separator:a5b5d012c704d9c676ba77b4f657e9cc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_memory_manager.html" title="The MemoryManager class.">MemoryManager</a> class. </p>
+<div class="textblock"><p><a class="el" href="class_memory_manager.html" title="MemoryManager class, which provides methods for memory allocation, deallocation, and leak detection.">MemoryManager</a> class, which provides methods for memory allocation, deallocation, and leak detection. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a915f582227ff100ddab4e7ca744a8a70" name="a915f582227ff100ddab4e7ca744a8a70"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a915f582227ff100ddab4e7ca744a8a70">&#9670;&#160;</a></span>allocate()</h2>
@@ -171,16 +159,16 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Allocate memory and track the allocation. </p>
+<p>Allocates memory of the specified size and tracks the allocation for leak detection. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">size</td><td>The size of the memory to allocate </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the allocation was made </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the allocation was made </td></tr>
+    <tr><td class="paramname">size</td><td>The size of memory to allocate in bytes. </td></tr>
+    <tr><td class="paramname">file</td><td>The file where the allocation is made, for tracking purposes. </td></tr>
+    <tr><td class="paramname">line</td><td>The line number where the allocation is made, for tracking purposes. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the allocated memory </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the allocated memory. </dd></dl>
 
 </div>
 </div>
@@ -224,320 +212,15 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Deallocate memory and remove the allocation from tracking. </p>
+<p>Deallocates memory and removes the allocation from tracking. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pointer</td><td>The pointer to the memory to deallocate </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the deallocation was made </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the deallocation was made </td></tr>
+    <tr><td class="paramname">pointer</td><td>The pointer to the memory to deallocate. </td></tr>
+    <tr><td class="paramname">file</td><td>The file where the deallocation is made, for tracking purposes. </td></tr>
+    <tr><td class="paramname">line</td><td>The line number where the deallocation is made, for tracking purposes. </td></tr>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="a080312ef566707d0bc635d07932f4497" name="a080312ef566707d0bc635d07932f4497"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a080312ef566707d0bc635d07932f4497">&#9670;&#160;</a></span>detectMemoryLeaks()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MemoryManager::detectMemoryLeaks </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Detect memory leaks and print the results. </p>
-
-</div>
-</div>
-<a id="a1e0a5aa115926d2380193f909e4a4cd1" name="a1e0a5aa115926d2380193f909e4a4cd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e0a5aa115926d2380193f909e4a4cd1">&#9670;&#160;</a></span>operator delete() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MemoryManager::operator delete </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>pointer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Overloaded delete operator that tracks memory deallocations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pointer</td><td>The pointer to the memory to deallocate </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a4eb801c438bbc31567a6083032a33b20" name="a4eb801c438bbc31567a6083032a33b20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4eb801c438bbc31567a6083032a33b20">&#9670;&#160;</a></span>operator delete() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MemoryManager::operator delete </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>pointer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Overloaded delete operator that tracks memory deallocations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pointer</td><td>The pointer to the memory to deallocate </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the deallocation was made </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the deallocation was made </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a6b5956094f2f788f13a34fd48aa728fe" name="a6b5956094f2f788f13a34fd48aa728fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b5956094f2f788f13a34fd48aa728fe">&#9670;&#160;</a></span>operator delete[]() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MemoryManager::operator delete[] </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>pointer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Overloaded delete[] operator that tracks memory deallocations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pointer</td><td>The pointer to the memory to deallocate </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ab04be8e95db7464698d91b6f5b92d0c2" name="ab04be8e95db7464698d91b6f5b92d0c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab04be8e95db7464698d91b6f5b92d0c2">&#9670;&#160;</a></span>operator delete[]() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MemoryManager::operator delete[] </td>
-          <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>pointer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Overloaded delete[] operator that tracks memory deallocations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pointer</td><td>The pointer to the memory to deallocate </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the deallocation was made </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the deallocation was made </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="af3759b4ebc5d5ac4133e33b3df7b9d08" name="af3759b4ebc5d5ac4133e33b3df7b9d08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3759b4ebc5d5ac4133e33b3df7b9d08">&#9670;&#160;</a></span>operator new()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void * MemoryManager::operator new </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Overloaded new operator that tracks memory allocations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>The size of the memory to allocate </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the allocation was made </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the allocation was made </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the allocated memory </dd></dl>
-
-</div>
-</div>
-<a id="a906731fb6d62137e1924cbb6fca92bc6" name="a906731fb6d62137e1924cbb6fca92bc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a906731fb6d62137e1924cbb6fca92bc6">&#9670;&#160;</a></span>operator new[]()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void * MemoryManager::operator new[] </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>size</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const char *&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>line</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Overloaded new[] operator that tracks memory allocations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">size</td><td>The size of the memory to allocate </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the allocation was made </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the allocation was made </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The pointer to the allocated memory </dd></dl>
 
 </div>
 </div>
@@ -587,67 +270,22 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Report a memory leak. </p>
+<p>Reports a memory leak. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pointer</td><td>The pointer to the leaked memory </td></tr>
-    <tr><td class="paramname">size</td><td>The size of the leaked memory </td></tr>
-    <tr><td class="paramname">file</td><td>The file where the leak was detected </td></tr>
-    <tr><td class="paramname">line</td><td>The line where the leak was detected </td></tr>
+    <tr><td class="paramname">pointer</td><td>The pointer to the leaked memory. </td></tr>
+    <tr><td class="paramname">size</td><td>The size of the leaked memory. </td></tr>
+    <tr><td class="paramname">file</td><td>The file where the leak occurred. </td></tr>
+    <tr><td class="paramname">line</td><td>The line number where the leak occurred. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a5b5d012c704d9c676ba77b4f657e9cc9" name="a5b5d012c704d9c676ba77b4f657e9cc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b5d012c704d9c676ba77b4f657e9cc9">&#9670;&#160;</a></span>allocationMutex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::mutex MemoryManager::allocationMutex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa06c5749b4771ab4e9274155f1a52468" name="aa06c5749b4771ab4e9274155f1a52468"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa06c5749b4771ab4e9274155f1a52468">&#9670;&#160;</a></span>allocations</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::map&lt; void *, <a class="el" href="struct_memory_manager_1_1_allocation_info.html">MemoryManager::AllocationInfo</a> &gt; MemoryManager::allocations</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/MANMON/<a class="el" href="_memory_manager_8h_source.html">MemoryManager.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_memory_manager_8cpp.html">MemoryManager.cpp</a></li>
+<li>include/MANMON/<a class="el" href="_memory_manager_8h_source.html">MemoryManager.h</a></li>
+<li>src/<b>MemoryManager.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

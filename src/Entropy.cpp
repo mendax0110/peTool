@@ -10,11 +10,6 @@ Entropy::Entropy() = default;
 
 Entropy::~Entropy() = default;
 
-/**
- * @brief Calculate the entropy of a given data
- * @param data The data to calculate the entropy
- * @return The entropy of the data
- */
 double Entropy::calculateEntropy(const std::vector<uint8_t>& data)
 {
     auto histogram = createHistogram(data);
@@ -31,11 +26,6 @@ double Entropy::calculateEntropy(const std::vector<uint8_t>& data)
     return entropy;
 }
 
-/**
- * @brief Create a histogram of the data
- * @param data The data to create the histogram
- * @return The histogram of the data
- */
 std::vector<int> Entropy::createHistogram(const std::vector<uint8_t>& data)
 {
     std::vector<int> histogram(256, 0);
@@ -46,12 +36,6 @@ std::vector<int> Entropy::createHistogram(const std::vector<uint8_t>& data)
     return histogram;
 }
 
-/**
- * @brief Calculate the probabilities of the histogram
- * @param histogram The histogram to calculate the probabilities
- * @param dataSize The size of the data
- * @return The probabilities of the histogram
- */
 std::vector<double> Entropy::calculateProbabilities(const std::vector<int>& histogram, size_t dataSize)
 {
     std::vector<double> probabilities;
@@ -63,10 +47,6 @@ std::vector<double> Entropy::calculateProbabilities(const std::vector<int>& hist
     return probabilities;
 }
 
-/**
- * @brief Print the entropy of the data
- * @param data The data to print the entropy
- */
 void Entropy::printEntropy(const std::vector<uint8_t>& data, size_t offset, size_t size)
 {
     if (offset + size > data.size())

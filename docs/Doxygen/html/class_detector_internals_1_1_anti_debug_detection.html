@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: DetectorInternals::AntiDebugDetection Class Reference</title>
+<title>peTool: DetectorInternals::AntiDebugDetection Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -75,7 +75,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_detector_internals_1_1_anti_debug_detection-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">DetectorInternals::AntiDebugDetection Class Reference</div></div>
 </div><!--header-->
@@ -88,28 +88,27 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4e717e3501578e71c19958a254a87250" id="r_a4e717e3501578e71c19958a254a87250"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a4e717e3501578e71c19958a254a87250">AntiDebugDetection</a> (const std::vector&lt; uint8_t &gt; &amp;<a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a18797d2210205e9a6e4a6383121e2b6b">fileData</a>)</td></tr>
+<tr class="memitem:a4e717e3501578e71c19958a254a87250" id="r_a4e717e3501578e71c19958a254a87250"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a4e717e3501578e71c19958a254a87250">AntiDebugDetection</a> (const std::vector&lt; uint8_t &gt; &amp;fileData)</td></tr>
+<tr class="memdesc:a4e717e3501578e71c19958a254a87250"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="class_detector_internals_1_1_anti_debug_detection.html" title="The AntiDebugDetection class.">AntiDebugDetection</a> object.  <br /></td></tr>
 <tr class="separator:a4e717e3501578e71c19958a254a87250"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6be9e5a96b09ff1926a0552e0b00be3" id="r_aa6be9e5a96b09ff1926a0552e0b00be3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#aa6be9e5a96b09ff1926a0552e0b00be3">checkEntryPoint</a> (const std::vector&lt; uint8_t &gt; &amp;pattern)</td></tr>
 <tr class="memdesc:aa6be9e5a96b09ff1926a0552e0b00be3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check the Entry Point for a specific pattern.  <br /></td></tr>
 <tr class="separator:aa6be9e5a96b09ff1926a0552e0b00be3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a550d44288ebaacb864b15f52606521b2" id="r_a550d44288ebaacb864b15f52606521b2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a550d44288ebaacb864b15f52606521b2">detectIsDebuggerPresent</a> ()</td></tr>
-<tr class="memdesc:a550d44288ebaacb864b15f52606521b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if a <a class="el" href="class_debugger.html" title="The Debugger class.">Debugger</a> is present.  <br /></td></tr>
-<tr class="separator:a550d44288ebaacb864b15f52606521b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a030770ac692c47e2e32f98b88fb5161e" id="r_a030770ac692c47e2e32f98b88fb5161e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a030770ac692c47e2e32f98b88fb5161e">detectNtGlobalFlag</a> ()</td></tr>
-<tr class="memdesc:a030770ac692c47e2e32f98b88fb5161e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect NT-specific flags.  <br /></td></tr>
-<tr class="separator:a030770ac692c47e2e32f98b88fb5161e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ec03a75936c36c630b81c33047b8ad8" id="r_a3ec03a75936c36c630b81c33047b8ad8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a3ec03a75936c36c630b81c33047b8ad8">detectHeapFlags</a> ()</td></tr>
-<tr class="memdesc:a3ec03a75936c36c630b81c33047b8ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect Heap Flags.  <br /></td></tr>
-<tr class="separator:a3ec03a75936c36c630b81c33047b8ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac37711c120276bfe1024f78a2b909206" id="r_ac37711c120276bfe1024f78a2b909206"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#ac37711c120276bfe1024f78a2b909206">detectOutputDebugString</a> ()</td></tr>
-<tr class="memdesc:ac37711c120276bfe1024f78a2b909206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if the file is being debugged.  <br /></td></tr>
+<tr class="memdesc:ac37711c120276bfe1024f78a2b909206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect OutputDebugString.  <br /></td></tr>
 <tr class="separator:ac37711c120276bfe1024f78a2b909206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a18797d2210205e9a6e4a6383121e2b6b" id="r_a18797d2210205e9a6e4a6383121e2b6b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a18797d2210205e9a6e4a6383121e2b6b">fileData</a></td></tr>
-<tr class="separator:a18797d2210205e9a6e4a6383121e2b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a550d44288ebaacb864b15f52606521b2" id="r_a550d44288ebaacb864b15f52606521b2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a550d44288ebaacb864b15f52606521b2">detectIsDebuggerPresent</a> ()</td></tr>
+<tr class="memdesc:a550d44288ebaacb864b15f52606521b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect if a <a class="el" href="class_debugger.html" title="Debugger class, which provides methods for debugging applications.">Debugger</a> is present.  <br /></td></tr>
+<tr class="separator:a550d44288ebaacb864b15f52606521b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030770ac692c47e2e32f98b88fb5161e" id="r_a030770ac692c47e2e32f98b88fb5161e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a030770ac692c47e2e32f98b88fb5161e">detectNtGlobalFlag</a> ()</td></tr>
+<tr class="memdesc:a030770ac692c47e2e32f98b88fb5161e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect NtGlobalFlag.  <br /></td></tr>
+<tr class="separator:a030770ac692c47e2e32f98b88fb5161e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec03a75936c36c630b81c33047b8ad8" id="r_a3ec03a75936c36c630b81c33047b8ad8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_detector_internals_1_1_anti_debug_detection.html#a3ec03a75936c36c630b81c33047b8ad8">detectHeapFlags</a> ()</td></tr>
+<tr class="memdesc:a3ec03a75936c36c630b81c33047b8ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect Heap Flags.  <br /></td></tr>
+<tr class="separator:a3ec03a75936c36c630b81c33047b8ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="class_detector_internals_1_1_anti_debug_detection.html" title="The AntiDebugDetection class.">AntiDebugDetection</a> class. </p>
@@ -137,6 +136,14 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Construct a new <a class="el" href="class_detector_internals_1_1_anti_debug_detection.html" title="The AntiDebugDetection class.">AntiDebugDetection</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to analyze </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -173,6 +180,9 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool AntiDebugDetection::detectHeapFlags </td>
@@ -181,6 +191,11 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Detect Heap Flags. </p>
@@ -193,6 +208,9 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool AntiDebugDetection::detectIsDebuggerPresent </td>
@@ -201,9 +219,14 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Detect if a <a class="el" href="class_debugger.html" title="The Debugger class.">Debugger</a> is present. </p>
+<p>Detect if a <a class="el" href="class_debugger.html" title="Debugger class, which provides methods for debugging applications.">Debugger</a> is present. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if a debugger is detected, false otherwise </dd></dl>
 
 </div>
@@ -213,6 +236,9 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool AntiDebugDetection::detectNtGlobalFlag </td>
@@ -221,10 +247,15 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Detect NT-specific flags. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the flags are detected, false otherwise </dd></dl>
+<p>Detect NtGlobalFlag. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if NtGlobalFlag is detected, false otherwise </dd></dl>
 
 </div>
 </div>
@@ -243,37 +274,14 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Detect if the file is being debugged. </p>
-<dl class="section return"><dt>Returns</dt><dd>True if the file is being debugged, false otherwise </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a18797d2210205e9a6e4a6383121e2b6b" name="a18797d2210205e9a6e4a6383121e2b6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18797d2210205e9a6e4a6383121e2b6b">&#9670;&#160;</a></span>fileData</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt;uint8_t&gt;&amp; DetectorInternals::AntiDebugDetection::fileData</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Detect OutputDebugString. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if OutputDebugString is detected, false otherwise </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/CORE/<a class="el" href="_detector_8h_source.html">Detector.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_detector_8cpp.html">Detector.cpp</a></li>
+<li>include/CORE/<a class="el" href="_detector_8h_source.html">Detector.h</a></li>
+<li>src/<b>Detector.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,0 +1,115 @@
+\doxysection{Memory\+Manager Class Reference}
+\hypertarget{class_memory_manager}{}\label{class_memory_manager}\index{MemoryManager@{MemoryManager}}
+
+
+\doxylink{class_memory_manager}{Memory\+Manager} class, which provides methods for memory allocation, deallocation, and leak detection.  
+
+
+
+
+{\ttfamily \#include $<$Memory\+Manager.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_memory_manager_a915f582227ff100ddab4e7ca744a8a70}{allocate}} (size\+\_\+t size, const char \texorpdfstring{$\ast$}{*}file, int line)
+\begin{DoxyCompactList}\small\item\em Allocates memory of the specified size and tracks the allocation for leak detection. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_memory_manager_a67f1754204805332adcdd9baaeda7ed4}{deallocate}} (void \texorpdfstring{$\ast$}{*}pointer, const char \texorpdfstring{$\ast$}{*}file, int line)
+\begin{DoxyCompactList}\small\item\em Deallocates memory and removes the allocation from tracking. \end{DoxyCompactList}\item 
+\Hypertarget{class_memory_manager_a080312ef566707d0bc635d07932f4497}\label{class_memory_manager_a080312ef566707d0bc635d07932f4497} 
+static void {\bfseries detect\+Memory\+Leaks} ()
+\begin{DoxyCompactList}\small\item\em Checks for memory leaks and reports them. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_memory_manager_afca715f9c06d435dbcbf43f7a0d68dde}{report\+Leak}} (void \texorpdfstring{$\ast$}{*}pointer, size\+\_\+t size, const char \texorpdfstring{$\ast$}{*}file, int line)
+\begin{DoxyCompactList}\small\item\em Reports a memory leak. \end{DoxyCompactList}\item 
+\Hypertarget{class_memory_manager_af3759b4ebc5d5ac4133e33b3df7b9d08}\label{class_memory_manager_af3759b4ebc5d5ac4133e33b3df7b9d08} 
+static void \texorpdfstring{$\ast$}{*} {\bfseries operator new} (size\+\_\+t size, const char \texorpdfstring{$\ast$}{*}file, int line)
+\item 
+\Hypertarget{class_memory_manager_a906731fb6d62137e1924cbb6fca92bc6}\label{class_memory_manager_a906731fb6d62137e1924cbb6fca92bc6} 
+static void \texorpdfstring{$\ast$}{*} {\bfseries operator new\mbox{[}$\,$\mbox{]}} (size\+\_\+t size, const char \texorpdfstring{$\ast$}{*}file, int line)
+\item 
+\Hypertarget{class_memory_manager_a4eb801c438bbc31567a6083032a33b20}\label{class_memory_manager_a4eb801c438bbc31567a6083032a33b20} 
+static void {\bfseries operator delete} (void \texorpdfstring{$\ast$}{*}pointer, const char \texorpdfstring{$\ast$}{*}file, int line)
+\item 
+\Hypertarget{class_memory_manager_ab04be8e95db7464698d91b6f5b92d0c2}\label{class_memory_manager_ab04be8e95db7464698d91b6f5b92d0c2} 
+static void {\bfseries operator delete\mbox{[}$\,$\mbox{]}} (void \texorpdfstring{$\ast$}{*}pointer, const char \texorpdfstring{$\ast$}{*}file, int line)
+\item 
+\Hypertarget{class_memory_manager_a1e0a5aa115926d2380193f909e4a4cd1}\label{class_memory_manager_a1e0a5aa115926d2380193f909e4a4cd1} 
+static void {\bfseries operator delete} (void \texorpdfstring{$\ast$}{*}pointer) noexcept
+\item 
+\Hypertarget{class_memory_manager_a6b5956094f2f788f13a34fd48aa728fe}\label{class_memory_manager_a6b5956094f2f788f13a34fd48aa728fe} 
+static void {\bfseries operator delete\mbox{[}$\,$\mbox{]}} (void \texorpdfstring{$\ast$}{*}pointer) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_memory_manager}{Memory\+Manager} class, which provides methods for memory allocation, deallocation, and leak detection. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_memory_manager_a915f582227ff100ddab4e7ca744a8a70}\label{class_memory_manager_a915f582227ff100ddab4e7ca744a8a70} 
+\index{MemoryManager@{MemoryManager}!allocate@{allocate}}
+\index{allocate@{allocate}!MemoryManager@{MemoryManager}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily void \texorpdfstring{$\ast$}{*} Memory\+Manager\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{file,  }\item[{int}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Allocates memory of the specified size and tracks the allocation for leak detection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & The size of memory to allocate in bytes. \\
+\hline
+{\em file} & The file where the allocation is made, for tracking purposes. \\
+\hline
+{\em line} & The line number where the allocation is made, for tracking purposes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the allocated memory. 
+\end{DoxyReturn}
+\Hypertarget{class_memory_manager_a67f1754204805332adcdd9baaeda7ed4}\label{class_memory_manager_a67f1754204805332adcdd9baaeda7ed4} 
+\index{MemoryManager@{MemoryManager}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!MemoryManager@{MemoryManager}}
+\doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily void Memory\+Manager\+::deallocate (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pointer,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{file,  }\item[{int}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Deallocates memory and removes the allocation from tracking. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & The pointer to the memory to deallocate. \\
+\hline
+{\em file} & The file where the deallocation is made, for tracking purposes. \\
+\hline
+{\em line} & The line number where the deallocation is made, for tracking purposes. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_memory_manager_afca715f9c06d435dbcbf43f7a0d68dde}\label{class_memory_manager_afca715f9c06d435dbcbf43f7a0d68dde} 
+\index{MemoryManager@{MemoryManager}!reportLeak@{reportLeak}}
+\index{reportLeak@{reportLeak}!MemoryManager@{MemoryManager}}
+\doxysubsubsection{\texorpdfstring{reportLeak()}{reportLeak()}}
+{\footnotesize\ttfamily void Memory\+Manager\+::report\+Leak (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{pointer,  }\item[{size\+\_\+t}]{size,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{file,  }\item[{int}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reports a memory leak. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & The pointer to the leaked memory. \\
+\hline
+{\em size} & The size of the leaked memory. \\
+\hline
+{\em file} & The file where the leak occurred. \\
+\hline
+{\em line} & The line number where the leak occurred. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+MANMON/Memory\+Manager.\+h\item 
+src/Memory\+Manager.\+cpp\end{DoxyCompactItemize}

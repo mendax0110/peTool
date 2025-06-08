@@ -8,10 +8,6 @@ Utils::Utils() = default;
 
 Utils::~Utils() = default;
 
-/**
- * @brief Print the bytes in the data vector
- * @param data The data to print
- */
 void Utils::printBytes(const std::vector<uint8_t>& data)
 {
     for (const auto& byte : data)
@@ -23,12 +19,6 @@ void Utils::printBytes(const std::vector<uint8_t>& data)
     std::cout << std::endl;
 }
 
-/**
- * @brief Convert a uint32_t to a vector of bytes in little-endian format
- * @param data The data to convert
- * @param offset The offset to start converting
- * @return The vector of bytes
- */
 uint32_t Utils::bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset)
 {
     uint32_t result = 0;
@@ -37,12 +27,6 @@ uint32_t Utils::bytesToUInt32LE(const std::vector<uint8_t>& data, size_t offset)
     return result;
 }
 
-/**
- * @brief Convert a uint16_t to a vector of bytes in little-endian format
- * @param data The data to convert
- * @param offset The offset to start converting
- * @return The vector of bytes
- */
 uint16_t Utils::bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset)
 {
     uint16_t result = 0;
@@ -51,24 +35,12 @@ uint16_t Utils::bytesToUInt16LE(const std::vector<uint8_t>& data, size_t offset)
     return result;
 }
 
-/**
- * @brief Convert bytes to a string
- * @param data The data to convert
- * @param offset The offset to start converting
- * @param length The length of the string
- * @return The string
- */
 std::string Utils::bytesToString(const std::vector<uint8_t>& data, size_t offset, size_t length)
 {
     std::string result(data.begin() + offset, data.begin() + offset + length);
     return result;
 }
 
-/**
- * @brief Convert a vector of bytes to a string
- * @param fileData The data to convert
- * @return The string
- */
 uint32_t Utils::calculateChecksum(const std::vector<uint8_t>& fileData)
 {
     uint32_t checksum = 0;

@@ -1,0 +1,77 @@
+\doxysection{Ptr\+Utils Class Reference}
+\hypertarget{class_ptr_utils}{}\label{class_ptr_utils}\index{PtrUtils@{PtrUtils}}
+
+
+Utility class for pointer operations, including null checks and pointer verification.  
+
+
+
+
+{\ttfamily \#include $<$Ptr\+Utils.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\static bool \mbox{\hyperlink{class_ptr_utils_af3d3de640fdd63e36904a967b37346f9}{Is\+Null\+Ptr}} (T \texorpdfstring{$\ast$}{*}ptr)
+\begin{DoxyCompactList}\small\item\em Verify if given pointer is nullptr. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\static bool \mbox{\hyperlink{class_ptr_utils_a86854a0a94ce7833f5e2a3f573230d2f}{Is\+Valid\+Ptr}} (T \texorpdfstring{$\ast$}{*}ptr)
+\begin{DoxyCompactList}\small\item\em Verify if given pointer is valid (not nullptr). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utility class for pointer operations, including null checks and pointer verification. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_ptr_utils_af3d3de640fdd63e36904a967b37346f9}\label{class_ptr_utils_af3d3de640fdd63e36904a967b37346f9} 
+\index{PtrUtils@{PtrUtils}!IsNullPtr@{IsNullPtr}}
+\index{IsNullPtr@{IsNullPtr}!PtrUtils@{PtrUtils}}
+\doxysubsubsection{\texorpdfstring{IsNullPtr()}{IsNullPtr()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+static bool Ptr\+Utils\+::\+Is\+Null\+Ptr (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Verify if given pointer is nullptr. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & A type of the pointer to verify. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The pointer to verify. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean indicating whether the pointer is nullptr. 
+\end{DoxyReturn}
+\Hypertarget{class_ptr_utils_a86854a0a94ce7833f5e2a3f573230d2f}\label{class_ptr_utils_a86854a0a94ce7833f5e2a3f573230d2f} 
+\index{PtrUtils@{PtrUtils}!IsValidPtr@{IsValidPtr}}
+\index{IsValidPtr@{IsValidPtr}!PtrUtils@{PtrUtils}}
+\doxysubsubsection{\texorpdfstring{IsValidPtr()}{IsValidPtr()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+static bool Ptr\+Utils\+::\+Is\+Valid\+Ptr (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Verify if given pointer is valid (not nullptr). 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & A type of the pointer to verify. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The pointer to verify. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean indicating whether the pointer is valid (not nullptr). 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+UTILS/Ptr\+Utils.\+h\end{DoxyCompactItemize}

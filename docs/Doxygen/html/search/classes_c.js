@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['rebuilder_0',['Rebuilder',['../class_rebuilder.html',1,'']]],
-  ['resourcedirectory_1',['ResourceDirectory',['../class_pe_internals_1_1_resource_directory.html',1,'PeInternals']]],
-  ['resourcedirectorytraverser_2',['ResourceDirectoryTraverser',['../class_pe_internals_1_1_resource_directory_traverser.html',1,'PeInternals']]],
-  ['resourcedirectorytraverserfactory_3',['ResourceDirectoryTraverserFactory',['../class_pe_internals_1_1_resource_directory_traverser_factory.html',1,'PeInternals']]]
+  ['packerdetection_0',['PackerDetection',['../class_detector_internals_1_1_packer_detection.html',1,'DetectorInternals']]],
+  ['pe_1',['PE',['../class_pe_internals_1_1_p_e.html',1,'PeInternals']]],
+  ['performancemonitor_2',['PerformanceMonitor',['../class_performance_monitor.html',1,'']]],
+  ['pointerwrapper_3',['PointerWrapper',['../class_pointer_wrapper.html',1,'']]],
+  ['position_4',['Position',['../struct_file_editor_internals_1_1_file_editor_1_1_position.html',1,'FileEditorInternals::FileEditor']]],
+  ['processmonitor_5',['ProcessMonitor',['../class_process_monitor.html',1,'']]],
+  ['ptrutils_6',['PtrUtils',['../class_ptr_utils.html',1,'']]]
 ];

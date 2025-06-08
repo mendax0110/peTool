@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['handlecustomcommand_0',['handleCustomCommand',['../class_console_internals_1_1_console.html#a238177235400ba4684869b4df485bf88',1,'ConsoleInternals::Console']]],
-  ['handleexit_1',['handleExit',['../class_console_internals_1_1_console.html#a4bcc08acce5a67f1b6792f82ed22230b',1,'ConsoleInternals::Console']]],
-  ['handlehelp_2',['handleHelp',['../class_console_internals_1_1_console.html#ac52fc4e590411b24a4061d1b2dfdc939',1,'ConsoleInternals::Console']]],
-  ['handlehistory_3',['handleHistory',['../class_console_internals_1_1_console.html#a350c2566e54e717c771b28a51558341e',1,'ConsoleInternals::Console']]],
-  ['handlekeyboardinputs_4',['HandleKeyboardInputs',['../class_file_editor_internals_1_1_file_editor.html#a0bcbd24f0c7ec477d6d5aaa2ef6e7cee',1,'FileEditorInternals::FileEditor']]],
-  ['handlemouseinputs_5',['HandleMouseInputs',['../class_file_editor_internals_1_1_file_editor.html#ac6143e7aed3bd2efd660154223c0f903',1,'FileEditorInternals::FileEditor']]]
+  ['initialize_0',['Initialize',['../class_console_internals_1_1_console.html#a02f16a70b72437a09e6f0208bedc0875',1,'ConsoleInternals::Console']]],
+  ['injectdll_1',['InjectDLL',['../class_dll_injector_1_1_injector_platform.html#af759b0e2f1c807ba6288e37135e7f337',1,'DllInjector::InjectorPlatform']]],
+  ['inserttext_2',['InsertText',['../class_file_editor_internals_1_1_file_editor.html#a0643dfcbfd1da4748b2a18123dab5b4f',1,'FileEditorInternals::FileEditor']]],
+  ['isnullptr_3',['IsNullPtr',['../class_ptr_utils.html#af3d3de640fdd63e36904a967b37346f9',1,'PtrUtils']]],
+  ['isopen_4',['isOpen',['../class_file_editor_internals_1_1_file_editor.html#a093c88eb81570be18f6f442ca6757b58',1,'FileEditorInternals::FileEditor']]],
+  ['isprocessrunning_5',['IsProcessRunning',['../class_process_monitor.html#a6a147c4922701d3a36ca11c2e9143fba',1,'ProcessMonitor']]],
+  ['isthreadpoolrunning_6',['isThreadPoolRunning',['../class_threading_base.html#a4c6f288b5868ee6f64b717ff37f4ce0f',1,'ThreadingBase']]],
+  ['isvalidptr_7',['IsValidPtr',['../class_ptr_utils.html#a86854a0a94ce7833f5e2a3f573230d2f',1,'PtrUtils']]]
 ];

@@ -1,0 +1,211 @@
+\doxysection{Pe\+Internals\+::PE Class Reference}
+\hypertarget{class_pe_internals_1_1_p_e}{}\label{class_pe_internals_1_1_p_e}\index{PeInternals::PE@{PeInternals::PE}}
+
+
+The \doxylink{class_pe_internals_1_1_p_e}{PE} class, a class for parsing and extracting information from \doxylink{class_pe_internals_1_1_p_e}{PE} files.  
+
+
+
+
+{\ttfamily \#include $<$PE.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_pe_internals_1_1_p_e_adb22a4a3af334478eaa33da4aee3787c}{parse\+Headers}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Parse the \doxylink{class_pe_internals_1_1_p_e}{PE} headers and extract information. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_pe_internals_1_1_p_e_a174b3fcc7c21d31c7b08555e7f93e822}{extract\+Section\+Info}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Extract section information from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_pe_internals_1_1_p_e_aee2a6f5be338053aaf1edf0146e883b5}{extract\+Import\+Table}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Extract the Import Table from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_pe_internals_1_1_p_e_afc295892d1c031603d4df4d4a058cf23}{extract\+Export\+Table}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Extract the Export Table from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_pe_internals_1_1_p_e_ad1a7d3427a84b1ac72e03f2835f308af}{extract\+Resources}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Extract resources from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. \end{DoxyCompactList}\item 
+static uint32\+\_\+t \mbox{\hyperlink{class_pe_internals_1_1_p_e_a119963b0895a91c29ff86997c185aa40}{Get\+Resource\+Directory\+Offset}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Get the offset of the Resource Directory in the \doxylink{class_pe_internals_1_1_p_e}{PE} file. \end{DoxyCompactList}\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_pe_internals_1_1_p_e_acc2a9a6bf331d4e95898610aabef644d}{get\+Function\+Names}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Getter for the function names in the Import Table. \end{DoxyCompactList}\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_pe_internals_1_1_p_e_a592a4ed3cb0b7c55a22248b9c3c5b096}{get\+Dll\+Names}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Getter for the DLL names in the Import Table. \end{DoxyCompactList}\item 
+static std\+::vector$<$ uint64\+\_\+t $>$ \mbox{\hyperlink{class_pe_internals_1_1_p_e_ab8b74d906bdd0851a883a5a26b9e5d18}{get\+Function\+Addresses}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Getter for the function addresses in the Import Table. \end{DoxyCompactList}\item 
+static std\+::vector$<$ uint64\+\_\+t $>$ \mbox{\hyperlink{class_pe_internals_1_1_p_e_a4e53b1aac3bd672452d1d267d13561c6}{get\+Dll\+Addresses}} (const std\+::vector$<$ uint8\+\_\+t $>$ \&file\+Data)
+\begin{DoxyCompactList}\small\item\em Getter for the DLL addresses in the Import Table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_pe_internals_1_1_p_e}{PE} class, a class for parsing and extracting information from \doxylink{class_pe_internals_1_1_p_e}{PE} files. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_pe_internals_1_1_p_e_afc295892d1c031603d4df4d4a058cf23}\label{class_pe_internals_1_1_p_e_afc295892d1c031603d4df4d4a058cf23} 
+\index{PeInternals::PE@{PeInternals::PE}!extractExportTable@{extractExportTable}}
+\index{extractExportTable@{extractExportTable}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{extractExportTable()}{extractExportTable()}}
+{\footnotesize\ttfamily static void Pe\+Internals\+::\+PE\+::extract\+Export\+Table (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Extract the Export Table from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to extract the Export Table from \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_pe_internals_1_1_p_e_aee2a6f5be338053aaf1edf0146e883b5}\label{class_pe_internals_1_1_p_e_aee2a6f5be338053aaf1edf0146e883b5} 
+\index{PeInternals::PE@{PeInternals::PE}!extractImportTable@{extractImportTable}}
+\index{extractImportTable@{extractImportTable}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{extractImportTable()}{extractImportTable()}}
+{\footnotesize\ttfamily static void Pe\+Internals\+::\+PE\+::extract\+Import\+Table (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Extract the Import Table from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to extract the Import Table from \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_pe_internals_1_1_p_e_ad1a7d3427a84b1ac72e03f2835f308af}\label{class_pe_internals_1_1_p_e_ad1a7d3427a84b1ac72e03f2835f308af} 
+\index{PeInternals::PE@{PeInternals::PE}!extractResources@{extractResources}}
+\index{extractResources@{extractResources}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{extractResources()}{extractResources()}}
+{\footnotesize\ttfamily static void Pe\+Internals\+::\+PE\+::extract\+Resources (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Extract resources from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to extract resources from \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_pe_internals_1_1_p_e_a174b3fcc7c21d31c7b08555e7f93e822}\label{class_pe_internals_1_1_p_e_a174b3fcc7c21d31c7b08555e7f93e822} 
+\index{PeInternals::PE@{PeInternals::PE}!extractSectionInfo@{extractSectionInfo}}
+\index{extractSectionInfo@{extractSectionInfo}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{extractSectionInfo()}{extractSectionInfo()}}
+{\footnotesize\ttfamily static void Pe\+Internals\+::\+PE\+::extract\+Section\+Info (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Extract section information from the \doxylink{class_pe_internals_1_1_p_e}{PE} file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to extract section information from \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_pe_internals_1_1_p_e_a4e53b1aac3bd672452d1d267d13561c6}\label{class_pe_internals_1_1_p_e_a4e53b1aac3bd672452d1d267d13561c6} 
+\index{PeInternals::PE@{PeInternals::PE}!getDllAddresses@{getDllAddresses}}
+\index{getDllAddresses@{getDllAddresses}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{getDllAddresses()}{getDllAddresses()}}
+{\footnotesize\ttfamily static std\+::vector$<$ uint64\+\_\+t $>$ Pe\+Internals\+::\+PE\+::get\+Dll\+Addresses (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Getter for the DLL addresses in the Import Table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & the file data to extract DLL addresses from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of uint64\+\_\+t containing the DLL addresses 
+\end{DoxyReturn}
+\Hypertarget{class_pe_internals_1_1_p_e_a592a4ed3cb0b7c55a22248b9c3c5b096}\label{class_pe_internals_1_1_p_e_a592a4ed3cb0b7c55a22248b9c3c5b096} 
+\index{PeInternals::PE@{PeInternals::PE}!getDllNames@{getDllNames}}
+\index{getDllNames@{getDllNames}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{getDllNames()}{getDllNames()}}
+{\footnotesize\ttfamily static std\+::vector$<$ std\+::string $>$ Pe\+Internals\+::\+PE\+::get\+Dll\+Names (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Getter for the DLL names in the Import Table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & the file data to extract DLL names from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of strings containing the DLL names 
+\end{DoxyReturn}
+\Hypertarget{class_pe_internals_1_1_p_e_ab8b74d906bdd0851a883a5a26b9e5d18}\label{class_pe_internals_1_1_p_e_ab8b74d906bdd0851a883a5a26b9e5d18} 
+\index{PeInternals::PE@{PeInternals::PE}!getFunctionAddresses@{getFunctionAddresses}}
+\index{getFunctionAddresses@{getFunctionAddresses}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{getFunctionAddresses()}{getFunctionAddresses()}}
+{\footnotesize\ttfamily static std\+::vector$<$ uint64\+\_\+t $>$ Pe\+Internals\+::\+PE\+::get\+Function\+Addresses (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Getter for the function addresses in the Import Table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & the file data to extract function addresses from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of uint64\+\_\+t containing the function addresses 
+\end{DoxyReturn}
+\Hypertarget{class_pe_internals_1_1_p_e_acc2a9a6bf331d4e95898610aabef644d}\label{class_pe_internals_1_1_p_e_acc2a9a6bf331d4e95898610aabef644d} 
+\index{PeInternals::PE@{PeInternals::PE}!getFunctionNames@{getFunctionNames}}
+\index{getFunctionNames@{getFunctionNames}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{getFunctionNames()}{getFunctionNames()}}
+{\footnotesize\ttfamily static std\+::vector$<$ std\+::string $>$ Pe\+Internals\+::\+PE\+::get\+Function\+Names (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Getter for the function names in the Import Table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & the file data to extract function names from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of strings containing the function names 
+\end{DoxyReturn}
+\Hypertarget{class_pe_internals_1_1_p_e_a119963b0895a91c29ff86997c185aa40}\label{class_pe_internals_1_1_p_e_a119963b0895a91c29ff86997c185aa40} 
+\index{PeInternals::PE@{PeInternals::PE}!GetResourceDirectoryOffset@{GetResourceDirectoryOffset}}
+\index{GetResourceDirectoryOffset@{GetResourceDirectoryOffset}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{GetResourceDirectoryOffset()}{GetResourceDirectoryOffset()}}
+{\footnotesize\ttfamily uint32\+\_\+t PE\+::\+Get\+Resource\+Directory\+Offset (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Get the offset of the Resource Directory in the \doxylink{class_pe_internals_1_1_p_e}{PE} file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to get the Resource Directory offset from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The offset of the Resource Directory 
+\end{DoxyReturn}
+\Hypertarget{class_pe_internals_1_1_p_e_adb22a4a3af334478eaa33da4aee3787c}\label{class_pe_internals_1_1_p_e_adb22a4a3af334478eaa33da4aee3787c} 
+\index{PeInternals::PE@{PeInternals::PE}!parseHeaders@{parseHeaders}}
+\index{parseHeaders@{parseHeaders}!PeInternals::PE@{PeInternals::PE}}
+\doxysubsubsection{\texorpdfstring{parseHeaders()}{parseHeaders()}}
+{\footnotesize\ttfamily static void Pe\+Internals\+::\+PE\+::parse\+Headers (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{file\+Data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Parse the \doxylink{class_pe_internals_1_1_p_e}{PE} headers and extract information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Data} & The file data to parse \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/PE.\+h\item 
+src/PE.\+cpp\end{DoxyCompactItemize}

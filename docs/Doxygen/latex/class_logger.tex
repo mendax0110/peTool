@@ -1,0 +1,81 @@
+\doxysection{Logger Class Reference}
+\hypertarget{class_logger}{}\label{class_logger}\index{Logger@{Logger}}
+
+
+\doxylink{class_logger}{Logger} class, which provides methods for logging messages to a file.  
+
+
+
+
+{\ttfamily \#include $<$Logger.\+h$>$}
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_logger_1_1_log_message}{Log\+Message}}
+\begin{DoxyCompactList}\small\item\em Struct to hold log messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_logger_abc41bfb031d896170c7675fa96a6b30c}\label{class_logger_abc41bfb031d896170c7675fa96a6b30c} 
+{\bfseries Logger} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_logger}{Logger} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_logger_acb668a9e186a25fbaad2e4af6d1ed00a}\label{class_logger_acb668a9e186a25fbaad2e4af6d1ed00a} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Logger} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_logger}{Logger} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+Log levels for the logger \begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_logger_ac744681e23720966b5f430ec2060da36}\label{class_logger_ac744681e23720966b5f430ec2060da36} 
+enum class {\bfseries Log\+Level} \{ {\bfseries INFO}
+, {\bfseries WARNING}
+, {\bfseries ERROR}
+ \}
+\item 
+void \mbox{\hyperlink{class_logger_ab5c4d030ecfe859c0749136fa9191543}{log}} (Log\+Level level, const std\+::string \&message, const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Log a message with a specific log level. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_logger_a33965a11d6653e0c8ebca72348cd8ec3}{write\+Log\+To\+File}} ()
+\begin{DoxyCompactList}\small\item\em Get the log messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_logger}{Logger} class, which provides methods for logging messages to a file. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_logger_ab5c4d030ecfe859c0749136fa9191543}\label{class_logger_ab5c4d030ecfe859c0749136fa9191543} 
+\index{Logger@{Logger}!log@{log}}
+\index{log@{log}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{log()}{log()}}
+{\footnotesize\ttfamily void Logger\+::log (\begin{DoxyParamCaption}\item[{Log\+Level}]{level,  }\item[{const std\+::string \&}]{message,  }\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Log a message with a specific log level. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em level} & The log level \\
+\hline
+{\em message} & The message to log \\
+\hline
+{\em path} & The file path associated with the log message \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_logger_a33965a11d6653e0c8ebca72348cd8ec3}\label{class_logger_a33965a11d6653e0c8ebca72348cd8ec3} 
+\index{Logger@{Logger}!writeLogToFile@{writeLogToFile}}
+\index{writeLogToFile@{writeLogToFile}!Logger@{Logger}}
+\doxysubsubsection{\texorpdfstring{writeLogToFile()}{writeLogToFile()}}
+{\footnotesize\ttfamily void Logger\+::write\+Log\+To\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the log messages. 
+
+\begin{DoxyReturn}{Returns}
+A vector of log messages 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Logger.\+h\item 
+src/Logger.\+cpp\end{DoxyCompactItemize}

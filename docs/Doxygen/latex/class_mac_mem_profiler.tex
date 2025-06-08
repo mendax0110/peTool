@@ -1,0 +1,94 @@
+\doxysection{Mac\+Mem\+Profiler Class Reference}
+\hypertarget{class_mac_mem_profiler}{}\label{class_mac_mem_profiler}\index{MacMemProfiler@{MacMemProfiler}}
+
+
+The mac\+OS memory profiler class, which provides methods for profiling memory usage on mac\+OS.  
+
+
+
+
+{\ttfamily \#include $<$Mem\+Profiler.\+h$>$}
+
+Inheritance diagram for Mac\+Mem\+Profiler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_mac_mem_profiler}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_mac_mem_profiler_a9f8c7869f0d66404527b36662af97896}{get\+Memory\+Usage}} () override
+\begin{DoxyCompactList}\small\item\em Get the memory usage information on mac\+OS. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_mac_mem_profiler_aab036e659f515b5f0d2974a14b926b46}{get\+RAMUsage}} () override
+\begin{DoxyCompactList}\small\item\em Get the RAM usage information on mac\+OS. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_mac_mem_profiler_ae833ceaf9bd55cb61ebbc8a6a7296be8}{get\+VRAMUsage}} () override
+\begin{DoxyCompactList}\small\item\em Get the VRAM usage information on mac\+OS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_base_mem_profiler}{Base\+Mem\+Profiler}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Base\+Mem\+Profiler} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor for the base memory profiler class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The mac\+OS memory profiler class, which provides methods for profiling memory usage on mac\+OS. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_mac_mem_profiler_a9f8c7869f0d66404527b36662af97896}\label{class_mac_mem_profiler_a9f8c7869f0d66404527b36662af97896} 
+\index{MacMemProfiler@{MacMemProfiler}!getMemoryUsage@{getMemoryUsage}}
+\index{getMemoryUsage@{getMemoryUsage}!MacMemProfiler@{MacMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getMemoryUsage()}{getMemoryUsage()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Mac\+Mem\+Profiler\+::get\+Memory\+Usage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the memory usage information on mac\+OS. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the memory usage information 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_base_mem_profiler_a65544e2f75c428266ebce6347f1ef9b6}{Base\+Mem\+Profiler}}.
+
+\Hypertarget{class_mac_mem_profiler_aab036e659f515b5f0d2974a14b926b46}\label{class_mac_mem_profiler_aab036e659f515b5f0d2974a14b926b46} 
+\index{MacMemProfiler@{MacMemProfiler}!getRAMUsage@{getRAMUsage}}
+\index{getRAMUsage@{getRAMUsage}!MacMemProfiler@{MacMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getRAMUsage()}{getRAMUsage()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Mac\+Mem\+Profiler\+::get\+RAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the RAM usage information on mac\+OS. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the RAM usage information 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_base_mem_profiler_af5e63f6eb909b5dfa843b3e260ccd69f}{Base\+Mem\+Profiler}}.
+
+\Hypertarget{class_mac_mem_profiler_ae833ceaf9bd55cb61ebbc8a6a7296be8}\label{class_mac_mem_profiler_ae833ceaf9bd55cb61ebbc8a6a7296be8} 
+\index{MacMemProfiler@{MacMemProfiler}!getVRAMUsage@{getVRAMUsage}}
+\index{getVRAMUsage@{getVRAMUsage}!MacMemProfiler@{MacMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getVRAMUsage()}{getVRAMUsage()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Mac\+Mem\+Profiler\+::get\+VRAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the VRAM usage information on mac\+OS. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the VRAM usage information 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_base_mem_profiler_af9ae10c0b383d05a6b38c6197ab16c50}{Base\+Mem\+Profiler}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+MANMON/Mem\+Profiler.\+h\item 
+src/Mem\+Profiler.\+cpp\end{DoxyCompactItemize}

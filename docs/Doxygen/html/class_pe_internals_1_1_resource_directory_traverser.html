@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: PeInternals::ResourceDirectoryTraverser Class Reference</title>
+<title>peTool: PeInternals::ResourceDirectoryTraverser Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -80,7 +80,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, a base class for traversing the resource directory.">ResourceDirectoryTraverser</a> class, a base class for traversing the resource directory.  
+<p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> class, an abstract class for traversing resource directories.  
  <a href="class_pe_internals_1_1_resource_directory_traverser.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_p_e_8h_source.html">PE.h</a>&gt;</code></p>
@@ -88,39 +88,16 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1cac0aa8153caaa6112a2c1e2e05f11e" id="r_a1cac0aa8153caaa6112a2c1e2e05f11e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html#a1cac0aa8153caaa6112a2c1e2e05f11e">traverse</a> (const std::vector&lt; uint8_t &gt; &amp;fileData, <a class="el" href="class_pe_internals_1_1_resource_directory.html">ResourceDirectory</a> *resourceDirectory, int level, const std::string &amp;parentName)=0</td></tr>
+<tr class="memdesc:a1cac0aa8153caaa6112a2c1e2e05f11e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traverse the resource directory.  <br /></td></tr>
 <tr class="separator:a1cac0aa8153caaa6112a2c1e2e05f11e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1d866bb54381d8976ee9355c431065b" id="r_ae1d866bb54381d8976ee9355c431065b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html#ae1d866bb54381d8976ee9355c431065b">~ResourceDirectoryTraverser</a> ()</td></tr>
+<tr class="memitem:ae1d866bb54381d8976ee9355c431065b" id="r_ae1d866bb54381d8976ee9355c431065b"><td class="memItemLeft" align="right" valign="top"><a id="ae1d866bb54381d8976ee9355c431065b" name="ae1d866bb54381d8976ee9355c431065b"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ResourceDirectoryTraverser</b> ()</td></tr>
+<tr class="memdesc:ae1d866bb54381d8976ee9355c431065b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a>. <br /></td></tr>
 <tr class="separator:ae1d866bb54381d8976ee9355c431065b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, a base class for traversing the resource directory.">ResourceDirectoryTraverser</a> class, a base class for traversing the resource directory. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae1d866bb54381d8976ee9355c431065b" name="ae1d866bb54381d8976ee9355c431065b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1d866bb54381d8976ee9355c431065b">&#9670;&#160;</a></span>~ResourceDirectoryTraverser()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual PeInternals::ResourceDirectoryTraverser::~ResourceDirectoryTraverser </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<div class="textblock"><p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> class, an abstract class for traversing resource directories. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a1cac0aa8153caaa6112a2c1e2e05f11e" name="a1cac0aa8153caaa6112a2c1e2e05f11e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1cac0aa8153caaa6112a2c1e2e05f11e">&#9670;&#160;</a></span>traverse()</h2>
 
@@ -167,10 +144,21 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Traverse the resource directory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fileData</td><td>The file data to traverse </td></tr>
+    <tr><td class="paramname">resourceDirectory</td><td>The resource directory to traverse </td></tr>
+    <tr><td class="paramname">level</td><td>The current level of traversal </td></tr>
+    <tr><td class="paramname">parentName</td><td>The name of the parent resource directory </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/CORE/<a class="el" href="_p_e_8h_source.html">PE.h</a></li>
+<li>include/CORE/<a class="el" href="_p_e_8h_source.html">PE.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

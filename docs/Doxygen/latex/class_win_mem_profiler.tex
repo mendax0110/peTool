@@ -1,0 +1,94 @@
+\doxysection{Win\+Mem\+Profiler Class Reference}
+\hypertarget{class_win_mem_profiler}{}\label{class_win_mem_profiler}\index{WinMemProfiler@{WinMemProfiler}}
+
+
+The Windows memory profiler class, which provides methods for profiling memory usage on Windows.  
+
+
+
+
+{\ttfamily \#include $<$Mem\+Profiler.\+h$>$}
+
+Inheritance diagram for Win\+Mem\+Profiler\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_win_mem_profiler}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_win_mem_profiler_a062a57a886f34b7586de5cf23a6b0154}{get\+Memory\+Usage}} () override
+\begin{DoxyCompactList}\small\item\em Get the memory usage information on Windows. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_win_mem_profiler_a83cecd5a020dd05834980e3042fe2239}{get\+RAMUsage}} () override
+\begin{DoxyCompactList}\small\item\em Get the RAM usage information on Windows. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ \mbox{\hyperlink{class_win_mem_profiler_af81ddfe148d3e62c71483209192101a9}{get\+VRAMUsage}} () override
+\begin{DoxyCompactList}\small\item\em Get the VRAM usage information on Windows. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_base_mem_profiler}{Base\+Mem\+Profiler}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Base\+Mem\+Profiler} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor for the base memory profiler class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The Windows memory profiler class, which provides methods for profiling memory usage on Windows. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_win_mem_profiler_a062a57a886f34b7586de5cf23a6b0154}\label{class_win_mem_profiler_a062a57a886f34b7586de5cf23a6b0154} 
+\index{WinMemProfiler@{WinMemProfiler}!getMemoryUsage@{getMemoryUsage}}
+\index{getMemoryUsage@{getMemoryUsage}!WinMemProfiler@{WinMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getMemoryUsage()}{getMemoryUsage()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Win\+Mem\+Profiler\+::get\+Memory\+Usage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the memory usage information on Windows. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the memory usage information 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_base_mem_profiler_a65544e2f75c428266ebce6347f1ef9b6}{Base\+Mem\+Profiler}}.
+
+\Hypertarget{class_win_mem_profiler_a83cecd5a020dd05834980e3042fe2239}\label{class_win_mem_profiler_a83cecd5a020dd05834980e3042fe2239} 
+\index{WinMemProfiler@{WinMemProfiler}!getRAMUsage@{getRAMUsage}}
+\index{getRAMUsage@{getRAMUsage}!WinMemProfiler@{WinMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getRAMUsage()}{getRAMUsage()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Win\+Mem\+Profiler\+::get\+RAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the RAM usage information on Windows. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the RAM usage information 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_base_mem_profiler_af5e63f6eb909b5dfa843b3e260ccd69f}{Base\+Mem\+Profiler}}.
+
+\Hypertarget{class_win_mem_profiler_af81ddfe148d3e62c71483209192101a9}\label{class_win_mem_profiler_af81ddfe148d3e62c71483209192101a9} 
+\index{WinMemProfiler@{WinMemProfiler}!getVRAMUsage@{getVRAMUsage}}
+\index{getVRAMUsage@{getVRAMUsage}!WinMemProfiler@{WinMemProfiler}}
+\doxysubsubsection{\texorpdfstring{getVRAMUsage()}{getVRAMUsage()}}
+{\footnotesize\ttfamily std\+::vector$<$ std\+::pair$<$ std\+::string, size\+\_\+t $>$ $>$ Win\+Mem\+Profiler\+::get\+VRAMUsage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the VRAM usage information on Windows. 
+
+\begin{DoxyReturn}{Returns}
+A vector of pairs containing the VRAM usage information 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_base_mem_profiler_af9ae10c0b383d05a6b38c6197ab16c50}{Base\+Mem\+Profiler}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+MANMON/Mem\+Profiler.\+h\item 
+src/Mem\+Profiler.\+cpp\end{DoxyCompactItemize}

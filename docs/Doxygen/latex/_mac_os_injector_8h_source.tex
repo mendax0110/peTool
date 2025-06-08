@@ -1,0 +1,61 @@
+\doxysection{Mac\+Os\+Injector.\+h}
+\hypertarget{_mac_os_injector_8h_source}{}\label{_mac_os_injector_8h_source}\index{include/LIBMAN/MacOsInjector.h@{include/LIBMAN/MacOsInjector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <mach/mach.h>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <mach/mach\_vm.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <dlfcn.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <sys/sysctl.h>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{struct\ }Result}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ success;}
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ message;}
+\DoxyCodeLine{00021\ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }MacInject}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00033\ \ \ \ \ MacInject(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ dylibName,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ processName);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00038\ \ \ \ \ \string~MacInject();}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00044\ \ \ \ \ std::vector<Result>\ InjectDylib();}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ m\_dylibName;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ m\_processName;}
+\DoxyCodeLine{00048\ \ \ \ \ mach\_port\_t\ m\_targetTask;}
+\DoxyCodeLine{00049\ \ \ \ \ mach\_vm\_address\_t\ m\_pathAddress;}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}*\ m\_dlopenAddress;}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{char}\ m\_fullDylibPath[PATH\_MAX]\{\};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{static}\ Result\ FindProcessId(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ processName,\ pid\_t\&\ processId);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00066\ \ \ \ \ Result\ OpenProcessHandle(pid\_t\ processId);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00072\ \ \ \ \ Result\ AllocateAndWriteMemory();}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00078\ \ \ \ \ Result\ GetDlopenAddress();}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00084\ \ \ \ \ Result\ CreateRemoteThreadToLoadDylib();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ PrintResults(\textcolor{keyword}{const}\ std::vector<Result>\&\ results);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ HexDump(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,\ \textcolor{keywordtype}{size\_t}\ size);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<std::string>\ GetRunningProcesses();}
+\DoxyCodeLine{00104\ \};}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

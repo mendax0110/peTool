@@ -1,0 +1,71 @@
+\doxysection{Detector.\+h}
+\hypertarget{_detector_8h_source}{}\label{_detector_8h_source}\index{include/CORE/Detector.h@{include/CORE/Detector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <winnt.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <winternl.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <mach-\/o/dyld.h>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <mach/mach\_init.h>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <mach/task.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <sys/sysctl.h>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#if\ defined(\_\_linux\_\_)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_detector_internals}{DetectorInternals}}}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_detector_internals_1_1_packer_detection}{PackerDetection}}}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_a40a395af7569cfdd96752f2d0e37be70}{PackerDetection}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData)\ :\ fileData(fileData)\ \{\}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_ab0ba785958a195134a606d04d497a763}{detectUPX}}();}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_a890b00cf39d225ed4095dfaab9b70f3f}{detectThemida}}();}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ std::vector<std::string>\ \mbox{\hyperlink{class_detector_internals_1_1_packer_detection_a18b53278800ddbd7ca3b5fc6dcdc68a3}{checkSectionNames}}(\textcolor{keyword}{const}\ std::vector<std::string>\&\ sectionNames);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{protected}:\ }
+\DoxyCodeLine{00060\ \ \ \ \ \};}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection}{AntiDebugDetection}}}
+\DoxyCodeLine{00064\ \ \ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection_a4e717e3501578e71c19958a254a87250}{AntiDebugDetection}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData)\ :\ fileData(fileData)\ \{\}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection_aa6be9e5a96b09ff1926a0552e0b00be3}{checkEntryPoint}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ pattern);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection_a550d44288ebaacb864b15f52606521b2}{detectIsDebuggerPresent}}();}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection_a030770ac692c47e2e32f98b88fb5161e}{detectNtGlobalFlag}}();}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection_a3ec03a75936c36c630b81c33047b8ad8}{detectHeapFlags}}();}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_detector_internals_1_1_anti_debug_detection_ac37711c120276bfe1024f78a2b909206}{detectOutputDebugString}}();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData;}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00108\ \ \ \ \ \};}
+\DoxyCodeLine{00109\ \}}
+
+\end{DoxyCode}

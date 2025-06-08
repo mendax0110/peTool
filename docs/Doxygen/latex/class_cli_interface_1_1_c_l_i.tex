@@ -1,0 +1,82 @@
+\doxysection{Cli\+Interface\+::CLI Class Reference}
+\hypertarget{class_cli_interface_1_1_c_l_i}{}\label{class_cli_interface_1_1_c_l_i}\index{CliInterface::CLI@{CliInterface::CLI}}
+
+
+\doxylink{class_cli_interface_1_1_c_l_i}{CLI} class, which provides methods for command line interface operations.  
+
+
+
+
+{\ttfamily \#include $<$CLI.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_cli_interface_1_1_c_l_i_a1cdb85951e420e273ab661d7646aea54}\label{class_cli_interface_1_1_c_l_i_a1cdb85951e420e273ab661d7646aea54} 
+static void {\bfseries print\+Help} ()
+\begin{DoxyCompactList}\small\item\em Print the help message for the \doxylink{class_cli_interface_1_1_c_l_i}{CLI}. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_cli_interface_1_1_c_l_i_a88664bcf9b950416a5b67ed037843e77}{start\+Cli}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
+\begin{DoxyCompactList}\small\item\em Start the \doxylink{class_cli_interface_1_1_c_l_i}{CLI} with the given arguments. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_cli_interface_1_1_c_l_i_a94a86c2baa032afcaeadc307b951c6c5}{print\+Error}} (const std\+::string \&message)
+\begin{DoxyCompactList}\small\item\em Prints Error message to the console. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_cli_interface_1_1_c_l_i_ae5bd6c291d95ba8ddfffc600f5da14bc}{print\+Message}} (const std\+::string \&message)
+\begin{DoxyCompactList}\small\item\em Prints a message to the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_cli_interface_1_1_c_l_i}{CLI} class, which provides methods for command line interface operations. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cli_interface_1_1_c_l_i_a94a86c2baa032afcaeadc307b951c6c5}\label{class_cli_interface_1_1_c_l_i_a94a86c2baa032afcaeadc307b951c6c5} 
+\index{CliInterface::CLI@{CliInterface::CLI}!printError@{printError}}
+\index{printError@{printError}!CliInterface::CLI@{CliInterface::CLI}}
+\doxysubsubsection{\texorpdfstring{printError()}{printError()}}
+{\footnotesize\ttfamily void CLI\+::print\+Error (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Prints Error message to the console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The error message to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cli_interface_1_1_c_l_i_ae5bd6c291d95ba8ddfffc600f5da14bc}\label{class_cli_interface_1_1_c_l_i_ae5bd6c291d95ba8ddfffc600f5da14bc} 
+\index{CliInterface::CLI@{CliInterface::CLI}!printMessage@{printMessage}}
+\index{printMessage@{printMessage}!CliInterface::CLI@{CliInterface::CLI}}
+\doxysubsubsection{\texorpdfstring{printMessage()}{printMessage()}}
+{\footnotesize\ttfamily void CLI\+::print\+Message (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Prints a message to the console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & The message to print. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cli_interface_1_1_c_l_i_a88664bcf9b950416a5b67ed037843e77}\label{class_cli_interface_1_1_c_l_i_a88664bcf9b950416a5b67ed037843e77} 
+\index{CliInterface::CLI@{CliInterface::CLI}!startCli@{startCli}}
+\index{startCli@{startCli}!CliInterface::CLI@{CliInterface::CLI}}
+\doxysubsubsection{\texorpdfstring{startCli()}{startCli()}}
+{\footnotesize\ttfamily void CLI\+::start\+Cli (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Start the \doxylink{class_cli_interface_1_1_c_l_i}{CLI} with the given arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & The number of arguments. \\
+\hline
+{\em argv} & The array of arguments. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CLI/CLI.\+h\item 
+src/CLI.\+cpp\end{DoxyCompactItemize}

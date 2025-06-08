@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: WinMemProfiler Class Reference</title>
+<title>peTool: WinMemProfiler Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -76,7 +76,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The Windows memory profiler class.  
+<p>The Windows memory profiler class, which provides methods for profiling memory usage on Windows.  
  <a href="class_win_mem_profiler.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_mem_profiler_8h_source.html">MemProfiler.h</a>&gt;</code></p>
@@ -86,28 +86,29 @@ Inheritance diagram for WinMemProfiler:</div>
  <div class="center">
   <img src="class_win_mem_profiler.png" usemap="#WinMemProfiler_map" alt=""/>
   <map id="WinMemProfiler_map" name="WinMemProfiler_map">
-<area href="class_base_mem_profiler.html" title="The base memory profiler class." alt="BaseMemProfiler" shape="rect" coords="0,0,109,24"/>
+<area href="class_base_mem_profiler.html" title="Base class for memory profilers, which defines the interface for platform-specific memory profiling c..." alt="BaseMemProfiler" shape="rect" coords="0,0,109,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a062a57a886f34b7586de5cf23a6b0154" id="r_a062a57a886f34b7586de5cf23a6b0154"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_win_mem_profiler.html#a062a57a886f34b7586de5cf23a6b0154">getMemoryUsage</a> () override</td></tr>
-<tr class="memdesc:a062a57a886f34b7586de5cf23a6b0154"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the memory usage of the process.  <br /></td></tr>
+<tr class="memdesc:a062a57a886f34b7586de5cf23a6b0154"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the memory usage information on Windows.  <br /></td></tr>
 <tr class="separator:a062a57a886f34b7586de5cf23a6b0154"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83cecd5a020dd05834980e3042fe2239" id="r_a83cecd5a020dd05834980e3042fe2239"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_win_mem_profiler.html#a83cecd5a020dd05834980e3042fe2239">getRAMUsage</a> () override</td></tr>
-<tr class="memdesc:a83cecd5a020dd05834980e3042fe2239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the RAM usage of the system.  <br /></td></tr>
+<tr class="memdesc:a83cecd5a020dd05834980e3042fe2239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the RAM usage information on Windows.  <br /></td></tr>
 <tr class="separator:a83cecd5a020dd05834980e3042fe2239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af81ddfe148d3e62c71483209192101a9" id="r_af81ddfe148d3e62c71483209192101a9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::string, size_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_win_mem_profiler.html#af81ddfe148d3e62c71483209192101a9">getVRAMUsage</a> () override</td></tr>
-<tr class="memdesc:af81ddfe148d3e62c71483209192101a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the VRAM usage of the system.  <br /></td></tr>
+<tr class="memdesc:af81ddfe148d3e62c71483209192101a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the VRAM usage information on Windows.  <br /></td></tr>
 <tr class="separator:af81ddfe148d3e62c71483209192101a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_base_mem_profiler"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_base_mem_profiler')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_base_mem_profiler.html">BaseMemProfiler</a></td></tr>
-<tr class="memitem:a121b0d2867e6077f62a2fd58388bce4c inherit pub_methods_class_base_mem_profiler" id="r_a121b0d2867e6077f62a2fd58388bce4c"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_base_mem_profiler.html#a121b0d2867e6077f62a2fd58388bce4c">~BaseMemProfiler</a> ()=default</td></tr>
+<tr class="memitem:a121b0d2867e6077f62a2fd58388bce4c inherit pub_methods_class_base_mem_profiler" id="r_a121b0d2867e6077f62a2fd58388bce4c"><td class="memItemLeft" align="right" valign="top">
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BaseMemProfiler</b> ()=default</td></tr>
+<tr class="memdesc:a121b0d2867e6077f62a2fd58388bce4c inherit pub_methods_class_base_mem_profiler"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for the base memory profiler class. <br /></td></tr>
 <tr class="separator:a121b0d2867e6077f62a2fd58388bce4c inherit pub_methods_class_base_mem_profiler"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The Windows memory profiler class. </p>
-<p>This class is a platform-specific memory profiler for Windows </p>
+<div class="textblock"><p>The Windows memory profiler class, which provides methods for profiling memory usage on Windows. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a062a57a886f34b7586de5cf23a6b0154" name="a062a57a886f34b7586de5cf23a6b0154"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a062a57a886f34b7586de5cf23a6b0154">&#9670;&#160;</a></span>getMemoryUsage()</h2>
@@ -132,7 +133,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the memory usage of the process. </p>
+<p>Get the memory usage information on Windows. </p>
 <dl class="section return"><dt>Returns</dt><dd>A vector of pairs containing the memory usage information </dd></dl>
 
 <p>Implements <a class="el" href="class_base_mem_profiler.html#a65544e2f75c428266ebce6347f1ef9b6">BaseMemProfiler</a>.</p>
@@ -162,7 +163,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the RAM usage of the system. </p>
+<p>Get the RAM usage information on Windows. </p>
 <dl class="section return"><dt>Returns</dt><dd>A vector of pairs containing the RAM usage information </dd></dl>
 
 <p>Implements <a class="el" href="class_base_mem_profiler.html#af5e63f6eb909b5dfa843b3e260ccd69f">BaseMemProfiler</a>.</p>
@@ -192,7 +193,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the VRAM usage of the system. </p>
+<p>Get the VRAM usage information on Windows. </p>
 <dl class="section return"><dt>Returns</dt><dd>A vector of pairs containing the VRAM usage information </dd></dl>
 
 <p>Implements <a class="el" href="class_base_mem_profiler.html#af9ae10c0b383d05a6b38c6197ab16c50">BaseMemProfiler</a>.</p>
@@ -200,8 +201,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/MANMON/<a class="el" href="_mem_profiler_8h_source.html">MemProfiler.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_mem_profiler_8cpp.html">MemProfiler.cpp</a></li>
+<li>include/MANMON/<a class="el" href="_mem_profiler_8h_source.html">MemProfiler.h</a></li>
+<li>src/<b>MemProfiler.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

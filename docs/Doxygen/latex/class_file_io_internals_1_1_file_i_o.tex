@@ -1,0 +1,148 @@
+\doxysection{File\+Io\+Internals\+::File\+IO Class Reference}
+\hypertarget{class_file_io_internals_1_1_file_i_o}{}\label{class_file_io_internals_1_1_file_i_o}\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+
+
+The \doxylink{class_file_io_internals_1_1_file_i_o}{File\+IO} class, a class for reading and writing files.  
+
+
+
+
+{\ttfamily \#include $<$File\+IO.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::vector$<$ uint8\+\_\+t $>$ \mbox{\hyperlink{class_file_io_internals_1_1_file_i_o_a990dd64f736bde03e9299f6cec6e7b7e}{read\+File}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Reads the contents of a file into a vector of bytes. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_file_io_internals_1_1_file_i_o_a30badab10078ac1fb74b0baf3971c1bb}{write\+File}} (const std\+::string \&filename, const std\+::vector$<$ uint8\+\_\+t $>$ \&data)
+\begin{DoxyCompactList}\small\item\em Writes the contents of a vector of bytes to a file. \end{DoxyCompactList}\item 
+static std\+::streamsize \mbox{\hyperlink{class_file_io_internals_1_1_file_i_o_a4b44c0305a5d175abb5cd5944c3b72bf}{get\+File\+Size}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Gets the size of a file. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_file_io_internals_1_1_file_i_o_aaf56962d68602450dde4cba74af083dd}{file\+Exists}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Checks if a file exists. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_file_io_internals_1_1_file_i_o_a1536fd428c7b3e997edbc0b800c8b5f9}{backup\+File}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Backs up a file by copying it. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_file_io_internals_1_1_file_i_o_aa53a23c07e490ebfdd2ecb5c1b16e25c}{delete\+File}} (const std\+::string \&filename)
+\begin{DoxyCompactList}\small\item\em Deletes a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \doxylink{class_file_io_internals_1_1_file_i_o}{File\+IO} class, a class for reading and writing files. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_file_io_internals_1_1_file_i_o_a1536fd428c7b3e997edbc0b800c8b5f9}\label{class_file_io_internals_1_1_file_i_o_a1536fd428c7b3e997edbc0b800c8b5f9} 
+\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}!backupFile@{backupFile}}
+\index{backupFile@{backupFile}!FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+\doxysubsubsection{\texorpdfstring{backupFile()}{backupFile()}}
+{\footnotesize\ttfamily bool File\+IO\+::backup\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Backs up a file by copying it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to back up \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A boolean indicating whether the backup was successful 
+\end{DoxyReturn}
+\Hypertarget{class_file_io_internals_1_1_file_i_o_aa53a23c07e490ebfdd2ecb5c1b16e25c}\label{class_file_io_internals_1_1_file_i_o_aa53a23c07e490ebfdd2ecb5c1b16e25c} 
+\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}!deleteFile@{deleteFile}}
+\index{deleteFile@{deleteFile}!FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+\doxysubsubsection{\texorpdfstring{deleteFile()}{deleteFile()}}
+{\footnotesize\ttfamily bool File\+IO\+::delete\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Deletes a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to delete \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the file was successfully deleted, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_file_io_internals_1_1_file_i_o_aaf56962d68602450dde4cba74af083dd}\label{class_file_io_internals_1_1_file_i_o_aaf56962d68602450dde4cba74af083dd} 
+\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}!fileExists@{fileExists}}
+\index{fileExists@{fileExists}!FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+\doxysubsubsection{\texorpdfstring{fileExists()}{fileExists()}}
+{\footnotesize\ttfamily bool File\+IO\+::file\+Exists (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Checks if a file exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to check \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the file exists, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_file_io_internals_1_1_file_i_o_a4b44c0305a5d175abb5cd5944c3b72bf}\label{class_file_io_internals_1_1_file_i_o_a4b44c0305a5d175abb5cd5944c3b72bf} 
+\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}!getFileSize@{getFileSize}}
+\index{getFileSize@{getFileSize}!FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+\doxysubsubsection{\texorpdfstring{getFileSize()}{getFileSize()}}
+{\footnotesize\ttfamily std\+::streamsize File\+IO\+::get\+File\+Size (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Gets the size of a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to get the size of \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A streamsize representing the size of the file in bytes 
+\end{DoxyReturn}
+\Hypertarget{class_file_io_internals_1_1_file_i_o_a990dd64f736bde03e9299f6cec6e7b7e}\label{class_file_io_internals_1_1_file_i_o_a990dd64f736bde03e9299f6cec6e7b7e} 
+\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}!readFile@{readFile}}
+\index{readFile@{readFile}!FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+\doxysubsubsection{\texorpdfstring{readFile()}{readFile()}}
+{\footnotesize\ttfamily std\+::vector$<$ uint8\+\_\+t $>$ File\+IO\+::read\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reads the contents of a file into a vector of bytes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to read \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of bytes containing the file data 
+\end{DoxyReturn}
+\Hypertarget{class_file_io_internals_1_1_file_i_o_a30badab10078ac1fb74b0baf3971c1bb}\label{class_file_io_internals_1_1_file_i_o_a30badab10078ac1fb74b0baf3971c1bb} 
+\index{FileIoInternals::FileIO@{FileIoInternals::FileIO}!writeFile@{writeFile}}
+\index{writeFile@{writeFile}!FileIoInternals::FileIO@{FileIoInternals::FileIO}}
+\doxysubsubsection{\texorpdfstring{writeFile()}{writeFile()}}
+{\footnotesize\ttfamily bool File\+IO\+::write\+File (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename,  }\item[{const std\+::vector$<$ uint8\+\_\+t $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Writes the contents of a vector of bytes to a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & The name of the file to write to \\
+\hline
+{\em data} & The vector of bytes to write \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the write operation was successful, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+FILEIO/File\+IO.\+h\item 
+src/File\+IO.\+cpp\end{DoxyCompactItemize}

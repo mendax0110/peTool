@@ -1,0 +1,110 @@
+\doxysection{PE.\+h}
+\hypertarget{_p_e_8h_source}{}\label{_p_e_8h_source}\index{include/CORE/PE.h@{include/CORE/PE.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#if\ defined(\_\_LINUX)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <elf.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <mach-\/o/loader.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <mach-\/o/fat.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_pe_internals}{PeInternals}}}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{class\ }ResourceDirectory;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser}{ResourceDirectoryTraverser}}}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser_a1cac0aa8153caaa6112a2c1e2e05f11e}{traverse}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData,\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory}{ResourceDirectory}}*\ resourceDirectory,\ \textcolor{keywordtype}{int}\ level,\ \textcolor{keyword}{const}\ std::string\&\ parentName)\ =\ 0;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser_ae1d866bb54381d8976ee9355c431065b}{\string~ResourceDirectoryTraverser}}()\ \{\}}
+\DoxyCodeLine{00046\ \ \ \ \ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{class\ }WinResourceDirectoryTraverser\ :\ \textcolor{keyword}{public}\ ResourceDirectoryTraverser}
+\DoxyCodeLine{00051\ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ traverse(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData,\ ResourceDirectory*\ resourceDirectory,\ \textcolor{keywordtype}{int}\ level,\ \textcolor{keyword}{const}\ std::string\&\ parentName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00062\ \ \ \ \ \};}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#if\ defined(\_\_linux\_\_)}}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{class\ }LinuxResourceDirectoryTraverser\ :\ \textcolor{keyword}{public}\ ResourceDirectoryTraverser}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ traverse(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData,\ ResourceDirectory*\ resourceDirectory,\ \textcolor{keywordtype}{int}\ level,\ \textcolor{keyword}{const}\ std::string\&\ parentName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00079\ \ \ \ \ \};}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{class\ }AppleResourceDirectoryTraverser\ :\ \textcolor{keyword}{public}\ ResourceDirectoryTraverser}
+\DoxyCodeLine{00085\ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ traverse(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData,\ ResourceDirectory*\ resourceDirectory,\ \textcolor{keywordtype}{int}\ level,\ \textcolor{keyword}{const}\ std::string\&\ parentName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00096\ \ \ \ \ \};}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser_factory}{ResourceDirectoryTraverserFactory}}}
+\DoxyCodeLine{00101\ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser}{ResourceDirectoryTraverser}}*\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser_factory_abc01bd87a4f6ec87689db14a18f54df1}{createTraverser}}();}
+\DoxyCodeLine{00109\ \ \ \ \ \};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pe_internals_1_1_resource_directory}{ResourceDirectory}}}
+\DoxyCodeLine{00113\ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_a1f3fabb928f53a80fad4c29c1d0e07de}{traverse}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData,\ \textcolor{keywordtype}{int}\ level,\ \textcolor{keyword}{const}\ std::string\&\ parentName);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_a7c47ed37527002ea9dae4ad7d7d9a4aa}{setTraverser}}(\mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser}{ResourceDirectoryTraverser}}*\ traverser);}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_pe_internals_1_1_resource_directory_traverser}{ResourceDirectoryTraverser}}*\ traverser;}
+\DoxyCodeLine{00131\ \ \ \ \ \};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pe_internals_1_1_p_e}{PE}}}
+\DoxyCodeLine{00135\ \ \ \ \ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_adb22a4a3af334478eaa33da4aee3787c}{parseHeaders}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_a174b3fcc7c21d31c7b08555e7f93e822}{extractSectionInfo}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_aee2a6f5be338053aaf1edf0146e883b5}{extractImportTable}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_afc295892d1c031603d4df4d4a058cf23}{extractExportTable}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_ad1a7d3427a84b1ac72e03f2835f308af}{extractResources}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ uint32\_t\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_a119963b0895a91c29ff86997c185aa40}{GetResourceDirectoryOffset}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::vector<std::string>\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_acc2a9a6bf331d4e95898610aabef644d}{getFunctionNames}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::vector<std::string>\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_a592a4ed3cb0b7c55a22248b9c3c5b096}{getDllNames}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::vector<uint64\_t>\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_ab8b74d906bdd0851a883a5a26b9e5d18}{getFunctionAddresses}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::vector<uint64\_t>\ \mbox{\hyperlink{class_pe_internals_1_1_p_e_a4e53b1aac3bd672452d1d267d13561c6}{getDllAddresses}}(\textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ fileData);}
+\DoxyCodeLine{00202\ \ \ \ \ \};}
+\DoxyCodeLine{00203\ \}}
+
+\end{DoxyCode}

@@ -26,11 +26,6 @@ Rebuilder::Rebuilder() = default;
 
 Rebuilder::~Rebuilder() = default;
 
-/**
- * @brief Fix a dump file
- * @param filePath The path to the dump file
- * @return True if the dump file was fixed, false otherwise
- */
 bool Rebuilder::fixDump(const std::string& filePath)
 {
     auto data = readFile(filePath);
@@ -42,11 +37,6 @@ bool Rebuilder::fixDump(const std::string& filePath)
     return result;
 }
 
-/**
- * @brief Wipe locations in a file
- * @param filePath The path to the file
- * @return True if the locations were wiped, false otherwise
- */
 bool Rebuilder::wipeLocations(const std::string& filePath)
 {
     auto data = readFile(filePath);
@@ -58,11 +48,6 @@ bool Rebuilder::wipeLocations(const std::string& filePath)
     return result;
 }
 
-/**
- * @brief Rebuild the resource directory in a file
- * @param filePath The path to the file
- * @return True if the resource directory was rebuilt, false otherwise
- */
 bool Rebuilder::rebuildResourceDirectory(const std::string& filePath)
 {
     auto data = readFile(filePath);
@@ -74,11 +59,6 @@ bool Rebuilder::rebuildResourceDirectory(const std::string& filePath)
     return result;
 }
 
-/**
- * @brief Validate a PE file
- * @param filePath The path to the PE file
- * @return True if the PE file is valid, false otherwise
- */
 bool Rebuilder::validatePEFile(const std::string& filePath)
 {
     auto data = readFile(filePath);
@@ -87,11 +67,6 @@ bool Rebuilder::validatePEFile(const std::string& filePath)
     return validatePEFileInternal(data);
 }
 
-/**
- * @brief Bind imports in a file
- * @param filePath The path to the file
- * @return True if the imports were bound, false otherwise
- */
 bool Rebuilder::bindImports(const std::string& filePath)
 {
     auto data = readFile(filePath);
@@ -105,12 +80,6 @@ bool Rebuilder::bindImports(const std::string& filePath)
     return result;
 }
 
-/**
- * @brief Change the image base of a file
- * @param filePath The path to the file
- * @param newImageBase The new image base
- * @return True if the image base was changed, false otherwise
- */
 bool Rebuilder::changeImageBase(const std::string& filePath, uint64_t newImageBase)
 {
     auto data = readFile(filePath);
@@ -122,11 +91,6 @@ bool Rebuilder::changeImageBase(const std::string& filePath, uint64_t newImageBa
     return result;
 }
 
-/**
- * @brief Read a file into a vector of bytes
- * @param filePath The path to the file
- * @return The vector of bytes
- */
 std::vector<uint8_t> Rebuilder::readFile(const std::string& filePath)
 {
     std::ifstream fileStream(filePath, std::ios::binary);
@@ -144,12 +108,6 @@ std::vector<uint8_t> Rebuilder::readFile(const std::string& filePath)
     return data;
 }
 
-/**
- * @brief Write a vector of bytes to a file
- * @param filePath The path to the file
- * @param data The vector of bytes
- * @return True if the file was written, false otherwise
- */
 bool Rebuilder::writeFile(const std::string& filePath, const std::vector<uint8_t>& data)
 {
     std::ofstream file(filePath, std::ios::binary);
@@ -167,11 +125,6 @@ bool Rebuilder::writeFile(const std::string& filePath, const std::vector<uint8_t
     return true;
 }
 
-/**
- * @brief Fix a dump file
- * @param data The dump file data
- * @return True if the dump file was fixed, false otherwise
- */
 bool Rebuilder::fixDumpInternal(std::vector<uint8_t>& data)
 {
     std::cout << "Fixing dump file" << std::endl;
@@ -299,11 +252,6 @@ bool Rebuilder::fixDumpInternal(std::vector<uint8_t>& data)
 #endif
 }
 
-/**
- * @brief Wipe locations in a file
- * @param data The file data
- * @return True if the locations were wiped, false otherwise
- */
 bool Rebuilder::wipeLocationsInternal(std::vector<uint8_t>& data) {
     std::cout << "Wiping locations in file" << std::endl;
 #if defined(_WIN32)
@@ -351,11 +299,6 @@ bool Rebuilder::wipeLocationsInternal(std::vector<uint8_t>& data) {
 #endif
 }
 
-/**
- * @brief Rebuild the resource directory in a file
- * @param data The file data
- * @return True if the resource directory was rebuilt, false otherwise
- */
 bool Rebuilder::rebuildResourceDirectoryInternal(std::vector<uint8_t>& data)
 {
     std::cout << "Rebuilding resource directory" << std::endl;
@@ -387,11 +330,6 @@ bool Rebuilder::rebuildResourceDirectoryInternal(std::vector<uint8_t>& data)
 #endif
 }
 
-/**
- * @brief Validate a PE file
- * @param data The PE file data
- * @return True if the PE file is valid, false otherwise
- */
 bool Rebuilder::validatePEFileInternal(std::vector<uint8_t>& data)
 {
     std::cout << "Validating PE file" << std::endl;
@@ -427,11 +365,6 @@ bool Rebuilder::validatePEFileInternal(std::vector<uint8_t>& data)
 #endif
 }
 
-/**
- * @brief Bind imports in a file
- * @param data The file data
- * @return True if the imports were bound, false otherwise
- */
 bool Rebuilder::bindImportsInternal(std::vector<uint8_t>& data)
 {
     std::cout << "Binding imports" << std::endl;
@@ -512,12 +445,6 @@ bool Rebuilder::bindImportsInternal(std::vector<uint8_t>& data)
     return false;
 }
 
-/**
- * @brief Change the image base of a file
- * @param data The file data
- * @param newImageBase The new image base
- * @return True if the image base was changed, false otherwise
- */
 bool Rebuilder::changeImageBaseInternal(std::vector<uint8_t>& data, uint64_t newImageBase)
 {
     std::cout << "Changing image base" << std::endl;

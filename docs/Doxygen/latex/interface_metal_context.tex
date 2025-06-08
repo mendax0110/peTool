@@ -1,0 +1,46 @@
+\doxysection{Metal\+Context Class Reference}
+\hypertarget{interface_metal_context}{}\label{interface_metal_context}\index{MetalContext@{MetalContext}}
+Inheritance diagram for Metal\+Context\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_metal_context}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Instance Methods}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{interface_metal_context_a0072d0861f0eb6fb3b86f5ef8cdc58a1}\label{interface_metal_context_a0072d0861f0eb6fb3b86f5ef8cdc58a1} 
+(\mbox{\hyperlink{interface_metal_buffer}{Metal\+Buffer}} \texorpdfstring{$\ast$}{*}) -\/ {\bfseries dequeue\+Reusable\+Buffer\+Of\+Length\+:device\+:}
+\item 
+\Hypertarget{interface_metal_context_aac2bd030147e62717964be692e0bd95d}\label{interface_metal_context_aac2bd030147e62717964be692e0bd95d} 
+(id$<$ MTLRender\+Pipeline\+State $>$) -\/ {\bfseries render\+Pipeline\+State\+For\+Framebuffer\+Descriptor\+:device\+:}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{interface_metal_context_aaeece5efed908d19d932b0cc4c57043f}\label{interface_metal_context_aaeece5efed908d19d932b0cc4c57043f} 
+id$<$ MTLDevice $>$ {\bfseries device}
+\item 
+\Hypertarget{interface_metal_context_ad2d5d25ce4205853bd518bb39629a502}\label{interface_metal_context_ad2d5d25ce4205853bd518bb39629a502} 
+id$<$ MTLDepth\+Stencil\+State $>$ {\bfseries depth\+Stencil\+State}
+\item 
+\Hypertarget{interface_metal_context_a785454c99666d12c02a464eef0a13723}\label{interface_metal_context_a785454c99666d12c02a464eef0a13723} 
+\mbox{\hyperlink{interface_framebuffer_descriptor}{Framebuffer\+Descriptor}} \texorpdfstring{$\ast$}{*} {\bfseries framebuffer\+Descriptor}
+\item 
+\Hypertarget{interface_metal_context_a2a1300f49244bd0411ab85de8f3cbccd}\label{interface_metal_context_a2a1300f49244bd0411ab85de8f3cbccd} 
+NSMutable\+Dictionary \texorpdfstring{$\ast$}{*} {\bfseries render\+Pipeline\+State\+Cache}
+\item 
+\Hypertarget{interface_metal_context_af3c82aa45895bd93945ab606e9909d89}\label{interface_metal_context_af3c82aa45895bd93945ab606e9909d89} 
+id$<$ MTLTexture $>$ {\bfseries font\+Texture}
+\item 
+\Hypertarget{interface_metal_context_a92a5cc2011e074c2a665cc58fdc6f586}\label{interface_metal_context_a92a5cc2011e074c2a665cc58fdc6f586} 
+NSMutable\+Array$<$ \mbox{\hyperlink{interface_metal_buffer}{Metal\+Buffer}} \texorpdfstring{$\ast$}{*} $>$ \texorpdfstring{$\ast$}{*} {\bfseries buffer\+Cache}
+\item 
+\Hypertarget{interface_metal_context_a7c1e19128bb83491b9a6d8382c92f2cb}\label{interface_metal_context_a7c1e19128bb83491b9a6d8382c92f2cb} 
+double {\bfseries last\+Buffer\+Cache\+Purge}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+external/imgui/backends/imgui\+\_\+impl\+\_\+metal.\+mm\end{DoxyCompactItemize}

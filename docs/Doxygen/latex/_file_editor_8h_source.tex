@@ -1,0 +1,110 @@
+\doxysection{File\+Editor.\+h}
+\hypertarget{_file_editor_8h_source}{}\label{_file_editor_8h_source}\index{include/FILEIO/FileEditor.h@{include/FILEIO/FileEditor.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}imgui.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_file_editor_internals}{FileEditorInternals}}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_file_editor_internals_1_1_file_editor}{FileEditor}}}
+\DoxyCodeLine{00012\ \ \ \ \ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ line;}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ column;}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}(\textcolor{keywordtype}{int}\ l\ =\ 0,\ \textcolor{keywordtype}{int}\ c\ =\ 0)\ :\ line(l),\ column(c)\ \{\}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}\&\ other)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ line\ ==\ other.line\ \&\&\ column\ ==\ other.column;\ \}}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator!=(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}\&\ other)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !(*\textcolor{keyword}{this}\ ==\ other);\ \}}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_ae68874c5a51248a0e3ed7c1846a83bc2}{FileEditor}}();}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a4b9976751d4b5aeb0c407fbc3bcaf13c}{\string~FileEditor}}();}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a0c4b47f981279f4744a192e05e9419ac}{SetText}}(\textcolor{keyword}{const}\ std::string\&\ text);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_ae4990218d63fdea4139324020df8bfcb}{GetText}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a9655893cb347dbc2a6262fa1be611416}{Render}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ title,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_im_vec2}{ImVec2}}\&\ size,\ \textcolor{keywordtype}{bool}\ border\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a7a049029b865b1e69eb2ccc7e349ae7e}{GetCursorPosition}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_afc8950bcf92735c9f601438da9a6d3c5}{SetCursorPosition}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}\&\ pos);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a80824d7a0e881b4235d864371d2783fe}{MoveUp}}();}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a1af62d5385601f5a02f412a837ede08d}{MoveDown}}();}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a36ac6ea5a27f8dc6a16182934e42c782}{MoveLeft}}();}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a996b2c4a74ed4699fbf04da130c18743}{MoveRight}}();}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a0643dfcbfd1da4748b2a18123dab5b4f}{InsertText}}(\textcolor{keyword}{const}\ std::string\&\ text);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a1747d075ecc289d11838ecdaa0463992}{DeleteText}}();}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_ae5c5fcf65f81c3f1a1b441f5b86c8488}{Copy}}();}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a666f7fff36323b35357f21c2a056c675}{Cut}}();}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_aedde128139b3b5415df836a74113d8e7}{Paste}}();}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a5320a5ddb18d51485f5561a195293a76}{openFileForRead}}(\textcolor{keyword}{const}\ std::string\&\ fileName);}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_aed00193cbd8ee07e35688a654926c6cc}{openFileForWrite}}(\textcolor{keyword}{const}\ std::string\&\ fileName);}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_ae803b545be1f3e454e65eb86dd4358a6}{openFileForAppend}}(\textcolor{keyword}{const}\ std::string\&\ fileName);}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a160843665dc354d8b6f8a26682f4896e}{closeFile}}();}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a350fd59301e3b916eaf344dcc9b92a30}{readFile}}();}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_aac399823a5551b210f24a0acccbd35c5}{Undo}}();}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a3ea57aa6a9c8a1a770ececfe443bb719}{Redo}}();}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_abd15805ef3b8e4f35ead36a5b2ad43dc}{writeFile}}(\textcolor{keyword}{const}\ std::string\&\ content);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a958e249210c41524356e2c1e15cf0ec5}{appendToFile}}(\textcolor{keyword}{const}\ std::string\&\ content);}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a4943cd7d1234c829a17af78aed5d3811}{getFileSize}}();}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_editor_internals_1_1_file_editor_a093c88eb81570be18f6f442ca6757b58}{isOpen}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ std::fstream\ inputFileStream;}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ std::fstream\ outputFileStream;}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ std::vector<std::string>\ lines;}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}\ cursorPosition;}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }EditAction}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ std::string\ content;}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_file_editor_internals_1_1_file_editor_1_1_position}{Position}}\ cursorPos;}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ std::vector<EditAction>\ undoStack;}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ std::vector<EditAction>\ redoStack;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ inputFileOpen;}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ outputFileOpen;}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ EnsureCursorVisible();}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ HandleKeyboardInputs();}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ HandleMouseInputs();}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ PushUndo();}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ ApplyEditAction(\textcolor{keyword}{const}\ EditAction\&\ action);}
+\DoxyCodeLine{00224\ \ \ \ \ \};}
+\DoxyCodeLine{00225\ \}}
+
+\end{DoxyCode}

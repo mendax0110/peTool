@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['peinternals_0',['PeInternals',['../namespace_pe_internals.html',1,'']]]
+  ['utilsinternals_0',['UtilsInternals',['../namespace_utils_internals.html',1,'']]]
 ];

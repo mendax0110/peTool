@@ -1,0 +1,51 @@
+\doxysection{Rebuilder.\+h}
+\hypertarget{_rebuilder_8h_source}{}\label{_rebuilder_8h_source}\index{include/CORE/Rebuilder.h@{include/CORE/Rebuilder.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_rebuilder}{Rebuilder}}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_rebuilder_a7418ceb8cb80439d56f7091831a04c95}{Rebuilder}}();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_rebuilder_a9fc008405faf0f0887b6536021fe63a0}{\string~Rebuilder}}();}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rebuilder_aca5cf17713e1920ed5385123b7410739}{fixDump}}(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rebuilder_a87ccd2a266057e3c325af3ba412c9460}{wipeLocations}}(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rebuilder_ad2caa43c89e675dd1975c8e111304190}{rebuildResourceDirectory}}(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rebuilder_a226eb2e61d4fde219ae915e81137fcfd}{validatePEFile}}(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rebuilder_a320a443676ecd53f411e5d4d7821117f}{bindImports}}(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_rebuilder_a0c6de5cad7cedf550855fce63482952f}{changeImageBase}}(\textcolor{keyword}{const}\ std::string\&\ filePath,\ uint64\_t\ newImageBase);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<uint8\_t>\ readFile(\textcolor{keyword}{const}\ std::string\&\ filePath);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ writeFile(\textcolor{keyword}{const}\ std::string\&\ filePath,\ \textcolor{keyword}{const}\ std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ fixDumpInternal(std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ wipeLocationsInternal(std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ rebuildResourceDirectoryInternal(std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ validatePEFileInternal(std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ bindImportsInternal(std::vector<uint8\_t>\&\ data);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ changeImageBaseInternal(std::vector<uint8\_t>\&\ data,\ uint64\_t\ newImageBase);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \};}
+
+\end{DoxyCode}

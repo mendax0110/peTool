@@ -1,0 +1,157 @@
+\doxysection{Rebuilder Class Reference}
+\hypertarget{class_rebuilder}{}\label{class_rebuilder}\index{Rebuilder@{Rebuilder}}
+
+
+\doxylink{class_rebuilder}{Rebuilder} class, which provides methods for fixing, wiping, rebuilding, validating, binding imports, and changing the image base of PE files.  
+
+
+
+
+{\ttfamily \#include $<$Rebuilder.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_rebuilder_a7418ceb8cb80439d56f7091831a04c95}\label{class_rebuilder_a7418ceb8cb80439d56f7091831a04c95} 
+{\bfseries Rebuilder} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_rebuilder}{Rebuilder} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_rebuilder_a9fc008405faf0f0887b6536021fe63a0}\label{class_rebuilder_a9fc008405faf0f0887b6536021fe63a0} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Rebuilder} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_rebuilder}{Rebuilder} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{class_rebuilder_aca5cf17713e1920ed5385123b7410739}{fix\+Dump}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Fix a dumped PE file. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_rebuilder_a87ccd2a266057e3c325af3ba412c9460}{wipe\+Locations}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Wipe locations in a PE file. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_rebuilder_ad2caa43c89e675dd1975c8e111304190}{rebuild\+Resource\+Directory}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Rebuild the resource directory in a PE file. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_rebuilder_a226eb2e61d4fde219ae915e81137fcfd}{validate\+PEFile}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Validate a PE file. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_rebuilder_a320a443676ecd53f411e5d4d7821117f}{bind\+Imports}} (const std\+::string \&file\+Path)
+\begin{DoxyCompactList}\small\item\em Bind imports in a PE file. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{class_rebuilder_a0c6de5cad7cedf550855fce63482952f}{change\+Image\+Base}} (const std\+::string \&file\+Path, uint64\+\_\+t new\+Image\+Base)
+\begin{DoxyCompactList}\small\item\em Change the image base of a PE file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_rebuilder}{Rebuilder} class, which provides methods for fixing, wiping, rebuilding, validating, binding imports, and changing the image base of PE files. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_rebuilder_a320a443676ecd53f411e5d4d7821117f}\label{class_rebuilder_a320a443676ecd53f411e5d4d7821117f} 
+\index{Rebuilder@{Rebuilder}!bindImports@{bindImports}}
+\index{bindImports@{bindImports}!Rebuilder@{Rebuilder}}
+\doxysubsubsection{\texorpdfstring{bindImports()}{bindImports()}}
+{\footnotesize\ttfamily bool Rebuilder\+::bind\+Imports (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Bind imports in a PE file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the PE file to bind imports \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the binding was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_rebuilder_a0c6de5cad7cedf550855fce63482952f}\label{class_rebuilder_a0c6de5cad7cedf550855fce63482952f} 
+\index{Rebuilder@{Rebuilder}!changeImageBase@{changeImageBase}}
+\index{changeImageBase@{changeImageBase}!Rebuilder@{Rebuilder}}
+\doxysubsubsection{\texorpdfstring{changeImageBase()}{changeImageBase()}}
+{\footnotesize\ttfamily bool Rebuilder\+::change\+Image\+Base (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path,  }\item[{uint64\+\_\+t}]{new\+Image\+Base }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Change the image base of a PE file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the PE file to change the image base \\
+\hline
+{\em new\+Image\+Base} & The new image base to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the change was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_rebuilder_aca5cf17713e1920ed5385123b7410739}\label{class_rebuilder_aca5cf17713e1920ed5385123b7410739} 
+\index{Rebuilder@{Rebuilder}!fixDump@{fixDump}}
+\index{fixDump@{fixDump}!Rebuilder@{Rebuilder}}
+\doxysubsubsection{\texorpdfstring{fixDump()}{fixDump()}}
+{\footnotesize\ttfamily bool Rebuilder\+::fix\+Dump (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Fix a dumped PE file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the PE file to fix \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the fix was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_rebuilder_ad2caa43c89e675dd1975c8e111304190}\label{class_rebuilder_ad2caa43c89e675dd1975c8e111304190} 
+\index{Rebuilder@{Rebuilder}!rebuildResourceDirectory@{rebuildResourceDirectory}}
+\index{rebuildResourceDirectory@{rebuildResourceDirectory}!Rebuilder@{Rebuilder}}
+\doxysubsubsection{\texorpdfstring{rebuildResourceDirectory()}{rebuildResourceDirectory()}}
+{\footnotesize\ttfamily bool Rebuilder\+::rebuild\+Resource\+Directory (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Rebuild the resource directory in a PE file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the PE file to rebuild the resource directory \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the rebuild was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_rebuilder_a226eb2e61d4fde219ae915e81137fcfd}\label{class_rebuilder_a226eb2e61d4fde219ae915e81137fcfd} 
+\index{Rebuilder@{Rebuilder}!validatePEFile@{validatePEFile}}
+\index{validatePEFile@{validatePEFile}!Rebuilder@{Rebuilder}}
+\doxysubsubsection{\texorpdfstring{validatePEFile()}{validatePEFile()}}
+{\footnotesize\ttfamily bool Rebuilder\+::validate\+PEFile (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Validate a PE file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the PE file to validate \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the validation was successful, false otherwise 
+\end{DoxyReturn}
+\Hypertarget{class_rebuilder_a87ccd2a266057e3c325af3ba412c9460}\label{class_rebuilder_a87ccd2a266057e3c325af3ba412c9460} 
+\index{Rebuilder@{Rebuilder}!wipeLocations@{wipeLocations}}
+\index{wipeLocations@{wipeLocations}!Rebuilder@{Rebuilder}}
+\doxysubsubsection{\texorpdfstring{wipeLocations()}{wipeLocations()}}
+{\footnotesize\ttfamily bool Rebuilder\+::wipe\+Locations (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{file\+Path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Wipe locations in a PE file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Path} & The path to the PE file to wipe \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the wipe was successful, false otherwise 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CORE/Rebuilder.\+h\item 
+src/Rebuilder.\+cpp\end{DoxyCompactItemize}

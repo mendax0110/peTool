@@ -1,0 +1,78 @@
+\doxysection{Injector.\+h}
+\hypertarget{_injector_8h_source}{}\label{_injector_8h_source}\index{include/CORE/Injector.h@{include/CORE/Injector.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <Windows.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <TlHelp32.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#if\ defined(\_\_linux\_\_)}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <signal.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <signal.h>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <libproc.h>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <mach/mach.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <mach/mach\_error.h>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <mach/mach\_vm.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_dll_injector}{DllInjector}}}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dll_injector_1_1_injector_platform}{InjectorPlatform}}}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform}{InjectorPlatform}}*\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_ac1e8b85f0e3b0b9aae1d1757501042a4}{CreatePlatform}}();}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_a0a611122d3a5d198bb2484d07d7397b9}{\string~InjectorPlatform}}()\ noexcept\ =\ default;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ virtual\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_a82d90480f4f8a4b4d6892b3057abded1}{GetProcId}}(const\ \textcolor{keywordtype}{char}*\ procName)\ =\ 0;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ virtual\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform_af759b0e2f1c807ba6288e37135e7f337}{InjectDLL}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ procId,\ const\ \textcolor{keywordtype}{char}*\ dllPath)\ =\ 0;}
+\DoxyCodeLine{00058\ \ \ \ \ \};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#if\ defined(\_WIN32)}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keyword}{class\ }InjectorWindows\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform}{InjectorPlatform}}\ }
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GetProcId(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ procName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ InjectDLL(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ procId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ dllPath)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00080\ \ \ \ \ \};}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#if\ defined(\_\_linux\_\_)}}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keyword}{class\ }InjectorLinux\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_dll_injector_1_1_injector_platform}{InjectorPlatform}}}
+\DoxyCodeLine{00086\ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GetProcId(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ procName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ InjectDLL(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ procId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ dllPath)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00103\ \ \ \ \ \};}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#if\ defined(\_\_APPLE\_\_)}}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keyword}{class\ }InjectorMacOS\ :\ \textcolor{keyword}{public}\ InjectorPlatform}
+\DoxyCodeLine{00109\ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ GetProcId(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ procName)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ InjectDLL(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ procId,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ dllPath)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00126\ \ \ \ \ \};}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00128\ \}}
+
+\end{DoxyCode}

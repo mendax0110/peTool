@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['memprofiler_0',['MemProfiler',['../class_mem_profiler.html#ac2e2e077d370cceee598284bf262a334',1,'MemProfiler']]],
-  ['movedown_1',['MoveDown',['../class_file_editor_internals_1_1_file_editor.html#a1af62d5385601f5a02f412a837ede08d',1,'FileEditorInternals::FileEditor']]],
-  ['moveleft_2',['MoveLeft',['../class_file_editor_internals_1_1_file_editor.html#a36ac6ea5a27f8dc6a16182934e42c782',1,'FileEditorInternals::FileEditor']]],
-  ['moveright_3',['MoveRight',['../class_file_editor_internals_1_1_file_editor.html#a996b2c4a74ed4699fbf04da130c18743',1,'FileEditorInternals::FileEditor']]],
-  ['moveup_4',['MoveUp',['../class_file_editor_internals_1_1_file_editor.html#a80824d7a0e881b4235d864371d2783fe',1,'FileEditorInternals::FileEditor']]]
+  ['openfileforappend_0',['openFileForAppend',['../class_file_editor_internals_1_1_file_editor.html#ae803b545be1f3e454e65eb86dd4358a6',1,'FileEditorInternals::FileEditor']]],
+  ['openfileforread_1',['openFileForRead',['../class_file_editor_internals_1_1_file_editor.html#a5320a5ddb18d51485f5561a195293a76',1,'FileEditorInternals::FileEditor']]],
+  ['openfileforwrite_2',['openFileForWrite',['../class_file_editor_internals_1_1_file_editor.html#aed00193cbd8ee07e35688a654926c6cc',1,'FileEditorInternals::FileEditor']]]
 ];

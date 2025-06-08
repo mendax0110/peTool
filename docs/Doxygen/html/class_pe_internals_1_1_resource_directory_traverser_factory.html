@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: PeInternals::ResourceDirectoryTraverserFactory Class Reference</title>
+<title>peTool: PeInternals::ResourceDirectoryTraverserFactory Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">peTool
    </div>
   </td>
  </tr>
@@ -80,7 +80,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser_factory.html" title="The ResourceDirectoryTraverserFactory class, a factory class for creating resource directory traverse...">ResourceDirectoryTraverserFactory</a> class, a factory class for creating resource directory traversers.  
+<p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser_factory.html" title="The ResourceDirectoryTraverserFactory class, a factory class for creating ResourceDirectoryTraverser ...">ResourceDirectoryTraverserFactory</a> class, a factory class for creating <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> instances.  
  <a href="class_pe_internals_1_1_resource_directory_traverser_factory.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_p_e_8h_source.html">PE.h</a>&gt;</code></p>
@@ -88,11 +88,11 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:abc01bd87a4f6ec87689db14a18f54df1" id="r_abc01bd87a4f6ec87689db14a18f54df1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html">ResourceDirectoryTraverser</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pe_internals_1_1_resource_directory_traverser_factory.html#abc01bd87a4f6ec87689db14a18f54df1">createTraverser</a> ()</td></tr>
-<tr class="memdesc:abc01bd87a4f6ec87689db14a18f54df1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, a base class for traversing the resource directory.">ResourceDirectoryTraverser</a> object.  <br /></td></tr>
+<tr class="memdesc:abc01bd87a4f6ec87689db14a18f54df1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> instance based on the platform.  <br /></td></tr>
 <tr class="separator:abc01bd87a4f6ec87689db14a18f54df1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser_factory.html" title="The ResourceDirectoryTraverserFactory class, a factory class for creating resource directory traverse...">ResourceDirectoryTraverserFactory</a> class, a factory class for creating resource directory traversers. </p>
+<div class="textblock"><p>The <a class="el" href="class_pe_internals_1_1_resource_directory_traverser_factory.html" title="The ResourceDirectoryTraverserFactory class, a factory class for creating ResourceDirectoryTraverser ...">ResourceDirectoryTraverserFactory</a> class, a factory class for creating <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> instances. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="abc01bd87a4f6ec87689db14a18f54df1" name="abc01bd87a4f6ec87689db14a18f54df1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abc01bd87a4f6ec87689db14a18f54df1">&#9670;&#160;</a></span>createTraverser()</h2>
@@ -117,14 +117,14 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Create a new <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, a base class for traversing the resource directory.">ResourceDirectoryTraverser</a> object. </p>
-<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, a base class for traversing the resource directory.">ResourceDirectoryTraverser</a> object </dd></dl>
+<p>Create a <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> instance based on the platform. </p>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the created <a class="el" href="class_pe_internals_1_1_resource_directory_traverser.html" title="The ResourceDirectoryTraverser class, an abstract class for traversing resource directories.">ResourceDirectoryTraverser</a> instance </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/Users/adriangossl/Documents/git/peTool/include/CORE/<a class="el" href="_p_e_8h_source.html">PE.h</a></li>
-<li>/Users/adriangossl/Documents/git/peTool/src/<a class="el" href="_p_e_8cpp.html">PE.cpp</a></li>
+<li>include/CORE/<a class="el" href="_p_e_8h_source.html">PE.h</a></li>
+<li>src/<b>PE.cpp</b></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

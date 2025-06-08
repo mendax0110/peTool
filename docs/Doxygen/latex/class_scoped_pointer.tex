@@ -1,0 +1,107 @@
+\doxysection{Scoped\+Pointer\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_scoped_pointer}{}\label{class_scoped_pointer}\index{ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}}
+
+
+Scoped pointer class that automatically manages the lifetime of a pointer.  
+
+
+
+
+{\ttfamily \#include $<$Ptr\+Utils.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_scoped_pointer_a97bd2247d69d9ec23affc209fbc4f90f}{Scoped\+Pointer}} (T \texorpdfstring{$\ast$}{*}p=nullptr)
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{class_scoped_pointer}{Scoped\+Pointer} with an optional pointer. \end{DoxyCompactList}\item 
+\Hypertarget{class_scoped_pointer_a9446b3d8053267c8423e62031b2c30bd}\label{class_scoped_pointer_a9446b3d8053267c8423e62031b2c30bd} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Scoped\+Pointer} ()
+\begin{DoxyCompactList}\small\item\em Destructor that safely deletes the pointer. This ensures that the pointer is deleted when the \doxylink{class_scoped_pointer}{Scoped\+Pointer} goes out of scope. \end{DoxyCompactList}\item 
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_scoped_pointer_a08fea2f55d4cc7dfefcc197bdd194054}{get}} () const
+\begin{DoxyCompactList}\small\item\em Get the pointer value. \end{DoxyCompactList}\item 
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_scoped_pointer_a00a2b8759af3ecec9d0e04543ed12f38}{release}} ()
+\begin{DoxyCompactList}\small\item\em Release the pointer and return it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_scoped_pointer_ab0d351b6a9ba06bb017379a1dafe7c24}{reset}} (T \texorpdfstring{$\ast$}{*}p=nullptr)
+\begin{DoxyCompactList}\small\item\em Reset the pointer to a new value. \end{DoxyCompactList}\item 
+\Hypertarget{class_scoped_pointer_a53d5117e816f76880c5ca2c6d7a1fa3a}\label{class_scoped_pointer_a53d5117e816f76880c5ca2c6d7a1fa3a} 
+T \& {\bfseries operator\texorpdfstring{$\ast$}{*}} () const
+\item 
+\Hypertarget{class_scoped_pointer_a22305febab785612d2a973a412918d5f}\label{class_scoped_pointer_a22305febab785612d2a973a412918d5f} 
+T \texorpdfstring{$\ast$}{*} {\bfseries operator-\/$>$} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Scoped\+Pointer$<$ T $>$}
+Scoped pointer class that automatically manages the lifetime of a pointer. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_scoped_pointer_a97bd2247d69d9ec23affc209fbc4f90f}\label{class_scoped_pointer_a97bd2247d69d9ec23affc209fbc4f90f} 
+\index{ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}!ScopedPointer@{ScopedPointer}}
+\index{ScopedPointer@{ScopedPointer}!ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ScopedPointer()}{ScopedPointer()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{class_scoped_pointer}{Scoped\+Pointer}}$<$ T $>$\mbox{\hyperlink{class_scoped_pointer}{\+::\+Scoped\+Pointer}} (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{p = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Construct a \doxylink{class_scoped_pointer}{Scoped\+Pointer} with an optional pointer. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pointer to initialize the \doxylink{class_scoped_pointer}{Scoped\+Pointer} with. Defaults to nullptr. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_scoped_pointer_a08fea2f55d4cc7dfefcc197bdd194054}\label{class_scoped_pointer_a08fea2f55d4cc7dfefcc197bdd194054} 
+\index{ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}!get@{get}}
+\index{get@{get}!ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_scoped_pointer}{Scoped\+Pointer}}$<$ T $>$\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the pointer value. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the managed object. 
+\end{DoxyReturn}
+\Hypertarget{class_scoped_pointer_a00a2b8759af3ecec9d0e04543ed12f38}\label{class_scoped_pointer_a00a2b8759af3ecec9d0e04543ed12f38} 
+\index{ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}!release@{release}}
+\index{release@{release}!ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{release()}{release()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_scoped_pointer}{Scoped\+Pointer}}$<$ T $>$\+::release (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Release the pointer and return it. 
+
+\begin{DoxyReturn}{Returns}
+A pointer to the managed object, and sets the internal pointer to nullptr. 
+\end{DoxyReturn}
+\Hypertarget{class_scoped_pointer_ab0d351b6a9ba06bb017379a1dafe7c24}\label{class_scoped_pointer_ab0d351b6a9ba06bb017379a1dafe7c24} 
+\index{ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}!reset@{reset}}
+\index{reset@{reset}!ScopedPointer$<$ T $>$@{ScopedPointer$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{class_scoped_pointer}{Scoped\+Pointer}}$<$ T $>$\+::reset (\begin{DoxyParamCaption}\item[{T \texorpdfstring{$\ast$}{*}}]{p = {\ttfamily nullptr} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Reset the pointer to a new value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pointer to set the \doxylink{class_scoped_pointer}{Scoped\+Pointer} to. Defaults to nullptr. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+UTILS/Ptr\+Utils.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,260 @@
+\doxysection{Ptr\+Utils.\+h}
+\hypertarget{_ptr_utils_8h_source}{}\label{_ptr_utils_8h_source}\index{include/UTILS/PtrUtils.h@{include/UTILS/PtrUtils.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PTRUTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PTRUTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <exception>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00019\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ SafeDelete(T*\&\ ptr)}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00022\ \ \ \ \ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}\ ptr;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00025\ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00034\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ Ex\_Verify(\textcolor{keyword}{const}\ T\&\ value,\ \textcolor{keyword}{const}\ T\&\ expected)}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ !=\ expected)}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}Verification\ failed:\ Value\ ("{}}\ <<\ value}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{})\ is\ not\ equal\ to\ expected\ value\ ("{}}\ <<\ expected\ <<\ \textcolor{stringliteral}{"{})."{}};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(oss.str());}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \}}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00053\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ Ex\_Verify(T*\ value,\ T*\ expected)}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ !=\ expected)}
+\DoxyCodeLine{00056\ \ \ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}Verification\ failed:\ Pointer\ ("{}}\ <<\ value}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{})\ is\ not\ equal\ to\ expected\ pointer\ ("{}}\ <<\ expected\ <<\ \textcolor{stringliteral}{"{})."{}};}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(oss.str());}
+\DoxyCodeLine{00061\ \ \ \ \ \}}
+\DoxyCodeLine{00062\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00071\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ Ex\_Verify(T*\ value,\ std::nullptr\_t\ expected)}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ !=\ expected)}
+\DoxyCodeLine{00074\ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}Verification\ failed:\ Pointer\ ("{}}\ <<\ value}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{})\ is\ not\ nullptr\ as\ expected."{}};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(oss.str());}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ tryDeletePtr(ptr)\ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\ \ \ \ SafeDelete(ptr);\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\ \ \ \ Ex\_Verify(ptr,\ nullptr);}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00090\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_ptr_utils}{PtrUtils}}}
+\DoxyCodeLine{00091\ \{}
+\DoxyCodeLine{00092\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_ptr_utils_af3d3de640fdd63e36904a967b37346f9}{IsNullPtr}}(T*\ ptr)}
+\DoxyCodeLine{00102\ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ Ex\_Verify(ptr,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr\ ==\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_ptr_utils_a86854a0a94ce7833f5e2a3f573230d2f}{IsValidPtr}}(T*\ ptr)}
+\DoxyCodeLine{00115\ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ Ex\_Verify(ptr,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr\ !=\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ \};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00126\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00127\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ SafeRelease(std::unique\_ptr<T>\&\ ptr)}
+\DoxyCodeLine{00128\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ ptr.reset();\ \textcolor{comment}{//\ Releases\ the\ resource\ and\ sets\ the\ pointer\ to\ nullptr.}}
+\DoxyCodeLine{00130\ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00138\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00139\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ SafeRelease(std::shared\_ptr<T>\&\ ptr)}
+\DoxyCodeLine{00140\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ ptr.reset();\ \textcolor{comment}{//\ Decrements\ the\ reference\ count\ and\ releases\ the\ resource\ if\ it\ was\ the\ last\ owner.}}
+\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00150\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00151\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ Ex\_Verify(\textcolor{keyword}{const}\ std::shared\_ptr<T>\&\ ptr,\ std::nullptr\_t)}
+\DoxyCodeLine{00152\ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00154\ \ \ \ \ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}Verification\ failed:\ Shared\ pointer\ is\ not\ nullptr."{}};}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(oss.str());}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00167\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00168\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ Ex\_Verify(\textcolor{keyword}{const}\ std::shared\_ptr<T>\&\ ptr1,\ \textcolor{keyword}{const}\ std::shared\_ptr<T>\&\ ptr2)}
+\DoxyCodeLine{00169\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr1\ !=\ ptr2)}
+\DoxyCodeLine{00171\ \ \ \ \ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ std::ostringstream\ oss;}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ oss\ <<\ \textcolor{stringliteral}{"{}Verification\ failed:\ Shared\ pointers\ do\ not\ match."{}};}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(oss.str());}
+\DoxyCodeLine{00175\ \ \ \ \ \}}
+\DoxyCodeLine{00176\ \}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00185\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00186\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ T*\ AllocateAndVerify(std::size\_t\ count)}
+\DoxyCodeLine{00187\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ T*\ ptr\ =\ \textcolor{keyword}{new}\ (std::nothrow)\ T[count];}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00190\ \ \ \ \ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::bad\_alloc();}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{return}\ ptr;}
+\DoxyCodeLine{00194\ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00202\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00203\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ ClearArray(T*\ array,\ std::size\_t\ size)}
+\DoxyCodeLine{00204\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ size;\ ++i)}
+\DoxyCodeLine{00206\ \ \ \ \ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ array[i]\ =\ T();\ \textcolor{comment}{//\ Reset\ each\ element\ to\ default\ state.}}
+\DoxyCodeLine{00208\ \ \ \ \ \}}
+\DoxyCodeLine{00209\ \}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00217\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00218\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ PrintPtrInfo(T*\ ptr,\ \textcolor{keyword}{const}\ std::string\&\ ptrName\ =\ \textcolor{stringliteral}{"{}Pointer"{}})}
+\DoxyCodeLine{00219\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00221\ \ \ \ \ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ std::cout\ <<\ ptrName\ <<\ \textcolor{stringliteral}{"{}\ is\ nullptr."{}}\ <<\ std::endl;}
+\DoxyCodeLine{00223\ \ \ \ \ \}}
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00225\ \ \ \ \ \{}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ std::cout\ <<\ ptrName\ <<\ \textcolor{stringliteral}{"{}\ points\ to\ address:\ "{}}\ <<\ ptr\ <<\ std::endl;}
+\DoxyCodeLine{00227\ \ \ \ \ \}}
+\DoxyCodeLine{00228\ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00231\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00232\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_scoped_pointer}{ScopedPointer}}}
+\DoxyCodeLine{00233\ \{}
+\DoxyCodeLine{00234\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00235\ \ \ \ \ T*\ ptr;}
+\DoxyCodeLine{00236\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_scoped_pointer_a97bd2247d69d9ec23affc209fbc4f90f}{ScopedPointer}}(T*\ p\ =\ \textcolor{keyword}{nullptr})\ :\ ptr(p)\ \{\}}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00248\ \ \ \ \ \mbox{\hyperlink{class_scoped_pointer_a9446b3d8053267c8423e62031b2c30bd}{\string~ScopedPointer}}()\ \{\ SafeDelete(ptr);\ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00254\ \ \ \ \ T*\ \mbox{\hyperlink{class_scoped_pointer_a08fea2f55d4cc7dfefcc197bdd194054}{get}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ptr;\ \}}
+\DoxyCodeLine{00255\ \ \ \ \ }
+\DoxyCodeLine{00260\ \ \ \ \ T*\ \mbox{\hyperlink{class_scoped_pointer_a00a2b8759af3ecec9d0e04543ed12f38}{release}}()}
+\DoxyCodeLine{00261\ \ \ \ \ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ T*\ temp\ =\ ptr;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ temp;}
+\DoxyCodeLine{00265\ \ \ \ \ \}}
+\DoxyCodeLine{00266\ }
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_scoped_pointer_ab0d351b6a9ba06bb017379a1dafe7c24}{reset}}(T*\ p\ =\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00272\ \ \ \ \ \{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ SafeDelete(ptr);}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ ptr\ =\ p;}
+\DoxyCodeLine{00275\ \ \ \ \ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ T\&\ operator*()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ *ptr;\ \}}
+\DoxyCodeLine{00278\ \ \ \ \ T*\ operator-\/>()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ptr;\ \}}
+\DoxyCodeLine{00279\ \};}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \textcolor{comment}{//\ Nullptr\ Assertions}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#ifdef\ DEBUG}}
+\DoxyCodeLine{00283\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00284\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ AssertNullptr(T*\ ptr,\ \textcolor{keyword}{const}\ std::string\&\ msg\ =\ \textcolor{stringliteral}{"{}Pointer\ is\ not\ null!"{}})}
+\DoxyCodeLine{00285\ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00287\ \ \ \ \ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(msg);}
+\DoxyCodeLine{00289\ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00294\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00295\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pointer_wrapper}{PointerWrapper}}}
+\DoxyCodeLine{00296\ \{}
+\DoxyCodeLine{00297\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00298\ \ \ \ \ T*\ ptr;}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_pointer_wrapper_a4fa33c096ee2ed5e8ada93fe2f5d3378}{PointerWrapper}}(T*\ p\ =\ \textcolor{keyword}{nullptr})\ :\ ptr(p)\ \{\}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00312\ \ \ \ \ \mbox{\hyperlink{class_pointer_wrapper_ac6e8c7f6bfe7c03035178108d97fa504}{\string~PointerWrapper}}()\ \{\ SafeDelete(ptr);\ \}}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00318\ \ \ \ \ T*\ \mbox{\hyperlink{class_pointer_wrapper_a6d53e07298a06368d0ac8b1bb0b6884f}{get}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ ptr;\ \}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00324\ \ \ \ \ T*\ \mbox{\hyperlink{class_pointer_wrapper_a91b40486ea987433ac28437d36fc3160}{release}}()}
+\DoxyCodeLine{00325\ \ \ \ \ \{}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ T*\ temp\ =\ ptr;}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ temp;}
+\DoxyCodeLine{00329\ \ \ \ \ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00335\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_pointer_wrapper_a34480ad9d88a01b5f4411f7c225892a0}{reset}}(T*\ p\ =\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00336\ \ \ \ \ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ SafeDelete(ptr);}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ ptr\ =\ p;}
+\DoxyCodeLine{00339\ \ \ \ \ \}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00341\ \ \ \ \ T\&\ operator*()\ \{\ \textcolor{keywordflow}{return}\ *ptr;\ \}}
+\DoxyCodeLine{00342\ \ \ \ \ T*\ operator-\/>()\ \{\ \textcolor{keywordflow}{return}\ ptr;\ \}}
+\DoxyCodeLine{00343\ \};}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00346\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00347\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_thread_safe_pointer}{ThreadSafePointer}}}
+\DoxyCodeLine{00348\ \{}
+\DoxyCodeLine{00349\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00350\ \ \ \ \ T*\ ptr;}
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keyword}{mutable}\ std::mutex\ mtx;}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_thread_safe_pointer_a74bf867f56db64947330d465eb2d66bf}{ThreadSafePointer}}(T*\ p\ =\ \textcolor{keyword}{nullptr})\ :\ ptr(p)\ \{\}}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00365\ \ \ \ \ \mbox{\hyperlink{class_thread_safe_pointer_a0a9e053864b22a6db36cb3ebe3aa40ce}{\string~ThreadSafePointer}}()}
+\DoxyCodeLine{00366\ \ \ \ \ \{}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mtx);}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ SafeDelete(ptr);}
+\DoxyCodeLine{00369\ \ \ \ \ \}}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00375\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_thread_safe_pointer_a91f03a7116a9cd90660b8f6008ab82e2}{set}}(T*\ p)}
+\DoxyCodeLine{00376\ \ \ \ \ \{}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mtx);}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ SafeDelete(ptr);}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ ptr\ =\ p;}
+\DoxyCodeLine{00380\ \ \ \ \ \}}
+\DoxyCodeLine{00381\ }
+\DoxyCodeLine{00386\ \ \ \ \ T*\ \mbox{\hyperlink{class_thread_safe_pointer_aa6fd71da9a107cd507b2acda6d323681}{get}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00387\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ std::lock\_guard<std::mutex>\ lock(mtx);}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ptr;}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ \};}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PTRUTILS\_H}}
+
+\end{DoxyCode}

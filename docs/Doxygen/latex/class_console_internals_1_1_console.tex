@@ -1,0 +1,104 @@
+\doxysection{Console\+Internals\+::Console Class Reference}
+\hypertarget{class_console_internals_1_1_console}{}\label{class_console_internals_1_1_console}\index{ConsoleInternals::Console@{ConsoleInternals::Console}}
+
+
+\doxylink{class_console_internals_1_1_console}{Console} class, which provides methods for command line interface operations.  
+
+
+
+
+{\ttfamily \#include $<$Console.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_console_internals_1_1_console_aba16cfd9f0894eb1312b1bc1155b6646}\label{class_console_internals_1_1_console_aba16cfd9f0894eb1312b1bc1155b6646} 
+{\bfseries Console} ()
+\begin{DoxyCompactList}\small\item\em Construct a new \doxylink{class_console_internals_1_1_console}{Console} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_console_internals_1_1_console_a32e8c79c8579b1b076e53848c540d4e7}\label{class_console_internals_1_1_console_a32e8c79c8579b1b076e53848c540d4e7} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Console} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \doxylink{class_console_internals_1_1_console}{Console} object. \end{DoxyCompactList}\item 
+\Hypertarget{class_console_internals_1_1_console_abb94712935512c723d314aead98db925}\label{class_console_internals_1_1_console_abb94712935512c723d314aead98db925} 
+void {\bfseries run} ()
+\begin{DoxyCompactList}\small\item\em Run the console in a separate thread. \end{DoxyCompactList}\item 
+\Hypertarget{class_console_internals_1_1_console_ac9196cda083d783dc405e72b76842d96}\label{class_console_internals_1_1_console_ac9196cda083d783dc405e72b76842d96} 
+void {\bfseries stop} ()
+\begin{DoxyCompactList}\small\item\em Stop the console. \end{DoxyCompactList}\item 
+\Hypertarget{class_console_internals_1_1_console_a240497de9dcf1a768bd9b76f39a2a048}\label{class_console_internals_1_1_console_a240497de9dcf1a768bd9b76f39a2a048} 
+void {\bfseries show\+Console} ()
+\begin{DoxyCompactList}\small\item\em Show the console window. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_console_internals_1_1_console_a3957fceb81b5a799e3845b7f2dd81e74}{execute\+Command}} (const std\+::string \&command)
+\begin{DoxyCompactList}\small\item\em Execute a command in the console. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_console_internals_1_1_console_a91704398b294835cc2fd63c295d24e89}{process\+Input}} (const std\+::string \&input)
+\begin{DoxyCompactList}\small\item\em Process input from the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_console_internals_1_1_console_a02f16a70b72437a09e6f0208bedc0875}\label{class_console_internals_1_1_console_a02f16a70b72437a09e6f0208bedc0875} 
+static void {\bfseries Initialize} ()
+\begin{DoxyCompactList}\small\item\em Initialize the console. \end{DoxyCompactList}\item 
+static std\+::string \mbox{\hyperlink{class_console_internals_1_1_console_ae03cc8bf56d19e0e76da3b9522f7b348}{execute\+Shell\+Command}} (const std\+::string \&command)
+\begin{DoxyCompactList}\small\item\em Execute a shell command and return the output. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_console_internals_1_1_console}{Console} class, which provides methods for command line interface operations. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_console_internals_1_1_console_a3957fceb81b5a799e3845b7f2dd81e74}\label{class_console_internals_1_1_console_a3957fceb81b5a799e3845b7f2dd81e74} 
+\index{ConsoleInternals::Console@{ConsoleInternals::Console}!executeCommand@{executeCommand}}
+\index{executeCommand@{executeCommand}!ConsoleInternals::Console@{ConsoleInternals::Console}}
+\doxysubsubsection{\texorpdfstring{executeCommand()}{executeCommand()}}
+{\footnotesize\ttfamily std\+::string Console\+::execute\+Command (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{command }\end{DoxyParamCaption})}
+
+
+
+Execute a command in the console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The command to execute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the output of the command 
+\end{DoxyReturn}
+\Hypertarget{class_console_internals_1_1_console_ae03cc8bf56d19e0e76da3b9522f7b348}\label{class_console_internals_1_1_console_ae03cc8bf56d19e0e76da3b9522f7b348} 
+\index{ConsoleInternals::Console@{ConsoleInternals::Console}!executeShellCommand@{executeShellCommand}}
+\index{executeShellCommand@{executeShellCommand}!ConsoleInternals::Console@{ConsoleInternals::Console}}
+\doxysubsubsection{\texorpdfstring{executeShellCommand()}{executeShellCommand()}}
+{\footnotesize\ttfamily std\+::string Console\+::execute\+Shell\+Command (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{command }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Execute a shell command and return the output. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & The shell command to execute \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the output of the command 
+\end{DoxyReturn}
+\Hypertarget{class_console_internals_1_1_console_a91704398b294835cc2fd63c295d24e89}\label{class_console_internals_1_1_console_a91704398b294835cc2fd63c295d24e89} 
+\index{ConsoleInternals::Console@{ConsoleInternals::Console}!processInput@{processInput}}
+\index{processInput@{processInput}!ConsoleInternals::Console@{ConsoleInternals::Console}}
+\doxysubsubsection{\texorpdfstring{processInput()}{processInput()}}
+{\footnotesize\ttfamily void Console\+::process\+Input (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{input }\end{DoxyParamCaption})}
+
+
+
+Process input from the console. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & The input string to process \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+CLI/Console.\+h\item 
+src/Console.\+cpp\end{DoxyCompactItemize}

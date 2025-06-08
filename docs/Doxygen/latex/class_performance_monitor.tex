@@ -1,0 +1,66 @@
+\doxysection{Performance\+Monitor Class Reference}
+\hypertarget{class_performance_monitor}{}\label{class_performance_monitor}\index{PerformanceMonitor@{PerformanceMonitor}}
+
+
+\doxylink{class_performance_monitor}{Performance\+Monitor} class, which provides methods for monitoring performance metrics such as CPU usage and memory usage.  
+
+
+
+
+{\ttfamily \#include $<$Perf\+Mon.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_performance_monitor_ad4ad655ec88fcc660e1ae900bf5f499c}{start}} (const char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em Start monitoring performance for a specific named task. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{class_performance_monitor_a289ccd6fbfb4b511e40a30573b5bc430}{stop}} (const char \texorpdfstring{$\ast$}{*}name)
+\begin{DoxyCompactList}\small\item\em Stop monitoring performance for a specific named task. \end{DoxyCompactList}\item 
+\Hypertarget{class_performance_monitor_ac88782c1584ddc8c49dacc972d8bbf26}\label{class_performance_monitor_ac88782c1584ddc8c49dacc972d8bbf26} 
+static void {\bfseries reset} ()
+\begin{DoxyCompactList}\small\item\em Reset the performance data collected so far. \end{DoxyCompactList}\item 
+\Hypertarget{class_performance_monitor_a8135eb4e6fc38e0b300c4a549e094d6b}\label{class_performance_monitor_a8135eb4e6fc38e0b300c4a549e094d6b} 
+static void {\bfseries report} ()
+\begin{DoxyCompactList}\small\item\em Report the performance data collected so far, including CPU usage and memory usage. This function will print the performance data to the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_performance_monitor}{Performance\+Monitor} class, which provides methods for monitoring performance metrics such as CPU usage and memory usage. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_performance_monitor_ad4ad655ec88fcc660e1ae900bf5f499c}\label{class_performance_monitor_ad4ad655ec88fcc660e1ae900bf5f499c} 
+\index{PerformanceMonitor@{PerformanceMonitor}!start@{start}}
+\index{start@{start}!PerformanceMonitor@{PerformanceMonitor}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily void Performance\+Monitor\+::start (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Start monitoring performance for a specific named task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the task to monitor. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_performance_monitor_a289ccd6fbfb4b511e40a30573b5bc430}\label{class_performance_monitor_a289ccd6fbfb4b511e40a30573b5bc430} 
+\index{PerformanceMonitor@{PerformanceMonitor}!stop@{stop}}
+\index{stop@{stop}!PerformanceMonitor@{PerformanceMonitor}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily void Performance\+Monitor\+::stop (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Stop monitoring performance for a specific named task. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the task to stop monitoring. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\+MANMON/Perf\+Mon.\+h\item 
+src/Perf\+Mon.\+cpp\end{DoxyCompactItemize}

@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['load_0',['load',['../class_database.html#a4af3a897c552490456bc65b5e3b41526',1,'Database']]],
-  ['log_1',['log',['../class_logger.html#ab5c4d030ecfe859c0749136fa9191543',1,'Logger']]],
-  ['logger_2',['Logger',['../class_logger.html#abc41bfb031d896170c7675fa96a6b30c',1,'Logger']]],
-  ['logmessage_3',['LogMessage',['../struct_logger_1_1_log_message.html#ab1b82b7b3bfd9aad9b2386f02a9d9486',1,'Logger::LogMessage']]]
+  ['memprofiler_0',['MemProfiler',['../class_mem_profiler.html#ac2e2e077d370cceee598284bf262a334',1,'MemProfiler']]],
+  ['movedown_1',['MoveDown',['../class_file_editor_internals_1_1_file_editor.html#a1af62d5385601f5a02f412a837ede08d',1,'FileEditorInternals::FileEditor']]],
+  ['moveleft_2',['MoveLeft',['../class_file_editor_internals_1_1_file_editor.html#a36ac6ea5a27f8dc6a16182934e42c782',1,'FileEditorInternals::FileEditor']]],
+  ['moveright_3',['MoveRight',['../class_file_editor_internals_1_1_file_editor.html#a996b2c4a74ed4699fbf04da130c18743',1,'FileEditorInternals::FileEditor']]],
+  ['moveup_4',['MoveUp',['../class_file_editor_internals_1_1_file_editor.html#a80824d7a0e881b4235d864371d2783fe',1,'FileEditorInternals::FileEditor']]]
 ];
